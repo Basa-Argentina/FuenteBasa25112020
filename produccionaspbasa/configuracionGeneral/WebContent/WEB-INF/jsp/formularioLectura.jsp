@@ -2,9 +2,10 @@
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@ taglib prefix="display" uri="http://displaytag.sf.net"%>
+<%@ taglib prefix="display" uri="http://displaytag.sf.net" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="fmt" uri="http://www.costapag.org/tags/format"%>
+<%@ page buffer="64kb"%>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -20,12 +21,12 @@
 	</c:if> <c:if test="${accion == 'CONSULTA'}">
 		<spring:message code="formularioLectura.titulo.modificar"
 			htmlEscape="true" />
-	</c:if></title>
+	</c:if>
+</title>
 <script type="text/javascript" src="js/jquery-1.5.js"></script>
 <script type="text/javascript" src="js/httprequest.js"></script>
 <script type="text/javascript" src="js/jquery.contextmenu.js"></script>
-<script type="text/javascript" src="js/calendar_us.js"
-	language="JavaScript"></script>
+<script type="text/javascript" src="js/calendar_us.js" language="JavaScript"></script>
 <script type="text/javascript" language="JavaScript"
 	src="js/mavalos_jquery.tools.min.js"></script>
 <script type="text/javascript" src="js/mavalos_formulario_lectura.js"></script>
@@ -38,11 +39,10 @@
 		url("<%=request.getContextPath()%>/images/indicator.gif") no-repeat
 		center;
 }
-
 .error {
 	color: #ff0000;
 }
-
+ 
 .errorblock {
 	color: #000;
 	background-color: #ffEEEE;
@@ -52,23 +52,16 @@
 }
 </style>
 </head>
-<body
-	onload="mostrarErrores(${errores}); mostrarAvisos(${hayAvisos || hayAvisosNeg})">
+<body onload="mostrarErrores(${errores}); mostrarAvisos(${hayAvisos || hayAvisosNeg})">
 	<div class="contextMenu" id="myMenu1">
-		<ul>
-			<li id="consultar" value=""><img src="images/consultar.png" /><font
-				size="2"><spring:message code="botones.consultar"
-						htmlEscape="true" /></font></li>
-			<c:if test="${accion == 'MODIFICACION'}">
-				<li id="modificar"><img src="images/modificar.png" /> <font
-					size="2"><spring:message code="botones.modificar"
-							htmlEscape="true" /></font></li>
-				<li id="eliminar"><img src="images/eliminar.png" /> <font
-					size="2"><spring:message code="botones.eliminar"
-							htmlEscape="true" /></font></li>
-			</c:if>
-		</ul>
-	</div>
+	    <ul>	 
+	      <li id="consultar" value=""><img src="images/consultar.png" /><font size="2"><spring:message code="botones.consultar" htmlEscape="true"/></font></li>
+	      <c:if test="${accion == 'MODIFICACION'}">	 
+	      	<li id="modificar" ><img src="images/modificar.png" /> <font size="2"><spring:message code="botones.modificar" htmlEscape="true"/></font></li>
+	      	<li id="eliminar"><img src="images/eliminar.png" /> <font size="2"><spring:message code="botones.eliminar" htmlEscape="true"/></font></li>
+	      </c:if>
+	    </ul> 	 
+  	</div> 
 	<div id="contenedorGeneral">
 		<jsp:include page="innerMenu.jsp" />
 		<div class="contenido" align="left">
@@ -85,8 +78,7 @@
 						</c:if> <c:if test="${accion == 'CONSULTA'}">
 							<spring:message code="formularioLectura.titulo.consultar"
 								htmlEscape="true" />
-						</c:if>
-					</font>
+						</c:if> </font>
 				</legend>
 				<br />
 				<form:form action="guardarActualizarLectura.html"
@@ -149,8 +141,8 @@
 														value="<c:out value="${lecturaFormulario.fechaStr}" default="" />"
 														<c:if test="${accion == 'CONSULTA'}">
 																readonly="readonly"
-															</c:if> />
-														<c:if test="${accion != 'CONSULTA'}">
+															</c:if> /> 
+															<c:if test="${accion != 'CONSULTA'}">
 															<script type="text/javascript">
 																new tcal ({
 																	// form name
@@ -160,7 +152,7 @@
 																});
 															</script>
 														</c:if></td>
-
+														
 												</tr>
 											</table>
 											<table>
@@ -168,8 +160,8 @@
 													<td class="texto_ti"><spring:message
 															code="formularioLectura.datosLectura.observacion"
 															htmlEscape="true" /></td>
-
-
+													
+													
 												</tr>
 												<tr>
 													<td class="texto_ti"><textarea id="observacion"
@@ -182,26 +174,23 @@
 														</textarea></td>
 												</tr>
 												<c:if test="${accion == 'MODIFICACION'}">
-													<tr>
-														<td>
-															<table>
-																<tr>
-																	<td class="texto_ti"><spring:message
-																			code="formularioLectura.datosLectura.utlizada"
-																			htmlEscape="true" /></td>
-																	<td class="texto_ti"><input type="checkbox"
-																		name="utilizada" id="utilizada" <c:if test="${lecturaFormulario.utilizada == 'true'}">
+												<tr><td>
+														<table>
+															<tr>
+																<td class="texto_ti"><spring:message
+																		code="formularioLectura.datosLectura.utlizada"
+																		htmlEscape="true" /></td>
+																<td class="texto_ti"><input type="checkbox"
+																	name="utilizada" id="utilizada" <c:if test="${lecturaFormulario.utilizada == 'true'}">
 																checked="CHECKED"
 																</c:if>"/>
-																	</td>
-																</tr>
-															</table>
-														</td>
+																</td>
+															</tr>
+														</table></td>
 													</tr>
 												</c:if>
 											</table>
-										</fieldset>
-									</td>
+										</fieldset></td>
 								</tr>
 
 							</table>
@@ -214,9 +203,10 @@
 						<spring:message code="formularioLectura.lecturaDetalle"
 							htmlEscape="true" />
 					</legend>
-					<display:table name="lecturaDetalles" id="detalles"
-						requestURI="mostrarLecturaDetalle.html" pagesize="10" sort="list"
-						keepStatus="true">
+					<display:table name="lecturaDetalles" id="detalles" requestURI="mostrarLecturaDetalle.html"
+						pagesize="300" sort="list" keepStatus="true"  export="true" >
+						<display:setProperty name="export.excel.export_amount"
+							value="list" />
 						<display:column class="hidden" headerClass="hidden">
 							<input type="hidden" id="hdn_id" value="${lecturaDetalle.id}" />
 						</display:column>
@@ -228,8 +218,8 @@
 							titleKey="formularioLectura.lecturaDetalle.elemento"
 							sortable="true" class="celdaAlineadoIzquierda" />
 						<display:column property="observacion"
-							titleKey="formularioLectura.datosLectura.observacion"
-							sortable="true" class="celdaAlineadoIzquierda" />
+							titleKey="formularioLectura.datosLectura.observacion" sortable="true"
+							class="celdaAlineadoIzquierda" />
 						<display:column property="elemento.tipoElemento.descripcionStr"
 							titleKey="formularioLectura.lecturaDetalle.tipo" sortable="true"
 							class="celdaAlineadoIzquierda" />
@@ -237,27 +227,32 @@
 							property="elemento.clienteEmp.razonSocialONombreYApellido"
 							titleKey="formularioLectura.lecturaDetalle.cliente"
 							sortable="true" class="celdaAlineadoIzquierda" />
+						<display:column
+							property="busquedaEnPlanta"
+							titleKey="formularioLectura.lecturaDetalle.busquedaEnPlanta"
+							sortable="true" class="celdaAlineadoIzquierda" />
 					</display:table>
 				</fieldset>
 				<br style="font-size: xx-small;" />
 				<c:if test="${accion != 'CONSULTA'}">
-					<fieldset>
-						<legend>
-							<spring:message
-								code="formularioLectura.lecturaDetalle.importarArchivo"
-								htmlEscape="true" />
-						</legend>
-						<table>
-							<tr>
-								<td class="texto_ti"><spring:message
-										code="formularioLectura.lecturaDetalle.archivo"
-										htmlEscape="true" /></td>
-							</tr>
-							<tr>
-								<td><form:form method="POST" commandName="fileUploadForm"
-										enctype="multipart/form-data" name="fileUploadForm"
-										action="importarLecturaDetalle.html">
-										<table>
+				<fieldset>
+					<legend>
+						<spring:message
+							code="formularioLectura.lecturaDetalle.importarArchivo"
+							htmlEscape="true" />
+					</legend>
+					<table>
+						<tr>
+							<td class="texto_ti"><spring:message
+									code="formularioLectura.lecturaDetalle.archivo"
+									htmlEscape="true" />
+							</td>
+						</tr>
+						<tr>
+							<td><form:form method="POST" commandName="fileUploadForm"
+									enctype="multipart/form-data" name="fileUploadForm"
+									action="importarLecturaDetalle.html">
+									<table>
 											<tr>
 												<td><input type="hidden" id="accion" name="accion"
 													value="<c:out value="${accion}" default="" />" /> <input
@@ -282,17 +277,19 @@
 												</td>
 												<td class="texto_td"><spring:message
 														code="formularioLectura.lecturaDetalle.anexar"
-														htmlEscape="true" /></td>
+														htmlEscape="true" />
+												</td>
 												<td class="texto_td"><input type="button"
 													onclick="pasar();pregunta();" name="Importar"
 													class="botonCentrado" value="Importar"> <span><form:errors
-															path="file" cssClass="error" /> </span></td>
+															path="file" cssClass="error" /> </span>
+												</td>
 											</tr>
 										</table>
-									</form:form></td>
-							</tr>
-						</table>
-					</fieldset>
+								</form:form></td>
+						</tr>
+					</table>
+				</fieldset>
 				</c:if>
 			</fieldset>
 			<br style="font-size: xx-small;" />
@@ -326,7 +323,7 @@
 	</div>
 	<div id="darkLayer" class="darkClassWithoutHeight"
 		style="height: 130%;">&nbsp;</div>
-	<jsp:include page="fieldErrors.jsp" />
-	<jsp:include page="fieldAvisos.jsp" />
+	<jsp:include page="fieldErrors.jsp"/>
+	<jsp:include page="fieldAvisos.jsp"/>
 </body>
 </html>

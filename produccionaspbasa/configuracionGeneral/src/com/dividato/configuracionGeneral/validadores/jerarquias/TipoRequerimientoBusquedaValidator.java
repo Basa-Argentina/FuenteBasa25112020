@@ -26,7 +26,7 @@ public class TipoRequerimientoBusquedaValidator implements Validator{
 
 	@Override
 	public void validate(Object arg0, Errors arg1) {
-		//Nada que validar
+		// TODO Auto-generated method stub		
 	}
 
 }

@@ -29,7 +29,6 @@ public class Group implements Serializable, Comparable<Group>{
 	private static final long serialVersionUID = 5275289473903656631L;
 	private Long id;
 	private String groupName;
-	@Transient
 	private Set<Authority> authorities;
 	private ClienteAsp cliente;
 	private Boolean admin;

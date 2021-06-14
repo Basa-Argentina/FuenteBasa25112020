@@ -39,12 +39,12 @@ public class Stock {
 	private Deposito deposito;
 	private Deposito origenDestino;
 	private ClienteAsp clienteAsp;
-	private  String accion;
-	private  String codigoDeposito;
-	private  String codigoSucursal;
-	private  String codigoEmpresa;
-	private  String codigoOrigenDestino;
-	private  String codigoConcepto;
+	private transient String accion;
+	private transient String codigoDeposito;
+	private transient String codigoSucursal;
+	private transient String codigoEmpresa;
+	private transient String codigoOrigenDestino;
+	private transient String codigoConcepto;
 	
 	public Stock(){
 		super();

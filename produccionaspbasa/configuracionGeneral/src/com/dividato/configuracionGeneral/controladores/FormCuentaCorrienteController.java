@@ -204,7 +204,7 @@ public class FormCuentaCorrienteController {
 		Factura facturaGuardada = null;
 
 		if(accion.equalsIgnoreCase("NUEVO") && !result.hasErrors()){
-
+			//TODO validar datos facturaFormulario
 			Empresa empresa = empresaService.getByCodigo(facturaFormulario.getCodigoEmpresa(), clienteAsp);
 			Sucursal sucursal = sucursalService.getByCodigo(facturaFormulario.getCodigoSucursal(), empresa.getCodigo(), clienteAsp);
 			ClienteEmp clienteEmp = clienteEmpService.getByCodigo(facturaFormulario.getCodigoCliente(), empresa.getCodigo(), clienteAsp, Boolean.TRUE);
@@ -232,8 +232,9 @@ public class FormCuentaCorrienteController {
 			}
 			
 			
-			if(errors.isEmpty() ){
+			if(errors.size()==0 ){
 				if(facturaService.guardarFactura(factura, detalles)){
+					//generateAvisoExito("formularioFactura.exito.guardar", atributos);
 					accion = Constantes.FACTURA_ACCION_MODIFICAR;
 					facturaGuardada = facturaService.obtenerFacturaPorNumeroComprobante(clienteAsp, empresa, sucursal, clienteEmp, serie, factura.getNumeroComprobante());
 					facturaFormulario.setId(facturaGuardada!=null?facturaGuardada.getId():null);
@@ -261,13 +262,13 @@ public class FormCuentaCorrienteController {
 					errors.add("formularioFactura.error.falloAlGuardar");
 				}
 			}else{
-
+				//generateErrors(errors, atributos);
 				//hacemos el redirect
 				atributos.put("facturaFormulario", facturaFormulario);
 				session.setAttribute("facturaFormularioSession", facturaFormulario);
 				atributos.put("accionFactura",accion);
 				atributos.put("clienteAspId", clienteAsp.getId());
-
+				//atributos.put("comboTipoComprobante", obtenerOpcionesComboTipoComprobante(facturaFormulario.getCodigoCliente(), facturaFormulario.getCodigoEmpresa()));
 				atributos.put("facturaDetalles",detalles);
 				session.setAttribute("facturaDetallesSession",detalles);
 				atributos.put("clienteAspId", clienteAsp.getId());
@@ -422,7 +423,7 @@ public class FormCuentaCorrienteController {
 		
 		List<Factura> comprobanteList = (List<Factura>)session.getAttribute("comprobanteList");
 		for (Factura f:comprobanteList){
-			if(f.getId().equals(id)){
+			if(f.getId()==id){
 				f.setImputado(BigDecimal.valueOf(importe));
 			}
 		}

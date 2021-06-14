@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
@@ -140,6 +141,12 @@ public class FormTareaController {
 		//Seteo la accion actual
 		atributos.put("accion", accion);		
 		// busco las empresas
+//		List<Empresa> empresas = empresaService.listarEmpresaFiltradas(null, obtenerClienteAspEmpleado());
+//		atributos.put("empresas", empresas);
+//		
+//		definirPopupEmpresa(atributos, valEmpresa, accion, id);
+//		
+//		atributos.put("clienteId", obtenerClienteAspEmpleado().getId());
 	
 		//Se realiza el redirect
 		return "formularioTarea";
@@ -176,7 +183,7 @@ public class FormTareaController {
 			accion="MODIFICACION";
 		}
 		if(!result.hasErrors()){
-		
+			//transporteFormulario.setAccion(accion);
 			validator.validate(tareaFormulario,result);
 		}
 				
@@ -189,12 +196,12 @@ public class FormTareaController {
 //			transporteFormulario.setEmpresa(empresaSel);
 						
 			if(accion.equals("NUEVO")){
-
+				//transporte = transporteFormulario;
 							
 				//Se guarda el cliente en la BD
 				referenciaService.guardar(tareaFormulario);
 			}else{
-			
+				//transporteFormulario.getDireccion().setBarrio(barrioSel);
 				tarea = referenciaService.obtenerPorId(tareaFormulario.getId());
 				boolean enviar = false;
 				if(tarea.getCodigoUsuario().longValue()!=tareaFormulario.getCodigoUsuario().longValue())
@@ -251,6 +258,10 @@ public class FormTareaController {
 	
 	}
 
+	private ClienteAsp obtenerClienteAspEmpleado(){
+		return ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getCliente();
+	}
+	
 	private void enviarMail(String para,String asunto, String cuerpo,String sistema){
 		try {
 			mailManager.enviar(para, asunto, cuerpo, sistema);   

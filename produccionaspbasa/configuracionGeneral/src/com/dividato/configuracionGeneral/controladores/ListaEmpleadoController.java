@@ -102,7 +102,7 @@ public class ListaEmpleadoController {
 		//buscamos en la base de datos y lo subimos a request.
 		List<Empleado> empleados = null;	
 		Empleado empleado = (Empleado) session.getAttribute("empleadoBusqueda");
-		empleados =empleadoService.listarTodosEmpleadoFiltradosByCliente(empleado,obtenerClienteAspEmpleado());		
+		empleados =(List<Empleado>) empleadoService.listarTodosEmpleadoFiltradosByCliente(empleado,obtenerClienteAspEmpleado());		
 		atributos.put("empleados", empleados);
 		
 		List<ClienteEmp> clientesEmp = clienteEmpService.listarTodos();
@@ -135,7 +135,7 @@ public class ListaEmpleadoController {
 			atributos.put("errores", true);
 			atributos.put("result", result);			
 		}	
-
+//		return "redirect:mostrarEmpleado.html";
 		return mostrar(session,atributos);
 	}
 	

@@ -44,12 +44,12 @@ public class HojaRuta {
 	private String observacion;
 	private List<Operacion> operacionPlanificadas;
 	private Set<HojaRutaOperacionElemento> operacionesElementos;
-	private  String codigoEmpresa;
-	private  String codigoSucursal;
-	private  String codigoCliente;
-	private  String codigoTransporte;
-	private  String codigoSerie;
-
+	private transient String codigoEmpresa;
+	private transient String codigoSucursal;
+	private transient String codigoCliente;
+	private transient String codigoTransporte;
+	private transient String codigoSerie;
+	private transient String numeroStr;
 	
 	
 	@Id @GeneratedValue(strategy=GenerationType.AUTO)

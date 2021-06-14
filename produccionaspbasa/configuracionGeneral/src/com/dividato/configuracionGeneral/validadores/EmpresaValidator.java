@@ -78,7 +78,7 @@ public class EmpresaValidator implements Validator {
 				errors.rejectValue("codigo", "formularioEmpresa.errorCodigo");
 				return;
 			}
-			if(empresa.getPrincipal()==true && principal != null)
+			if(empresa.getPrincipal()== true && principal != null)
 			{
 				errors.rejectValue("principal", "formularioEmpresa.errorPrincipal");
 				return;

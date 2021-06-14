@@ -9,6 +9,7 @@ package com.security.accesoDatos.interfaz;
 
 import java.util.List;
 
+import com.security.modelo.general.Pais;
 import com.security.modelo.general.Provincia;
 
 /**

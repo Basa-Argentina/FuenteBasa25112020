@@ -15,13 +15,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
-
+import org.springframework.security.context.SecurityContextHolder;
 
 import com.security.accesoDatos.configuraciongeneral.hibernate.EmpresaServiceImp;
 import com.security.accesoDatos.configuraciongeneral.interfaz.EmpresaService;
 import com.security.accesoDatos.hibernate.HibernateControl;
+import com.security.modelo.administracion.ClienteAsp;
 import com.security.modelo.configuraciongeneral.Empresa;
 import com.security.modelo.configuraciongeneral.Sucursal;
+import com.security.modelo.seguridad.User;
 
 /**
  * @author Gonzalo Noriega
@@ -31,7 +33,6 @@ public class SucursalPorEmpresaServlet extends HttpServlet{
 	private static final long serialVersionUID = 7100679955581101875L;
 	private static Logger logger = Logger.getLogger(SucursalPorEmpresaServlet.class);
 	
-	@Override
 	public void doGet (HttpServletRequest request, HttpServletResponse response)
 	throws ServletException, IOException {	
 		response.setContentType("text/xml"); 
@@ -63,6 +64,9 @@ public class SucursalPorEmpresaServlet extends HttpServlet{
 		Empresa empresa = service.getByIDConSucursales(id);
 		return empresa;
 	}
-
+	
+	private ClienteAsp obtenerClienteAspUser(){
+		return ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getCliente();
+	}
 	
 }

@@ -15,13 +15,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
-
+import org.springframework.security.context.SecurityContextHolder;
 
 import com.security.accesoDatos.configuraciongeneral.hibernate.DepositoServiceImp;
 import com.security.accesoDatos.configuraciongeneral.interfaz.DepositoService;
 import com.security.accesoDatos.hibernate.HibernateControl;
+import com.security.modelo.administracion.ClienteAsp;
 import com.security.modelo.configuraciongeneral.Deposito;
 import com.security.modelo.configuraciongeneral.Seccion;
+import com.security.modelo.seguridad.User;
 
 /**
  * @author Gonzalo Noriega
@@ -31,7 +33,6 @@ public class SeccionPorDepositoServlet extends HttpServlet{
 	private static final long serialVersionUID = 7100679955581101875L;
 	private static Logger logger = Logger.getLogger(SeccionPorDepositoServlet.class);
 	
-	@Override
 	public void doGet (HttpServletRequest request, HttpServletResponse response)
 	throws ServletException, IOException {	
 		response.setContentType("text/xml"); 
@@ -65,5 +66,8 @@ public class SeccionPorDepositoServlet extends HttpServlet{
 		Deposito deposito = service.obtenerPorId(id);
 		return deposito;
 	}
-
+	
+	private ClienteAsp obtenerClienteAspUser(){
+		return ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getCliente();
+	}
 }

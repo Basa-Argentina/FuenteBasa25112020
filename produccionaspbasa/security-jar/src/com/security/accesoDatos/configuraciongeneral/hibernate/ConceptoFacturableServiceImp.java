@@ -271,7 +271,35 @@ public class ConceptoFacturableServiceImp extends GestorHibernate<ConceptoFactur
         		valores = val.split(" ");
         	//obtenemos una sesión
 			session = getSession();
-
+			
+			
+//        	Criteria c = session.createCriteria(getClaseModelo());
+//        	//filtro value
+//        	if(valores!=null){
+//        		for(String filtro : valores){
+//		        	c.add(Restrictions.or(
+//		        			Restrictions.ilike("codigo", filtro+"%"), 
+//		        			Restrictions.ilike("descripcion", filtro+"%")));		        				
+//        		}
+//        	}
+//        	if(mode>0)
+//        	{
+//        		c.add(Restrictions.eq("generaStock", true));
+//        	}else if(mode<0)
+//        	{
+//        		c.add(Restrictions.eq("generaStock", false));
+//        	}
+//        	//filtro Tipo
+//        	if(tipo==1)
+//        	{
+//        		c.add(Restrictions.eq("tipo.id", Long.valueOf(tipo)));
+//        	}else if(tipo==2)
+//        	{
+//        		c.add(Restrictions.eq("tipo.id", Long.valueOf(tipo)));
+//        	}
+//        	//filtro clienteAsp
+//        	c.add(Restrictions.eq("clienteAsp", clienteAsp));
+//        	c.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 			
 			String consulta = "SELECT DISTINCT cf FROM ConceptoFacturable cf JOIN FETCH cf.tipo JOIN FETCH cf.impuestos WHERE 1 = 1 ";
 							   if(valores != null){
@@ -337,9 +365,9 @@ public class ConceptoFacturableServiceImp extends GestorHibernate<ConceptoFactur
 			//Seteo propiedades de la consulta
 			c.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 			for(ListaPreciosDetalle detalle: (ArrayList<ListaPreciosDetalle>)c.list()){
-
+//				if("Mensual".equals(detalle.getConceptoFacturable().getTipo().getDescripcion())){
 					conceptos.add(detalle.getConceptoFacturable());
-
+//				}
 			}
 			return conceptos;
 		} catch (HibernateException e) {

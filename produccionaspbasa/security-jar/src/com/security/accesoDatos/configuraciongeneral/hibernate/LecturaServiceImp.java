@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
@@ -22,6 +23,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.transform.Transformers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -170,6 +172,7 @@ public class LecturaServiceImp extends GestorHibernate<Lectura> implements Lectu
 			Criteria c = session.createCriteria(getClaseModelo());
 			c.createCriteria("empresa", "emp");
 			//filtro por codigo
+			//if(codigo != null && !"".equals(codigo))
 				c.add(Restrictions.eq("codigo", codigo));
 			//filtro por utilizada
 			if(utilizada!=null){
@@ -531,6 +534,7 @@ public class LecturaServiceImp extends GestorHibernate<Lectura> implements Lectu
         		}
         	}	
         	if(cliente != null){
+        		//crit.createCriteria("empresa").add(Restrictions.eq("cliente", cliente));
         		crit.add(Restrictions.eq("clienteAsp", cliente));
         	}
         	
@@ -627,10 +631,10 @@ public class LecturaServiceImp extends GestorHibernate<Lectura> implements Lectu
 			        }	
 		        	// Elemento
 			        if(lectura.getCodigoElementoDesde()!=null && !lectura.getCodigoElementoDesde().trim().equals("")){
-			        	consulta += " and ele.codigo >= '"+ lectura.getCodigoElementoDesde()+"'";
+			        	consulta += " and ele.codigo = '"+ lectura.getCodigoElementoDesde()+"'";
 			        }
 			        if(lectura.getCodigoElementoHasta()!=null && !lectura.getCodigoElementoHasta().trim().equals("")){
-			        	consulta += " and ele.codigo <= '"+ lectura.getCodigoElementoHasta() +"'";
+			        	consulta += " and lec.descripcion like '%"+ lectura.getCodigoElementoHasta() +"%'";
 			        }
 			        
 			        consulta+= " ) order by lec.id desc";
@@ -653,6 +657,7 @@ public class LecturaServiceImp extends GestorHibernate<Lectura> implements Lectu
         	}
         }
     }
+	
 	@Override
 	public String obtenerPorRemito_id(Long remito_id) {
 
@@ -664,7 +669,7 @@ public class LecturaServiceImp extends GestorHibernate<Lectura> implements Lectu
         	SQLQuery q = session.createSQLQuery(consulta);
 
 			if (q.list().isEmpty())return "1";
-        	return  q.uniqueResult().toString();
+        	return  (String) q.uniqueResult().toString();
 
 		} catch (HibernateException e) {
 			logger.error("no se pudo obtener lista",e);

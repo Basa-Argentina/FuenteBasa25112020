@@ -65,7 +65,7 @@ public class RecursosPassword {
 	public static String decrypt(String claveEncriptada)
 			throws InvalidKeyException, BadPaddingException,
 			IllegalBlockSizeException, NoSuchAlgorithmException,
-			NoSuchPaddingException {
+			NoSuchPaddingException, IOException {
 		String cadenaDesencriptada;
 		SecretKeySpec desKey = new SecretKeySpec(semilla.getBytes(), "DES");
 		org.apache.commons.codec.binary.Base64 encriptar = new Base64();

@@ -24,20 +24,20 @@ public class OperacionElemento implements Comparable<OperacionElemento>{
 	private boolean traspasado;
 	private boolean facturado;
 	private boolean provieneLectura;
-	private  Long idOperacion;
-	private  boolean buscarElemento;
-	private  boolean buscarElementoReferencia;
-	private  boolean lectura;
-	private  boolean finalizarOK;
-	private  boolean finalizarError;
-	private  boolean traspasar;
-	private  boolean procesando;
-	private  String accionGuardar;
-	private  String tipoCalculo;
-	private  Long cantidadTipoCalculo;
-	private  ConceptoFacturable conceptoVenta;
-	private  ConceptoFacturable conceptoStock;
-	private  String observaciones;
+	private transient Long idOperacion;
+	private transient boolean buscarElemento;
+	private transient boolean buscarElementoReferencia;
+	private transient boolean lectura;
+	private transient boolean finalizarOK;
+	private transient boolean finalizarError;
+	private transient boolean traspasar;
+	private transient boolean procesando;
+	private transient String accionGuardar;
+	private transient String tipoCalculo;
+	private transient Long cantidadTipoCalculo;
+	private transient ConceptoFacturable conceptoVenta;
+	private transient ConceptoFacturable conceptoStock;
+	private transient String observaciones;
 	
 	@Id @GeneratedValue(strategy=GenerationType.AUTO)
 	public Long getId() {

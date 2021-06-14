@@ -1,16 +1,16 @@
-form p {
-	position: relative;
+form p { 
+	position: relative; 
 }
-
-form p label {
-	position: absolute;
-	top: 0;
+form p label { 
+	position: absolute; 
+	top: 0; 
 	left: 0px;
 }
 
 form p br {
 	display: none;
 }
+
 
 form fieldset p input {
 	display: block;

@@ -108,9 +108,7 @@ public class Constantes {
 	public static final String ERROR_EXISTEN_POSICIONES_OCUPADAS = "formularioReposicionamiento.error.existenPosicionesOcupadas";
 	public static final String ERROR_EXISTEN_POSICIONES_ANULADAS = "formularioReposicionamiento.error.existenPosicionesAnuladas";
 	public static final String ERROR_EL_GRUPO_DEL_MODULO_DESTINO_CONTIENE_UN_TIPO_ELEMENTO_DIFERENTE = "formularioReposicionamiento.error.grupoDelModuloDestinoDifiereTipoElemento";
-	public static final String ERROR_FALLA_REPOSICIONAMIENTO = "formularioReposicionamiento.error.falloDuranteReposicionamiento";
-	public static final String ERROR_FALLA_REPOSICIONAMIENTO_ESTADO= "formularioReposicionamiento.error.falloDuranteReposicionamientoEstado";
-
+	public static final String ERROR_FALLA_REPOSICIONAMIENTO= "formularioReposicionamiento.error.falloDuranteReposicionamiento";
 	public static final String ERROR_NO_HAY_ELEMENTOS_PARA_REPOSICIONAR= "formularioReposicionamiento.error.noHayElementos";
 	public static final String ERROR_MODULO_DESTINO_ORIGEN_IGUALES = "formularioReposicionamiento.error.moduloOrigenDestinoIguales";
 	public static final String ERROR_CODIGO_LECTURA_INVALIDO = "formularioReposicionamiento.error.codigoLecturaInvalido";

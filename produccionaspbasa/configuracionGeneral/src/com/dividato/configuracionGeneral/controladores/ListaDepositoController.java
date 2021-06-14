@@ -122,7 +122,7 @@ public class ListaDepositoController {
 		//buscamos en la base de datos y lo subimos a request.
 		List<Deposito> depositos = null;	
 		Deposito deposito = (Deposito) session.getAttribute("depositoBusqueda");
-		depositos = depositoService.listarDepositoFiltradas(deposito, obtenerClienteAspUser());		
+		depositos =(List<Deposito>) depositoService.listarDepositoFiltradas(deposito, obtenerClienteAspUser());		
 		atributos.put("depositos", depositos);
 		
 		//si no hay errores
@@ -275,6 +275,10 @@ public class ListaDepositoController {
 	}
 	
 	private ClienteAsp obtenerClienteAspUser(){
+		return ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getCliente();
+	}
+	
+	private ClienteAsp obtenerClienteAspEmpleado(){
 		return ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getCliente();
 	}
 }

@@ -199,6 +199,7 @@ public class FormClienteController {
 		}
 		Set<ListaPrecios> listasIzq=new TreeSet<ListaPrecios>(listaPreciosService.listarTodosListaFiltrados(null, obtenerClienteAspUser()));
 		Set<ListaPrecios> listasDer=new TreeSet<ListaPrecios>();
+		ListaPrecios listasDef=new ListaPrecios();
 		
 		if(!accion.equals("NUEVO")){
 			ClienteEmp clienteFormulario;
@@ -211,7 +212,13 @@ public class FormClienteController {
 			if(clienteFormulario!=null && clienteFormulario.getTipoDoc()!=null )
 				atributos.put("tipoDocumentoDefecto", clienteFormulario.getTipoDoc());
 			
-
+//			Barrio barrioSel = clienteFormulario.getDireccion().getBarrio(); //busco el barrio
+//			List<Provincia> provincias = provinciaService.listarProvinciasPorPaisId(barrioSel.getLocalidad().getProvincia().getPais().getId());
+//			List<Localidad> localidades = localidadService.listarLocalidadesPorProcinciaId(barrioSel.getLocalidad().getProvincia().getId());
+//			List<Barrio> barrios = barrioService.listarBarriosPorLocalidadId(barrioSel.getLocalidad().getId());
+//			atributos.put("provincias", provincias);			
+//			atributos.put("localidades", localidades);			
+//			atributos.put("barrios", barrios);	
 			atributos.put("clienteFormulario", clienteFormulario);
 			listasDer.addAll(clienteFormulario.getListasPrecio());
 			Iterator<ListaPrecios> iteratorIzq = listasIzq.iterator(); 
@@ -250,21 +257,27 @@ public class FormClienteController {
 				}
 				
 			}
+			
 			atributos.put("meses", meses);
 			
 		}
+		
 		// busco los tipos de documentos
 		List<TipoDocumento> tiposDocumento = tipoDocumentoService.listarTodos();
 		atributos.put("tiposDocumento", tiposDocumento);		
-
-	
+		
+//		obtengo los paises registrados en el sistema
+//		paises = paisService.listarPaises();
+//		Collections.sort(paises, new OrdenaPaisesPorNombrePrimeroArgentina());
+//		atributos.put("paises", paises); // los paso por get
+		
+		//Busco los Iva.
 		List<AfipCondIva> afipCondIvas = afipCondIvaService.listarTodos();
 		atributos.put("afipCondIvas", afipCondIvas);
 		
 		// busco las empresas
 		List<Empresa> empresas = empresaService.listarEmpresaFiltradas(null, obtenerClienteAspEmpleado());
 		atributos.put("empresas", empresas);
-		
 		
 		atributos.put("listasIzq",listasIzq);
 		atributos.put("listasDer",listasDer);
@@ -315,7 +328,8 @@ public class FormClienteController {
 			BindingResult result,
 			HttpSession session,
 			Map<String,Object> atributos){
-		
+		//seteamos el ClienteAsp
+		//clienteFormulario.setCliente(obtenerClienteAspUser());
 		Boolean commit = null;
 		if(accion==null || accion.equals("") || accion.equals("NUEVO"))
 			accion="NUEVO";
@@ -424,7 +438,8 @@ public class FormClienteController {
 			atributos.put("avisos", avisos);
 		}
 		
-
+//		//hacemos el redirect
+//		return "redirect:mostrarCliente.html";
 		return listaClientesController.mostrarCliente(session, atributos, null);
 	}
 	
@@ -432,7 +447,9 @@ public class FormClienteController {
 		if(data != null){			
 			cliente.setCodigo(data.getCodigo());
 			cliente.setNombre(data.getNombre());
-			cliente.setApellido(data.getApellido());
+			cliente.setApellido(data.getApellido());	
+			cliente.setCantidadDeCajas(data.getCantidadDeCajas());
+			cliente.setTangoModelo(data.getTangoModelo());
 			cliente.setHabilitado(data.getHabilitado());
 			
 			cliente.setControlaReferencias(data.getControlaReferencias());
@@ -444,8 +461,8 @@ public class FormClienteController {
 			cliente.setEmail(data.getEmail());
 			cliente.setTipoPersona(data.getTipoPersona());
 			cliente.setObservaciones(data.getObservaciones());
-			PersonaJuridica razonSocial = cliente.getRazonSocial();
-			PersonaJuridica razonSocialData =data.getRazonSocial();
+			PersonaJuridica razonSocial = (PersonaJuridica) cliente.getRazonSocial();
+			PersonaJuridica razonSocialData =(PersonaJuridica) data.getRazonSocial();
 			razonSocial.setRazonSocial(razonSocialData.getRazonSocial());
 			cliente.setRazonSocial(razonSocial);
 			cliente.setAfipCondIva(data.getAfipCondIva());

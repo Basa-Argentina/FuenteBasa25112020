@@ -93,6 +93,7 @@ public class ListaLicenciaController {
 		List<EstadoLicencia> estados = estadoLicenciaService.listarTodos();
 		Collections.sort(estados); //ordeno la coleccion a traves del compareTo
 		atributos.put("estados", estados);
+//		atributos.put("licenciaBusqueda", licenciaBusqueda);
 		return "consultaLicencia";
 	}
 	
@@ -121,7 +122,7 @@ public class ListaLicenciaController {
 			HttpSession session,
 			Map<String,Object> atributos){
 		//obtengo la licencia a eliminar
-		Licencia lic = licenciaService.obtenerPorId(id);
+		Licencia lic = licenciaService.obtenerPorId(Long.valueOf(id));
 		Boolean commit = licenciaService.eliminarLicencia(lic);
 		BindingResult result = null;
 		List<ScreenMessage> avisos = new ArrayList<ScreenMessage>();

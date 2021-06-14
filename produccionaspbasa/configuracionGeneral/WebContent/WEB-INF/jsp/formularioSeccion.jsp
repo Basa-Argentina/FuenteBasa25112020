@@ -20,7 +20,8 @@
 	</c:if> <c:if test="${accion == 'CONSULTA'}">
 		<spring:message code="formularioSeccion.titulo.modificar"
 			htmlEscape="true" />
-	</c:if></title>
+	</c:if>
+</title>
 <script type="text/javascript" src="js/jquery-1.5.js"></script>
 <script type="text/javascript" src="js/httprequest.js"></script>
 <script type="text/javascript" src="js/jquery.contextmenu.js"></script>
@@ -39,8 +40,7 @@
 }
 </style>
 </head>
-<body
-	onload="mostrarErrores(${errores}); mostrarAvisos(${hayAvisos || hayAvisosNeg})">
+<body onload="mostrarErrores(${errores}); mostrarAvisos(${hayAvisos || hayAvisosNeg})">
 	<div id="contenedorGeneral">
 		<jsp:include page="innerMenu.jsp" />
 		<div class="contenido" align="left">
@@ -57,8 +57,7 @@
 						</c:if> <c:if test="${accion == 'CONSULTA'}">
 							<spring:message code="formularioSeccion.titulo.consultar"
 								htmlEscape="true" />
-						</c:if>
-					</font>
+						</c:if> </font>
 				</legend>
 				<br />
 				<form:form action="guardarActualizarSeccion.html"
@@ -66,8 +65,7 @@
 					modelAttribute="seccionFormulario">
 					<input type="hidden" id="accion" name="accion"
 						value="<c:out value="${accion}" default="" />" />
-					<input id="clienteId" type="hidden"
-						value="<c:out value="${clienteId}" default="" />" />
+						<input id="clienteId" type="hidden" value="<c:out value="${clienteId}" default="" />" />
 					<input type="hidden" id="id" name="id"
 						value="<c:out value="${seccionFormulario.id}" default="" />" />
 					<fieldset>
@@ -98,84 +96,84 @@
 											<table>
 												<tr>
 													<td class="texto_ti"><spring:message
-															code="formularioStock.empresa" htmlEscape="true" /></td>
+															code="formularioStock.empresa"
+															htmlEscape="true" />
+													</td>
 													<td class="texto_ti"><spring:message
-															code="formularioStock.sucursal" htmlEscape="true" /></td>
+															code="formularioStock.sucursal"
+															htmlEscape="true" />
+													</td>
 													<td class="texto_ti"><spring:message
 															code="formularioSeccion.datosSeccion.deposito"
-															htmlEscape="true" /></td>
-
+															htmlEscape="true" />
+													</td>
+													
 												</tr>
 												<tr>
-													<td class="texto_ti"><input type="text"
-														id="codigoEmpresa" name="codigoEmpresa" maxlength="6"
-														style="width: 50px;"
-														value="<c:out value="${seccionFormulario.deposito.sucursal.empresa.codigo}" default="" />" />
+													<td class="texto_ti"><input type="text" id="codigoEmpresa"
+														name="codigoEmpresa" maxlength="6" style="width: 50px;"
+														value="<c:out value="${seccionFormulario.deposito.sucursal.empresa.codigo}" default="" />"/>
 														&nbsp;&nbsp;
 														<button type="button"
 															onclick="abrirPopupEmpresa('empresasPopupMap');"
 															title="<spring:message code="textos.buscar" htmlEscape="true"/>">
-															<img
-																src="<%=request.getContextPath()%>/images/buscar.png">
+															<img src="<%=request.getContextPath()%>/images/buscar.png">
 														</button>&nbsp;&nbsp; <label id="codigoEmpresaLabel"
 														for="codigoEmpresa"> <c:out
 																value="${seccionFormulario.deposito.sucursal.empresa.descripcion}"
-																default="" />
-													</label></td>
-													<td class="texto_ti"><input type="text"
-														id="codigoSucursal" name="codigoSucursal" maxlength="6"
-														style="width: 50px;"
-														value="<c:out value="${seccionFormulario.deposito.sucursal.codigo}" default="" />" />
+																default="" /> </label>
+													</td>
+													<td class="texto_ti"><input type="text" id="codigoSucursal"
+														name="codigoSucursal" maxlength="6" style="width: 50px;"
+														value="<c:out value="${seccionFormulario.deposito.sucursal.codigo}" default="" />"/>
 														&nbsp;&nbsp;
 														<button type="button"
 															onclick="abrirPopupSucursal('sucursalesPopupMap', '<spring:message code="notif.stock.seleccionEmpresa" htmlEscape="true"/>'
 																						, '<spring:message code="mensaje.informacion" htmlEscape="true"/>');"
 															title="<spring:message code="textos.buscar" htmlEscape="true"/>">
-															<img
-																src="<%=request.getContextPath()%>/images/buscar.png">
+															<img src="<%=request.getContextPath()%>/images/buscar.png">
 														</button>&nbsp;&nbsp; <label id="codigoSucursalLabel"
 														for="codigoSucursal"> <c:out
 																value="${seccionFormulario.deposito.sucursal.descripcion}"
-																default="" />
-													</label></td>
-													<td class="texto_ti"><input type="text"
-														id="codigoDeposito" name="codigoDeposito" maxlength="6"
-														style="width: 50px;"
-														value="<c:out value="${seccionFormulario.deposito.codigo}" default="" />" />
+																default="" /> </label>
+													</td>
+													<td class="texto_ti"><input type="text" id="codigoDeposito"
+														name="codigoDeposito" maxlength="6" style="width: 50px;"
+														value="<c:out value="${seccionFormulario.deposito.codigo}" default="" />"/>
 														&nbsp;&nbsp;
 														<button type="button"
 															onclick="abrirPopupDeposito('depositosPopupMap', '<spring:message code="notif.stock.seleccionSucursal" htmlEscape="true"/>'
 																						, '<spring:message code="mensaje.informacion" htmlEscape="true"/>');"
 															title="<spring:message code="textos.buscar" htmlEscape="true"/>">
-															<img
-																src="<%=request.getContextPath()%>/images/buscar.png">
+															<img src="<%=request.getContextPath()%>/images/buscar.png">
 														</button>&nbsp;&nbsp; <label id="codigoDepositoLabel"
 														for="codigoDeposito"> <c:out
 																value="${seccionFormulario.deposito.descripcion}"
-																default="" />
-													</label></td>
+																default="" /> </label>
+													</td>													
 												</tr>
 												<tr>
 													<td class="texto_ti"><spring:message
 															code="formularioSeccion.datosSeccion.codigo"
-															htmlEscape="true" /></td>
+															htmlEscape="true" />
+													</td>
 													<td class="texto_ti"><spring:message
 															code="formularioSeccion.datosSeccion.descripcion"
-															htmlEscape="true" /></td>
+															htmlEscape="true" />
+													</td>
 												</tr>
 												<tr>
-													<td class="texto_ti"><input type="text" id="codigo"
-														class="requerido" maxlength="2" name="codigo"
-														style="width: 200px;"
+													<td class="texto_ti"><input type="text" id="codigo" class="requerido"
+														maxlength="2" name="codigo" style="width: 200px;"
 														value="<fmt:numberComplete value="${seccionFormulario.codigo}" 
 														length="2" valorDefualt="0"/>"
 														<c:if test="${accion != 'NUEVO'}">
 															readonly="readonly"
 														</c:if> />
 													</td>
-													<td class="texto_ti"><input type="text"
-														class="requerido" id="descripcion" name="descripcion"
-														style="width: 200px;" maxlength="100"
+													<td class="texto_ti"><input type="text" class="requerido"
+														id="descripcion" name="descripcion" style="width: 200px;"
+														maxlength="100"
 														value="<c:out value="${seccionFormulario.descripcion}" default="" />"
 														<c:if test="${accion == 'CONSULTA'}">
 															readonly="readonly"
@@ -194,7 +192,7 @@
 													src="<%=request.getContextPath()%>/images/restablecer.png"
 													title=<spring:message code="botones.restablecer" htmlEscape="true"/>>
 											</button>
-										</td>
+										</td>										
 									</tr>
 								</c:if>
 							</table>
@@ -233,19 +231,19 @@
 	</div>
 	<div id="darkLayer" class="darkClassWithoutHeight"
 		style="height: 130%;">&nbsp;</div>
-	<jsp:include page="fieldErrors.jsp" />
-	<jsp:include page="fieldAvisos.jsp" />
+	<jsp:include page="fieldErrors.jsp"/>
+	<jsp:include page="fieldAvisos.jsp"/>
 	<jsp:include page="popupBusqueda.jsp">
 		<jsp:param name="mapa" value="depositosPopupMap" />
 		<jsp:param name="clase" value="depositosPopupMap" />
 	</jsp:include>
 	<jsp:include page="popupBusqueda.jsp">
-		<jsp:param name="mapa" value="sucursalesPopupMap" />
-		<jsp:param name="clase" value="sucursalesPopupMap" />
+		<jsp:param name="mapa" value="sucursalesPopupMap" /> 
+		<jsp:param name="clase" value="sucursalesPopupMap" /> 
 	</jsp:include>
 	<jsp:include page="popupBusqueda.jsp">
-		<jsp:param name="mapa" value="empresasPopupMap" />
-		<jsp:param name="clase" value="empresasPopupMap" />
+		<jsp:param name="mapa" value="empresasPopupMap" /> 
+		<jsp:param name="clase" value="empresasPopupMap" /> 
 	</jsp:include>
 </body>
 </html>

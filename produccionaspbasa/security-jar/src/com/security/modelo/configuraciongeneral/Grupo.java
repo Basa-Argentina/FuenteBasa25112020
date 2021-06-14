@@ -36,12 +36,12 @@ public class Grupo{
 	private Integer modulosVert; //Debe ser un numero que sea divendo del campo Verticales.
 	private Integer modulosHor; //Debe ser un numero que sea divendo del campo Horizontales.
 	private Set<Estante> estantes;
-	private  String accion; 
-	private  Long idSeccion;
-	private  String codigoDeposito;
-	private  String codigoSucursal;
-	private  String codigoEmpresa;
-	private  String codigoSeccion;
+	private transient String accion; 
+	private transient Long idSeccion;
+	private transient String codigoDeposito;
+	private transient String codigoSucursal;
+	private transient String codigoEmpresa;
+	private transient String codigoSeccion;
 	
 	public Grupo() {
 		super();

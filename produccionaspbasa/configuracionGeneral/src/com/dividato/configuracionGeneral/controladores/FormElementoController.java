@@ -176,7 +176,7 @@ public class FormElementoController {
 			String codigoSinPrefijo = elementoFormulario.getCodigo().substring(2);
 			elementoFormulario.setCodigoSinPrefijo(codigoSinPrefijo);
 			if(elementoFormulario.getContenedor() != null)
-				elementoFormulario.setCodigoElemento(elementoFormulario.getContenedor().getCodigo());
+				elementoFormulario.setCodigoElemento(elementoFormulario.getContenedor().getCodigo().toString());
 			
 			atributos.put("elementoFormulario", elementoFormulario);			
 		}
@@ -207,12 +207,38 @@ public class FormElementoController {
 			elementos.add(elementoService.obtenerPorId(Long.valueOf(id)));
 		}
 		
-		
-		Boolean bandera = false; 
-		Boolean contenedor = false;
-
+		Elemento eComparador = null;
+		Boolean bandera = false, contenedor = false;
+//		for(Elemento e : elementos)
+//		{
+//			if(e.getClienteEmp()==null)
+//			{
+//				bandera=true;
+//				break;
+//			}
+//			if(e.getTipoElemento().getContenedor())
+//			{
+//				contenedor = true;
+//				break;
+//			}
+//			if(eComparador==null)
+//			{
+//				eComparador = e ;
+//			}
+//			else
+//			{
+//				if(!eComparador.getClienteEmp().getId().equals(e.getClienteEmp().getId()))
+//				{
+//					bandera = true;
+//					break;
+//				}
+//			}
+//		}
 		String codigoCliente = null;
-
+//		if(!elementos.isEmpty() && !bandera){
+//			Elemento e = elementos.get(0);
+//			codigoCliente = e.getClienteEmp().getCodigo();
+//		}
 		atributos.put("codigoCliente", codigoCliente);
 		session.setAttribute("elementos", elementos);
 		
@@ -369,7 +395,7 @@ public class FormElementoController {
 				elemento.setEstado("No Existe");
 			}
 			else{
-
+				//TODO verificar cual es el estado por defecto
 				elemento.setEstado(Constantes.ELEMENTO_ESTADO_EN_CONSULTA);
 			}
 			
@@ -398,7 +424,7 @@ public class FormElementoController {
 				}else if("No especificado".equalsIgnoreCase(elemento.getTipoTrabajo())){
 					elemento.setTipoTrabajo(null);
 				}else{
-
+					//TODO verificar cual es el estado por defecto
 					elemento.setTipoTrabajo(null);
 				}
 			}
@@ -441,7 +467,7 @@ public class FormElementoController {
 					}
 				}
 
-				if(!elementos.isEmpty()){
+				if(elementos.size() > 0){
 					commit = elementoService.guardarElementoList(elementos);
 				}else{
 					commit = elementoService.guardarElemento(elementoFormulario);
@@ -512,8 +538,7 @@ public class FormElementoController {
 			Map<String,Object> atributos,
 			HttpServletRequest request){
 		
-		Boolean commit = null;
-		Boolean commit2 = null;
+		Boolean commit = null, commit2 = null;
 		LoteReferencia lote = new LoteReferencia();
 		ScreenMessage mensajeLoteReg = null;
 		String [] elementos = null;
@@ -627,7 +652,7 @@ public class FormElementoController {
 				listaReferencias = referenciaService.getListaReferenciasByListaIDsElementos(idElementos);
 				
 				//Si existen referencias creamos un nuevo lote de Referencias y le seteamos las referencias al nuevo lote
-				if(!listaReferencias.isEmpty())
+				if(listaReferencias.size()>0)
 				{
 					List<Referencia> set = new ArrayList<Referencia>();
 					lote = new LoteReferencia();
@@ -694,7 +719,7 @@ public class FormElementoController {
 			elemento.setGeneraCanonMensual(data.getGeneraCanonMensual());
 			elemento.setCerrado(data.getCerrado());
 			elemento.setHabilitadoCerrar(data.getHabilitadoCerrar());
-
+			//elemento.setPosicion(data.getPosicion());
 			elemento.setTipoElemento(data.getTipoElemento());
 			elemento.setClienteAsp(data.getClienteAsp());
 			elemento.setClienteEmp(data.getClienteEmp());

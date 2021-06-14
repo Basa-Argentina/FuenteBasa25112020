@@ -168,7 +168,7 @@ public class FormDepositoController {
 		if(accion==null) accion="NUEVO"; //acción por defecto: nuevo		
 		if(!accion.equals("NUEVO")){
 			Deposito depositoFormulario;
-			depositoFormulario = depositoService.obtenerPorId(id);
+			depositoFormulario = depositoService.obtenerPorId(Long.valueOf(id));
 			
 			depositoFormulario.setCodigoEmpresa(depositoFormulario.getSucursal().getEmpresa().getCodigo());
 			depositoFormulario.setCodigoSucursal(depositoFormulario.getSucursal().getCodigo());
@@ -227,7 +227,7 @@ public class FormDepositoController {
 			HttpSession session,
 			Map<String,Object> atributos){
 		//seteamos el ClienteAsp
-
+		//depositoFormulario.setCliente(obtenerClienteAspUser());
 		Boolean commit = null;
 		if(accion==null || accion.equals("") || accion.equals("NUEVO"))
 			accion="NUEVO";
@@ -310,7 +310,7 @@ public class FormDepositoController {
 		}
 		
 //		//hacemos el redirect
-
+//		return "redirect:mostrarCliente.html";
 		return listaDepositoController.mostrarDeposito(session, atributos, null, null, null, null);
 	}
 	

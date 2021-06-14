@@ -7,6 +7,7 @@
  */
 package com.security.accesoDatos.configuraciongeneral.hibernate;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -193,7 +194,14 @@ public class ClienteConceptoServiceImp extends GestorHibernate<ClienteConcepto> 
 			session = getSession();
         	Criteria crit = session.createCriteria(getClaseModelo());
         
-
+//        	String consulta3 = "SELECT     con.id, perj.razonsocial, (cli.nombre + ' ' + cli.apellido) as Nombre, con.fechaAlta, con.tipoConcepto, con.finalUnitario, con.cantidad, con.finalTotal, con.estado, con.asignado, " + 
+//            " con.requerimiento_id " +
+//            " FROM concepto_operacion_cliente con " +
+//            " left join clientesemp cli on con.clienteemp_id = cli.id " +
+//            " left join personas_juridicas perj on cli.razonsocial_id = perj.id and cli.tipopersona='Juridica' " +
+//            " WHERE (',' + cli.mesesFacturables + ',' LIKE '%,"+periodo+",%') AND (con.clienteAsp_id = "+cliente.getId()+") AND (con.fechaAlta <= '"+fechaPeriodo+"') AND (con.asignado = '0') AND (con.id IN " +
+//            " (SELECT id FROM concepto_operacion_cliente AS c WHERE (c.id NOT IN ("+cadenaAsociados+")))) AND (con.estado = 'Pendiente') ";
+        	
         	String consulta = "SELECT con.id, cli.id AS clienteEmp_id, cli.mesesFacturables, con.concepto_id, con.listaPrecios_id, ci.impuesto_id, imp.alicuota "+
         	" FROM clientesConceptos AS con LEFT OUTER JOIN " +
             " clientesEmp AS cli ON con.cliente_id = cli.id LEFT OUTER JOIN "+

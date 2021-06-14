@@ -22,7 +22,9 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -40,11 +42,16 @@ import com.security.accesoDatos.configuraciongeneral.interfaz.SucursalService;
 import com.security.constants.Constants;
 import com.security.modelo.administracion.ClienteAsp;
 import com.security.modelo.configuraciongeneral.AfipTipoComprobante;
+import com.security.modelo.configuraciongeneral.Empresa;
 import com.security.modelo.configuraciongeneral.Factura;
+import com.security.modelo.configuraciongeneral.Remito;
 import com.security.modelo.configuraciongeneral.Serie;
+import com.security.modelo.configuraciongeneral.Sucursal;
+import com.security.modelo.general.PersonaFisica;
 import com.security.modelo.seguridad.User;
 import com.security.utils.CampoDisplayTag;
 import com.security.utils.Constantes;
+import com.security.utils.ParseNumberUtils;
 import com.security.utils.ScreenMessage;
 import com.security.utils.ScreenMessageImp;
 
@@ -72,8 +79,8 @@ import com.security.utils.ScreenMessageImp;
 		)
 public class ListaComprobantesFacturaController {
 	
-	public static final String ERROR_CODIGO_DEPOSITO_ACTUAL_REQUERIDO = "formularioFactura.error.codigoDeposito";
-	public static final String ERROR_FECHADESDE_MAYOR_FECHAHASTA = "formularioFactura.error.fechaDesdeMayorFechaHasta0";
+	public static String ERROR_CODIGO_DEPOSITO_ACTUAL_REQUERIDO = "formularioFactura.error.codigoDeposito";
+	public static String ERROR_FECHADESDE_MAYOR_FECHAHASTA = "formularioFactura.error.fechaDesdeMayorFechaHasta0";
 	
 	private ClienteEmpService clienteEmpService;
 	private SucursalService sucursalService;
@@ -265,6 +272,16 @@ public class ListaComprobantesFacturaController {
 			atributos.put("result", result);			
 		}
 		
+//		if (facturaBusqueda == null) {
+//			facturaBusqueda = (Factura) atributos.get("facturaBusqueda");
+//		}
+//		// buscamos en la base de datos y lo subimos a request.
+//		ArrayList<String> codigoErrores = new ArrayList<String>();
+//		ClienteAsp clienteAsp = obtenerClienteAsp();
+//		List<Factura> facturas = facturaService.listarFacturasFiltradas(
+//				facturaBusqueda, clienteAsp);
+//		atributos.put("facturaBusqueda", facturaBusqueda);
+//		atributos.put("facturas", facturas);
 		
 		return mostrarListaComprobantesFactura(session, atributos, null, null, null, null, null, null, null, null, null);
 	}
@@ -394,6 +411,7 @@ public class ListaComprobantesFacturaController {
 					pdfByteArray = JasperRunManager.runReportToPdf(jasperReport, params,ds);
 					//se envia el reporte 
 					response.setContentType("application/pdf");
+	                //response.setHeader( "Content-disposition", "attachment; filename=reporte.pdf");
 	
 					op = null;
 					op = response.getOutputStream();
@@ -413,7 +431,8 @@ public class ListaComprobantesFacturaController {
 			}
 		}
 		
-
+	
+		//return "impresionFactura";
 	}
 	
 	
@@ -600,10 +619,38 @@ public class ListaComprobantesFacturaController {
 		atributos.put("seriesPopupMap", seriesPopupMap);
 	}
 	
+	/**
+	 * genera el objeto BindingResult para mostrar los errores por pantalla en un popup y lo agrega al map atributos
+	 * @param codigoErrores
+	 * @param atributos
+	 */
+	private void generateErrors(List<String> codigoErrores,	Map<String, Object> atributos) {
+		if (!codigoErrores.isEmpty()) {
+			BindingResult result = new BeanPropertyBindingResult(new Object(),"");
+			for (String codigo : codigoErrores) {
+				result.addError(new FieldError(	"error.formBookingGroup.general", codigo, null, false, new String[] { codigo }, null, "?"));
+			}
+			atributos.put("result", result);
+			atributos.put("errores", true);
+		} else if(atributos.get("result") == null){
+			atributos.put("errores", false);
+		}
+	}
+	
 	private User obtenerUser(){
 		return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 	}
 	private ClienteAsp obtenerClienteAsp(){
 		return obtenerUser().getCliente();
+	}
+	private Empresa obtenerEmpresaDefault(){
+		return ((PersonaFisica)obtenerClienteAsp().getContacto()).getEmpresaDefecto();
+	}
+	private Sucursal obtenerSucursalDefault(){
+		return ((PersonaFisica)obtenerClienteAsp().getContacto()).getSucursalDefecto();
+	}
+	
+	private Long parseLongCodigo(String codigo){
+		return ParseNumberUtils.parseLongCodigo(codigo);
 	}
 }

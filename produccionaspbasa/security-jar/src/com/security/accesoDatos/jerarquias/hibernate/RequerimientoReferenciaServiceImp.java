@@ -8,12 +8,15 @@
 package com.security.accesoDatos.jerarquias.hibernate;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.LogicalExpression;
 import org.hibernate.criterion.Order;
@@ -25,6 +28,10 @@ import com.security.accesoDatos.hibernate.GestorHibernate;
 import com.security.accesoDatos.hibernate.HibernateControl;
 import com.security.accesoDatos.jerarquias.interfaz.RequerimientoReferenciaService;
 import com.security.modelo.administracion.ClienteAsp;
+import com.security.modelo.configuraciongeneral.Referencia;
+import com.security.modelo.configuraciongeneral.Serie;
+import com.security.modelo.jerarquias.Operacion;
+import com.security.modelo.jerarquias.OperacionElemento;
 import com.security.modelo.jerarquias.Requerimiento;
 import com.security.modelo.jerarquias.RequerimientoReferencia;
 

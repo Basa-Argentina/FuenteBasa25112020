@@ -21,10 +21,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.dividato.configuracionGeneral.validadores.PlantillaFacturacionBusquedaValidator;
+import com.security.accesoDatos.configuraciongeneral.interfaz.DepositoService;
+import com.security.accesoDatos.configuraciongeneral.interfaz.ElementoService;
+import com.security.accesoDatos.configuraciongeneral.interfaz.EmpresaService;
 import com.security.accesoDatos.configuraciongeneral.interfaz.PlantillaFacturacionService;
+import com.security.accesoDatos.configuraciongeneral.interfaz.SeccionService;
+import com.security.accesoDatos.configuraciongeneral.interfaz.SucursalService;
 import com.security.modelo.administracion.ClienteAsp;
 import com.security.modelo.configuraciongeneral.Empresa;
 import com.security.modelo.configuraciongeneral.PlantillaFacturacion;
+import com.security.modelo.configuraciongeneral.Remito;
 import com.security.modelo.general.PersonaFisica;
 import com.security.modelo.seguridad.User;
 import com.security.utils.ScreenMessage;
@@ -175,7 +181,7 @@ public class ListaPlantillaFacturacionController {
 			plantillaFacturacion.setNumeroPagina(nPagina);
 			
 			//Se busca en la base de datos los plantillasFacturacion con los filtros de paginacion agregados a la plantillaFacturacion
-			plantillasFacturacion = plantillaFacturacionService.obtenerPor(obtenerClienteAspUser(),
+			plantillasFacturacion =(List<PlantillaFacturacion>) plantillaFacturacionService.obtenerPor(obtenerClienteAspUser(),
 					plantillaFacturacion.getClienteCodigo(),plantillaFacturacion.getCodigoSerie(), plantillaFacturacion.getListaPreciosCodigo(),
 					plantillaFacturacion.getTipoComprobanteId(),plantillaFacturacion.getHabilitado(),plantillaFacturacion.getFieldOrder(),
 					plantillaFacturacion.getSortOrder(),plantillaFacturacion.getNumeroPagina(),plantillaFacturacion.getTamañoPagina());

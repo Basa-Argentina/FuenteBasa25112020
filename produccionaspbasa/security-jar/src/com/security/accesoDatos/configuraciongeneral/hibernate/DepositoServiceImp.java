@@ -257,6 +257,25 @@ public class DepositoServiceImp extends GestorHibernate<Deposito> implements Dep
         try {
         	//obtenemos una sesión
 			session = getSession();
+			
+			
+//        	Criteria crit = session.createCriteria(getClaseModelo());
+//        	crit.createCriteria("sucursal", "suc");
+//        	crit.createCriteria("suc.empresa", "emp");
+//        	if(deposito!=null){
+//	        	if(deposito.getCodigo() !=null && deposito.getCodigo().length()>0){
+//	        		crit.add(Restrictions.eq("codigo", deposito.getCodigo()));
+//	        	}
+//	        	if(deposito.getSucursal()!=null && deposito.getSucursal().getCodigo()!=null && deposito.getSucursal().getCodigo().length()>0){
+//	        		crit.add(Restrictions.eq("suc.codigo", deposito.getSucursal().getCodigo()));
+//	        	}else if(deposito.getCodigoSucursal()!=null){
+//	        		crit.add(Restrictions.eq("suc.codigo", deposito.getCodigoSucursal()));
+//	        	}
+//        	}        	
+//        	if(clienteAsp != null){        		
+//        		crit.add(Restrictions.eq("emp.cliente", clienteAsp));
+//        	}
+//        	crit.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
         	
 			String consulta = "SELECT DISTINCT dep FROM Deposito dep WHERE 1 = 1 ";
 							if(deposito != null) {
@@ -296,7 +315,17 @@ public class DepositoServiceImp extends GestorHibernate<Deposito> implements Dep
         try {
         	//obtenemos una sesión
 			session = getSession();
-
+			
+//        	Criteria crit = session.createCriteria(getClaseModelo());
+//        	crit.createCriteria("sucursal", "suc");
+//        	crit.createCriteria("suc.empresa", "emp");
+//        	
+//        	crit.add(Restrictions.eq("codigo", codigoDeposito));
+//        	crit.add(Restrictions.eq("suc.codigo", codigoSucursal));
+//        	crit.add(Restrictions.eq("emp.cliente", clienteAsp));
+//        	
+//        	crit.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+        	
         	String consulta = "SELECT dep FROM Deposito dep WHERE dep.codigo = '" + codigoDeposito + "' ";
         	
         	if(codigoSucursal!=null && !codigoSucursal.trim().equalsIgnoreCase("") && !codigoSucursal.equalsIgnoreCase("null"))

@@ -11,6 +11,7 @@ public class Constants {
 	public static final String TIPO_DOC_DNI;
 	public static final String TIPO_DOC_CUIT;
 	public static final String URL_ARCHIVOS_DIGITALES;
+	public static final String PATHDISCO ;
 	public static final String PATH_JASPER;
 	public static final String CODIGO_TIPO_ELEMENTO_ELECTRONICO;
 
@@ -22,6 +23,7 @@ public class Constants {
 		TIPO_DOC_DNI = displayValue("TIPO_DOC_DNI");
 		TIPO_DOC_CUIT = displayValue("TIPO_DOC_CUIT");
 		URL_ARCHIVOS_DIGITALES = displayValue("URL_ARCHIVOS_DIGITALES");
+		PATHDISCO = displayValue("PATHDISCO");
 		PATH_JASPER = displayValue("PATH_JASPER");
 		CODIGO_TIPO_ELEMENTO_ELECTRONICO = displayValue("CODIGO_TIPO_ELEMENTO_ELECTRONICO");
 	}

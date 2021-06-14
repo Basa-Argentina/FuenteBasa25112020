@@ -11,7 +11,7 @@ import org.springframework.context.i18n.LocaleContextHolder;
 	 */
 public class I18nUtil {
 	
-		public static final String GENERAL = "generales";
+		public static String GENERAL = "generales";
 		
 		/**
 		 * 
@@ -21,7 +21,8 @@ public class I18nUtil {
 		 */
 		public static String getText(String key, String sourceName){
 			ResourceBundle rb= ResourceBundle.getBundle("//i18n//"+ sourceName,LocaleContextHolder.getLocale());
-			return rb.getString(key);
+			String text = rb.getString(key);
+			return text;
 		}
 		
 }

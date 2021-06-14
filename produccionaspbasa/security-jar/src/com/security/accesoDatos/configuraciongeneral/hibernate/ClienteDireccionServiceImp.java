@@ -13,6 +13,7 @@ import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
@@ -25,7 +26,8 @@ import com.security.accesoDatos.hibernate.HibernateControl;
 import com.security.modelo.administracion.ClienteAsp;
 import com.security.modelo.configuraciongeneral.ClienteDireccion;
 import com.security.modelo.configuraciongeneral.ClienteEmp;
-
+import com.security.modelo.configuraciongeneral.Empresa;
+import com.security.modelo.configuraciongeneral.Sucursal;
 
 /**
  * @author Gonzalo Noriega
@@ -199,6 +201,8 @@ public class ClienteDireccionServiceImp extends GestorHibernate<ClienteDireccion
         	crit.createCriteria("cliente", "cli");
         	crit.createCriteria("cli.empresa", "emp");
         	if(clienteDireccion!=null){
+//        		if(clienteDireccion.getClienteCodigo() !=null)
+//	        		crit.add(Restrictions.eq("cli.codigo", clienteDireccion.getClienteCodigo()));
 	        	if(clienteDireccion.getCodigo() !=null && !"".equals(clienteDireccion.getCodigo()))
 	        		crit.add(Restrictions.eq("codigo", clienteDireccion.getCodigo()));
         	}
@@ -295,6 +299,16 @@ public class ClienteDireccionServiceImp extends GestorHibernate<ClienteDireccion
         try {
         	//obtenemos una sesión
 			session = getSession();
+			
+			
+//        	Criteria crit = session.createCriteria(getClaseModelo());
+//        	crit.createCriteria("cliente", "cli");
+//        	crit.createCriteria("cli.empresa", "emp");
+//        	
+//        	crit.add(Restrictions.eq("codigo", codigo));
+//        	
+//        	if(cliente != null)
+//        		crit.add(Restrictions.eq("emp.cliente", cliente));
 			
 			String consulta = "SELECT cd FROM ClienteDireccion cd " +
 							  "WHERE cd.codigo = '" + codigo + "' ";

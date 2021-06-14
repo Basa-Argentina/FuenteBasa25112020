@@ -81,7 +81,7 @@ public class ParameterServiceImp implements ParameterService {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public void guardar(Parameter parameter, Session session) throws  IllegalAccessException{
+	public void guardar(Parameter parameter, Session session) throws IllegalArgumentException, IllegalAccessException{
 		Class parameterClass = parameter.getClass();
 		for(Field f:parameterClass.getDeclaredFields()){
 			ParameterBean param = new ParameterBean();

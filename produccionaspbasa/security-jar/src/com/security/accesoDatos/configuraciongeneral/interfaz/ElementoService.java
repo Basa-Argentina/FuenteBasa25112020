@@ -85,9 +85,11 @@ public interface ElementoService extends GeneralServiceInterface<Elemento>{
 	 * @param clienteAsp
 	 * @return
 	 */
+	
 	public Boolean verificarTipoElementoValidoParaMismoModulo(
 			TipoElemento tipoElemento, Modulo moduloDestino,
 			ClienteAsp clienteAsp);
+	
 	public Boolean guardarAsignacionPosicionesLibres(List<Posicion> posicionesOrigen,
 			List<Posicion> posicionesDestino,
 			List<Elemento> elementosReposicionados, ClienteAsp clienteAsp,

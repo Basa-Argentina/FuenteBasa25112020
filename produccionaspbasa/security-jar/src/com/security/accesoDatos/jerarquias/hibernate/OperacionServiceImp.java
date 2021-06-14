@@ -33,9 +33,10 @@ import com.security.accesoDatos.jerarquias.interfaz.OperacionService;
 import com.security.modelo.administracion.ClienteAsp;
 import com.security.modelo.configuraciongeneral.Elemento;
 import com.security.modelo.configuraciongeneral.ElementoHistorico;
-
+import com.security.modelo.configuraciongeneral.HojaRuta;
+import com.security.modelo.configuraciongeneral.HojaRutaOperacionElemento;
 import com.security.modelo.configuraciongeneral.Rearchivo;
-
+import com.security.modelo.configuraciongeneral.Remito;
 import com.security.modelo.configuraciongeneral.Stock;
 import com.security.modelo.jerarquias.ConceptoOperacionCliente;
 import com.security.modelo.jerarquias.Operacion;
@@ -108,7 +109,14 @@ public class OperacionServiceImp extends GestorHibernate<Operacion> implements O
         			crit.add(Restrictions.le("fechaEntrega", getDateTo(operacion.getFechaEntregaHasta())));
         		if(operacion.getEstado()!=null && !operacion.getEstado().equals("Todos"))
         			crit.add(Restrictions.eq("estado", operacion.getEstado())); 		
-
+        		
+//        		if(operacion.getCodigoTipoOperacion() !=null &&  !"".equals(operacion.getCodigoTipoOperacion())){
+//	        		crit.add(Restrictions.eq("tipo.codigo", operacion.getCodigoTipoOperacion()));
+//        		}
+        		// 78	30/12/11	
+        		// Pendiente	Operaciones	En el listado de operaciones, 
+        		// el filtro "Tipo operación" deberá ser de selección múltiple, es decir, permitir seleccionar varios tipos.
+        		// IN
         		if(operacion.getCodigoTipoOperacion() !=null &&  !"".equals(operacion.getCodigoTipoOperacion())){
 	        		crit.add(Restrictions.in("tipo.codigo", operacion.getCodigoTipoOperacion().split(",")));
         		}

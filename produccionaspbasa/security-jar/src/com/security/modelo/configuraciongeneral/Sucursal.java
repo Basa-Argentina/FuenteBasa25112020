@@ -33,10 +33,10 @@ public class Sucursal{
 	private Boolean principal;	
 	private String telefono;
 	private String mail;
-	private  String accion;
-	private  Long idEmpresa;
-	private  Long idDireccion;
-	private  Long idBarrio;
+	private transient String accion;
+	private transient Long idEmpresa;
+	private transient Long idDireccion;
+	private transient Long idBarrio;
 	
 	public Sucursal() {
 		super();

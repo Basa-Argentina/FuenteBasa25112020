@@ -17,14 +17,20 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 import org.springframework.security.context.SecurityContextHolder;
 
+import com.security.accesoDatos.configuraciongeneral.hibernate.ElementoServiceImp;
 import com.security.accesoDatos.configuraciongeneral.hibernate.EmpresaServiceImp;
 import com.security.accesoDatos.configuraciongeneral.hibernate.LecturaServiceImp;
+import com.security.accesoDatos.configuraciongeneral.interfaz.ElementoService;
 import com.security.accesoDatos.configuraciongeneral.interfaz.EmpresaService;
 import com.security.accesoDatos.configuraciongeneral.interfaz.LecturaService;
+import com.security.accesoDatos.hibernate.ClienteAspServiceImp;
 import com.security.accesoDatos.hibernate.HibernateControl;
+import com.security.accesoDatos.interfaz.ClienteAspService;
 import com.security.modelo.administracion.ClienteAsp;
+import com.security.modelo.configuraciongeneral.Elemento;
 import com.security.modelo.configuraciongeneral.Empresa;
 import com.security.modelo.configuraciongeneral.Lectura;
+import com.security.modelo.general.PersonaFisica;
 import com.security.modelo.seguridad.User;
 
 /**
@@ -35,7 +41,6 @@ public class LecturasPorEmpresaServlet extends HttpServlet{
 	private static final long serialVersionUID = 2918192312249275039L;
 	private static Logger logger = Logger.getLogger(LecturasPorEmpresaServlet.class);
 	
-	@Override
 	public void doGet (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/xml"); 
 		response.setCharacterEncoding("ISO-8859-1"); //seteo el encoding de los caracteres 
@@ -80,5 +85,7 @@ public class LecturasPorEmpresaServlet extends HttpServlet{
 	private ClienteAsp obtenerClienteAsp(){
 		return obtenerUser().getCliente();
 	}
-
+	private Empresa obtenerEmpresaDefault(){
+		return ((PersonaFisica)obtenerClienteAsp().getContacto()).getEmpresaDefecto();
+	}
 }

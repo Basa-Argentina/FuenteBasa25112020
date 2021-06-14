@@ -1,14 +1,20 @@
 package com.dividato.configuracionGeneral.validadores;
 
 import static com.security.recursos.Configuracion.formatoFechaFormularios;
+import static com.security.recursos.Configuracion.formatoFechaHoraFormularios;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.collections.SetUtils;
+import org.hibernate.mapping.Array;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.security.context.SecurityContextHolder;
@@ -137,10 +143,11 @@ public class RemitoValidator implements Validator {
 		}
 		
 		if(remito.getAccion().equals("MODIFICACION")){
-			Set<RemitoDetalle> detalles = remito.getDetalles();
+			Set<RemitoDetalle> detalles = remito.getDetalles();;
 			
 			if(remitoBase!=null && remitoBase.getVerificaLectura()!=null && remitoBase.getVerificaLectura())
 			{
+				//detalles.removeAll(remito.getDetallesViejos());
 				
 				Iterator it = remito.getDetalles().iterator();
 				while(it.hasNext()){
@@ -290,11 +297,12 @@ public class RemitoValidator implements Validator {
 							
 							int vecesExiste = 0;
 							
+							//if(remitoDetalle.getElemento().getDepositoActual()!= null){
 
 								if(!Constantes.ELEMENTO_ESTADO_EN_CONSULTA.equalsIgnoreCase(remitoDetalle.getElemento().getEstado()) 
 										&& !Constantes.ELEMENTO_ESTADO_EN_EL_CLIENTE.equalsIgnoreCase(remitoDetalle.getElemento().getEstado()))
 								{
-
+									//errors.rejectValue("detalles","formularioRemito.errorDetalles.elementosNOenGuarda");
 									errors.rejectValue("detalles","formularioRemito.errorDetalles.elementosNOenELClienteNiEnConsulta");
 								}
 								else
@@ -309,7 +317,12 @@ public class RemitoValidator implements Validator {
 										break;
 									}
 								}
-
+							//}
+							//else
+							//{
+								//errors.rejectValue("detalles","formularioRemito.errorDetalles.elementosSinDepositoActual");
+								//break;
+							//}
 						}	
 					} else {
 						if(!remito.getAccion().equals("MODIFICACION"))
@@ -589,6 +602,14 @@ public class RemitoValidator implements Validator {
 				}
 			}
 			
+			
+			
+//			//Validar existencia de numero en serie
+//			Remito existe = remitoService.verificarExistenteEnSerie(remito.getNumero(), remito.getCodigoSerie(), obtenerClienteAspUser());
+//			if(existe != null)
+//			{
+//				errors.rejectValue("numero", "formularioRemito.errorNumeroExistenteEnSerie");
+//			}
 		}
 	
 	

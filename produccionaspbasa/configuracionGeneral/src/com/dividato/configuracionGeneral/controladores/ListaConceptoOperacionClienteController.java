@@ -29,8 +29,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-
-
+import com.dividato.configuracionGeneral.controladores.jerarquias.ListaRequerimientoController;
+import com.dividato.configuracionGeneral.controladores.jerarquias.ListaRequerimientoController.requerimientoReporte;
 import com.dividato.configuracionGeneral.validadores.ConceptoOperacionClienteBusquedaValidator;
 import com.security.accesoDatos.configuraciongeneral.interfaz.ClienteEmpService;
 import com.security.accesoDatos.configuraciongeneral.interfaz.DepositoService;
@@ -44,7 +44,7 @@ import com.security.modelo.administracion.ClienteAsp;
 import com.security.modelo.configuraciongeneral.Empresa;
 import com.security.modelo.general.PersonaFisica;
 import com.security.modelo.jerarquias.ConceptoOperacionCliente;
-
+import com.security.modelo.jerarquias.Requerimiento;
 import com.security.modelo.seguridad.User;
 import com.security.utils.ScreenMessage;
 import com.security.utils.ScreenMessageImp;
@@ -215,7 +215,7 @@ public class ListaConceptoOperacionClienteController {
 		ConceptoOperacionCliente conceptoOperacionCliente = (ConceptoOperacionCliente) session.getAttribute("conceptoOperacionClienteBusqueda");
 		if(conceptoOperacionCliente != null){		
 			//consulto en la base de datos
-			conceptosOperacionCliente = conceptoOperacionClienteService.conceptoOperacionClienteFiltradas(conceptoOperacionCliente, obtenerClienteAspUser());
+			conceptosOperacionCliente =(List<ConceptoOperacionCliente>) conceptoOperacionClienteService.conceptoOperacionClienteFiltradas(conceptoOperacionCliente, obtenerClienteAspUser());
 		}
 		
 		session.setAttribute("conceptosOperacionClienteSession", conceptosOperacionCliente);
@@ -436,7 +436,81 @@ public class ListaConceptoOperacionClienteController {
 	 * @param atributos son los atributos del request
 	 * @return "consultaImpresionEtiqueta" la vista que debe mostrarse (ver dispatcher-servlet.xml/viewResolver)
 	 */
-
+//	@RequestMapping(
+//			value="/imprimirRemito.html",
+//			method = RequestMethod.GET
+//		)
+//	public void imprimirRemito(HttpSession session,
+//			Map<String,Object> atributos,			
+//			HttpServletResponse response,
+//			@RequestParam(value="seleccionados", required=false) String seleccionados) {
+//		
+//		List<Remito> listaRemitos = new ArrayList<Remito>();
+//		
+//		if(seleccionados != null && seleccionados.length()> 0){
+//			
+//			String[] listaRemitosSeleccionados = seleccionados.split("\\,");
+//			List<Long> listaNumeros = new ArrayList<Long>();
+//			for(int i = 0; i<listaRemitosSeleccionados.length;i++)
+//			{
+//				listaNumeros.add(Long.valueOf(listaRemitosSeleccionados[i]));
+//			}
+//			
+//			listaRemitos = remitoService.getByNumeros(listaNumeros, obtenerClienteAspUser());
+//			
+//			//buscamos en la base de datos y lo subimos a request.
+//			String reportName = "C:\\jasper\\reporteImpresionRemito.jasper";
+//			File file = new File(reportName);
+//				
+//			@SuppressWarnings("rawtypes")
+//			HashMap params = new HashMap();
+//			byte[] pdfByteArray ;
+//			ServletOutputStream op = null;
+//			if (file.exists()) {
+//				try{
+//					//se trae busca nuevamente la misma lista en la base pero esta vez con los detales en FetchMode.Join
+//					List<Remito> remitosYDetalles = remitoService.listarRemitosPorId(listaRemitos, obtenerClienteAspUser());
+//					//se crea el data source
+//					JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(remitosYDetalles);
+//					//se crea el reporte
+//					pdfByteArray = JasperRunManager.runReportToPdf(reportName, params,ds);
+//					//se envia el reporte 
+//					response.setContentType("application/pdf");
+//	                //response.setHeader( "Content-disposition", "attachment; filename=reporte.pdf");
+//
+//					op = null;
+//					op = response.getOutputStream();
+//					op.write(pdfByteArray, 0, pdfByteArray.length);
+//					op.flush();
+//					op.close();
+//				} catch (IOException e) {
+//					try {
+//						op.close();
+//					} catch (IOException e1) {
+//						e1.printStackTrace();
+//					}
+//					e.printStackTrace();
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//				
+//			}
+//			
+//		}
+//		
+//		//@SuppressWarnings("unchecked")
+//		//List<Remito> remitos = (List<Remito>)session.getAttribute("remitosSession");
+//				
+//		//if(remitos==null){
+//			//remitos=new ArrayList<Remito>();
+//		//}
+//		
+//		
+//		
+//		
+//	}
+	
+	
 	/////////////////////METODOS DE SOPORTE/////////////////////////////
 	private ClienteAsp obtenerClienteAspUser(){
 		return ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getCliente();

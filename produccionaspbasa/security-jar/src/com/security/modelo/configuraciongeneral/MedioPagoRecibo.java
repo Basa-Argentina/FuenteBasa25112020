@@ -36,8 +36,8 @@ public class MedioPagoRecibo{
 	private String titular;
 	private Banco banco;
 	private String nota;
-	private  Long idTipoMedioPago;
-	private  Long idBancoSel;
+	private transient Long idTipoMedioPago;
+	private transient Long idBancoSel;
 	
 	public MedioPagoRecibo() {
 		super();

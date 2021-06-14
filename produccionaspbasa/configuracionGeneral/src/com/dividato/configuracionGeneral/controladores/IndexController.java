@@ -118,21 +118,24 @@ public class IndexController {
 			cadena = RecursosPassword.decrypt(securityString);
 			
 		} catch (InvalidKeyException e1) {
-			// Auto-generated catch block
+			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} catch (BadPaddingException e1) {
-			// Auto-generated catch block
+			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} catch (IllegalBlockSizeException e1) {
-			// Auto-generated catch block
+			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} catch (NoSuchAlgorithmException e1) {
-			// Auto-generated catch block
+			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} catch (NoSuchPaddingException e1) {
-			// Auto-generated catch block
+			// TODO Auto-generated catch block
 			e1.printStackTrace();
-		} 
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 				
 		String [] valores = cadena.split("\\|");
 		

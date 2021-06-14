@@ -36,6 +36,8 @@ public class ClienteEmp implements Comparable<ClienteEmp>{
 	private String codigo;
 	private String nombre;
 	private String apellido;
+	private Long cantidadDeCajas;
+	private String tangoModelo;
 	private PersonaJuridica razonSocial;
 	private TipoDocumento tipoDoc;
 	private String numeroDoc;
@@ -44,6 +46,7 @@ public class ClienteEmp implements Comparable<ClienteEmp>{
 	private String interno;
 	private String fax;
 	private String email;
+	//private Set<Empleado> empleados;
 	private Boolean habilitado;
 	private Set<ListaPrecios> listasPrecio;
 	private ListaPrecios listaPreciosDefecto;
@@ -52,15 +55,15 @@ public class ClienteEmp implements Comparable<ClienteEmp>{
 	private String mesesFacturables;
 	private String notasFacturacion;
 	
-	private  String accion;
-	private  Long idTipoDocSel;
-	private  Long idBarrio;
-	private  Long idDireccion;
-	private  Long idAfipCondIva;
-	private  Long idRazonSocial;
-	private  Long idEmpresa;
-	private  String codigoEmpresa;
-	private  String raSocial;
+	private transient String accion;
+	private transient Long idTipoDocSel;
+	private transient Long idBarrio;
+	private transient Long idDireccion;
+	private transient Long idAfipCondIva;
+	private transient Long idRazonSocial;
+	private transient Long idEmpresa;
+	private transient String codigoEmpresa;
+	private transient String raSocial;
 
 	private Long controlaReferencias;
 	private Boolean reqTipoTrabajo;
@@ -160,21 +163,6 @@ public class ClienteEmp implements Comparable<ClienteEmp>{
 		this.empresa = empresa;
 	}
 
-	public String getNombre() {
-		return nombre;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-
-	public String getApellido() {
-		return apellido;
-	}
-
-	public void setApellido(String apellido) {
-		this.apellido = apellido;
-	}
 
 	public String getInterno() {
 		return interno;
@@ -226,22 +214,18 @@ public class ClienteEmp implements Comparable<ClienteEmp>{
 			return "";
 	}
 	
-	@Transient
-	public String getNombreYApellido(){
-		if(nombre != null && apellido != null)
-			return apellido + ", "+nombre;
-		return "";
-	}
 	
-	@Transient
-	public String getRazonSocialONombreYApellido(){
-		if(razonSocial != null && (tipoPersona==null || tipoPersona.equals("Juridica")) )
-			return razonSocial.getRazonSocial();
-		else if(nombre != null && apellido != null && (tipoPersona==null || tipoPersona.equals("Fisica")) )
-			return apellido + ", "+ nombre;
-		return "";
-	}
-	
+	 @Transient public String getNombreYApellido(){ if(nombre != null && apellido
+	  != null) return apellido + ", "+nombre; return ""; }
+	  
+	  @Transient public String getRazonSocialONombreYApellido(){ if(razonSocial !=
+	  null && (tipoPersona==null || tipoPersona.equals("Juridica")) ) return
+	  razonSocial.getRazonSocial();
+		
+		  else if(nombre != null && apellido != null && (tipoPersona==null ||
+		  tipoPersona.equals("Fisica")) ) return apellido + ", "+ nombre;
+		  return ""; }
+
 	@ManyToMany(targetEntity=ListaPrecios.class, cascade={CascadeType.PERSIST, CascadeType.MERGE},
 	        fetch=FetchType.LAZY)
 	@JoinTable(name="x_clienteEmp_listaPrecio", 
@@ -262,7 +246,14 @@ public class ClienteEmp implements Comparable<ClienteEmp>{
 	public void setListaPreciosDefecto(ListaPrecios listaPreciosDefecto){
 		this.listaPreciosDefecto=listaPreciosDefecto;
 	}
-
+	/*@OneToMany(cascade=CascadeType.ALL, mappedBy="clienteEmp", fetch=FetchType.EAGER)
+	public Set<Empleado> getEmpleados() {
+		return empleados;
+	}
+	@Transient
+	public void setEmpleados(Set<Empleado> empleados) {
+		this.empleados = empleados;
+	}*/
 	@Override
 	public int compareTo(ClienteEmp o) {
 		int cmp = this.id.compareTo(o.getId());
@@ -385,6 +376,46 @@ public class ClienteEmp implements Comparable<ClienteEmp>{
 	@Transient
 	public void setRaSocial(String raSocial) {
 		this.raSocial = raSocial;
+	}
+
+
+	public Long getCantidadDeCajas() {
+		return cantidadDeCajas;
+	}
+
+
+	public void setCantidadDeCajas(Long cantidadDeCajas) {
+		this.cantidadDeCajas = cantidadDeCajas;
+	}
+
+
+	public String getTangoModelo() {
+		return tangoModelo;
+	}
+
+
+	public void setTangoModelo(String tangoModelo) {
+		this.tangoModelo = tangoModelo;
+	}
+
+
+	public String getNombre() {
+		return nombre;
+	}
+
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+
+	public String getApellido() {
+		return apellido;
+	}
+
+
+	public void setApellido(String apellido) {
+		this.apellido = apellido;
 	}
 	
 }

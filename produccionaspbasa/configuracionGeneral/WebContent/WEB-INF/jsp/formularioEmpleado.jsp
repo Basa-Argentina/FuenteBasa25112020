@@ -4,7 +4,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ page errorPage="/error.html"%>
-<%@ page buffer="16kb"%>
+<%@ page buffer = "16kb" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -14,19 +14,19 @@
 <title><c:if test="${accion == 'NUEVO'}">
 		<spring:message code="formularioEmpleado.tituloFormAgregar"
 			htmlEscape="true" /> - <spring:message code="general.empresa"
+			htmlEscape="true" /> <spring:message code="general.ambiente"
 			htmlEscape="true" />
-		<spring:message code="general.ambiente" htmlEscape="true" />
-	</c:if> <c:if test="${accion == 'MODIFICACION'}">
+			</c:if> <c:if test="${accion == 'MODIFICACION'}">
 		<spring:message code="formularioEmpleado.tituloFormModificar"
 			htmlEscape="true" /> - <spring:message code="general.empresa"
+			htmlEscape="true" /> <spring:message code="general.ambiente"
 			htmlEscape="true" />
-		<spring:message code="general.ambiente" htmlEscape="true" />
-	</c:if> <c:if test="${accion == 'CONSULTA'}">
+			</c:if> <c:if test="${accion == 'CONSULTA'}">
 		<spring:message code="formularioEmpleado.tituloFormConsultar"
 			htmlEscape="true" /> - <spring:message code="general.empresa"
+			htmlEscape="true" /> <spring:message code="general.ambiente"
 			htmlEscape="true" />
-		<spring:message code="general.ambiente" htmlEscape="true" />
-	</c:if></title>
+			</c:if></title>
 <script type="text/javascript" src="js/jquery-1.5.js"></script>
 <script type="text/javascript" src="js/httprequest.js"></script>
 <script type="text/javascript" language="JavaScript"
@@ -57,14 +57,12 @@
 						</c:if> <c:if test="${accion == 'CONSULTA'}">
 							<spring:message code="formularioEmpleado.tituloFormConsultar"
 								htmlEscape="true" />
-						</c:if>
-					</font>
+						</c:if> </font>
 				</legend>
 				<br />
 				<form:form action="guardarActualizarEmpleado.html"
 					commandName="empleadoForm" method="post">
-					<input type="hidden" id="clienteId" name="clienteId"
-						value="<c:out value="${clienteId}" default="" />" />
+					<input type="hidden" id="clienteId" name="clienteId" value="<c:out value="${clienteId}" default="" />"/>
 					<input type="hidden" id="accion" name="accion"
 						value="<c:out value="${accion}" default="" />" />
 					<input type="hidden" id="rolesUsuarioSeleccionados"
@@ -79,8 +77,8 @@
 								<tr>
 									<th align="left" id="busquedaImg"><font
 										style="color: #003090"> <spring:message
-												code="textos.datosCaracteristicos" htmlEscape="true" />
-									</font> <img id="busquedaImgSrcDown" src="images/skip_down.png"
+												code="textos.datosCaracteristicos" htmlEscape="true" /> </font> <img
+										id="busquedaImgSrcDown" src="images/skip_down.png"
 										title="<spring:message code="textos.cerrarPanel" htmlEscape="true"/>">
 										<img id="busquedaImgSrc" src="images/skip.png"
 										style="DISPLAY: none"
@@ -99,8 +97,8 @@
 									<td class="texto_ti"><spring:message
 											code="formularioEmpleado.datosEmpleado.codigo"
 											htmlEscape="true" /></td>
-
-
+									
+																		
 								</tr>
 								<tr>
 									<td>
@@ -108,7 +106,8 @@
 											<tr>
 												<td class="texto_ti"><spring:message
 														code="formularioEmpleado.datosEmpleado.habilitado"
-														htmlEscape="true" /></td>
+														htmlEscape="true" />
+												</td>
 												<td class="texto_ti"><input type="checkBox"
 													id="habilitado" name="habilitado" style="width: 10px;"
 													value="true"
@@ -120,11 +119,9 @@
 														</c:if> />
 												</td>
 											</tr>
-										</table>
-									</td>
-									<td class="texto_ti"><input type="text" id="clienteCodigo"
-										class="requerido" name="clienteCodigo" maxlength="6"
-										style="width: 50px;"
+										</table></td>
+									<td class="texto_ti"><input type="text" id="clienteCodigo" class="requerido"
+										name="clienteCodigo" maxlength="6" style="width: 50px;"
 										value="<c:out value="${empleadoFormulario.clienteEmp.codigo}" default="" />"
 										<c:if test="${accion == 'CONSULTA'}">
 														readonly="readonly"
@@ -140,18 +137,18 @@
 										</button>&nbsp;&nbsp; <label id="clienteCodigoLabel"
 										for="clienteCodigo"> <c:out
 												value="${empleadoFormulario.clienteEmp.nombreYApellido}"
-												default="" />
-									</label></td>
-									<td class="texto_ti"><input type="text" id="codigo"
-										class="requerido" name="codigo" maxlength="6"
-										style="width: 200px;" class="descripcionCorta"
+												default="" /> </label>
+									</td>
+									<td class="texto_ti"><input type="text" id="codigo" class="requerido"
+										name="codigo" maxlength="6" style="width: 200px;"
+										class="descripcionCorta"
 										value="<c:out value="${empleadoFormulario.codigo}" default="" />"
 										<c:if test="${accion == 'CONSULTA'}">
 													readonly="readonly"
 												</c:if> />
 									</td>
-
-
+									
+															
 								</tr>
 								<tr>
 									<td colspan="3">
@@ -174,28 +171,26 @@
 															code="formularioEmpleado.nroDocumento" htmlEscape="true" /></td>
 												</tr>
 												<tr>
-													<td class="texto_ti"><input type="text"
-														class="requerido" id="persona.nombre"
-														name="persona.nombre" maxlength="100"
+													<td class="texto_ti"><input type="text" class="requerido"
+														id="persona.nombre" name="persona.nombre" maxlength="100"
 														style="width: 200px;" class="descripcionCorta"
 														value="<c:out value="${empleadoFormulario.persona.nombre}" default="" />"
 														<c:if test="${accion == 'CONSULTA'}">
 																	readonly="readonly"
 																</c:if> />
 													</td>
-													<td class="texto_ti"><input type="text" maxlength="60"
-														class="requerido" id="persona.apellido"
-														name="persona.apellido" style="width: 200px;"
-														class="descripcionCorta"
+													<td class="texto_ti"><input type="text" maxlength="60" class="requerido"
+														id="persona.apellido" name="persona.apellido"
+														style="width: 200px;" class="descripcionCorta"
 														value="<c:out value="${empleadoFormulario.persona.apellido}" default="" />"
 														<c:if test="${accion == 'CONSULTA'}">
 																	readonly="readonly"
 																</c:if> />
 													</td>
-													<td class="texto_ti"><select id="idTipoDoc"
-														class="requerido" name="idTipoDoc" size="1"
-														style="width: 190px;"
-														<c:if test="${accion == 'CONSULTA'}">
+													<td class="texto_ti">
+														<select id="idTipoDoc" class="requerido"
+															name="idTipoDoc" size="1" style="width: 190px;"
+															<c:if test="${accion == 'CONSULTA'}">
 																		disabled="disabled"
 																	</c:if>>
 															<c:forEach items="${tiposDocumento}" var="tipo">
@@ -206,10 +201,10 @@
 																	<c:out value="${tipo.nombre}" />
 																</option>
 															</c:forEach>
-													</select></td>
-													<td class="texto_ti"><input type="text"
-														class="requerido" id="persona.numeroDoc"
-														name="persona.numeroDoc" maxlength="15"
+														</select>
+													</td>
+													<td class="texto_ti"><input type="text" class="requerido"
+														id="persona.numeroDoc" name="persona.numeroDoc" maxlength="15"
 														style="width: 200px;" class="descripcionLarga"
 														value="<c:out value="${empleadoFormulario.persona.numeroDoc}" default="" />"
 														<c:if test="${accion == 'CONSULTA'}">
@@ -240,15 +235,14 @@
 															code="formularioEmpleado.datosEmpleado.celular"
 															htmlEscape="true" /></td>
 													<td class="texto_ti"><spring:message
-															code="formularioEmpleado.datosEmpleado.fax"
-															htmlEscape="true" /></td>
+															code="formularioEmpleado.datosEmpleado.fax" htmlEscape="true" />
+													</td>
 												</tr>
 												<tr>
-
+													
 													<td class="texto_ti"><input type="text"
-														id="persona.telefono" name="persona.telefono"
-														maxlength="30" style="width: 200px;"
-														class="descripcionLarga"
+														id="persona.telefono" name="persona.telefono" maxlength="30"
+														style="width: 200px;" class="descripcionLarga"
 														value="<c:out value="${empleadoFormulario.persona.telefono}" default="" />"
 														<c:if test="${accion == 'CONSULTA'}">
 																	readonly="readonly"
@@ -305,37 +299,35 @@
 															code="formularioEmpleado.eMail" htmlEscape="true" /></td>
 												</tr>
 												<tr>
-													<td class="texto_ti"><input type="text" id="username"
-														maxlength="60" class="requerido" name="username"
-														style="width: 200px;" class="descripcionCorta"
+													<td class="texto_ti"><input type="text" id="username" maxlength="60" class="requerido"
+														name="username" style="width: 200px;" class="descripcionCorta"
 														<c:if test="${accion != 'NUEVO'}">
 															value="<c:out value="${empleadoFormulario.usernameSinCliente}" default="" />"
 															readonly="readonly"
 														</c:if> />
 													</td>
 													<c:if test="${accion != 'CONSULTA'}">
-														<td class="texto_ti"><input type="password"
-															id="password" name="password" style="width: 200px;"
+														<td class="texto_ti"><input type="password" id="password" 
+															name="password" style="width: 200px;"
 															<c:if test="${accion == 'MODIFICACION'}">
 																			value=""
 																		</c:if>
 															<c:if test="${accion == 'NUEVO'}">
 																class="descripcionCorta, requerido"
-															</c:if> />
+															</c:if>/>
 														</td>
 														<td class="texto_ti"><input type="password"
 															id="confirmarContrasenia" name="confirmarContrasenia"
 															style="width: 200px;"
 															<c:if test="${accion == 'NUEVO'}">
 																class="descripcionCorta, requerido"
-															</c:if> />
+															</c:if>/>
 														</td>
-
+														
 													</c:if>
-													<td class="texto_ti"><input type="text"
-														id="persona.mail" name="persona.mail" maxlength="60"
-														style="width: 200px;" class="requerido"
-														class="descripcionLarga"
+													<td class="texto_ti"><input type="text" id="persona.mail"
+														name="persona.mail" maxlength="60" style="width: 200px;"
+														class="requerido" class="descripcionLarga"  
 														value="<c:out value="${empleadoFormulario.persona.mail}" default="" />"
 														<c:if test="${accion == 'CONSULTA'}">
 																	readonly="readonly"
@@ -346,7 +338,7 @@
 										</fieldset>
 									</td>
 								</tr>
-
+							
 								<tr>
 									<td colspan="3">
 										<fieldset>
@@ -359,21 +351,24 @@
 												<tr>
 													<td class="texto_ti"><spring:message
 															code="formularioEmpleado.datosEmpleado.direccion.calle"
-															htmlEscape="true" /></td>
+															htmlEscape="true" />
+													</td>
 													<td class="texto_ti"><spring:message
 															code="formularioEmpleado.datosEmpleado.direccion.numero"
-															htmlEscape="true" /></td>
+															htmlEscape="true" />
+													</td>
 													<td class="texto_ti"><spring:message
 															code="formularioEmpleado.datosEmpleado.direccion.piso"
-															htmlEscape="true" /></td>
+															htmlEscape="true" />
+													</td>
 													<td class="texto_ti"><spring:message
 															code="formularioEmpleado.datosEmpleado.direccion.dpto"
-															htmlEscape="true" /></td>
+															htmlEscape="true" />
+													</td>
 												</tr>
 												<tr>
-													<td class="texto_ti"><input type="text"
-														class="requerido" id="persona.direccion.calle"
-														name="persona.direccion.calle" maxlength="30"
+													<td class="texto_ti"><input type="text" class="requerido"
+														id="persona.direccion.calle" name="persona.direccion.calle" maxlength="30"
 														style="width: 190px;"
 														value="<c:out value="${empleadoFormulario.persona.direccion.calle}" default="" />"
 														<c:if test="${accion == 'CONSULTA'}">
@@ -381,26 +376,25 @@
 																</c:if> />
 													</td>
 
-													<td class="texto_ti"><input type="text"
-														class="requerido" id="persona.direccion.numero"
-														name="persona.direccion.numero" maxlength="6"
-														style="width: 190px;"
+													<td class="texto_ti"><input type="text" class="requerido"
+														id="persona.direccion.numero" name="persona.direccion.numero"
+														maxlength="6" style="width: 190px;"
 														value="<c:out value="${empleadoFormulario.persona.direccion.numero}" default="" />"
 														<c:if test="${accion == 'CONSULTA'}">
 																	readonly="readonly"
 																</c:if> />
 													</td>
 													<td class="texto_ti"><input type="text"
-														id="persona.direccion.piso" name="persona.direccion.piso"
-														maxlength="4" style="width: 190px;"
+														id="persona.direccion.piso" name="persona.direccion.piso" maxlength="4"
+														style="width: 190px;"
 														value="<c:out value="${empleadoFormulario.persona.direccion.piso}" default="" />"
 														<c:if test="${accion == 'CONSULTA'}">
 																	readonly="readonly"
 																</c:if> />
 													</td>
 													<td class="texto_ti"><input type="text"
-														id="persona.direccion.dpto" name="persona.direccion.dpto"
-														maxlength="4" style="width: 190px;"
+														id="persona.direccion.dpto" name="persona.direccion.dpto" maxlength="4"
+														style="width: 190px;"
 														value="<c:out value="${empleadoFormulario.persona.direccion.dpto}" default="" />"
 														<c:if test="${accion == 'CONSULTA'}">
 																	readonly="readonly"
@@ -410,107 +404,108 @@
 												<tr>
 													<td class="texto_ti"><spring:message
 															code="formularioEmpleado.datosEmpleado.direccion.pais"
-															htmlEscape="true" /></td>
+															htmlEscape="true" />
+													</td>
 													<td class="texto_ti"><spring:message
 															code="formularioEmpleado.datosEmpleado.direccion.provincia"
-															htmlEscape="true" /></td>
+															htmlEscape="true" />
+													</td>
 													<td class="texto_ti"><spring:message
 															code="formularioEmpleado.datosEmpleado.direccion.localidad"
-															htmlEscape="true" /></td>
+															htmlEscape="true" />
+													</td>
 													<td class="texto_ti"><spring:message
 															code="formularioEmpleado.datosEmpleado.direccion.barrio"
-															htmlEscape="true" /></td>
+															htmlEscape="true" />
+													</td>
 												</tr>
 												<tr>
-													<td class="texto_ti"><input type="text" id="pais"
-														name="pais" maxlength="30" style="width: 150px;"
-														class="requerido"
-														value="<c:out value="${paisDefecto.nombre}" default="" />"
-														<c:if test="${accion == 'CONSULTA'}">
+													<td class="texto_ti">													
+														<input type="text" id="pais" name="pais" maxlength="30" style="width: 150px;" class="requerido"
+															value="<c:out value="${paisDefecto.nombre}" default="" />" 
+															<c:if test="${accion == 'CONSULTA'}">
 																readonly="readonly"
-															</c:if> />
-														<button type="button"
-															onclick="abrirPopup('paisPopupMap');"
+															</c:if>
+														/>
+														<button type="button" onclick="abrirPopup('paisPopupMap');"
 															title="<spring:message code="textos.buscar" htmlEscape="true"/>"
 															<c:if test="${accion == 'CONSULTA'}">
 																disabled="disabled"
-															</c:if>>
-															<img
-																src="<%=request.getContextPath()%>/images/buscar.png">
+															</c:if>
+														>
+															<img src="<%=request.getContextPath()%>/images/buscar.png" > 
 														</button>
 														<div style="display: none;">
-															<label id="paisLabel" for="pais"> <c:out
-																	value="${paisDefecto.id}" default="" />
+															<label id="paisLabel" for="pais">
+																<c:out value="${paisDefecto.id}" default="" />
 															</label>
-														</div></td>
-													<td class="texto_ti"><input type="text" id="provincia"
-														name="provincia" maxlength="30" style="width: 150px;"
-														class="requerido"
-														value="<c:out value="${empleadoFormulario.persona.direccion.barrio.localidad.provincia.nombre}" default="" />"
-														<c:if test="${accion == 'CONSULTA'}">
+														</div>																					
+													</td>
+													<td class="texto_ti">
+														<input type="text" id="provincia" name="provincia" maxlength="30" style="width: 150px;" class="requerido"
+															value="<c:out value="${empleadoFormulario.persona.direccion.barrio.localidad.provincia.nombre}" default="" />" 
+															<c:if test="${accion == 'CONSULTA'}">
 																readonly="readonly"
-															</c:if> />
-														<button type="button"
-															onclick="abrirPopupProvincia('provinciaPopupMap');"
+															</c:if>
+														/>
+														<button type="button" onclick="abrirPopupProvincia('provinciaPopupMap');"
 															title="<spring:message code="textos.buscar" htmlEscape="true"/>"
 															<c:if test="${accion == 'CONSULTA'}">
 																disabled="disabled"
-															</c:if>>
-															<img
-																src="<%=request.getContextPath()%>/images/buscar.png">
+															</c:if>
+														>
+															<img src="<%=request.getContextPath()%>/images/buscar.png" > 
 														</button>
 														<div style="display: none;">
-															<label id="provinciaLabel" for="provincia"> <c:out
-																	value="${empleadoFormulario.persona.direccion.barrio.localidad.provincia.id}"
-																	default="" />
+															<label id="provinciaLabel" for="provincia">
+																<c:out value="${empleadoFormulario.persona.direccion.barrio.localidad.provincia.id}" default="" />
 															</label>
-														</div></td>
-													<td class="texto_ti"><input type="text" id="localidad"
-														name="localidad" maxlength="30" style="width: 150px;"
-														class="requerido"
-														value="<c:out value="${empleadoFormulario.persona.direccion.barrio.localidad.nombre}" default="" />"
-														<c:if test="${accion == 'CONSULTA'}">
+														</div>
+													</td>
+													<td class="texto_ti">
+														<input type="text" id="localidad" name="localidad" maxlength="30" style="width: 150px;" class="requerido"
+															value="<c:out value="${empleadoFormulario.persona.direccion.barrio.localidad.nombre}" default="" />" 
+															<c:if test="${accion == 'CONSULTA'}">
 																readonly="readonly"
-															</c:if> />
-														<button type="button"
-															onclick="abrirPopupLocalidad('localidadPopupMap');"
+															</c:if>
+														/>
+														<button type="button" onclick="abrirPopupLocalidad('localidadPopupMap');"
 															title="<spring:message code="textos.buscar" htmlEscape="true"/>"
 															<c:if test="${accion == 'CONSULTA'}">
 																disabled="disabled"
-															</c:if>>
-															<img
-																src="<%=request.getContextPath()%>/images/buscar.png">
+															</c:if>
+														>
+															<img src="<%=request.getContextPath()%>/images/buscar.png" > 
 														</button>
 														<div style="display: none;">
-															<label id="localidadLabel" for="localidad"> <c:out
-																	value="${empleadoFormulario.persona.direccion.barrio.localidad.id}"
-																	default="" />
+															<label id="localidadLabel" for="localidad">
+																<c:out value="${empleadoFormulario.persona.direccion.barrio.localidad.id}" default="" />
 															</label>
-														</div></td>
-													<td class="texto_ti"><input id="idBarrio"
-														name="idBarrio" type="hidden"
-														value="<c:out value="${empleadoFormulario.persona.direccion.barrio.id}" default="" />" />
-														<input type="text" id="barrio" name="barrio"
-														maxlength="30" style="width: 150px;" class="requerido"
-														value="<c:out value="${empleadoFormulario.persona.direccion.barrio.nombre}" default="" />"
-														<c:if test="${accion == 'CONSULTA'}">
+														</div>
+													</td>
+													<td class="texto_ti">
+														<input id="idBarrio" name="idBarrio" type="hidden" 
+															value="<c:out value="${empleadoFormulario.persona.direccion.barrio.id}" default="" />"/>
+														<input type="text" id="barrio" name="barrio" maxlength="30" style="width: 150px;" class="requerido"
+															value="<c:out value="${empleadoFormulario.persona.direccion.barrio.nombre}" default="" />" 
+															<c:if test="${accion == 'CONSULTA'}">
 																readonly="readonly"
-															</c:if> />
-														<button type="button"
-															onclick="abrirPopupBarrio('barrioPopupMap');"
+															</c:if>
+														/>
+														<button type="button" onclick="abrirPopupBarrio('barrioPopupMap');"
 															title="<spring:message code="textos.buscar" htmlEscape="true"/>"
 															<c:if test="${accion == 'CONSULTA'}">
 																disabled="disabled"
-															</c:if>>
-															<img
-																src="<%=request.getContextPath()%>/images/buscar.png">
+															</c:if>
+														>
+															<img src="<%=request.getContextPath()%>/images/buscar.png" > 
 														</button>
 														<div style="display: none;">
-															<label id="barrioLabel" for="barrio"> <c:out
-																	value="${empleadoFormulario.persona.direccion.barrio.id}"
-																	default="" />
+															<label id="barrioLabel" for="barrio">
+																<c:out value="${empleadoFormulario.persona.direccion.barrio.id}" default="" />
 															</label>
-														</div></td>
+														</div>
+													</td>
 												</tr>
 											</table>
 										</fieldset>
@@ -527,32 +522,31 @@
 											<table style="width: 100%;">
 												<tr style="width: 95%;">
 													<td class="texto_ti" style="width: 100%;"><spring:message
-															code="formularioEmpleado.datosEmpleado.direccionDefecto"
-															htmlEscape="true" /></td>
+															code="formularioEmpleado.datosEmpleado.direccionDefecto" htmlEscape="true" /></td>
 												</tr>
 												<tr>
-													<td class="texto_ti"><input type="text"
-														id="codigoDireccion" name="codigoDireccion" maxlength="6"
-														style="width: 50px;"
-														value="<c:out value="${empleadoFormulario.direccionDefecto.codigo}" default="" />"
-														<c:if test="${accion == 'CONSULTA'}">
+													<td class="texto_ti">
+														<input type="text" id="codigoDireccion"
+															name="codigoDireccion" maxlength="6" style="width: 50px;"
+															value="<c:out value="${empleadoFormulario.direccionDefecto.codigo}" default="" />"
+															<c:if test="${accion == 'CONSULTA'}">
 																			readonly="readonly"
 																		</c:if> />
-														&nbsp;&nbsp;
-														<button type="button"
-															onclick="abrirPopupDireccion('direccionesPopupMap', '<spring:message code="notif.stock.seleccionEmpresa" htmlEscape="true"/>'
+															&nbsp;&nbsp;
+															<button type="button"
+																onclick="abrirPopupDireccion('direccionesPopupMap', '<spring:message code="notif.stock.seleccionEmpresa" htmlEscape="true"/>'
 																							, '<spring:message code="mensaje.informacion" htmlEscape="true"/>');"
-															title="<spring:message code="textos.buscar" htmlEscape="true"/>"
-															<c:if test="${accion == 'CONSULTA'}">
+																title="<spring:message code="textos.buscar" htmlEscape="true"/>"
+																<c:if test="${accion == 'CONSULTA'}">
 																		disabled="disabled"
 																	</c:if>>
-															<img
-																src="<%=request.getContextPath()%>/images/buscar.png">
-														</button>&nbsp;&nbsp; <label id="codigoDireccionLabel"
-														for="codigoDireccion"> <c:out
-																value="${empleadoFormulario.direccionDefecto.descripcion}"
-																default="" />
-													</label></td>
+																<img src="<%=request.getContextPath()%>/images/buscar.png">
+															</button>&nbsp;&nbsp; <label id="codigoDireccionLabel"
+															for="codigoDireccion"> <c:out
+																	value="${empleadoFormulario.direccionDefecto.descripcion}"
+																	default="" />
+														</label>
+													</td>
 												</tr>
 											</table>
 										</fieldset>
@@ -569,22 +563,22 @@
 											<table style="width: 100%;">
 												<tr style="width: 95%;">
 													<td class="texto_ti" style="width: 100%;"><spring:message
-															code="formularioEmpleado.datosEmpleado.observaciones"
-															htmlEscape="true" /></td>
+															code="formularioEmpleado.datosEmpleado.observaciones" htmlEscape="true" /></td>
 												</tr>
 												<tr>
-
-													<td style="width: 95%;"><textarea id="observaciones"
-															name="observaciones" rows="5" cols="110"
-															<c:if test="${accion == 'CONSULTA'}">
+													
+													<td style="width: 95%;">
+														<textarea id="observaciones" name="observaciones"  rows="5" cols="110" 
+							       							<c:if test="${accion == 'CONSULTA'}">
 							       								readonly="readonly"
-							       							</c:if>><c:out
-																value="${empleadoFormulario.observaciones}" /></textarea></td>
+							       							</c:if>
+							       						><c:out value="${empleadoFormulario.observaciones}"/></textarea>	
+													</td>
 												</tr>
 											</table>
 										</fieldset>
 									</td>
-								</tr>
+								</tr> 
 							</table>
 						</div>
 					</fieldset>
@@ -623,20 +617,20 @@
 	<jsp:include page="fieldErrors.jsp" />
 	<jsp:include page="fieldAvisos.jsp" />
 	<jsp:include page="popupBusqueda.jsp">
-		<jsp:param name="mapa" value="paisPopupMap" />
-		<jsp:param name="clase" value="paisPopupMap" />
+		<jsp:param name="mapa" value="paisPopupMap" /> 
+		<jsp:param name="clase" value="paisPopupMap" /> 
 	</jsp:include>
 	<jsp:include page="popupBusqueda.jsp">
-		<jsp:param name="mapa" value="provinciaPopupMap" />
-		<jsp:param name="clase" value="provinciaPopupMap" />
+		<jsp:param name="mapa" value="provinciaPopupMap" /> 
+		<jsp:param name="clase" value="provinciaPopupMap" /> 
 	</jsp:include>
 	<jsp:include page="popupBusqueda.jsp">
-		<jsp:param name="mapa" value="localidadPopupMap" />
-		<jsp:param name="clase" value="localidadPopupMap" />
+		<jsp:param name="mapa" value="localidadPopupMap" /> 
+		<jsp:param name="clase" value="localidadPopupMap" /> 
 	</jsp:include>
 	<jsp:include page="popupBusqueda.jsp">
-		<jsp:param name="mapa" value="barrioPopupMap" />
-		<jsp:param name="clase" value="barrioPopupMap" />
+		<jsp:param name="mapa" value="barrioPopupMap" /> 
+		<jsp:param name="clase" value="barrioPopupMap" /> 
 	</jsp:include>
 	<jsp:include page="popupBusqueda.jsp">
 		<jsp:param name="mapa" value="clientesPopupMap" />
@@ -646,6 +640,6 @@
 		<jsp:param name="mapa" value="direccionesPopupMap" />
 		<jsp:param name="clase" value="direccionesPopupMap" />
 	</jsp:include>
-
+	
 </body>
 </html>

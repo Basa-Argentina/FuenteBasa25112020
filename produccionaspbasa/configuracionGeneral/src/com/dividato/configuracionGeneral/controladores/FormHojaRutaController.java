@@ -13,6 +13,7 @@ import static com.security.utils.Constantes.*;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,6 +37,7 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.apache.log4j.Logger;
 import org.displaytag.tags.TableTagParameters;
 import org.displaytag.util.ParamEncoder;
+import org.hibernate.mapping.Array;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.security.context.SecurityContextHolder;
@@ -73,6 +75,7 @@ import com.security.modelo.configuraciongeneral.HojaRuta;
 import com.security.modelo.configuraciongeneral.HojaRutaOperacionElemento;
 import com.security.modelo.configuraciongeneral.Impuesto;
 import com.security.modelo.configuraciongeneral.ListaPrecios;
+import com.security.modelo.configuraciongeneral.ListaPreciosDetalle;
 import com.security.modelo.configuraciongeneral.Referencia;
 import com.security.modelo.configuraciongeneral.Stock;
 import com.security.modelo.configuraciongeneral.Sucursal;
@@ -271,7 +274,7 @@ public class FormHojaRutaController {
 			try {
 				request.getInputStream();
 			} catch (IOException e1) {
-			
+				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 		}else{
@@ -354,13 +357,15 @@ public class FormHojaRutaController {
 				operacionElementos.add(hojaRutaOpElemento);
 			}
 			for (HojaRutaOperacionElemento hojaRutaOperacionElemento :operacionElementos){
-
+	//			if(hojaRutaOperacionElemento.getEstado().equals("seleccionado")){
+	//				n++;
+	//			}
 				if(hojaRutaOperacionElemento.getSeleccionable()){
 					hojaRutaOperacionElemento.setEstado(ESTADO_HOJA_RUTA_OPERACION_ELEMENTO_SELECCIONADO);
 					n++;
 				}
 			}
-			if(operacion.getListaElementos().isEmpty()){
+			if(operacion.getListaElementos().size()==0){
 				OperacionElemento operacionElemento = new OperacionElemento();
 				operacionElemento.setOperacion(operacion);
 				HojaRutaOperacionElemento hojaRutaOpElemento = new HojaRutaOperacionElemento(operacionElemento);
@@ -377,6 +382,7 @@ public class FormHojaRutaController {
 					listaOperacion.get(i).setCantidadElementos(cantidadElementos);
 					if(listaOperacion.get(i).getId().equals(seleccionada.getId())){
 						listaOperacion.remove(i);
+						//break;
 					}
 				}
 			}
@@ -476,7 +482,7 @@ public class FormHojaRutaController {
 			@RequestParam(value="id",required=false) Long idHojaRuta) {
 		
 		HojaRuta hojaRuta = null;
-		
+		Integer elementoSelec = 0;
 		if(accion==null) accion="NUEVO";
 		List<Operacion> listaOperacion = operacionService.listarOperacionEstado(ESTADO_OPERACION_PENDIENTE, obtenerClienteAspUser());
 		if(accion.equals("NUEVO")){
@@ -489,7 +495,7 @@ public class FormHojaRutaController {
 			hojaRuta.setFechaSalida(new Date());
 			session.setAttribute(OPERACIONES_SELECCIONADAS,new ArrayList<Operacion>());
 			session.setAttribute(ELEMENTOS_SELECCIONADOS,new ArrayList<HojaRutaOperacionElemento>());
-			if(listaOperacion!=null && !listaOperacion.isEmpty()){
+			if(listaOperacion!=null && listaOperacion.size()>0){
 				for (Operacion op: listaOperacion){
 					Integer cantidadElementos = operacionElementoService.cantidadOperacionElementoPorOperacion(op, op.getClienteAsp());
 					op.setCantidadElementos(cantidadElementos);
@@ -567,7 +573,7 @@ public class FormHojaRutaController {
 		List<Long> listaContados = new ArrayList<Long>();
 		Integer contador = 0;
 		boolean contado;
-		if(operacionesPlanificadas!=null && !operacionesPlanificadas.isEmpty())
+		if(operacionesPlanificadas!=null && operacionesPlanificadas.size()>0)
 		{
 			
 			for(Operacion op: operacionesPlanificadas){
@@ -648,7 +654,6 @@ public class FormHojaRutaController {
 					hojaRuta.getSerie().setUltNroImpreso(numero);
 					serieService.actualizarSerie(hojaRuta.getSerie());
 				} catch (Exception e) {
-					logger.error(e);
 				}
 			}
 			hojaRutaService.guardarActualizar(hojaRuta,operaciones);
@@ -718,6 +723,7 @@ public class FormHojaRutaController {
 			parametros.put("responsable", responsable);
 			
 			response.setContentType("application/pdf");
+            //response.addHeader("Content-Disposition", "attachment; filename=reporte.pdf");
             
 			JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(listaOperacionesHojaRuta(hojaRuta));
 			JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parametros,dataSource);
@@ -801,6 +807,11 @@ public class FormHojaRutaController {
 							opElemento.getOperacionElemento().getOperacion().setEstado(ESTADO_OPERACION_FINALIZADO_OK);
 							operacionService.actualizar(opElemento.getOperacionElemento().getOperacion());
 							
+	//						if(opElemento.getOperacionElemento().getElemento()!=null){
+	//							opElemento.getOperacionElemento().getElemento().setEstado(ELEMENTO_ESTADO_EN_EL_CLIENTE);
+	//							elementoService.actualizar(opElemento.getOperacionElemento().getElemento());
+	//						}
+							
 							cierroOperacion = true;
 						}
 						listOpElemento.add(opElemento.getOperacionElemento());
@@ -815,6 +826,7 @@ public class FormHojaRutaController {
 						//Calculo los conceptos de venta y stock para los elementos provinientes de lectura
 						ArrayList<ConceptoOperacionCliente> conceptosVentas = new ArrayList<ConceptoOperacionCliente>();
 						ArrayList<Stock> stocks = new ArrayList<Stock>();
+						//calcularConceptosProvinientesLectura(listaElementosLectura, operacion, tipoCalculo, cantidadTipoCalculo, conceptosVentas, stocks);
 						
 						//Comiteo para poder actualizar el estado del requerimiento
 						commit = operacionService.update(operacion,null, conceptoOperacionCliente, conceptosVentas, stocks, null);
@@ -875,15 +887,23 @@ public class FormHojaRutaController {
 	}
 	
 	private ConceptoOperacionCliente calcularConceptoOperacionCliente(List<OperacionElemento> lista, Operacion operacion, ConceptoFacturable conceptoFacturable, String tipoCalculo, Long cantidadTipoCalculo){
-		if(lista == null || lista.isEmpty())
+		if(lista == null || lista.size()==0)
 			return null;
 		if(operacion!=null){
 			if(operacion.getTipoOperacion()!=null && conceptoFacturable!=null 
 					&& operacion.getRequerimiento() != null && operacion.getRequerimiento().getListaPrecios() != null){
 				Requerimiento requerimiento = operacion.getRequerimiento();
 				Impuesto impuesto = conceptoFacturable.getImpuesto();
-				ListaPrecios listaPrecios = operacion.getRequerimiento().getListaPrecios();				
+				ListaPrecios listaPrecios = operacion.getRequerimiento().getListaPrecios();
+				ArrayList<ListaPreciosDetalle> listaPreciosDetalles = (ArrayList<ListaPreciosDetalle>) listaPreciosService.listarDetallesPorListaPreciosConceptoFacturable(listaPrecios, conceptoFacturable);
+				
 				Long cantidad = new Long(1); //Ponemos en el caso de que el tipo de calculo sea unico
+//				if(tipoCalculo != null && tipoCalculo.equals("Manual"))
+//					cantidad = cantidadTipoCalculo;
+//				if(tipoCalculo != null && tipoCalculo.equals("Automatíco"))
+//					cantidad = new Long(lista.size());
+//				if(cantidad==null)
+					//cantidad = new Long(1);
 				
 				ConceptoOperacionCliente conceptoOperacionCliente = new ConceptoOperacionCliente();
 				conceptoOperacionCliente.setCantidad(cantidad);
@@ -906,6 +926,21 @@ public class FormHojaRutaController {
 				SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
 				conceptoOperacionCliente.setHoraAlta(sdf.format(new Date()));
 				
+//				//CALCULOS - METODOS: EL PRECIO TIENE IMPUESTOS
+//				BigDecimal finalUnitario = new BigDecimal(0.0);
+//				if(listaPreciosDetalles!=null && listaPreciosDetalles.size()>0){
+//					ListaPreciosDetalle listaPreciosDetalle = listaPreciosDetalles.get(0);
+//					if(listaPreciosDetalle.getTipoVariacion() != null && listaPreciosDetalle.getValor()!=null && conceptoFacturable!=null )
+//						finalUnitario = listaPreciosDetalle.getTipoVariacion().calcularMonto(conceptoOperacionCliente.getPrecioBase(), listaPreciosDetalle.getValor());
+//						//finalUnitario = conceptoOperacionCliente.getPrecioBase();
+//				}
+//				conceptoOperacionCliente.setFinalUnitario(finalUnitario);
+//				conceptoOperacionCliente.setFinalTotal(finalUnitario.multiply(new BigDecimal(cantidad)));
+//				if(impuesto!=null){
+//					conceptoOperacionCliente.setNetoUnitario(finalUnitario.divide(((impuesto.getAlicuota().divide(new BigDecimal(100))).add(new BigDecimal(1))), 4, RoundingMode.HALF_UP)); // finalUnitario / (1+(alicuota/100))
+//					conceptoOperacionCliente.setNetoTotal(conceptoOperacionCliente.getNetoUnitario().multiply(new BigDecimal(cantidad)));
+//					conceptoOperacionCliente.setImpuestos((finalUnitario.subtract(conceptoOperacionCliente.getNetoUnitario()).multiply(BigDecimal.valueOf(cantidad))));
+//				}
 				
 				//////////////////////////////////////////////////////////////////////////////////
 				////////////////METODO: EL PRECIO NO TIENE IMPUESTOS

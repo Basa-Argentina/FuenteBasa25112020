@@ -69,7 +69,7 @@ public class CuentaCorrienteCliente implements Comparable<CuentaCorrienteCliente
 
 	@Override
 	public int compareTo(CuentaCorrienteCliente arg0) {
-		// Auto-generated method stub
+		// TODO Auto-generated method stub
 		return 0;
 	}
 

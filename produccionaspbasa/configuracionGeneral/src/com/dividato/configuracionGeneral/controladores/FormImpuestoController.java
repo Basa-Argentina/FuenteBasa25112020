@@ -159,7 +159,7 @@ public class FormImpuestoController {
 		
 		if(!result.hasErrors()){			
 			if(accion.equals("NUEVO")){
-				impuesto = new ImpuestoIva(); 
+				impuesto = new ImpuestoIva(); //TODO falta implementar un bean factory para los impuestos
 				setData(impuesto, impuestoFormulario);
 				//Se guarda el cliente en la BD
 				commit = impuestoService.save(impuesto);

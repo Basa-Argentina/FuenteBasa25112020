@@ -36,6 +36,13 @@ public class TareaValidator implements Validator {
 	public void validate(Object command, Errors errors) {
 		//aquí irían validaciones sobre los valores del objeto.
 		//de los campos requeridos y las conversiones se encarga el WebDataBinder 
-
+//		Transporte transporte = (Transporte)command;
+//		if(transporte.getAccion().equals("NUEVO")){
+//			Transporte transportes = null;
+//			transportes = transporteService.verificarTransporte(transporte);
+//			
+//			if(transportes != null)
+//				errors.rejectValue("codigo", "formularioTransporte.errorCodigo");
+//		}
 	}		
 }

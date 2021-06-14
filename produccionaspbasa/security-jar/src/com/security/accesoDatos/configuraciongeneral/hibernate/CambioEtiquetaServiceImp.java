@@ -13,6 +13,7 @@ import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -20,8 +21,9 @@ import org.springframework.stereotype.Component;
 import com.security.accesoDatos.configuraciongeneral.interfaz.CambioEtiquetaService;
 import com.security.accesoDatos.hibernate.GestorHibernate;
 import com.security.accesoDatos.hibernate.HibernateControl;
+import com.security.modelo.administracion.ClienteAsp;
 import com.security.modelo.configuraciongeneral.CambioEtiqueta;
-
+import com.security.modelo.configuraciongeneral.ClienteDireccion;
 
 /**
  * @author X
@@ -41,6 +43,19 @@ public class CambioEtiquetaServiceImp extends GestorHibernate<CambioEtiqueta> im
 		return CambioEtiqueta.class;
 	}
 
+	
+	
+	private void rollback(Transaction tx, Exception e, String mensaje){
+		//si ocurre algún error intentamos hacer rollback
+		if (tx != null && tx.isActive()) {
+			try {
+				tx.rollback();
+	        } catch (HibernateException e1) {
+	        	logger.error("no se pudo hacer rollback "+getClaseModelo().getName(), e1);
+	        }
+	        logger.error(mensaje+" "+getClaseModelo().getName(), e);
+		}
+	}
 	
 	@Override
 	public List<CambioEtiqueta> listarCambioEtiquetaPorCodigoLectura(Long codigoLectura){

@@ -1,7 +1,5 @@
 package com.security.accesoDatos.hibernate;
 
-import javax.persistence.Transient;
-
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
@@ -17,21 +15,29 @@ import org.springframework.stereotype.Component;
  * 
  */
 @Component
-
 public class HibernateControl {
-	
+
 	private static SessionFactory factory;
-	@Transient
 	private static HibernateControl myInstance;
 
 	/**
 	 * Constructor, crea el SessionFactory.
 	 */
-	
 	public HibernateControl() {
 		Configuration conf = new AnnotationConfiguration();
 		/* CONFIGURACION ORACLE */
-
+//		conf.configure("hibernate.oracle.cfg.xml");
+//		conf.setNamingStrategy(new org.hibernate.cfg.DefaultNamingStrategy() {
+//			private static final long serialVersionUID = 1L;
+//
+//			@Override
+//			public String classToTableName(String className) {
+//				return className;
+//			}
+//		});
+		//*/
+		//CONFIGURACION MYSQL sin NamingStrategy
+//		conf.configure("hibernate.mysql.cfg.xml");
 		
 		//CONFIGURACION MYSQL sin NamingStrategy
 		conf.configure("hibernate.sqlserver.cfg.xml"); 

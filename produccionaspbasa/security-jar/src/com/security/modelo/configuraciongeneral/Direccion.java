@@ -34,12 +34,13 @@ public class Direccion{
 	private Float latitud; // utilizado para la geo-localizacion
 	private Float longitud; // utilizado para la geo-localizacion
 	private String observaciones;
-	private String accion;
-	private Long idBarrio;
+	private transient String accion;
+	private transient Long idBarrio;
 
 	public Direccion() {
 		super();
 		this.barrio = new Barrio();
+		//this.clienteEmp = new ClienteEmp();
 	}
 
 	@Id

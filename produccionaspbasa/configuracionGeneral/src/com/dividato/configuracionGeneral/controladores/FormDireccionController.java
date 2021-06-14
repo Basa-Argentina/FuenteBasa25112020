@@ -116,7 +116,7 @@ public class FormDireccionController {
 			@RequestParam(value="accion",required=false) String accion,
 			@RequestParam(value="id",required=false) String id,
 			Map<String,Object> atributos) {
-
+		//if(accion==null) accion=(String) atributos.get("accion");
 		if(accion==null) accion="NUEVO"; //acción por defecto: nuevo		
 		if(!accion.equals("NUEVO")){
 			Direccion direccionFormulario;

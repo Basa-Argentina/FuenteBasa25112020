@@ -16,10 +16,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.springframework.security.context.SecurityContextHolder;
+
 import com.security.accesoDatos.hibernate.HibernateControl;
 import com.security.accesoDatos.hibernate.LocalidadServiceImp;
 import com.security.accesoDatos.interfaz.LocalidadService;
+import com.security.modelo.administracion.ClienteAsp;
 import com.security.modelo.general.Localidad;
+import com.security.modelo.seguridad.User;
 
 /**
  * @author Ezequiel Beccaria
@@ -29,7 +33,6 @@ public class LocalidadesPorProvinciaServlet extends HttpServlet{
 	private static final long serialVersionUID = 219776640635261725L;
 	private static Logger logger = Logger.getLogger(LocalidadesPorProvinciaServlet.class);
 	
-	@Override
 	public void doGet (HttpServletRequest request, HttpServletResponse response)
 	throws ServletException, IOException {	
 		response.setContentType("text/xml"); 
@@ -75,5 +78,8 @@ public class LocalidadesPorProvinciaServlet extends HttpServlet{
 		else
 			return null;
 	}
-
+	
+	private ClienteAsp obtenerClienteAspUser(){
+		return ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getCliente();
+	}
 }

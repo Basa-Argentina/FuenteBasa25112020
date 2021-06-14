@@ -44,7 +44,6 @@ public class NumberFormatTag extends TagSupport {
      * @return int
      * @throws JspException
      */
-	@Override
     public int doStartTag() throws JspException {
         try {
         	String formatedValue = null;
@@ -62,7 +61,6 @@ public class NumberFormatTag extends TagSupport {
     /**
      * ver release en TagSupport
      */
-    @Override
     public void release() {
     	value = null;
     }

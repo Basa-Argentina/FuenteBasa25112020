@@ -19,6 +19,7 @@ import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,7 @@ import com.security.accesoDatos.hibernate.HibernateControl;
 import com.security.modelo.administracion.ClienteAsp;
 import com.security.modelo.configuraciongeneral.ClienteEmp;
 import com.security.modelo.configuraciongeneral.ListaPrecios;
+import com.security.modelo.configuraciongeneral.Posicion;
 
 /**
  * @author Gonzalo Noriega
@@ -156,6 +158,26 @@ public class ClienteEmpServiceImp extends GestorHibernate<ClienteEmp> implements
         	//obtenemos una sesión
 			session = getSession();
 			
+			
+//        	Criteria crit = session.createCriteria(getClaseModelo());
+//        	crit.createCriteria("empresa", "emp");
+//        	if(cliente!=null){
+//	        	if(cliente.getCodigo() !=null && !"".equals(cliente.getCodigo())){
+//	        		crit.add(Restrictions.eq("codigo", cliente.getCodigo()));
+//	        	}
+//	        	if(cliente.getCodigoEmpresa() != null && cliente.getCodigoEmpresa().length()>0){
+//	        		crit.add(Restrictions.eq("emp.codigo", cliente.getCodigoEmpresa()));
+//	        	}
+//	        	if(cliente.getHabilitado() != null ){
+//	        		crit.add(Restrictions.eq("habilitado", cliente.getHabilitado()));
+//	        	}
+//        	}
+//        	if(clienteAsp != null){        		
+//        		crit.add(Restrictions.eq("emp.cliente", clienteAsp));
+//        	}
+//        	
+//        	crit.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+			
 			String consulta = "SELECT DISTINCT ce FROM ClienteEmp ce WHERE 1 = 1 ";
 							  if(cliente != null) {
 								  if(cliente.getCodigo() != null && !"".equals(cliente.getCodigo())) {
@@ -216,7 +238,23 @@ public class ClienteEmpServiceImp extends GestorHibernate<ClienteEmp> implements
         	
         	crit.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
         	crit.setFetchMode("afipCondIva", FetchMode.JOIN);
-		
+//			
+//			String consulta = "SELECT DISTINCT ce FROM ClienteEmp ce WHERE 1 = 1 ";
+//							  if(cliente != null) {
+//								  if(cliente.getCodigo() != null && !"".equals(cliente.getCodigo())) {
+//									  consulta += "AND ce.codigo = '" + cliente.getCodigo() + "' ";
+//								  }
+//								  if(cliente.getCodigoEmpresa() != null && cliente.getCodigoEmpresa().length() > 0) {
+//									  consulta += "AND ce.empresa.codigo = '" + cliente.getCodigoEmpresa() + "' ";
+//								  }
+//								  if(cliente.getHabilitado() != null) {
+//									  consulta += "AND ce.habilitado = " + cliente.getHabilitado() + " ";
+//								  }
+//							  }
+//							  if(clienteAsp != null) {
+//								  consulta += "AND ce.empresa.cliente.id = " + clienteAsp.getId().longValue() + " ";
+//							  }
+//			
             ClienteEmp clienteEmp = (ClienteEmp) crit.uniqueResult();
             
             return clienteEmp;
@@ -437,6 +475,21 @@ public class ClienteEmpServiceImp extends GestorHibernate<ClienteEmp> implements
         	//obtenemos una sesión
 			session = getSession();
 			
+//        	Criteria c = session.createCriteria(getClaseModelo());
+//        	//filtro codigo
+//        	c.add(Restrictions.eq("codigo", codigo));
+//        	//filtro codigo empresa
+//        	c.createCriteria("empresa", "emp");
+//        	c.add(Restrictions.eq("emp.codigo", codigoEmpresa));
+//        	//filtro cliente
+//        	c.add(Restrictions.eq("emp.cliente", cliente));
+//        	//filtro por habilitado
+//        	if(habilitado != null)
+//        		c.add(Restrictions.eq("habilitado", habilitado));
+//        	//distinct
+//        	c.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+//        	//obtener el primero
+			
 			String consulta = "SELECT DISTINCT c FROM ClienteEmp c WHERE " +
 				"c.codigo = '" + codigo + "' ";
 				
@@ -534,6 +587,16 @@ public class ClienteEmpServiceImp extends GestorHibernate<ClienteEmp> implements
         try {
         	//obtenemos una sesión
 			session = getSession();
+//        	Criteria crit = session.createCriteria(getClaseModelo());
+//        	
+//        	if(clienteAsp!=null){
+//        		crit.createCriteria("empresa").add(Restrictions.eq("cliente", clienteAsp));
+//	        	crit.add(Restrictions.eq("codigo", codigoCliente));
+//	        	crit.setProjection(Projections.max("listaPreciosDefecto"));
+//        	}
+//        	
+//        	crit.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+//        	crit.setFetchMode("listaPreciosDefecto", FetchMode.JOIN);
 			
 			String consulta = "Select TOP(1) lp.* from clientesEmp ce "
 			+" inner join lista_precios lp "

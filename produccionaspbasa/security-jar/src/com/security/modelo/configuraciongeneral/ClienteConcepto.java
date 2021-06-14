@@ -35,13 +35,13 @@ public class ClienteConcepto implements Comparable<ClienteConcepto>{
 	private ConceptoFacturable concepto;
 	private Boolean habilitado;
 	private ClienteAsp clienteAsp;
-	private  String accion;
-	private  String clienteCodigo;
-	private  String listaPrecioCodigo;
-	private  String conceptoCodigo;
-	private  Long idClienteEmp;
-	private  Long idListaPrecios;
-	private  String idConcepto;
+	private transient String accion;
+	private transient String clienteCodigo;
+	private transient String listaPrecioCodigo;
+	private transient String conceptoCodigo;
+	private transient Long idClienteEmp;
+	private transient Long idListaPrecios;
+	private transient String idConcepto;;
 	
 	public ClienteConcepto() {
 		super();

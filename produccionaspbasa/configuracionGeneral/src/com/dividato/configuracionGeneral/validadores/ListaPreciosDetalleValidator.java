@@ -68,7 +68,11 @@ public class ListaPreciosDetalleValidator implements Validator{
 					detalle.getListaPreciosCodigo(), obtenerClienteAspUser());
 			if(l == null)
 				errors.rejectValue("listaPreciosCodigo", "error.agregarConcepto.codigoLista");
-
+			//valido que no se haya seleccionado tipo de varicion "Valor Fijo" y que se haya ingresado un valor negativo
+//			BigDecimal valor = detalle.getCalcularMonto();
+//			if(valor.compareTo(new BigDecimal(0)) <= 0)
+//				errors.rejectValue("valor", "error.agregarConcepto.valorMenorIgualCero");			
+			//valido que no exista un detalle para la lista con el mismo concepto facturable
 			List<ListaPreciosDetalle> detalles = service.listarDetallesPorListaPreciosConceptoFacturable(
 					detalle.getListaPrecios(), detalle.getConceptoFacturable());
 			if(detalles != null && !detalles.isEmpty()){

@@ -8,12 +8,14 @@
 package com.dividato.configuracionGeneral.controladores;
 
 import static com.security.recursos.Configuracion.formatoFechaFormularios;
+
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
-
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -71,12 +73,6 @@ import com.security.servicios.MailManager;
 import com.security.utils.ScreenMessage;
 import com.security.utils.ScreenMessageImp;
 
-/**
- * Controlador que se utiliza para los servicios asociados a la administración
- * de la ClasificacionDocumental.
- *
- * @author Federico Muñoz
- */
 
 @Controller
 @RequestMapping(
@@ -188,8 +184,21 @@ public class FormLoteReferenciaController {
 		{
 			busquedaLoteReferencia.setPersonal(empleadoService.getByCodigo(busquedaLoteReferencia.getCodigoPersonal(), busquedaLoteReferencia.getCodigoCliente(), obtenerClienteAspUser()));
 		}
+				
+		//cuenta la cantidad de resultados
+ 		Integer size = loteReferenciaService.contarLotesSql(
+				obtenerClienteAspUser(),
+				busquedaLoteReferencia.getCodigoEmpresa(),
+				busquedaLoteReferencia.getCodigoSucursal(),
+				busquedaLoteReferencia.getCodigoCliente(),
+				busquedaLoteReferencia.getPersonal(),
+				busquedaLoteReferencia.getCodigoDesde(),
+				busquedaLoteReferencia.getCodigoHasta(),
+				busquedaLoteReferencia.getFechaDesde(),
+				busquedaLoteReferencia.getFechaHasta()
+				);
 		
-
+					
 			//paginacion y orden de resultados de displayTag
 			busquedaLoteReferencia.setTamañoPagina(30);	
 			if(request != null){
@@ -206,6 +215,7 @@ public class FormLoteReferenciaController {
 					nPagina = (Integer.parseInt(nPaginaStr));
 				}
 				busquedaLoteReferencia.setNumeroPagina(nPagina);
+				
 			}
 		
 			
@@ -215,7 +225,7 @@ public class FormLoteReferenciaController {
 						busquedaLoteReferencia.getCodigoEmpresa(),
 						busquedaLoteReferencia.getCodigoSucursal(),
 						busquedaLoteReferencia.getCodigoCliente(),
-	//					busquedaLoteReferencia.getPersonal(),
+	//			 		busquedaLoteReferencia.getPersonal(),
 						busquedaLoteReferencia.getCodigoDesde(),
 						busquedaLoteReferencia.getCodigoHasta(),
 						busquedaLoteReferencia.getFechaDesde(),
@@ -225,7 +235,8 @@ public class FormLoteReferenciaController {
 						busquedaLoteReferencia.getNumeroPagina(), 
 						busquedaLoteReferencia.getTamañoPagina()
 						);
-		Integer size = lotesReferencia.size();
+		
+		//Integer size = lotesReferencia.size();
 		atributos.put("size", size);
 		atributos.put("lotesReferencia", lotesReferencia);
 
@@ -421,7 +432,7 @@ public class FormLoteReferenciaController {
 				logger.error(elemento);
 			}
 			
-			if(referenciasModificadas!=null && !referenciasModificadas.isEmpty()){
+			if(referenciasModificadas!=null && referenciasModificadas.size()>0){
 				logger.error("Referencias Modificadas :");
 				for(Referencia ref: referenciasModificadas){
 					String elemento = "Codigo: " + ref.getElemento().getCodigo() +"ID Elemento: "+ref.getElemento().getId() + " ID Ref :"+ ref.getId()!=null?ref.getId().toString():" - "; 
@@ -429,7 +440,7 @@ public class FormLoteReferenciaController {
 				}
 			}
 			
-			if(referenciasEliminadas!=null && !referenciasEliminadas.isEmpty()){
+			if(referenciasEliminadas!=null && referenciasEliminadas.size()>0){
 				logger.error("Referencias Eliminadas :");
 				for(Referencia ref: referenciasEliminadas){
 					String elemento = "Codigo: " + ref.getElemento().getCodigo() +"ID Elemento: "+ref.getElemento().getId() + " ID Ref :"+ ref.getId()!=null?ref.getId().toString():" - "; 
@@ -442,6 +453,7 @@ public class FormLoteReferenciaController {
 		
 		if(!result.hasErrors()){
 			logger.error(obtenerUser().getPersona()+ " Paso satisfactoriamente, y intenta guardar en base.");
+			//loteReferenciaService.guardarActualizar(loteReferencia);
 			commit = loteReferenciaService.guardarActualizarLoteYModificadas(loteReferencia, referenciasModificadas, referenciasEliminadas);
 			
 			
@@ -454,7 +466,6 @@ public class FormLoteReferenciaController {
 							final String para = user.getPersona().getMail();
 							final String cuerpo = "Estimado "+user.getPersona().toString()+",<br><br> usted tiene una nueva tarea asignada para la etiqueta "+ref.getElemento().getCodigo()+"<br><br>Por favor, revise su lista de tareas.<br><br>NO RESPONDA ESTE EMAIL<br><br>Atte. La Administracion";
 							new Thread(){
-								@Override
 								public void run(){
 									
 										enviarMail(para, "BASA - AVISO: Tiene una nueva tarea asignada", cuerpo, "BASA S.A.");
@@ -496,7 +507,9 @@ public class FormLoteReferenciaController {
 						atributos.put("bloqueoTexto2",bloqueoTexto2);
 						atributos.put("texto2Padre", texto2);
 						if(incrementoElemento != null && incrementoElemento){
-	
+	//						List<String> codigosUtilizados = new ArrayList<String>();
+	//						codigosUtilizados.add(codigoElemento);
+	//						Elemento elemento = elementoService.obtenerProximoElementoDisponible(obtenerClienteAspUser(),codigoCliente,codigosUtilizados);
 							atributos.put("codigoElementoPadre", codigoElemento);
 							atributos.put("incrementoElemento", incrementoElemento);
 						}
@@ -544,6 +557,7 @@ public class FormLoteReferenciaController {
 			indiceIndividual = false;
 		
 		inicializarFormularioReferenciaContenedor(atributos, session, indiceIndividual);
+		//if(indiceIndividual) atributos.put("incrementoElemento", true);
 		if(porRango!=null && porRango)
 			atributos.put("porRango", true);
 		return "formularioReferencia";
@@ -556,6 +570,7 @@ public class FormLoteReferenciaController {
 
 		String respuesta = "";
 		if(!codigo.isEmpty()){
+			//Elemento elemento = elementoService.getByCodigo(codigo, obtenerClienteAspUser());
 			Long refList = referenciaService.obtenerCantidadByElementoContenedor(codigo);
 			if(refList!=null && refList!=0){
 				respuesta = codigo;
@@ -666,18 +681,23 @@ public class FormLoteReferenciaController {
 					nuevaReferencia.setElemento(elementoService.obtenerProximoElementoDisponible(obtenerClienteAspUser(),codigoCliente,codigosElementoUtilizados));
 					atributos.put("hacerFocusEn", "codigoClasificacionDocumental");
 				}
-		
+				
+				//nuevaReferencia.setContenedor(referencia.getContenedor());
+				//nuevaReferencia.setPrefijoCodigoTipoElemento(referencia.getContenedor().getTipoElemento().getPrefijoCodigo());
 				//--- SE COMENTARON LAS DOS LINEAS ANTERIORES Y SE AGREGO EL SIGUIENTE BLOQUE IF POR QUE SINO PERSISTIAN CAMPOS
 				//--- CON EL CANDADO ABIERTO
+				
 				if(bloqueoContenedor){
 					nuevaReferencia.setContenedor(referencia.getContenedor());//Ver el problema del codigo del contenedor
 					if(referencia.getContenedor()!=null){
 						nuevaReferencia.setPrefijoCodigoTipoElemento(referencia.getContenedor().getTipoElemento().getPrefijoCodigo());
 						bloqueoTipoElementoContenedor=true;
 					}
+					
 				}else {
 					//nuevaReferencia.setCajaCerrada
 					if(bloqueoTipoElementoContenedor){
+						
 						nuevaReferencia.setPrefijoCodigoTipoElemento(referencia.getPrefijoCodigoTipoElemento());
 						atributos.put("hacerFocusEn", "codigoContenedor");
 					}else
@@ -696,7 +716,7 @@ public class FormLoteReferenciaController {
 					if(bloqueoTipoElementoContenedor){
 						nuevaReferencia.setPrefijoCodigoTipoElemento(referencia.getPrefijoCodigoTipoElemento());
 						atributos.put("hacerFocusEn", "codigoContenedor");
-					}else 
+					}else
 						atributos.put("hacerFocusEn", "prefijoCodigoTipoElemento");
 				}					
 			}
@@ -773,6 +793,35 @@ public class FormLoteReferenciaController {
 				}
 			}
 		}
+												
+//				if(incrementoElemento!=null && incrementoElemento && referencia.getIndiceIndividual()){
+//					hacerFoco = "codigoClasificacionDocumental";
+//					if(bloqueoClasificacionDocumental!=null && bloqueoClasificacionDocumental){
+//						hacerFoco = "numero1";
+//						if(bloqueoNumero1!=null && bloqueoNumero1){
+//							hacerFoco = "texto1";
+//							if(bloqueoTexto1!=null && bloqueoTexto1){
+//								hacerFoco = "numero2";
+//								if(bloqueoNumero2!=null && bloqueoNumero2)
+//									hacerFoco = "texto2";
+//							}
+//						}
+//					}
+//				}else{
+//					if(bloqueoClasificacionDocumental!=null && bloqueoClasificacionDocumental){
+//						hacerFoco = "numero1";
+//						if(bloqueoNumero1!=null && bloqueoNumero1){
+//							hacerFoco = "texto1";
+//							if(bloqueoTexto1!=null && bloqueoTexto1){
+//								hacerFoco = "numero2";
+//								if(bloqueoNumero2!=null && bloqueoNumero2)
+//									hacerFoco = "texto2";
+//							}
+//						}
+//					}
+//				}
+//			}
+//		}
 		
 		atributos.put("bloqueoClasificacionDocumental", bloqueoClasificacionDocumental);
 		atributos.put("bloqueoTipoElementoContenedor", bloqueoTipoElementoContenedor);
@@ -807,7 +856,9 @@ public class FormLoteReferenciaController {
 			@RequestParam(value="bloqueoFecha2",required=false) Boolean bloqueoFecha2){
 		
 		List<Referencia> referencias = (List<Referencia>) session.getAttribute("referencias_lote");
+		
 		List<Referencia> referenciasEliminadas = (List<Referencia>) session.getAttribute("referencias_eliminadas");
+		
 		if(referenciasEliminadas==null)
 			referenciasEliminadas=new ArrayList<Referencia>();
 		
@@ -819,8 +870,9 @@ public class FormLoteReferenciaController {
 				break;
 			}
 		}
+		
 		inicializarFormularioReferenciaContenedor(atributos, session, indiceIndividual);
-
+		
 		atributos.put("hacerFocusEn", "codigoClasificacionDocumental");
 		atributos.put("bloqueoClasificacionDocumental", bloqueoClasificacionDocumental);
 		atributos.put("bloqueoTipoElementoContenedor",bloqueoTipoElementoContenedor);
@@ -832,7 +884,7 @@ public class FormLoteReferenciaController {
 		atributos.put("bloqueoFecha1", bloqueoFecha1);
 		atributos.put("bloqueoFecha2", bloqueoFecha2);
 		session.setAttribute("referencias_eliminadas", referenciasEliminadas);
-
+		
 		return "formularioReferencia";
 	}
 	
@@ -857,15 +909,19 @@ public class FormLoteReferenciaController {
 				break;
 			}
 		}
+		
 		if(referencia!=null){
 			referencia.setContenedor(referencia.getElementoContenedor());
 		}
+		
 		atributos.put("referencia", referencia);//ponemos el eliminado por si le interesa cambiarle algo para guardar de nuevo
 		
 		if(referencia.getIndiceIndividual()){
 			atributos.put("fijarContenedor", true);
 		}
+		
 		atributos.put("objectHash", objectHash);
+		//atributos.put("hacerFocusEn", "codigoClasificacionDocumental");
 		atributos.put("bloqueoClasificacionDocumental", bloqueoClasificacionDocumental);
 		atributos.put("bloqueoTipoElementoContenedor",bloqueoTipoElementoContenedor);
 		atributos.put("bloqueoContenedor", bloqueoContenedor);
@@ -942,7 +998,29 @@ public class FormLoteReferenciaController {
 			atributos.put("fijarContenedor", true);
 		}
 		
-	
+//	Bloque que controla donde hara el foco de acuerdo a los campos bloqueados al regresar a la pagina
+//		String hacerFoco = "prefijoCodigoTipoElemento";
+//		if(bloqueoTipoElementoContenedor!=null && bloqueoTipoElementoContenedor){
+//			hacerFoco = "codigoContenedor";
+//			if(bloqueoContenedor!= null && bloqueoContenedor){	
+//				hacerFoco = "codigoElemento";
+//				if(incrementoElemento!= null && incrementoElemento){
+//					hacerFoco = "codigoClasificacionDocumental";
+//					if(bloqueoClasificacionDocumental!= null && bloqueoClasificacionDocumental){
+//						hacerFoco = "numero1";
+//						if(bloqueoNumero1!= null && bloqueoNumero1){
+//							hacerFoco = "texto1";
+//							if(bloqueoTexto1!= null && bloqueoTexto1){
+//								hacerFoco = "numero2";
+//								if(bloqueoNumero2!=null && bloqueoNumero2)
+//									hacerFoco = "texto2";
+//							}
+//						}
+//					}
+//				}
+//			}
+//		}
+		
 		//Bloque que controla donde hara el foco de acuerdo a los campos bloqueados al regresar a la pagina
 				String hacerFoco = "prefijoCodigoTipoElemento";
 				if(bloqueoTipoElementoContenedor!= null && !bloqueoTipoElementoContenedor){
@@ -1072,14 +1150,14 @@ public class FormLoteReferenciaController {
 				listaElementos = elementoService.listarElementoFiltradas(elemento, obtenerClienteAspUser());
 			
 			//Se pregunta si el rango esta vacio, si el rango esta incompleto o si el rango pasa las 500 etiquetas
-			if(listaElementos==null || listaElementos.isEmpty() 
+			if(listaElementos==null || listaElementos.size()<=0 
 					|| listaElementos.size()<extensionRango || extensionRango>limite){
 				//Genero las notificaciones 
 				List<ScreenMessage> avisos = new ArrayList<ScreenMessage>();
 				ScreenMessage mensajeRango;
 				if(extensionRango>limite)
 					mensajeRango = new ScreenMessageImp("formularioLoteReferencia.error.rangoExcedido", Arrays.asList(new String[]{limite.toString()+" etiquetas."}));
-				else if(listaElementos==null || listaElementos.isEmpty())
+				else if(listaElementos==null || listaElementos.size()<=0)
 					mensajeRango = new ScreenMessageImp("formularioLoteReferencia.error.rangoVacio", null);
 				else
 					mensajeRango = new ScreenMessageImp("formularioLoteReferencia.error.rangoIncompleto", null);
@@ -1101,7 +1179,7 @@ public class FormLoteReferenciaController {
 			//Con los id de los elementos busco si existe alguna referencia en ese rango
 			List<Referencia> listaReferencias = referenciaService.getListaByRangoElemento(elementoDesde.getId(), elementoHasta.getId());
 			
-			if(listaReferencias!=null && !listaReferencias.isEmpty()){
+			if(listaReferencias!=null && listaReferencias.size()>0){
 				//Genero las notificaciones 
 				List<ScreenMessage> avisos = new ArrayList<ScreenMessage>();
 				ScreenMessage existentesEnRango = new ScreenMessageImp("formularioLoteReferencia.error.referenciasExistentesEnRango", null);
@@ -1167,7 +1245,6 @@ public class FormLoteReferenciaController {
 		}
 		
 		atributos.put("porRango", referencia.getPorRango());
-		
 		return "formularioReferencia";
 	}
 	
@@ -1187,6 +1264,7 @@ public class FormLoteReferenciaController {
 			if(!loteReferencia.getReferencias().isEmpty()){
 				loteReferencia.setIndiceIndividual(loteReferencia.getReferencias().iterator().next().getIndiceIndividual());
 			}
+			//Long codigo = loteReferencia.getId();
 			Long codigo = loteReferencia.getCodigo();
 			String fechaRegistro = loteReferencia.getFechaRegistroStr();
 			String empresa = loteReferencia.getEmpresa().getNombreRazonSocial();
@@ -1456,11 +1534,13 @@ public class FormLoteReferenciaController {
 		return ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
 	}
 	
-
+	//TODO: Informar cuando se excede el tamaño maximo de filas en el excel
 		private void enviarMail(String para,String asunto, String cuerpo,String sistema){
 			try {
 				mailManager.enviar(para, asunto, cuerpo, sistema);   
-			} catch (MessagingException |IllegalStateException e) {
+			} catch (MessagingException e) {
+				logger.error("error al enviar mail",e);
+			} catch (IllegalStateException e){
 				logger.error("error al enviar mail",e);
 			}
 		}

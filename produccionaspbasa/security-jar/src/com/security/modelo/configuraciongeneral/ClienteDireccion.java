@@ -47,14 +47,14 @@ public class ClienteDireccion implements Comparable<ClienteDireccion>{
 	private Localidad localidadAux;
 	private Provincia provinciaAux;
 	private Pais paisAux;
-	private  String accion;
-	private  Long idClienteEmp;
-	private  Long idBarrio;
-	private  Long idPaisAux;
-	private  Long idProvinciaAux;
-	private  Long idLocalidadAux;
-	private  Long idDireccion;
-	private  String clienteCodigo;
+	private transient String accion;
+	private transient Long idClienteEmp;
+	private transient Long idBarrio;
+	private transient Long idPaisAux;
+	private transient Long idProvinciaAux;
+	private transient Long idLocalidadAux;
+	private transient Long idDireccion;
+	private transient String clienteCodigo;
 	
 	public ClienteDireccion() {
 		super();

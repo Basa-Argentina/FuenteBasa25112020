@@ -1,6 +1,7 @@
 package com.dividato.configuracionGeneral.controladores;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+
 import com.security.accesoDatos.configuraciongeneral.interfaz.ClienteEmpService;
 import com.security.accesoDatos.configuraciongeneral.interfaz.ConceptoFacturableService;
 import com.security.accesoDatos.configuraciongeneral.interfaz.EmpresaService;
@@ -31,6 +33,7 @@ import com.security.modelo.configuraciongeneral.Factura;
 import com.security.modelo.configuraciongeneral.FacturaDetalle;
 import com.security.modelo.configuraciongeneral.Impuesto;
 import com.security.modelo.configuraciongeneral.ListaPrecios;
+import com.security.modelo.configuraciongeneral.Sucursal;
 import com.security.modelo.general.PersonaFisica;
 import com.security.modelo.seguridad.User;
 import com.security.utils.ScreenMessage;
@@ -119,7 +122,11 @@ public class FormFacturaDetalleController {
 			@RequestParam(value = "fechaStr", required = false) String fechaStr,
 			@RequestParam(value = "codigoEmpresa", required = false) String codigoEmpresa) {
 		atributos.remove("facturaDetalleFormulario");
-	
+		ClienteAsp clienteAsp = obtenerClienteAspUser();
+		// ClienteEmp clienteEmp =
+		// clienteEmpService.getByCodigo(codigoClienteEmp, codigoEmpresa,
+		// clienteAsp);
+		
 		return precargaFormularioFacturaDetalle(session, atributos,
 				accionFactura, accionFacturaDetalle, id, codigoClienteEmp,fechaStr,
 				codigoEmpresa);
@@ -160,7 +167,7 @@ public class FormFacturaDetalleController {
 			@RequestParam(value = "codigoEmpresa", required = false) String codigoEmpresa) {
 
 		@SuppressWarnings("unused")
-		
+		Sucursal sucursal = obtenerSucursalUser();
 		ClienteAsp clienteAsp = obtenerClienteAspUser();
 		List<FacturaDetalle> facturaDetallesSession = (List<FacturaDetalle>) session.getAttribute("facturaDetallesSession");
 		Empresa empresa = empresaService.getByCodigo(codigoEmpresa, clienteAsp);
@@ -239,7 +246,7 @@ public class FormFacturaDetalleController {
 			BindingResult result, HttpSession session,
 			Map<String, Object> atributos) {
 
-
+		Boolean commit = null;
 		Factura facturaFormulario = (Factura) session.getAttribute("facturaFormularioSession");
 		@SuppressWarnings("unchecked")
 		List<FacturaDetalle> facturaDetallesSession = (List<FacturaDetalle>) session.getAttribute("facturaDetallesSession");
@@ -265,7 +272,7 @@ public class FormFacturaDetalleController {
 			Long signo = new Long(1);
 			Long cantidad = new Long(1); //Ponemos en el caso de que el tipo de calculo sea unico
 			if(facturaDetalleFormulario.getCantidad() != null)
-				cantidad = facturaDetalleFormulario.getCantidad();
+				cantidad = facturaDetalleFormulario.getCantidad().longValue();
 			if(cantidad==null)
 				cantidad = new Long(1);
 			
@@ -296,6 +303,27 @@ public class FormFacturaDetalleController {
 					BigDecimal valor = listaPrecios.getValor();
 					if (valor != null) {
 						
+						//BigDecimal netoUnitario = variacionPrecio.multiply(concepto.getPrecioBase());
+						//facturaDetalle.setNetoUnitario(netoUnitario);
+						
+						//////////////////////////////////////////////////////////////////////////////////
+						////////////////METODO: EL PRECIO TIENE IMPUESTOS
+//						BigDecimal variacionPrecio = uno.add(valor.divide(cien));
+//						BigDecimal finalUnitario  = variacionPrecio.multiply(concepto.getPrecioBase());
+//						facturaDetalle.setFinalUnitario(finalUnitario);
+//						facturaDetalle.setFinalTotal(finalUnitario.multiply(new BigDecimal(cantidad)));
+//						
+//						facturaDetalle.setIVA(impuesto != null ? impuesto.getAlicuota() : null);
+//						
+//						if (impuesto != null && impuesto.getAlicuota() != null) {
+//							
+//							facturaDetalle.setNetoUnitario(finalUnitario.divide(((impuesto.getAlicuota().divide(new BigDecimal(100))).add(new BigDecimal(1))), 4, RoundingMode.HALF_UP));
+//							facturaDetalle.setNetoTotal(facturaDetalle.getNetoUnitario().multiply(new BigDecimal(cantidad)));
+//							facturaDetalle.setImpuestoUnitario(finalUnitario.subtract(facturaDetalle.getNetoUnitario()));
+//							facturaDetalle.setImpuestoTotal((finalUnitario.subtract(facturaDetalle.getNetoUnitario()).multiply(BigDecimal.valueOf(cantidad))));
+//							
+//						}
+						
 						//////////////////////////////////////////////////////////////////////////////////
 						////////////////METODO: EL PRECIO NO TIENE IMPUESTOS
 						BigDecimal variacionPrecio = uno.add(valor.divide(cien));
@@ -322,12 +350,12 @@ public class FormFacturaDetalleController {
 			}
 
 			if (validarFacturaDetalle(facturaDetalle, errors)) {
-
+				//facturaDetalle.setIdEliminar(getProximoIdEliminar(facturaDetallesSession));
 				generateAvisoExito("formularioFacturaDetalle.exito.registrar",atributos);
 				if (accionFacturaDetalle.equalsIgnoreCase("NUEVO")){
 					Integer ordenDetalle;
 					
-					if(!facturaDetallesSession.isEmpty()){
+					if(facturaDetallesSession.size()>0){
 						ordenDetalle = facturaDetallesSession.get(facturaDetallesSession.size()-1).getOrden();
 						for(int i=0;i<facturaDetallesSession.size();i++){
 							if(ordenDetalle.longValue() == facturaDetallesSession.get(i).getOrden().longValue()){
@@ -383,6 +411,10 @@ public class FormFacturaDetalleController {
 		return ((PersonaFisica) obtenerUser().getPersona()).getEmpresaDefecto();
 	}
 
+	private Sucursal obtenerSucursalUser() {
+		return ((PersonaFisica) obtenerUser().getPersona())
+				.getSucursalDefecto();
+	}
 
 	/**
 	 * genera el objeto BindingResult para mostrar los errores por pantalla en
@@ -451,7 +483,7 @@ public class FormFacturaDetalleController {
 			errors.add("formularioFacturaDetalle.error.datosInsuficientes");
 			result = false;
 		}
-
+		// TODO especificar los datos que impiden calcular el precio finalTotal
 		if (facturaDetalle.getCantidad() == null
 				|| facturaDetalle.getCantidad() <= 0) {
 			errors.add("formularioFacturaDetalle.error.cantidad");
@@ -460,5 +492,15 @@ public class FormFacturaDetalleController {
 		return result;
 	}
 	
-	
+	private Long getProximoIdEliminar(List<FacturaDetalle> detalles){
+		Long mayor = Long.valueOf(0L);
+		if(detalles != null && detalles.size()>0){
+			for(FacturaDetalle fd : detalles){
+				if(mayor<fd.getIdEliminar()){
+					mayor = fd.getIdEliminar();
+				}
+			}
+		}
+		return mayor + 1L;
+	}
 }

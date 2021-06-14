@@ -1,11 +1,14 @@
 package com.security.modelo.seguridad;
 
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
+import com.security.modelo.administracion.ClienteAsp;
 /**
  * 
  * @author Gabriel Mainero

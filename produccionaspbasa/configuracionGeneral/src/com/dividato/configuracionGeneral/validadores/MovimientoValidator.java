@@ -23,7 +23,9 @@ import com.security.modelo.administracion.ClienteAsp;
 import com.security.modelo.configuraciongeneral.ClienteEmp;
 import com.security.modelo.configuraciongeneral.Deposito;
 import com.security.modelo.configuraciongeneral.Elemento;
+import com.security.modelo.configuraciongeneral.Empresa;
 import com.security.modelo.configuraciongeneral.Movimiento;
+import com.security.modelo.general.PersonaFisica;
 import com.security.modelo.seguridad.User;
 import com.security.utils.Constantes;
 /**
@@ -158,7 +160,18 @@ public class MovimientoValidator implements Validator {
 							
 							if(Constantes.ELEMENTO_ESTADO_EN_CONSULTA.equalsIgnoreCase(elemento.getEstado()))
 							{	
-							
+								//if(elemento.getDepositoActual()!= null){
+									
+//									if(elemento.getDepositoActual().getId().longValue() != movimiento.getDeposito().getId().longValue()){
+//										errors.rejectValue("listaElementos","formularioMovimiento.errorDetalles.elementosDepositoActualDistinto");
+//										break;
+//									}
+//								}
+//								else
+//								{
+//									errors.rejectValue("listaElementos","formularioMovimiento.errorDetalles.elementosSinDepositoActual");
+//									break;
+//								}
 							}
 							else if(!Constantes.ELEMENTO_ESTADO_EN_EL_CLIENTE.equals(elemento.getEstado()))
 							{
@@ -209,7 +222,11 @@ public class MovimientoValidator implements Validator {
 										break;
 									}
 								}
-
+//								else
+//								{
+//									errors.rejectValue("listaElementos","formularioMovimiento.errorDetalles.elementosSinDepositoActual");
+//									break;
+//								}
 							}
 							else if(!Constantes.ELEMENTO_ESTADO_CREADO.equals(elemento.getEstado()))
 							{
@@ -280,7 +297,11 @@ public class MovimientoValidator implements Validator {
 										break;
 									}
 								}
-
+//								else
+//								{
+//									errors.rejectValue("listaElementos","formularioMovimiento.errorDetalles.elementosSinDepositoActual");
+//									break;
+//								}
 							}
 							else if(!Constantes.ELEMENTO_ESTADO_CREADO.equals(elemento.getEstado()))
 							{
@@ -373,5 +394,11 @@ public class MovimientoValidator implements Validator {
 		return ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getCliente();
 	}
 	
-
+	private Empresa obtenerEmpresaUser(){
+		return ((PersonaFisica)obtenerUser().getPersona()).getEmpresaDefecto();
+	}
+	
+	private User obtenerUser(){
+		return ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+	}
 }

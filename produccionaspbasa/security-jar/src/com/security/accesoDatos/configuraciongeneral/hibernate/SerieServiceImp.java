@@ -25,10 +25,13 @@ import com.security.accesoDatos.configuraciongeneral.interfaz.SerieService;
 import com.security.accesoDatos.hibernate.GestorHibernate;
 import com.security.accesoDatos.hibernate.HibernateControl;
 import com.security.modelo.administracion.ClienteAsp;
+import com.security.modelo.configuraciongeneral.AfipTipoComprobante;
 import com.security.modelo.configuraciongeneral.Cai;
+import com.security.modelo.configuraciongeneral.ClienteEmp;
 import com.security.modelo.configuraciongeneral.Empresa;
+import com.security.modelo.configuraciongeneral.LecturaDetalle;
 import com.security.modelo.configuraciongeneral.Serie;
-
+import com.security.modelo.configuraciongeneral.Sucursal;
 import com.security.utils.Constantes;
 
 /**
@@ -165,7 +168,15 @@ public class SerieServiceImp extends GestorHibernate<Serie> implements SerieServ
 			//obtenemos una sesión
 			session = getSession();
 			
-
+//			Criteria c = session.createCriteria(getClaseModelo());			
+//			//filtro por codigo
+//			if(codigo != null && !"".equals(codigo))
+//				c.add(Restrictions.ilike("codigo", codigo +"%"));
+//			//filtro por cliente
+//			c.add(Restrictions.eq("cliente", clienteAsp));
+//			//Seteo propiedades de la consulta
+//			c.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+			
 			String consulta = "SELECT DISTINCT sr FROM Serie sr WHERE 1 = 1 ";
 						if(codigo != null && !"".equals(codigo)) {
 							consulta += "AND sr.codigo LIKE '" + codigo + "%' ";

@@ -31,9 +31,11 @@ import com.security.accesoDatos.configuraciongeneral.interfaz.PosicionService;
 import com.security.accesoDatos.hibernate.GestorHibernate;
 import com.security.accesoDatos.hibernate.HibernateControl;
 import com.security.modelo.administracion.ClienteAsp;
+import com.security.modelo.configuraciongeneral.Elemento;
 import com.security.modelo.configuraciongeneral.Modulo;
 import com.security.modelo.configuraciongeneral.Posicion;
 import com.security.modelo.configuraciongeneral.TipoElemento;
+import com.security.utils.Constantes;
 
 
 /**
@@ -303,7 +305,7 @@ public class PosicionServiceImp extends GestorHibernate<Posicion> implements Pos
         	
 			crit.createCriteria("modulo", "mod");
 			Criteria crit2 = crit.createCriteria("estante", "est",CriteriaSpecification.LEFT_JOIN);
-
+			//crit.createCriteria("estante", "est");
 			crit.createCriteria("est.grupo", "grp");
 			crit.createCriteria("grp.seccion", "sec");
 			crit.createCriteria("sec.deposito", "dep");
@@ -318,9 +320,10 @@ public class PosicionServiceImp extends GestorHibernate<Posicion> implements Pos
 	        		crit.add(Restrictions.eq("sec.codigo", posicion.getCodigoSeccion()));
 	        	if(posicion.getCodigoDesdeEstante() !=null && !"".equals(posicion.getCodigoDesdeEstante()))
 	        		crit2.add(Restrictions.sqlRestriction(" CAST({alias}.codigo AS int) >= "+posicion.getCodigoDesdeEstante()+""));
+	        		//crit.add(Restrictions.ge("est.codigo", posicion.getCodigoDesdeEstante()));
 	        	if(posicion.getCodigoHastaEstante() !=null && !"".equals(posicion.getCodigoHastaEstante()))
 	        		crit2.add(Restrictions.sqlRestriction(" CAST({alias}.codigo AS int) <= "+posicion.getCodigoHastaEstante()+""));
-
+	        		//crit.add(Restrictions.le("est.codigo", posicion.getCodigoHastaEstante()));
 	        	if(posicion.getCodigoDesdeModulo() !=null && !"".equals(posicion.getCodigoDesdeModulo()))
 	        		crit.add(Restrictions.ge("mod.codigo", posicion.getCodigoDesdeModulo()));
 	        	if(posicion.getCodigoHastaModulo() !=null && !"".equals(posicion.getCodigoHastaModulo()))
@@ -427,6 +430,7 @@ public class PosicionServiceImp extends GestorHibernate<Posicion> implements Pos
         	crit.setProjection(Projections.rowCount());
 
         	crit.createCriteria("modulo", "mod");
+        	//crit.createCriteria("estante", "est");
         	Criteria crit2 = crit.createCriteria("estante", "est",CriteriaSpecification.LEFT_JOIN);
         	crit.createCriteria("est.grupo", "grp");
         	crit.createCriteria("grp.seccion", "sec");
@@ -442,9 +446,10 @@ public class PosicionServiceImp extends GestorHibernate<Posicion> implements Pos
 	        		crit.add(Restrictions.eq("sec.codigo", posicion.getCodigoSeccion()));
 	        	if(posicion.getCodigoDesdeEstante() !=null && !"".equals(posicion.getCodigoDesdeEstante()))
 	        		crit2.add(Restrictions.sqlRestriction(" CAST({alias}.codigo AS int) >= "+posicion.getCodigoDesdeEstante()+""));
-
+	        		//crit.add(Restrictions.ge("est.codigo", posicion.getCodigoDesdeEstante()));
 	        	if(posicion.getCodigoHastaEstante() !=null && !"".equals(posicion.getCodigoHastaEstante()))
 	        		crit2.add(Restrictions.sqlRestriction(" CAST({alias}.codigo AS int) <= "+posicion.getCodigoHastaEstante()+""));
+	        		//crit.add(Restrictions.le("est.codigo", posicion.getCodigoHastaEstante()));
 	        	if(posicion.getCodigoDesdeModulo() !=null && !"".equals(posicion.getCodigoDesdeModulo()))
 	        		crit.add(Restrictions.ge("mod.codigo", posicion.getCodigoDesdeModulo()));
 	        	if(posicion.getCodigoHastaModulo() !=null && !"".equals(posicion.getCodigoHastaModulo()))
@@ -676,6 +681,8 @@ public class PosicionServiceImp extends GestorHibernate<Posicion> implements Pos
         	.addJoin("estante", "posicion.estante")
         	.addJoin("m", "posicion.modulo")
         	.addScalar("valoracion",Hibernate.STRING);		
+			
+        	//Query q = session.createSQLQuery(consulta).setResultTransformer(Transformers.aliasToBean(Posicion.class));
         	
 			return (List<Posicion>)q.list();
 			

@@ -9,6 +9,7 @@ package com.dividato.configuracionGeneral.controladores.jerarquias;
 
 import static com.security.utils.Constantes.*;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -647,6 +648,7 @@ public class ListaOperacionReferenciaController {
 				if(referencia!=null)
 				opeR.setElemento(referencia.getElemento());
 				opeR.setEstado(ESTADO_OPERACION_ELEMENTO_PENDIENTE);
+				
 				//Solamente se incorporan los del mismo deposito
 				Deposito deposito = null;
 				if(opeR.getElemento()!=null 
@@ -723,7 +725,7 @@ public class ListaOperacionReferenciaController {
 							if(buscar!=null && !"".equals(buscar) && operacionElemento.getElemento()!= null &&
 									operacionElemento.getElemento().getCodigo().equalsIgnoreCase(buscar)){
 								operacionElemento.setEstado(ESTADO_OPERACION_ELEMENTO_PROCESADO);
-
+								//break;
 							}
 						}
 						//Actualiza por seleccion
@@ -1049,7 +1051,7 @@ public class ListaOperacionReferenciaController {
 				return mostrarOperacionReferencia(session, atributos, operacion.getId());	
 			}
 			//Genero las notificaciones 
-
+			//List<ScreenMessage> avisos = new ArrayList<ScreenMessage>();
 			if("".equals(mensajeUpdate))
 				mensajeUpdate = "formularioOperacion.notif.cancelado";
 			ScreenMessage notificacion = new ScreenMessageImp(mensajeUpdate, null);
@@ -1134,6 +1136,11 @@ public class ListaOperacionReferenciaController {
 						elemento = el;
 						break;
 					}
+//					if(elemento!=null
+//							&& elemento.getDepositoActual()!=null)
+//						operacion.setDeposito(elemento.getDepositoActual());
+//					else
+//						operacion.setDeposito(operacionAnterior.getDeposito());
 					
 					if(elemento!=null 
 							&& (elemento.getDepositoActual()!=null || 
@@ -1156,7 +1163,12 @@ public class ListaOperacionReferenciaController {
 					elemento = el;
 					break;
 				}
-
+//				if(elemento!=null
+//						&& elemento.getDepositoActual()!=null)
+//					operacion.setDeposito(elemento.getDepositoActual());
+//				else
+//					operacion.setDeposito(operacionAnterior.getDeposito());
+				
 				if(elemento!=null 
 						&& (elemento.getDepositoActual()!=null || 
 								(elemento.getContenedor()!= null && elemento.getContenedor().getDepositoActual()!=null))){
@@ -1218,6 +1230,11 @@ public class ListaOperacionReferenciaController {
 					operacion.setListaElementos(new HashSet<OperacionElemento>());
 					if(lista != null){
 						for(Elemento elemento:lista){
+//							if(elemento!=null
+//									&& elemento.getDepositoActual()!=null)
+//								operacion.setDeposito(elemento.getDepositoActual());
+//							else
+//								operacion.setDeposito(operacionAnterior.getDeposito());
 							
 							if(elemento!=null 
 									&& (elemento.getDepositoActual()!=null || 
@@ -1323,10 +1340,7 @@ public class ListaOperacionReferenciaController {
 	private void contarElementosProcesados(Operacion operacion, HttpSession session, Map<String,Object> atributos){
 		ArrayList<OperacionElemento> lista = (ArrayList<OperacionElemento>) session.getAttribute("operacionReferenciasSession");
 		if(lista!=null){
-			int cantidadProcesados = 0;
-			int cantidadPendientes=0;
-			int cantidadOmitidos =0;
-			int cantidadProcesadosParaTraspaso =0;
+			int cantidadProcesados = 0, cantidadPendientes=0, cantidadOmitidos =0, cantidadProcesadosParaTraspaso =0;
 			boolean traspaso = false;
 			if(operacion!=null && operacion.getTipoOperacion()!=null && operacion.getTipoOperacion().getGeneraOperacionAlCerrarse().booleanValue())
 				traspaso = true;
@@ -1342,10 +1356,7 @@ public class ListaOperacionReferenciaController {
 						cantidadPendientes++;
 				}
 			}
-			boolean finalizarOK = false;
-			boolean finalizarError = false;
-			boolean traspasar = false;
-			boolean procesando = false;
+			boolean finalizarOK = false, finalizarError = false, traspasar = false, procesando = false;
 			if(cantidadProcesados == lista.size())
 				finalizarOK = true;
 			if(!finalizarOK && (cantidadProcesados + cantidadOmitidos) == lista.size())
@@ -1407,7 +1418,24 @@ public class ListaOperacionReferenciaController {
 				conceptoOperacionCliente.setAsignado(false);
 				SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
 				conceptoOperacionCliente.setHoraAlta(sdf.format(new Date()));
-						
+				
+				
+//				//CALCULOS - METODO: EL PRECIO TIENE IMPUESTOS
+//				BigDecimal finalUnitario = new BigDecimal(0.0);
+//				if(listaPreciosDetalles!=null && listaPreciosDetalles.size()>0){
+//					ListaPreciosDetalle listaPreciosDetalle = listaPreciosDetalles.get(0);
+//					if(listaPreciosDetalle.getTipoVariacion() != null && listaPreciosDetalle.getValor()!=null && conceptoFacturable!=null )
+//						finalUnitario = listaPreciosDetalle.getTipoVariacion().calcularMonto(conceptoOperacionCliente.getPrecioBase(), listaPreciosDetalle.getValor());
+//						//finalUnitario = conceptoOperacionCliente.getPrecioBase();
+//				}
+//				conceptoOperacionCliente.setFinalUnitario(finalUnitario);
+//				conceptoOperacionCliente.setFinalTotal(finalUnitario.multiply(new BigDecimal(cantidad)));
+//				if(impuesto!=null){
+//					conceptoOperacionCliente.setNetoUnitario(finalUnitario.divide(((impuesto.getAlicuota().divide(new BigDecimal(100))).add(new BigDecimal(1))), 4, RoundingMode.HALF_UP)); // finalUnitario / (1+(alicuota/100))
+//					conceptoOperacionCliente.setNetoTotal(conceptoOperacionCliente.getNetoUnitario().multiply(new BigDecimal(cantidad)));
+//					conceptoOperacionCliente.setImpuestos((finalUnitario.subtract(conceptoOperacionCliente.getNetoUnitario()).multiply(BigDecimal.valueOf(cantidad))));
+//				}
+				
 				//////////////////////////////////////////////////////////////////////////////////
 				////////////////METODO: EL PRECIO NO TIENE IMPUESTOS
 				BigDecimal uno = BigDecimal.valueOf(1L);
@@ -1446,7 +1474,7 @@ public class ListaOperacionReferenciaController {
 						if(operacionElemento.getElemento().getTipoElemento().getGeneraConceptoVenta().booleanValue()){
 							//Busco en el hash por id del conceptoVenta, sino existe creo una lista
 							//Solo se consideran los Conceptos Automaticos
-							// Revisar si pueden ser Manuales
+							//TODO Revisar si pueden ser Manuales
 							if(operacionElemento.getElemento().getTipoElemento().getConceptoVenta().getTipoCalculo().equals("Automatíco")){
 								Long idConcepto = operacionElemento.getElemento().getTipoElemento().getConceptoVenta().getId();
 								ArrayList<OperacionElemento> listaVenta = (ArrayList<OperacionElemento>) hashSumarizadoConceptoVenta.get(idConcepto);
@@ -1466,7 +1494,7 @@ public class ListaOperacionReferenciaController {
 					if(operacionElemento.getElemento().getTipoElemento().getDescuentaStock()!=null && operacionElemento.getElemento().getTipoElemento().getConceptoStock()!=null){
 						if(operacionElemento.getElemento().getTipoElemento().getDescuentaStock().booleanValue()){
 							//Solo se consideran los Conceptos Automaticos
-							// Revisar si pueden ser Manuales
+							//TODO Revisar si pueden ser Manuales
 							if(operacionElemento.getElemento().getTipoElemento().getConceptoStock().getTipoCalculo().equals("Automatíco")){
 								//Busco en el hash por id del conceptoStock, sino existe creo una lista
 								Long idConcepto = operacionElemento.getElemento().getTipoElemento().getConceptoStock().getId();
@@ -1538,7 +1566,7 @@ public class ListaOperacionReferenciaController {
 				stock.setFecha(new Date());
 				SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
 				stock.setHora(sdf.format(new Date()));
-
+				//stock.setNota("Generado por Procesamiento de Elementos de Operación");
 				stock.setNota("Por venta a "+operacion.getClienteEmp().getRazonSocialONombreYApellido()
 						+ " - "
 						+ operacion.getRequerimiento().getSerie().getCodigo() + ": "

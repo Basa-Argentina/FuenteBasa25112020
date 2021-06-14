@@ -1,6 +1,7 @@
 package com.dividato.configuracionGeneral.validadores;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -11,7 +12,9 @@ import com.security.accesoDatos.configuraciongeneral.interfaz.ClienteEmpService;
 import com.security.accesoDatos.configuraciongeneral.interfaz.ListaPreciosService;
 import com.security.accesoDatos.configuraciongeneral.interfaz.PlantillaFacturacionService;
 import com.security.accesoDatos.configuraciongeneral.interfaz.SerieService;
+import com.security.modelo.administracion.ClienteAsp;
 import com.security.modelo.configuraciongeneral.PlantillaFacturacion;
+import com.security.modelo.seguridad.User;
 /**
  * 
  * @author Victor Kenis
@@ -70,5 +73,9 @@ public class PlantillaFacturacionBusquedaValidator implements Validator {
 	@Override
 	public void validate(Object command, Errors errors) {
 				
+	}
+	
+	private ClienteAsp obtenerClienteAspUser(){
+		return ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getCliente();
 	}
 }

@@ -144,7 +144,7 @@ public class ReposicionAutomatica {
 		clienteAsp.setId(clienteAspId);
 		User user = new User();
 		user.setUsername(username);
-		user = (userService.listarTodosUserFiltradosByCliente(user, clienteAsp)).get(0);
+		user = ((List<User>)userService.listarTodosUserFiltradosByCliente(user, clienteAsp)).get(0);
 		System.out.println("**** ARRANCA ***");
 		
 		try {
@@ -171,12 +171,14 @@ public class ReposicionAutomatica {
 		});
 		
 		for (File txtFile:filesRio){
-			
-
 			System.out.println("**** LECTURAS ***" + txtFile.getName());
-
 			try {
-
+				
+				//TODO: Verificar de hacer una validacion de lectura repetido en base
+//				List<InterchangeCP> interchanges = interchangeService.listarPorArchivo(csvFile.getName().toUpperCase());
+//				if(interchanges!=null && interchanges.size()>0){
+//					throw new ScheduledTaskException("interchangeFile.error.repetido");
+//				}
 				
 				Lectura lectura = new Lectura();
 				LecturaDetalle detalle = new LecturaDetalle();
@@ -202,31 +204,26 @@ public class ReposicionAutomatica {
 				if (lista != null) 
 				{	
 					List<String> listaDescartados = new ArrayList<String>();
-					String codigo;
-					String codigoCorrecto;
-					String codigoTomado12;
+					String codigo,codigoCorrecto,codigoTomado12;
 					Boolean repetido;
 					for (int i = 0; i < lista.size(); i++) {
-						
 						repetido = false;
 						codigo = lista.get(i);
 						if(codigo.length() >= 12){
-							
 						codigoTomado12 = lista.get(i).substring(0, 12);
 						codigoCorrecto = codigoTomado12 + String.valueOf(EAN13.EAN13_CHECKSUM(codigoTomado12));
-
+							//if(codigo.equals(codigoCorrecto)){
 								detalle = new LecturaDetalle();
 								prefijo = codigo.substring(0, 2);
 								
 								if (i==0 && codigo.startsWith("99")) 
-									
 								{
 									detalle.setCodigoBarras(codigoTomado12);
 									detalle.setObservacion("Este código de barras pertenece a un módulo");
 									moduloDestino = getModuloPorCodigoBarras(detalle.getCodigoBarras().substring(0, 12), clienteAsp);
 									if(moduloDestino==null)
 									{
-
+										//codigosErrores.add(Constantes.ERROR_MODULO_NO_EXISTE);
 										lista.set(i, lista.get(i)+" --->  Error: EL MODULO NO EXISTE");
 										banderaLecturaCorrecta = false;
 										continue;
@@ -252,7 +249,7 @@ public class ReposicionAutomatica {
 										detalle.setElemento(elemento);
 										detalle.setObservacion("Elemento "+ elemento.getCodigo());
 									} else {
-
+										//detalle.setObservacion("Elemento no existente.");
 										lista.set(i, lista.get(i)+" --->  Error: LA ETIQUETA NO EXISTE");
 										banderaLecturaCorrecta = false;
 										continue;
@@ -276,7 +273,7 @@ public class ReposicionAutomatica {
 											codigosElementos.add(detalle.getCodigoBarras().substring(0, 12));	
 											listaElementosAReposicionar.add(elemento);
 										}else{
-
+											//codigosErrores.add(Constantes.ERROR_LOS_ELEMENTOS_DE_LA_LECTURA_NO_SON_DEL_MISMO_TIPO);
 											lista.set(i, lista.get(i)+" --->  Error: LOS ELEMENTOS DE LA LECTURA NO SON DEL MISMO TIPO");
 											banderaLecturaCorrecta = false;
 											continue;
@@ -319,7 +316,7 @@ public class ReposicionAutomatica {
 					
 					if(moduloDestino != null && tipoElemento != null && banderaLecturaCorrecta)
 					{
-
+						//listaElementosAReposicionar = elementoService.getByCodigos(codigosElementos, clienteAsp);
 						if(listaElementosAReposicionar != null && codigosElementos.size() == listaElementosAReposicionar.size())
 						{
 							int cant = lista.size();
@@ -357,41 +354,43 @@ public class ReposicionAutomatica {
 												lectura.setSucursal(sucursal);
 												lectura.setDescripcion(nombreLectura);
 												lectura.setObservacion("Estantería "+nombreLectura);
-
-										
-												boolean estadosEnGuarda = verificaEstados(listaElementosAReposicionar);
-												if(estadosEnGuarda==false ){
+												//Boolean commit = lecturaService.guardarLecturaYDetalles(setDetalles,lectura);
+												
+												
+												//if(commit!=null && commit)
+												//{
 													if(elementoService.guardarReposicionamiento(listaPosicionesOrigen, listaPosicionesDestino, listaElementosAReposicionar, listaElementosAnterioresModuloDestino, clienteAsp,user,lectura)){
 
 														txtFile.renameTo(new File(getLecturasProcessed()+"//E"+nombreLectura+"_"+lectura.getCodigo()+"_OK.txt"));
 													}
 													else
 													{
+														//codigoErrores.add(Constantes.ERROR_FALLA_REPOSICIONAMIENTO);
 														lista.add("\nERROR: FALLO EN REPOSICIONAMIENTO. REVISE EL ARCHIVO Y VUELVA A PROBAR.");	
 														finalizarConError(lista, txtFile,nombreLectura);
 													}
-												}
-												else
-												{
-													lista.add("\nERROR: FALLA AL CARGAR LECTURA. ALGUN ELEMENTO NO TIENE EL ESTADO EN GUARDA.");	
-													finalizarConError(lista, txtFile,nombreLectura);
-												}
+//												}
+//												else
+//												{
+//													lista.add("\nERROR: FALLA AL CARGAR LECTURA. REVISE EL ARCHIVO Y VUELVA A PROBAR.");	
+//													finalizarConError(lista, txtFile,nombreLectura);
+//												}
 										}
 										else
 										{
-
+											//codigoErrores.add(Constantes.ERROR_NO_HAY_ELEMENTOS_PARA_REPOSICIONAR);
 											lista.add("\nERROR: NO HAY ELEMENTOS PARA REPOSICIONAR");	
 											finalizarConError(lista, txtFile,nombreLectura);
 										}
 									}else{
-
+										//codigoErrores.add(Constantes.ERROR_FALLA_REPOSICIONAMIENTO);
 										lista.add("\nERROR: FALLA EN REPOSICIONAMIENTO. REVISE EL ARCHIVO Y VUELVA A PROBAR.");	
 										finalizarConError(lista, txtFile,nombreLectura);
 									}
 								}
 								else
 								{
-
+									//codigosErrores.add(Constantes.ERROR_EXISTEN_POSICIONES_OCUPADAS);
 									lista.add("\nERROR: EXISTEN POSICIONES OCUPADAS");	
 									finalizarConError(lista, txtFile,nombreLectura);
 								}
@@ -429,17 +428,7 @@ public class ReposicionAutomatica {
 		}
 }
 
-	private boolean verificaEstados(List<Elemento> listaElementosAReposicionar) {
-		int i = 0;
-		
-		for (Elemento e : listaElementosAReposicionar){
-			if (!e.getEstado().equalsIgnoreCase("En Guarda")) i++;
-			}
 
-		if (i>0) return true;
-		// Auto-generated method stub
-		return false;
-	}
 
 public String getLecturasPath() {
 	return utils.getBasePath() + lecturasPath;
@@ -485,6 +474,7 @@ private boolean cargarNuevasPosiciones(List <Posicion> listaPosiciones, List<Ele
 			posicion = itPosicion.next();
 			if(itElementos.hasNext()){
 				elemento = itElementos.next();
+			//	elemento.setEstado(Constantes.ELEMENTO_ESTADO_EN_GUARDA);
 				elemento.setPosicionFutura(posicion);
 				posicion.setEstado(Constantes.POSICION_ESTADO_OCUPADA);
 			}else{
@@ -568,8 +558,9 @@ private void actualizarViejasPosiciones(List<Posicion> listaPosicionesOrigen){
  */
 private void verificarElementos(List<Elemento> elementos, TipoElemento tipoElemento, Modulo moduloDestino, List<String> errores, List<Posicion> posicionesDisponibles, ClienteAsp clienteAsp) {
 	ReposicionamientoUtil util = new ReposicionamientoUtil();
-
-	if(!util.verificarTodosElementosMismoTipo(elementos, tipoElemento)) {
+	/*if (!util.verificarReposicionamientoModuloCompleto(elementos, moduloDestino)) {   ///// ESTA VALIDACION SE PIDIO SACAR POR LA GENTE DE BASA - LUIS Y MIGUEL
+		errores.add(Constantes.ERROR_NUM_ELEMENTOS_NO_ES_MULTIPLO_POS_HOR);
+	}else*/ if(!util.verificarTodosElementosMismoTipo(elementos, tipoElemento)) {
 		errores.add(I18nUtil.getText(Constantes.ERROR_LOS_ELEMENTOS_DE_LA_LECTURA_NO_SON_DEL_MISMO_TIPO,"formularioReposicionamiento"));
 	}else if(!util.verificarSuficientesPosicionesModuloDestino(elementos, moduloDestino)) {
 		errores.add(I18nUtil.getText(Constantes.ERROR_POSICIONES_INSUFICIENTES_MODULO_DESTINO,"formularioReposicionamiento"));

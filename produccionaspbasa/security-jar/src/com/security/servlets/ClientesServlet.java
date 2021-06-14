@@ -33,7 +33,7 @@ import com.security.modelo.seguridad.User;
 public class ClientesServlet extends HttpServlet{
 	private static final long serialVersionUID = 7014807021831556429L;
 	private static Logger logger = Logger.getLogger(ClientesServlet.class);
-	@Override
+	
 	public void doGet (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/xml"); 
 		response.setCharacterEncoding("ISO-8859-1"); //seteo el encoding de los caracteres 

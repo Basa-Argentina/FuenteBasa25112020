@@ -222,6 +222,50 @@ public class ListaHistoricosController {
 		return mostrarHistorico(session, atributos, request, tipoHistorico);
 	}
 	
+//	/**
+//	 * Observar la anotación @RequestMapping de SPRING.
+//	 * Todos los parámetros son inyectados por SPRING cuando ejecuta el método.
+//	 * 
+//	 * Se encarga de eliminar Plantilla.
+//	 * 
+//	 * @param idRemito el id de Plantilla a eliminar.
+//	 * (Observar la anotación @RequestParam)
+//	 * @param atributos son los atributos del request
+//	 * @return ejecuta el método de consulta de inscost y retorna su resultado.
+//	 */
+//	@RequestMapping(
+//			value="/eliminarPlantillaFacturacion.html",
+//			method = RequestMethod.GET
+//		)
+//	public String eliminarPlantillaFacturacion(HttpSession session,
+//			@RequestParam("id") Long id,
+//			Map<String,Object> atributos,
+//			HttpServletRequest request) {
+//		Boolean commit = null;
+//		List<ScreenMessage> avisos = new ArrayList<ScreenMessage>();
+//		boolean hayAvisos = false;
+//		boolean hayAvisosNeg = false;
+//		//Obtenemos la remito para eliminar luego
+//		PlantillaFacturacion plantillaFacturacion = plantillaFacturacionService.obtenerPorId(id);
+//		
+//		//Eliminamos la plantilla
+//		commit = plantillaFacturacionService.eliminarPlantillaFacturacion(plantillaFacturacion);
+//		ScreenMessage mensaje;
+//		//Controlamos su eliminacion.
+//		if(commit){
+//			mensaje = new ScreenMessageImp("formularioPlantillaFacturacion.notif.plantillaEliminadaExito", null);
+//			hayAvisos = true;
+//		}else{
+//			mensaje = new ScreenMessageImp("error.deleteDataBase", null);
+//			hayAvisosNeg = true;
+//		}
+//		avisos.add(mensaje);
+//		
+//		atributos.put("hayAvisosNeg", hayAvisosNeg);
+//		atributos.put("hayAvisos", hayAvisos);
+//		atributos.put("avisos", avisos);
+//		return mostrarPlantillaFacturacion(session, atributos, request);
+//	}
 
 	/////////////////////METODOS DE SOPORTE/////////////////////////////
 	
@@ -268,7 +312,7 @@ public class ListaHistoricosController {
 		elementoHistorico.setNumeroPagina(nPagina);
 		
 		//Se busca en la base de datos los plantillasFacturacion con los filtros de paginacion agregados a la plantillaFacturacion
-		elementosHistoricos =elementoHistoricoService.listarElementoHistorico(elementoHistorico, obtenerClienteAspUser());
+		elementosHistoricos =(List<ElementoHistorico>) elementoHistoricoService.listarElementoHistorico(elementoHistorico, obtenerClienteAspUser());
 								
 		atributos.put("historicos", elementosHistoricos);
 	}
@@ -304,7 +348,7 @@ public class ListaHistoricosController {
 		referenciaHistorico.setNumeroPagina(nPagina);
 		
 		//Se busca en la base de datos los plantillasFacturacion con los filtros de paginacion agregados a la plantillaFacturacion
-		referenciasHistoricos = referenciaHistoricoService.listarReferenciaHistorico(referenciaHistorico, obtenerClienteAspUser());
+		referenciasHistoricos =(List<ReferenciaHistorico>) referenciaHistoricoService.listarReferenciaHistorico(referenciaHistorico, obtenerClienteAspUser());
 								
 		atributos.put("historicos", referenciasHistoricos);
 	}

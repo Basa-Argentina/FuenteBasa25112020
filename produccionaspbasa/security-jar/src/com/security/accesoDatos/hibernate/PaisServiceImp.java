@@ -22,6 +22,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.security.accesoDatos.interfaz.PaisService;
+import com.security.modelo.configuraciongeneral.ClienteEmp;
+import com.security.modelo.configuraciongeneral.Estante;
 import com.security.modelo.general.Pais;
 
 /**

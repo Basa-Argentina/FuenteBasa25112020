@@ -45,19 +45,19 @@ public class Factura {
 	private LoteFacturacion loteFacturacion;
 	private String notasFacturacion;
 	
-	private  Date fechaDesde;
-	private  Date fechaHasta;
-	private  String codigoEmpresa;
-	private  String codigoSucursal;
-	private  String codigoCliente;
-	private  Long idAfipTipoComprobante;
-	private  String codigoSerie;
-	private  String clienteEmpCodigoCondIva;
-	private  String numeroComprobanteStr;
-	private  Boolean mostrarAnulados; 
-	private  BigDecimal imputado;
-	private  BigDecimal saldoDisponible;
-	private  Double saldoCtaCte;
+	private transient Date fechaDesde;
+	private transient Date fechaHasta;
+	private transient String codigoEmpresa;
+	private transient String codigoSucursal;
+	private transient String codigoCliente;
+	private transient Long idAfipTipoComprobante;
+	private transient String codigoSerie;
+	private transient String clienteEmpCodigoCondIva;
+	private transient String numeroComprobanteStr;
+	private transient Boolean mostrarAnulados; 
+	private transient BigDecimal imputado;
+	private transient BigDecimal saldoDisponible;
+	private transient Double saldoCtaCte;
 	
 	public Factura() {
 		super();

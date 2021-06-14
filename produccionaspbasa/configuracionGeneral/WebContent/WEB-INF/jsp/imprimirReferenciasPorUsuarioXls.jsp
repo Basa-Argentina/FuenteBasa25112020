@@ -1,13 +1,11 @@
-<%@page
-	import="com.dividato.configuracionGeneral.objectForms.ReferenciasPorUsuarioReport"%>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@ taglib prefix="display" uri="http://displaytag.sf.net"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@page import="com.dividato.configuracionGeneral.objectForms.ReferenciasPorUsuarioReport"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="display" uri="http://displaytag.sf.net" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="fmt" uri="http://www.costapag.org/tags/format"%>
-<%@ page import="java.util.*"%>
+<%@ page import="java.util.*" %> 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -30,92 +28,92 @@ response.setHeader("Content-Disposition", "attachment; filename=referencias_por_
 <body>
 
 
-	<table bgcolor="#FCFCFC">
-		<tr>
-			<td>Fecha Desde:</td>
-			<td align="left"><strong><%=fechaDesde %> </strong></td>
-			<td>Fecha Hasta:</td>
-			<td align="left"><strong><%=fechaHasta %></strong></td>
-			<td></td>
-			<td></td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>Creadas:</td>
-			<td align="left"><strong><%=cantidadRefCreadas %></strong></td>
-			<td>Modificadas:</td>
-			<td align="left"><strong><%=cantidadRefModificadas %></strong></td>
-			<td></td>
-			<td></td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>Usuarios:</td>
-			<td colspan="5"><%=usuario %></td>
-			<td></td>
-		</tr>
-		<tr>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-		</tr>
-		<tr>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-		</tr>
-		<tr>
-			<td><strong>Cantidad</strong></td>
-			<td><strong>Acción</strong></td>
-			<td><strong>Código</strong></td>
-			<td><strong>Descripción</strong></td>
-			<td></td>
-			<td></td>
-			<td></td>
-		</tr>
-		<tr>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-		</tr>
-
-		<%
+<table bgcolor="#FCFCFC">
+	<tr>
+		<td>Fecha Desde:</td>
+		<td align="left"><strong><%=fechaDesde %> </strong> </td>
+		<td>Fecha Hasta:</td>
+		<td align="left"><strong><%=fechaHasta %></strong></td>
+		<td></td>
+		<td></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>Creadas:</td>
+		<td align="left"><strong><%=cantidadRefCreadas %></strong></td>
+		<td>Modificadas:</td>
+		<td align="left"><strong><%=cantidadRefModificadas %></strong></td>
+		<td></td>
+		<td></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>Usuarios:</td>
+		<td colspan="5"><%=usuario %> </td>
+		<td></td>
+	</tr>
+	<tr>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td><strong>Cantidad</strong></td>
+		<td><strong>Acción</strong></td>
+		<td><strong>Código</strong></td>
+		<td><strong>Descripción</strong></td>
+		<td></td>
+		<td></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+	</tr>
+	
+	<%
 
 	
 	if(listado!= null) { // && listaNombre.size()>0){
 		for(ReferenciasPorUsuarioReport l : listado){
 
 	%>
+	
+	<tr>
 
-		<tr>
+		<td><%=l.getCantidad() %></td>
+		<td><%=l.getAccion()%></td>
+		<td><%=l.getCodigo()%></td>
+		<td><%=l.getDescripcion()%></td>
+		<td></td>
+		<td></td>
+		<td></td>
 
-			<td><%=l.getCantidad() %></td>
-			<td><%=l.getAccion()%></td>
-			<td><%=l.getCodigo()%></td>
-			<td><%=l.getDescripcion()%></td>
-			<td></td>
-			<td></td>
-			<td></td>
-
-		</tr>
-		<%
+	</tr>
+	<%
 		}
 	}
 	
 	%>
-	</table>
+</table>
 
 </body>
 </html>

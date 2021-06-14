@@ -50,8 +50,7 @@ public class ConceptoFacturableValidator implements Validator{
 
 	@Override
 	public void validate(Object obj, Errors errors) {	
-		//Nada que Validar
-
+		// TODO Auto-generated method stub		
 	}
 	
 	public void validateRegMod(Object obj, Errors errors) {	
@@ -59,7 +58,8 @@ public class ConceptoFacturableValidator implements Validator{
 		//valido que no se repita el codigo de concepto facturable
 		List<ConceptoFacturable> conceptos = conceptoFacturableService.listarPorFiltro(null, c.getCodigo(), null, null, null, null, c.getClienteAsp());
 		if(conceptos != null && !conceptos.isEmpty()){
-			if(!("MODIFICACION").equals(c.getAccion()) || !conceptos.get(0).getId().equals(c.getId())) errors.rejectValue("codigo", "error.conceptoFacturable.errorCodigo");			
+			if(!("MODIFICACION").equals(c.getAccion()) || !conceptos.get(0).getId().equals(c.getId()))
+				errors.rejectValue("codigo", "error.conceptoFacturable.errorCodigo");			
 		}
 			
 	}

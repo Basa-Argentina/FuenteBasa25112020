@@ -43,14 +43,14 @@ public class Serie{
 	private String ultNroImpreso; //Nro Automatico, con posibilidad de modificacion.
 	private String condIvaClientes; //Abreviaturas de AfipCondIva split for '|'
 	private ClienteAsp cliente;
-	private  String accion;
-	private  Long idEmpresa;
-	private  Long idSucursal;
-	private  Long idAfipTipoComprobante;
-	private  String codigoAfipTipoComprobante;
-	private  String codigoEmpresa;
-	private  String codigoSucursal;
-	private  Date fechaParaCai;
+	private transient String accion;
+	private transient Long idEmpresa;
+	private transient Long idSucursal;
+	private transient Long idAfipTipoComprobante;
+	private transient String codigoAfipTipoComprobante;
+	private transient String codigoEmpresa;
+	private transient String codigoSucursal;
+	private transient Date fechaParaCai;
 
 	@Id @GeneratedValue(strategy=GenerationType.AUTO)
 	public Long getId() {

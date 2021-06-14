@@ -53,7 +53,6 @@ public class User implements UserDetails, Comparable<User>{
 	private String username;
 	private String password;
 	private Boolean enable;
-	@Transient
 	private Set<Group> groups;
 	private Persona persona;	
 	private Date passwordChangeDate;

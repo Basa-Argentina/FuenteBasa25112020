@@ -108,7 +108,7 @@ public class ListaDireccionController {
 		//buscamos en la base de datos y lo subimos a request.
 		List<Direccion> direcciones = null;	
 		Direccion direccion = (Direccion) session.getAttribute("direccionBusqueda");
-		direcciones = direccionService.listarTodosDireccionFiltrados(direccion);		
+		direcciones =(List<Direccion>) direccionService.listarTodosDireccionFiltrados(direccion);		
 		atributos.put("direcciones", direcciones);
 		
 		paises = paisService.listarPaises();

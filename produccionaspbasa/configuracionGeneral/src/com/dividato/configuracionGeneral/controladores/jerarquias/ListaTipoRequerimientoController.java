@@ -119,7 +119,7 @@ public class ListaTipoRequerimientoController {
 		TipoRequerimiento tipo = tipoRequerimientoService.obtenerPorId(id);
 		
 		//verificamos si esta asociado a algun Requerimiento
-		List<Object> req = new ArrayList<Object>(); // Listas objectos asociados y verificar que no posea dependencias
+		List<Object> req = new ArrayList<Object>(); //TODO Listas objectos asociados y verificar que no posea dependencias
 		if(!req.isEmpty()){
 			avisos.add(new ScreenMessageImp("error.tipoRequerimiento.requerimientoAsociado", null));
 			hayAvisosNeg = true;

@@ -90,7 +90,7 @@ public class FormExportacionReferenciaController {
 			HttpServletRequest request) {
 		List<TipoElemento> tipoElementos = null;		
 		TipoElemento tipoElemento = (TipoElemento) session.getAttribute("tipoElementoBusqueda");
-		tipoElementos =tipoElementoService.listarTipoElementoFiltrados(tipoElemento, obtenerClienteAspUser());		
+		tipoElementos =(List<TipoElemento>) tipoElementoService.listarTipoElementoFiltrados(tipoElemento, obtenerClienteAspUser());		
 		atributos.put("elementosDisponibles", tipoElementos);
 	
 		if(datosParaExportacion==null){
@@ -150,7 +150,7 @@ public class FormExportacionReferenciaController {
 				return exportarReferencia(session, atributos, datosParaExportacion, request);
 			}
 		}
-		if(clasificaciones.isEmpty()){
+		if(clasificaciones.size()==0){
 			result.reject("formularioExportacionReferencia.noClasificacionesEncontradas");
 			atributos.put("errores", true);
 			atributos.put("result", result);
@@ -174,6 +174,7 @@ public class FormExportacionReferenciaController {
 			ZipOutputStream zipOut = new ZipOutputStream(new BufferedOutputStream(baos)); 
 			ZipEntry entry = new ZipEntry("exportacion_referencias.xls");
 		    zipOut.putNextEntry(entry);
+		    //zipOut.setMethod(ZipOutputStream.DEFLATED);
 		    ExportadorExcelReferencias.getNewInstance(referenciaService).createWorkbook(zipOut, inp,clasificaciones,tiposElemento);
 		    zipOut.closeEntry();
 		    zipOut.close();
@@ -190,7 +191,8 @@ public class FormExportacionReferenciaController {
 			if(mailEnviarTo!=null){ 
 				enviarMail(mailEnviarTo,mailEnviarCopia,"referencias.zip", new ByteArrayInputStream(zip));
 			}
-
+			//pruebas eliminar
+			//enviarMail("emimaldo@gmail.com","referencias.zip", new ByteArrayInputStream(zip));
 			
 			
 		} catch (Exception e) {
@@ -217,11 +219,13 @@ public class FormExportacionReferenciaController {
 		}
 		return null;
 	}
-
+	//TODO: Informar cuando se excede el tamaño maximo de filas en el excel
 	private void enviarMail(String mailTo,String mailCopia, String nombreArchivo,ByteArrayInputStream inputStream){
 		try {
 			mailManager.enviarConAdjunto(mailTo, mailCopia, "Referencia exportada:", "Archivo de referencia exportada",nombreArchivo,inputStream,((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getPersona().getApellido());
-		} catch (MessagingException|IllegalStateException e) {
+		} catch (MessagingException e) {
+			logger.error("error al enviar mail",e);
+		} catch (IllegalStateException e){
 			logger.error("error al enviar mail",e);
 		}
 	}

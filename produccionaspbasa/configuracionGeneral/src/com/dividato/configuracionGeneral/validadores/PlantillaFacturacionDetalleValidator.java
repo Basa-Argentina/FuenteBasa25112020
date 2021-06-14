@@ -1,13 +1,16 @@
 package com.dividato.configuracionGeneral.validadores;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 import org.springframework.web.bind.WebDataBinder;
 
 import com.security.accesoDatos.configuraciongeneral.interfaz.PlantillaFacturacionDetalleService;
+import com.security.modelo.administracion.ClienteAsp;
 import com.security.modelo.configuraciongeneral.PlantillaFacturacionDetalle;
+import com.security.modelo.seguridad.User;
 /**
  * 
  * @author Victor Kenis
@@ -96,5 +99,9 @@ public class PlantillaFacturacionDetalleValidator implements Validator {
 		
 
 		
+	}
+	
+	private ClienteAsp obtenerClienteAspUser(){
+		return ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getCliente();
 	}
 }

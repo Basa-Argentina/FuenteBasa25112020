@@ -13,11 +13,11 @@
 <title><spring:message
 		code="formularioClienteConcepto.tituloConsulta" htmlEscape="true" />
 	- <spring:message code="general.empresa" htmlEscape="true" /> <spring:message
-		code="general.ambiente" htmlEscape="true" /></title>
+		code="general.ambiente" htmlEscape="true" />
+</title>
 <script type="text/javascript" src="js/jquery-1.5.js"></script>
 <script type="text/javascript" src="js/httprequest.js"></script>
-<script type="text/javascript" src="js/mavalos_jquery.tools.min.js"
-	language="JavaScript"></script>
+<script type="text/javascript" src="js/mavalos_jquery.tools.min.js" language="JavaScript"></script>
 <script type="text/javascript" src="js/jquery.contextmenu.js"></script>
 <script type="text/javascript" src="js/jquery.displaytag-ajax-1.2.js"></script>
 <script type="text/javascript"
@@ -31,13 +31,19 @@
 		<ul>
 			<li id="consultar" value=""><img src="images/consultar.png" /><font
 				size="2"><spring:message code="botones.consultar"
-						htmlEscape="true" /> </font></li>
+						htmlEscape="true" />
+			</font>
+			</li>
 			<li id="modificar"><img src="images/modificar.png" /> <font
 				size="2"><spring:message code="botones.modificar"
-						htmlEscape="true" /> </font></li>
+						htmlEscape="true" />
+			</font>
+			</li>
 			<li id="eliminar"><img src="images/eliminar.png" /> <font
 				size="2"><spring:message code="botones.eliminar"
-						htmlEscape="true" /> </font></li>
+						htmlEscape="true" />
+			</font>
+			</li>
 		</ul>
 	</div>
 	<div id="contenedorGeneral">
@@ -47,22 +53,21 @@
 			<fieldset style="border: none; text-align: left; width: 97%;">
 				<legend>
 					<font class="tituloForm" size="5"> <spring:message
-							code="formularioClienteConcepto.tituloConsulta" htmlEscape="true" />
-					</font>
+							code="formularioClienteConcepto.tituloConsulta"
+							htmlEscape="true" /> </font>
 				</legend>
 				<br />
 				<form:form action="filtrarClienteConcepto.html"
 					commandName="clienteConceptoBusqueda" method="post">
-					<input type="hidden" id="clienteId" name="clienteId"
-						value="<c:out value="${clienteId}" default="" />" />
+					<input type="hidden" id="clienteId" name="clienteId" value="<c:out value="${clienteId}" default="" />"/>
 					<fieldset>
 						<table width="100%">
 							<thead>
 								<tr>
 									<th align="left" id="busquedaImg"><font
 										style="color: #003090"> <spring:message
-												code="textos.buscar" htmlEscape="true" />
-									</font> <img id="busquedaImgSrcDown" src="images/skip_down.png"
+												code="textos.buscar" htmlEscape="true" /> </font> <img
+										id="busquedaImgSrcDown" src="images/skip_down.png"
 										title="<spring:message code="textos.cerrarPanel" htmlEscape="true"/>">
 										<img id="busquedaImgSrc" src="images/skip.png"
 										style="DISPLAY: none"
@@ -80,10 +85,11 @@
 											code="formularioClienteConcepto.cliente" htmlEscape="true" />
 									</td>
 									<td class="texto_ti"><spring:message
-											code="formularioClienteConcepto.listaPrecio"
-											htmlEscape="true" /></td>
+											code="formularioClienteConcepto.listaPrecio" htmlEscape="true" />
+									</td>
 									<td class="texto_ti"><spring:message
-											code="formularioClienteConcepto.concepto" htmlEscape="true" /></td>
+											code="formularioClienteConcepto.concepto"
+											htmlEscape="true" /></td>
 									<td class="texto_ti"><spring:message
 											code="formularioClienteConcepto.vacio" htmlEscape="true" />
 									</td>
@@ -112,11 +118,9 @@
 										</button>&nbsp;&nbsp; <label id="clienteCodigoLabel"
 										for="clienteCodigo"> <c:out
 												value="${clienteConceptoBusqueda.cliente.nombreYApellido}"
-												default="" />
-									</label></td>
-									<td class="texto_ti"><input type="text"
-										id="listaPrecioCodigo" name="listaPrecioCodigo" maxlength="6"
-										style="width: 50px;"
+												default="" /> </label></td>
+									<td class="texto_ti"><input type="text" id="listaPrecioCodigo"
+										name="listaPrecioCodigo" maxlength="6" style="width: 50px;"
 										value="<c:out value="${clienteConceptoBusqueda.listaPrecios.codigo}" default="" />"
 										<c:if test="${accion == 'CONSULTA'}">
 														readonly="readonly"
@@ -132,11 +136,9 @@
 										</button>&nbsp;&nbsp; <label id="listaPrecioCodigoLabel"
 										for="listaPrecioCodigo"> <c:out
 												value="${clienteConceptoBusqueda.listaPrecios.descripcion}"
-												default="" />
-									</label></td>
-									<td class="texto_ti"><input type="text"
-										id="conceptoCodigo" name="conceptoCodigo" maxlength="6"
-										style="width: 50px;"
+												default="" /> </label></td>
+									<td class="texto_ti"><input type="text" id="conceptoCodigo"
+										name="conceptoCodigo" maxlength="6" style="width: 50px;"
 										value="<c:out value="${clienteConceptoBusqueda.concepto.codigo}" default="" />"
 										<c:if test="${accion == 'CONSULTA'}">
 														readonly="readonly"
@@ -152,8 +154,8 @@
 										</button>&nbsp;&nbsp; <label id="conceptoCodigoLabel"
 										for="conceptoCodigo"> <c:out
 												value="${clienteConceptoBusqueda.concepto.descripcion}"
-												default="" />
-									</label></td>
+												default="" /> </label>
+									</td>
 								</tr>
 							</table>
 						</div>
@@ -178,7 +180,7 @@
 							class="celdaAlineadoIzquierda" />
 						<display:column property="concepto.descripcion"
 							titleKey="formularioClienteConcepto.concepto" sortable="true"
-							class="celdaAlineadoIzquierda" />
+							class="celdaAlineadoIzquierda" />						
 						<display:column class="celdaAlineadoCentrado">
 							<img id="information"
 								src="<%=request.getContextPath()%>/images/information.png"
@@ -214,11 +216,11 @@
 		<jsp:param name="clase" value="clientesPopupMap" />
 	</jsp:include>
 	<jsp:include page="popupBusqueda.jsp">
-		<jsp:param name="mapa" value="listaPreciosPopupMap" />
-		<jsp:param name="clase" value="listaPreciosPopupMap" />
+		<jsp:param name="mapa" value="listaPreciosPopupMap" /> 
+		<jsp:param name="clase" value="listaPreciosPopupMap" /> 
 	</jsp:include>
 	<jsp:include page="popupBusqueda.jsp">
-		<jsp:param name="mapa" value="conceptosPopupMap" />
-		<jsp:param name="clase" value="conceptosPopupMap" />
+		<jsp:param name="mapa" value="conceptosPopupMap" /> 
+		<jsp:param name="clase" value="conceptosPopupMap" /> 
 	</jsp:include>
 </html>

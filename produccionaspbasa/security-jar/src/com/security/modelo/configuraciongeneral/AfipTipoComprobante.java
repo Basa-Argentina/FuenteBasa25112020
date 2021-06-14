@@ -27,7 +27,7 @@ public class AfipTipoComprobante {
 	private String descripcion;
 	private String letra;
 	private String tipo; //(FF = Factura, RR = Remito, DI = Documento Interno)
-	private List<String> codigos;
+	private transient List<String> codigos;
 	
 	@Id
 	public Long getId() {

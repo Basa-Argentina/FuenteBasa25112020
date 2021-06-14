@@ -26,7 +26,7 @@ import com.security.accesoDatos.interfaz.CampoComparacion;
 public abstract class GestorHibernate <E>{
 	private static Logger logger = Logger.getLogger(GestorHibernate.class);
 	
-
+	//protected Session session;
 	private HibernateControl hibernateControl;
 
 	/**
@@ -36,7 +36,7 @@ public abstract class GestorHibernate <E>{
 	 */
 	
 	public GestorHibernate(HibernateControl hibernateControl) {
-
+		//this.session = hibernateControl.getSession();
 		this.hibernateControl = hibernateControl;
 	}
 	
@@ -120,7 +120,6 @@ public abstract class GestorHibernate <E>{
         }
 	}
 	
-	
 	/**
 	 * Eliminar un objeto por su clase e id
 	 * @param clase
@@ -132,7 +131,6 @@ public abstract class GestorHibernate <E>{
 		try {
 			//obtenemos una sesión
 			session = getSession();
-			System.out.println();
 			//creamos una nueva transacción
 			tx = session.getTransaction();
 			tx.begin();

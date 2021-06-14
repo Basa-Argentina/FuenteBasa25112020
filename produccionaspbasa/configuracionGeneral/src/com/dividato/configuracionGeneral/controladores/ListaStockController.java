@@ -132,7 +132,7 @@ public class ListaStockController {
 		List<StockResumen> stocks = null;	
 		Stock stock = (Stock) session.getAttribute("stockBusqueda");		
 		if(stock != null && stock.getCodigoDeposito() != null && !"".equals(stock.getCodigoDeposito())){
-			stocks =stockService.groupStock(stock, obtenerClienteAspUser());			
+			stocks =(List<StockResumen>) stockService.groupStock(stock, obtenerClienteAspUser());			
 			session.setAttribute("stockBusqueda", stock);
 		}
 		if(stock == null){

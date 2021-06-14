@@ -63,14 +63,13 @@ public class LoteReferenciaValidator implements Validator{
 		
 		List<Referencia> lista = lote.getReferencias();
 		String idReferencias = "";
-		boolean primeraVez = true;
-		boolean saltea = false;
-		boolean entra = false;
+		boolean primeraVez = true, saltea = false, entra = false;
 		Integer cantRefe = new Integer(0);
 		
 		if(lista !=null && lista.size()>0){
 			logger.error(obtenerUser().getPersona() + "--Entra a chequear la lista de referencias.");
 			
+			//for(Referencia ref : lista)
 			for (Iterator<Referencia> iter = lista.iterator(); iter.hasNext();)
 			{
 				Referencia ref = iter.next();
@@ -126,11 +125,35 @@ public class LoteReferenciaValidator implements Validator{
 					
 					errors.rejectValue("referencias", "formularioLoteReferencia.error.referenciasDuplicadas");
 					logger.error(obtenerUser().getPersona()+ "--Error, referencias ya cargadas en la base de datos");				
+//					for(Referencia refe : lista)
+//					{
+//						boolean existe = false;
+//						
+//						if(lote.getModificadas()!=null && lote.getModificadas().size()>0)
+//							for(Referencia refMod : lote.getModificadas())
+//								if(refMod.getId()!=null && refMod.getId().longValue()==refe.getId().longValue()){
+//									existe = true;
+//									break;
+//								}
+//						
+//						if(lote.getEliminadas()!=null && lote.getEliminadas().size()>0 && !existe)
+//							for(Referencia refEli : lote.getEliminadas())
+//								if(refEli.getId()!= null && refEli.getId().longValue()==refe.getId().longValue()){
+//									existe = true;
+//									break;
+//								}
+//						
+//						if(!existe){
+//							errors.rejectValue("referencias", "formularioLoteReferencia.error.referenciasDuplicadas");
+//							logger.error(obtenerUser().getPersona()+ "--Error, referencias ya cargadas en la base de datos");
+//							break;
+//						}
+//					}
 				}
 			}
 			
 			if(lote.getIndiceIndividual()){
-				Referencia[] array =lista.toArray(new Referencia[lista.size()]);
+				Referencia[] array = (Referencia[])lista.toArray(new Referencia[lista.size()]);
 				String contenedor = array[0].getElementoContenedor().getCodigo();
 				for(Referencia refe : lista){
 					System.out.println(refe.getTexto1());

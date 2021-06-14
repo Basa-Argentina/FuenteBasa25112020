@@ -35,16 +35,16 @@ public class ElementoHistorico {
 	private String codigoTipoElemento;
 	private String nombreTipoElemento;
 	
-	private  Date fechaDesde;
-	private  Date fechaHasta;
-	private  Long codigoUsuario;
-	private  String codigoContenedor;
+	private transient Date fechaDesde;
+	private transient Date fechaHasta;
+	private transient Long codigoUsuario;
+	private transient String codigoContenedor;
 	
 	
-	private  Integer numeroPagina;
-	private  Integer tamañoPagina;
-	private  String fieldOrder;
-	private  String sortOrder;
+	private transient Integer numeroPagina;
+	private transient Integer tamañoPagina;
+	private transient String fieldOrder;
+	private transient String sortOrder;
 	
 	@Id @GeneratedValue(strategy=GenerationType.AUTO)
 	public Long getId() {

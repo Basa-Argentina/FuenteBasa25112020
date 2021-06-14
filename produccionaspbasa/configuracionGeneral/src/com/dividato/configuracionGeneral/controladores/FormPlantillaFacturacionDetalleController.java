@@ -20,12 +20,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.dividato.configuracionGeneral.validadores.PlantillaFacturacionDetalleValidator;
+import com.dividato.configuracionGeneral.validadores.PlantillaFacturacionValidator;
+import com.security.accesoDatos.configuraciongeneral.interfaz.AfipTipoComprobanteService;
 import com.security.accesoDatos.configuraciongeneral.interfaz.ConceptoFacturableService;
 import com.security.accesoDatos.configuraciongeneral.interfaz.PlantillaFacturacionDetalleService;
+import com.security.accesoDatos.configuraciongeneral.interfaz.PlantillaFacturacionService;
 import com.security.modelo.administracion.ClienteAsp;
-
+import com.security.modelo.configuraciongeneral.AfipTipoComprobante;
 import com.security.modelo.configuraciongeneral.ConceptoFacturable;
 import com.security.modelo.configuraciongeneral.PlantillaFacturacionDetalle;
+import com.security.modelo.configuraciongeneral.RemitoDetalle;
 import com.security.modelo.seguridad.User;
 import com.security.utils.ScreenMessage;
 import com.security.utils.ScreenMessageImp;
@@ -126,9 +130,9 @@ public class FormPlantillaFacturacionDetalleController {
 		}
 		if(!accion.equals("NUEVO")){
 			
-			if(plantillaDetalles == null || plantillaDetalles.isEmpty()){
+			if(plantillaDetalles == null || plantillaDetalles.size()<= 0){
 				plantillaDetalles = plantillaFacturacionDetalleService.listarPlantillaDetallesPorPlantilla(idPlantilla, obtenerClienteAspUser());
-				if(plantillaDetalles != null && !plantillaDetalles.isEmpty())
+				if(plantillaDetalles != null && plantillaDetalles.size()>0)
 					session.setAttribute("detallesSession", plantillaDetalles);
 			}	
 		}
@@ -275,10 +279,23 @@ public class FormPlantillaFacturacionDetalleController {
 	
 /////////////////////////////////////////////////////METODOS AUXILIARES/////////////////////////////////////////////////////////////
 	
-
+	private void setData(PlantillaFacturacionDetalle plantillaDetalle, PlantillaFacturacionDetalle plantillaFacturacionDetalleFormulario){
+		if(plantillaFacturacionDetalleFormulario != null){	
+			plantillaDetalle.setId(plantillaFacturacionDetalleFormulario.getId());
+			plantillaDetalle.setCantidadSinCosto(plantillaFacturacionDetalleFormulario.getCantidadSinCosto());
+			plantillaDetalle.setCodigoConcepto(plantillaFacturacionDetalleFormulario.getCodigoConcepto());
+			plantillaDetalle.setConceptoFacturable(plantillaFacturacionDetalleFormulario.getConceptoFacturable());
+			plantillaDetalle.setDescripcionConcepto(plantillaFacturacionDetalleFormulario.getDescripcionConcepto());
+			plantillaDetalle.setOrden(plantillaFacturacionDetalleFormulario.getOrden());
+			
+		}
+	}
 
 	private ClienteAsp obtenerClienteAspUser(){
 		return ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getCliente();
 	}
 
+	private User obtenerUser(){
+		return ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+	}
 }

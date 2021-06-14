@@ -44,6 +44,7 @@ public class SucursalValidator implements Validator {
 	 * @param binder
 	 */
 	public void initDataBinder(WebDataBinder binder) {
+//		binder.setRequiredFields(new String[] {});
 		binder.setRequiredFields(new String[] {
 				"codigo","descripcion","direccion.numero",
 				"direccion.calle","idEmpresa"

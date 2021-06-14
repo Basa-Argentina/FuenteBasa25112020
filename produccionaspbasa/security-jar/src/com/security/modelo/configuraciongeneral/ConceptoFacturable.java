@@ -49,9 +49,9 @@ public class ConceptoFacturable implements Comparable<ConceptoFacturable>{
 	private Date fechaRegistro;
 	private Date fechaActualizacion;
 	private ClienteAsp clienteAsp;
-	private String accion;
-	private String impuestoCodigo;
-	private Long tipoId;
+	private transient String accion;
+	private transient String impuestoCodigo;
+	private transient Long tipoId;
 	
 	@Id @GeneratedValue(strategy=GenerationType.AUTO)
 	public Long getId() {

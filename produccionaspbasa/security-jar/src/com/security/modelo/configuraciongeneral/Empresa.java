@@ -1,10 +1,3 @@
-/*
- * Copyright 2011 Dividato. All rights reserved
- *
- * Copyright Version 1.0
- *
- * Create on 10/05/2011
- */
 package com.security.modelo.configuraciongeneral;
 
 import java.util.Date;
@@ -56,14 +49,14 @@ public class Empresa implements Comparable<Empresa>{
 	private String numeroEstablecimiento;
 	private String sedeTimbrado;
 	private Date fechaInicioActividad;
-	private  String accion;
-	private  Long idTipoDocSel;
-	private  Long idBarrio;
-	private  Long idDireccion;
-	private  Long idAfipCondIva;
-	private  Long idRazonSocial;
-	private  String codigoSerie1;
-	private  String codigoSerie2;
+	private transient String accion;
+	private transient Long idTipoDocSel;
+	private transient Long idBarrio;
+	private transient Long idDireccion;
+	private transient Long idAfipCondIva;
+	private transient Long idRazonSocial;
+	private transient String codigoSerie1;
+	private transient String codigoSerie2;
 	
 	
 	public Empresa() {

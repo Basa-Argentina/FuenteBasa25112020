@@ -13,6 +13,7 @@ import com.security.accesoDatos.interfaz.GeneralServiceInterface;
 import com.security.modelo.administracion.ClienteAsp;
 import com.security.modelo.configuraciongeneral.LoteFacturacionDetalle;
 import com.security.modelo.configuraciongeneral.LoteFacturacion;
+import com.security.modelo.configuraciongeneral.LoteFacturacionDetalle;
 
 /**
  * @author Victor Kenis

@@ -69,7 +69,7 @@ import com.security.utils.CampoDisplayTag;
 import com.security.utils.Constantes;
 
 /**
-
+ * TODO: Progresivamente todos los popup de las búsquedas deberían levantarse con este controlador.
  * De esa forma mantenemos el código en un único lugar y no replicado en todos los controladores que lo usan como ahora.
  * 
  * @author FedeMz
@@ -714,15 +714,21 @@ public class PopUpAndSearchController {
 			@RequestParam(value="dependencia", required=true) String codigoCliente,
 			@RequestParam(value="codigoTipoElemento",required=false) String codigoTipoElemento,
 			@RequestParam(value="limitarCliente",required=false) Boolean limitarCliente){
-
+	
+		String codigo1 = codigo.trim();
 		String respuesta = "";
 		ClienteAsp clienteAsp = obtenerClienteAsp();
-		if(!codigo.isEmpty() && !codigoCliente.isEmpty()){
-			Elemento ele = elementoService.getContenedorByCodigo(codigo,codigoCliente,limitarCliente,clienteAsp,codigoTipoElemento);
+		if(!codigo1.isEmpty() && !codigoCliente.isEmpty()){
+			Elemento ele = elementoService.getContenedorByCodigo(codigo1,codigoCliente,limitarCliente,clienteAsp,codigoTipoElemento);
+			
 			if(ele!=null){
 				respuesta = ele.getTipoElemento().getDescripcion();
 			}
+			else if (ele == null){
+				respuesta = "Error de Caja";
+			}
 		}
+		
 		
 		try {
 			response.setContentType("text/xml"); 
@@ -796,7 +802,9 @@ public class PopUpAndSearchController {
 		ClienteAsp clienteAsp = obtenerClienteAsp();
 		if(!codigo.isEmpty() && !codigoCliente.isEmpty()){
 			Elemento ele = elementoService.getContenedorOElementoByCodigo(codigo,codigoCliente,clienteAsp,limitarCliente,null);
+			
 			if(ele!=null){
+				
 				respuesta = ele.getTipoElemento().getDescripcion();
 			}
 		}
@@ -1020,7 +1028,7 @@ public class PopUpAndSearchController {
 		atributos.put("clase", "tipoOperacionPopupMap");
 		definirPopupTipoOperacion(atributos, descripcionTipoOperacion);
 		return "popupBusquedaNuevo";
-
+		//return "popupBusquedaNuevoPaginado";
 	}
 	
 	@RequestMapping(value="/popUpSeleccionTipoRequerimiento.html")
@@ -1934,6 +1942,10 @@ public class PopUpAndSearchController {
 		atributos.put("seriesPopupMap", seriesPopupMap);
 	}
 	
+	private void definirPopupLecturas(Map<String,Object> atributos, String val, String codigoEmpresa){
+		definirPopupLecturas(atributos, val, codigoEmpresa,null);
+	}
+	
 	private void definirPopupLecturas(Map<String,Object> atributos, String val, String codigoEmpresa,Boolean utilizada){
 		//creo un hashmap para almacenar los parametros del popup
 		Map<String,Object> lecturasPopupMap = new HashMap<String, Object>();
@@ -2285,7 +2297,7 @@ public class PopUpAndSearchController {
 		campos.add(new CampoDisplayTag("direccion.barrio.nombre","formularioEmpleado.datosEmpleado.direccion.barrio",false));
 		campos.add(new CampoDisplayTag("direccion.barrio.localidad.nombre","formularioEmpleado.datosEmpleado.direccion.localidad",false));
 		campos.add(new CampoDisplayTag("direccion.barrio.localidad.provincia.nombre","formularioEmpleado.datosEmpleado.direccion.provincia",false));
-
+		//campos.add(new CampoDisplayTag("descripcion","formularioSucursal.datosSucursal.descripcion",false));
 		//Coleccion de objetos a utilizar en el popup
 		direccionesPopupMap.put("campos", campos);
 		if(clienteCodigo != "" && clienteCodigo != null)

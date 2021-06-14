@@ -1,12 +1,17 @@
 package com.security.servicios;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.Properties;
 
 import javax.activation.DataHandler;
+import javax.activation.FileDataSource;
 import javax.mail.BodyPart;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -79,11 +84,11 @@ public class MailManager {
         Transport transport = session.getTransport(protocolo);
         transport.connect(host,puerto, nombreUsuario,claveAcceso);
         
-        InternetAddress from = null;
+        InternetAddress from = null;;
 		try {
 			from = new InternetAddress(email,sistema);
 		} catch (UnsupportedEncodingException e) {
-			// Auto-generated catch block
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     	InternetAddress paraAddress = new InternetAddress(para);
@@ -150,9 +155,9 @@ public class MailManager {
             Transport transport = session.getTransport(protocolo);
             transport.connect(host,puerto, nombreUsuario,claveAcceso);
             
-            InternetAddress from = null;
-            InternetAddress bcc = null;
-            //: Validar to
+            InternetAddress from = null;;
+            InternetAddress bcc = null;;
+            //TODO: Validar to
             
     		try {
     			from = new InternetAddress(email,sistema);

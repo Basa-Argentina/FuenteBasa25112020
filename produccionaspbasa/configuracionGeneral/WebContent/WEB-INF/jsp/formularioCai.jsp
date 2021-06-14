@@ -2,7 +2,7 @@
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@ taglib prefix="display" uri="http://displaytag.sf.net"%>
+<%@ taglib prefix="display" uri="http://displaytag.sf.net" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -11,14 +11,16 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <jsp:include page="styles.jsp" />
 <title><c:if test="${accion == 'NUEVO'}">
-		<spring:message code="formularioCai.titulo.registar" htmlEscape="true" />
+		<spring:message code="formularioCai.titulo.registar"
+			htmlEscape="true" />
 	</c:if> <c:if test="${accion == 'MODIFICACION'}">
 		<spring:message code="formularioCai.titulo.modificar"
 			htmlEscape="true" />
 	</c:if> <c:if test="${accion == 'CONSULTA'}">
 		<spring:message code="formularioCai.titulo.modificar"
 			htmlEscape="true" />
-	</c:if></title>
+	</c:if>
+</title>
 <script type="text/javascript" src="js/jquery-1.5.js"></script>
 <script type="text/javascript" src="js/httprequest.js"></script>
 <script type="text/javascript" language="JavaScript"
@@ -26,8 +28,7 @@
 <script type="text/javascript" src="js/mavalos_formulario_cai.js"></script>
 <script type="text/javascript" src="js/ini.js" language="JavaScript"></script>
 <script type="text/javascript" src="js/doblelistas.js"></script>
-<script type="text/javascript" src="js/calendar_us.js"
-	language="JavaScript"></script>
+<script type="text/javascript" src="js/calendar_us.js" language="JavaScript"></script>
 <style type="text/css">
 .cascade-loading {
 	background: transparent
@@ -36,8 +37,7 @@
 }
 </style>
 </head>
-<body
-	onload="mostrarErrores(${errores}); mostrarAvisos(${hayAvisos || hayAvisosNeg})">
+<body onload="mostrarErrores(${errores}); mostrarAvisos(${hayAvisos || hayAvisosNeg})">
 	<div id="contenedorGeneral">
 		<jsp:include page="innerMenu.jsp" />
 		<div class="contenido" align="left">
@@ -54,8 +54,7 @@
 						</c:if> <c:if test="${accion == 'CONSULTA'}">
 							<spring:message code="formularioCai.titulo.consultar"
 								htmlEscape="true" />
-						</c:if>
-					</font>
+						</c:if> </font>
 				</legend>
 				<br />
 				<form:form name="formCai" action="guardarActualizarCai.html"
@@ -64,7 +63,7 @@
 					<input type="hidden" id="accion" name="accion"
 						value="<c:out value="${accion}" default="" />" />
 					<input type="hidden" id="accionSerie" name="accionSerie"
-						value="<c:out value="${accionSerie}" default="" />" />
+						value="<c:out value="${accionSerie}" default="" />" />	
 					<input type="hidden" id="id" name="id"
 						value="<c:out value="${caiFormulario.id}" default="" />" />
 					<fieldset>
@@ -95,36 +94,38 @@
 											<table>
 												<tr>
 													<td class="texto_ti"><spring:message
-															code="formularioCai.datosCai.numero" htmlEscape="true" />
+															code="formularioCai.datosCai.numero"
+															htmlEscape="true" />
 													</td>
 													<td class="texto_ti"><spring:message
 															code="formularioCai.datosCai.vencimiento"
-															htmlEscape="true" /></td>
+															htmlEscape="true" />
+													</td>																				
 												</tr>
-												<tr>
-													<td class="texto_ti"><input type="text" id="numero"
-														maxlength="14" name="numero" style="width: 100px;"
-														class="requerido"
+												<tr>													
+													<td class="texto_ti"><input type="text" id="numero" maxlength="14"
+														name="numero" style="width: 100px;" class="requerido"
 														value="<c:out value="${caiFormulario.numero}" default="" />"
 														<c:if test="${accion == 'CONSULTA'}">
 															readonly="readonly"
-														</c:if> />
-													</td>
-													<td class="texto_ti"><input type="text"
-														id="fechaVencimiento" name="fechaVencimiento"
-														maxlength="10" class="requerido"
-														value="<c:out value="${caiFormulario.fechaVencimientoStr}" default="" />"
-														<c:if test="${accion == 'CONSULTA'}">
+														</c:if>/>
+													</td>													
+													<td class="texto_ti">
+														<input type="text" id="fechaVencimiento" name="fechaVencimiento" 
+															maxlength="10" class="requerido"
+															value="<c:out value="${caiFormulario.fechaVencimientoStr}" default="" />"
+															<c:if test="${accion == 'CONSULTA'}">
 																readonly="readonly"
-															</c:if> />
-														<script type="text/javascript">
+															</c:if>/>
+															<script type="text/javascript">
 																new tcal ({
 																	// form name
 																	'formname': 'formCai',
 																	// input name
 																	'controlname': 'fechaVencimiento'
 																});
-															</script></td>
+															</script>
+													</td>
 												</tr>
 											</table>
 										</fieldset>
@@ -144,7 +145,7 @@
 							</table>
 						</div>
 					</fieldset>
-				</form:form>
+				</form:form>				
 			</fieldset>
 			<br style="font-size: xx-small;" />
 			<c:if test="${accion != 'CONSULTA'}">
@@ -177,7 +178,7 @@
 	</div>
 	<div id="darkLayer" class="darkClassWithoutHeight"
 		style="height: 130%;">&nbsp;</div>
-	<jsp:include page="fieldErrors.jsp" />
-	<jsp:include page="fieldAvisos.jsp" />
+	<jsp:include page="fieldErrors.jsp"/>
+	<jsp:include page="fieldAvisos.jsp"/>
 </body>
 </html>

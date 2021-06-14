@@ -29,8 +29,8 @@ public class Jerarquia {
 	private Integer horizontalHasta;
 	private Integer verticalDesde;
 	private Integer verticalHasta;
-	private  String accion;
-	private  Long tipoId;
+	private transient String accion;
+	private transient Long tipoId;
 	
 	@Id @GeneratedValue(strategy=GenerationType.AUTO)
 	public Long getId() {

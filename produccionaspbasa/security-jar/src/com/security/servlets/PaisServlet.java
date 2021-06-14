@@ -16,12 +16,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
-
+import org.springframework.security.context.SecurityContextHolder;
 
 import com.security.accesoDatos.hibernate.HibernateControl;
 import com.security.accesoDatos.hibernate.PaisServiceImp;
 import com.security.accesoDatos.interfaz.PaisService;
+import com.security.modelo.administracion.ClienteAsp;
 import com.security.modelo.general.Pais;
+import com.security.modelo.seguridad.User;
 
 /**
  * @author Ezequiel Beccaria
@@ -31,7 +33,6 @@ public class PaisServlet extends HttpServlet{
 	private static final long serialVersionUID = 7100679955581101875L;
 	private static Logger logger = Logger.getLogger(PaisServlet.class);
 	
-	@Override
 	public void doGet (HttpServletRequest request, HttpServletResponse response)
 	throws ServletException, IOException {	
 		response.setContentType("text/xml"); 
@@ -62,5 +63,8 @@ public class PaisServlet extends HttpServlet{
 		else
 			return null;
 	}
-
+	
+	private ClienteAsp obtenerClienteAspUser(){
+		return ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getCliente();
+	}
 }

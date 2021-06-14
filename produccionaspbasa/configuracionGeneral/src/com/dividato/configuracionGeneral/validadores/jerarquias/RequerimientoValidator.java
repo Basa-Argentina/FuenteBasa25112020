@@ -12,6 +12,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 import org.springframework.web.bind.WebDataBinder;
+
+import com.security.accesoDatos.configuraciongeneral.interfaz.ClienteEmpService;
 import com.security.accesoDatos.jerarquias.interfaz.TipoOperacionService;
 import com.security.modelo.administracion.ClienteAsp;
 import com.security.modelo.configuraciongeneral.Deposito;
@@ -86,7 +88,11 @@ public class RequerimientoValidator implements Validator{
 				errors.rejectValue("fechaEntrega", "required");
 				banderaRequeridos = true;
 			}
-
+			
+//			if(requerimiento.getListaPrecioCodigo() == null || "".equals(requerimiento.getListaPrecioCodigo())){
+//				errors.rejectValue("listaPrecioCodigo", "required");
+//				banderaRequeridos = true;	
+//			}
 			
 			if(requerimiento.getTipoRequerimiento()!=null 
 					&& requerimiento.getTipoRequerimiento().getCargaPorCantidad()!=null && requerimiento.getTipoRequerimiento().getCargaPorCantidad()==true){
@@ -132,6 +138,21 @@ public class RequerimientoValidator implements Validator{
 					Deposito deposito = null;
 					boolean banderaDepositoDiferente = false;
 					for(RequerimientoReferencia requerimientoReferencia:requerimiento.getListaElementos()){
+//						Se comenta porque se busca el contenedor
+//						if(deposito==null){
+//							if(requerimientoReferencia.getReferencia()!=null && requerimientoReferencia.getReferencia().getElemento()!=null 
+//									&& requerimientoReferencia.getReferencia().getElemento().getDepositoActual()!=null)
+//								deposito = requerimientoReferencia.getReferencia().getElemento().getDepositoActual();
+//						}
+//						else{
+//							if(requerimientoReferencia.getReferencia()!=null && requerimientoReferencia.getReferencia().getElemento()!=null 
+//									&& requerimientoReferencia.getReferencia().getElemento().getDepositoActual()!=null 
+//									&& requerimientoReferencia.getReferencia().getElemento().getDepositoActual().getId().longValue() != deposito.getId().longValue()){
+//								banderaDepositoDiferente = true;
+//								break;
+//							}
+//								
+//						}
 						
 						if(deposito==null){
 							if(requerimientoReferencia.getReferencia()!=null && requerimientoReferencia.getReferencia().getElemento()!=null 

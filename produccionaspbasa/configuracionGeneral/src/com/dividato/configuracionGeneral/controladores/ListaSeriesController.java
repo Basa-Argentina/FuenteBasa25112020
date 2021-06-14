@@ -29,6 +29,7 @@ import com.dividato.configuracionGeneral.validadores.SerieBusquedaValidator;
 import com.security.accesoDatos.configuraciongeneral.interfaz.EmpresaService;
 import com.security.accesoDatos.configuraciongeneral.interfaz.SerieService;
 import com.security.modelo.administracion.ClienteAsp;
+import com.security.modelo.configuraciongeneral.Elemento;
 import com.security.modelo.configuraciongeneral.Empresa;
 import com.security.modelo.configuraciongeneral.Serie;
 import com.security.modelo.seguridad.User;
@@ -182,14 +183,14 @@ public class ListaSeriesController {
 		try {
 				List<Serie> series = serieService.listarSerieFiltradas(null, obtenerClienteAspUser());
 				if(!series.isEmpty()){
-					Serie s =series.get(series.size()-1);
+					Serie s = (Serie)series.get(series.size()-1);
 					Long codigo = Long.valueOf(s.getCodigo())+1;
 					response.getWriter().write(String.valueOf(codigo));
 				}else{
 					response.getWriter().write("");
 				}
 		} catch (IOException e) {
-			// Auto-generated catch block
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

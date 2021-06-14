@@ -134,7 +134,7 @@ public class ListaSeccionController {
 		List<Seccion> secciones = null;	
 		Seccion seccion = (Seccion) session.getAttribute("seccionBusqueda");
 		
-		secciones =seccionService.listarSeccionFiltradas(seccion, obtenerClienteAspUser());		
+		secciones =(List<Seccion>) seccionService.listarSeccionFiltradas(seccion, obtenerClienteAspUser());		
 		atributos.put("secciones", secciones);
 		
 		//si no hay errores

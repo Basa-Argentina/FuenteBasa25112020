@@ -39,14 +39,14 @@ $(document).ready(function() {
 				     var total = parseInt($(this).find('#hdn_cantidadImagenes').val());
 				     if(total > 0){
 				    	 popupOnDiv($('#pop'),'darkLayer');
-				    	 $("#jpgDigital").attr("src",'viewFileJPGLoteRearchivo.html?fileName='+$(this).find('#hdn_pathArchivoJPGDigital').val()+'1.jpg');
+				    	 $("#jpgDigital").attr("src",'verLegajo.html?fileName='+$(this).find('#hdn_pathArchivoJPGDigital').val());
 				    	 popupOffDiv($('#pop'),'darkLayer');
 				     }
 				 }
 		     }
 		     if($("#nombreArchivoDigital").val().match(/.pdf$/)){
 		    	 popupOnDiv($('#pop'),'darkLayer');
-		    	 $("#jpgDigital").attr("src",'../FlexPaper/common/simple_document.jsp?doc='+$(this).find('#hdn_nombreArchivoDigital').val()+'&ruta='+$(this).find('#hdn_pathArchivoJPGDigital').val());
+		    	 $("#jpgDigital").attr("src",'verLegajo.html?fileName='+$(this).find('#hdn_pathDisco').val()+$(this).find('#hdn_pathArchivoDigital').val()+$(this).find('#hdn_nombreArchivoDigital').val());
 		    	 popupOffDiv($('#pop'),'darkLayer');
 		     }
 		     
@@ -60,6 +60,8 @@ $(document).ready(function() {
 	     
 	 });
 	
+	//$("#numero1Str").focus();
+
 	$("#btnGuardar").click(function(){
 		$("#codigoEmpresa", top.document).attr('readonly','readonly');
 		$("#buscaEmpresa", top.document).attr('disabled','disabled');
@@ -73,9 +75,9 @@ $(document).ready(function() {
 	$("#btnCancelar").click(function(){
 		document.location="seccionRearchivos.html";
 	});
-	var focusEn = $("#hacerFocusEn").val();
-	if(focusEn!="")
-		$("#"+focusEn).focus();
+	//var focusEn = $("#hacerFocusEn").val();
+	//if(focusEn!="")
+	//	$("#"+focusEn).focus();
 	//Tooltips
 	$("img[title]").tooltip();
 	
@@ -84,6 +86,12 @@ $(document).ready(function() {
   	  abrirPopupUsuario();
     });
     
+    $("#codigoContenedor").keyup(function(){              
+        var ta      =   $("#codigoContenedor");
+        letras      =   ta.val().replace(/ /g, "");
+        ta.val(letras)
+	}); 
+
     $("#codigoUsuario").blur(function(){
 		getAjax('seleccionUsuario.html','codigo','codigoUsuario',getUsuarioCallBack);
 	});
@@ -332,7 +340,7 @@ function getContenedorCallBack(sResponseText){
 }
 
 function myDownKeyPressHandler(evtobj) {
-	var unicode=evtobj.charCode? evtobj.charCode : evtobj.keyCode;
+var unicode=evtobj.charCode? evtobj.charCode : evtobj.keyCode;
   if(unicode == 17) isCtrl=true;
   //13 = enter
   if(unicode == 13 && isCtrl == true) {
@@ -340,8 +348,21 @@ function myDownKeyPressHandler(evtobj) {
 	document.forms[0].submit();
 	return false;
   }
-
+  
+  if (unicode == 17 ){
+   let element = evtobj.target;
+   let tabindex = element.tabIndex ;
+               tabindex++;
+               //while element exist or it's readonly and tabindex not reached max do
+               while(($("[TabIndex='"+tabindex+"']").length == 0 || $("[TabIndex='"+tabindex+"']:not([readonly])").length == 0) && tabindex != 150 ){
+                   tabindex++;
+               }
+               if(tabindex == 150){ tabindex = 1 } //reseting tabindex if finished
+               $("[TabIndex='"+tabindex+"']").focus()
+                    
 }
+}
+
 function myUpKeyPressHandler(evtobj) {
   var unicode=evtobj.charCode? evtobj.charCode : evtobj.keyCode;
   if(unicode == 17) isCtrl=false;
@@ -443,19 +464,19 @@ function view2() {
 function cargarComboJPGDigital(cantidad){
 	if(cantidad==null || cantidad == undefined)
 		return;
-	
+/*	
 	if($("#nombreArchivoDigital").val().match(/.tif$/)){
 		var total = parseInt(cantidad);
 		var select = document.getElementById ('selectCantidadJPG');
 		while (select.options.length) { 
 			select.options.remove (0); 
-	    } 
+	    }
 	
 	    for (var i=1; i <= total; i++) { 
 	        var option = new Option (i, i); 
 	        select.options.add (option); 
 	    }
-	}
+	} */
 	
     $('#imageDiv').slideDown();
 }

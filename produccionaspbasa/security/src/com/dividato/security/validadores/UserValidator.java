@@ -52,7 +52,7 @@ public class UserValidator implements Validator {
 		User user = (User) command;
 		if(user.getAccion().equals("NUEVO")){
 			List<User> listaSalida = userService.listarTodosFiltradoPorLista(new CampoComparacion("username",user.getUsername()));
-			if(!listaSalida.isEmpty()){	
+			if(listaSalida.size()>0){	
 				errors.rejectValue("username", "error.user.errorClavePrimaria");
 			}		
 		}

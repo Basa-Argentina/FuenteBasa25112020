@@ -12,9 +12,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.mail.Session;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.hibernate.mapping.Array;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -49,11 +52,14 @@ import com.security.accesoDatos.configuraciongeneral.interfaz.RemitoDetalleServi
 import com.security.accesoDatos.configuraciongeneral.interfaz.RemitoService;
 import com.security.accesoDatos.configuraciongeneral.interfaz.SecuenciaTablaService;
 import com.security.accesoDatos.configuraciongeneral.interfaz.SerieService;
+import com.security.accesoDatos.configuraciongeneral.interfaz.TipoElementoService;
 import com.security.accesoDatos.configuraciongeneral.interfaz.TransporteService;
 import com.security.modelo.administracion.ClienteAsp;
+import com.security.modelo.configuraciongeneral.ClienteDireccion;
 import com.security.modelo.configuraciongeneral.ClienteEmp;
 import com.security.modelo.configuraciongeneral.Deposito;
 import com.security.modelo.configuraciongeneral.Elemento;
+import com.security.modelo.configuraciongeneral.Empleado;
 import com.security.modelo.configuraciongeneral.Empresa;
 import com.security.modelo.configuraciongeneral.Lectura;
 import com.security.modelo.configuraciongeneral.LecturaDetalle;
@@ -61,7 +67,11 @@ import com.security.modelo.configuraciongeneral.Movimiento;
 import com.security.modelo.configuraciongeneral.Posicion;
 import com.security.modelo.configuraciongeneral.Remito;
 import com.security.modelo.configuraciongeneral.RemitoDetalle;
+import com.security.modelo.configuraciongeneral.SecuenciaTabla;
+import com.security.modelo.configuraciongeneral.Serie;
 import com.security.modelo.configuraciongeneral.Sucursal;
+import com.security.modelo.configuraciongeneral.TipoElemento;
+import com.security.modelo.configuraciongeneral.Transporte;
 import com.security.modelo.general.PersonaFisica;
 import com.security.modelo.seguridad.User;
 import com.security.utils.CampoDisplayTag;
@@ -452,7 +462,7 @@ public class FormRemitoController {
 			}else if("Entregado".equalsIgnoreCase(remito.getEstado())){
 				remito.setEstado(Constantes.REMITO_ESTADO_ENTREGADO);
 			}else{
-				// verificar cual es el estado por defecto
+				//TODO verificar cual es el estado por defecto
 				remito.setEstado(Constantes.REMITO_ESTADO_PENDIENTE);
 			}
 			
@@ -842,11 +852,8 @@ public class FormRemitoController {
 		List<ScreenMessage> avisos = new ArrayList<ScreenMessage>();
 		Boolean hayAvisos = false;
 		Boolean hayAvisosNeg = false;
-		Boolean banderaModulos = false;
-		Boolean banderaInexistentes = false;
-		Boolean banderaNoGuarda = false;
-		Boolean banderaDepositoDiferente = false;
-		Boolean banderaRepetido = false;
+		Boolean banderaModulos = false, banderaInexistentes = false, 
+		banderaNoGuarda = false, banderaDepositoDiferente = false, banderaRepetido = false;
 		
 		List<Movimiento> listaNuevos = (List<Movimiento>) session.getAttribute("listaNuevos");
 		List<Movimiento> listaDevolucion = (List<Movimiento>) session.getAttribute("listaDevolucion");
@@ -868,7 +875,7 @@ public class FormRemitoController {
 		{
 			remitoFormulario = new Remito();
 		}
-		if(id!=null && !id.equals(""))
+		if(id!=null && id != "")
 		{
 		remitoFormulario.setId(Long.valueOf(id));
 		}
@@ -1111,16 +1118,9 @@ public class FormRemitoController {
 				}
 			}
 		List<String> listaDescartados = new ArrayList<String>();
-		Boolean banderaModulos = false;
-		Boolean banderaInexistentes = false;
-		Boolean banderaNoGuarda = false;
-		Boolean banderaDepositoDiferente = false;
-		Boolean banderaRepetido = false;
-		String codigo;
-		String codigoCorrecto;
-		String codigoTomado12;
-		Boolean repetido;
-		Boolean noValido;
+		Boolean banderaModulos = false, banderaInexistentes = false, banderaNoGuarda = false, banderaDepositoDiferente = false,banderaRepetido = false;
+		String codigo,codigoCorrecto,codigoTomado12;
+		Boolean repetido, noValido;
 		for (int i = 0; i < listaCodigos.length; i++) {
 			repetido = false;
 			noValido = false;
@@ -1530,7 +1530,38 @@ public class FormRemitoController {
 		atributos.put("lecturasPopupMap", lecturasPopupMap);
 	}
 	
-private ClienteAsp obtenerClienteAspUser(){
+private Movimiento setData(Movimiento movimientoFormulario, Movimiento movimiento){
+		
+		
+		if(movimiento != null){			
+
+			movimientoFormulario.setAccion(movimiento.getAccion());
+			movimientoFormulario.setClienteAsp(movimiento.getClienteAsp());
+			movimientoFormulario.setTipoMovimiento(movimiento.getTipoMovimiento());
+			movimientoFormulario.setClaseMovimiento(movimiento.getClaseMovimiento());
+			movimientoFormulario.setUsuario(movimiento.getUsuario());
+			movimientoFormulario.setDescripcion(movimiento.getDescripcion());
+			movimientoFormulario.setResponsable(movimiento.getResponsable());
+			if("cliente".equals(movimiento.getClaseMovimiento())){
+				
+				movimientoFormulario.setDeposito(movimiento.getDeposito());
+				movimientoFormulario.setClienteEmpOrigenDestino(movimiento.getClienteEmpOrigenDestino());
+				
+			}
+			else
+			{
+				movimientoFormulario.setDeposito(movimiento.getDeposito());
+				movimientoFormulario.setDepositoOrigenDestino(movimiento.getDepositoOrigenDestino());
+			}
+			movimientoFormulario.setFecha(movimiento.getFecha());
+			movimientoFormulario.setCantidadElementos(movimiento.getListaElementos().size());
+			
+		}
+		return movimientoFormulario;
+	
+	}
+	
+	private ClienteAsp obtenerClienteAspUser(){
 		return ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getCliente();
 	}
 	
@@ -1540,6 +1571,10 @@ private ClienteAsp obtenerClienteAspUser(){
 	
 	private Empresa obtenerEmpresaUser(){
 		return ((PersonaFisica)obtenerUser().getPersona()).getEmpresaDefecto();
+	}
+	
+	private Sucursal obtenerSucursalUser(){
+		return ((PersonaFisica)obtenerUser().getPersona()).getSucursalDefecto();
 	}
 	
 	private Boolean verificarDetallesConMovimientos(Boolean commit,Remito remito, Remito remitoFormulario)

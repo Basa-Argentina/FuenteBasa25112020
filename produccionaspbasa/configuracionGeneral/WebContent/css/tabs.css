@@ -1,3 +1,4 @@
+
 #tab_header ul {
 	width: 550px;
 	list-style: none;
@@ -34,14 +35,12 @@
 	background: #D2E2F5;
 	padding: 1em;
 }
-
-#tab_content>div {
+#tab_content > div {
 	margin: 0;
 	padding: 1em;
 	background: white;
 	display: none;
 }
-
 #tab_content .selected {
 	display: block;
 }

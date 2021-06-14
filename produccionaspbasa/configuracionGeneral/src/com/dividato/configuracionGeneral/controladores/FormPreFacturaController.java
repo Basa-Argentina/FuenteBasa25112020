@@ -2,6 +2,7 @@ package com.dividato.configuracionGeneral.controladores;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -24,10 +25,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.dividato.configuracionGeneral.validadores.PreFacturaValidator;
 import com.security.accesoDatos.configuraciongeneral.hibernate.ClienteEmpServiceImp;
 import com.security.accesoDatos.configuraciongeneral.interfaz.AfipTipoComprobanteService;
+import com.security.accesoDatos.configuraciongeneral.interfaz.ClienteDireccionService;
 import com.security.accesoDatos.configuraciongeneral.interfaz.ClienteEmpService;
+import com.security.accesoDatos.configuraciongeneral.interfaz.EmpleadoService;
 import com.security.accesoDatos.configuraciongeneral.interfaz.EmpresaService;
 import com.security.accesoDatos.configuraciongeneral.interfaz.PreFacturaDetalleService;
 import com.security.accesoDatos.configuraciongeneral.interfaz.PreFacturaService;
+import com.security.accesoDatos.configuraciongeneral.interfaz.LecturaDetalleService;
 import com.security.accesoDatos.configuraciongeneral.interfaz.SerieService;
 import com.security.accesoDatos.configuraciongeneral.interfaz.SucursalService;
 import com.security.accesoDatos.hibernate.HibernateControl;
@@ -38,6 +42,7 @@ import com.security.modelo.configuraciongeneral.ClienteEmp;
 import com.security.modelo.configuraciongeneral.Empresa;
 import com.security.modelo.configuraciongeneral.PreFactura;
 import com.security.modelo.configuraciongeneral.PreFacturaDetalle;
+import com.security.modelo.configuraciongeneral.Remito;
 import com.security.modelo.configuraciongeneral.Serie;
 import com.security.modelo.configuraciongeneral.Sucursal;
 import com.security.modelo.general.PersonaFisica;
@@ -45,6 +50,9 @@ import com.security.modelo.jerarquias.ConceptoOperacionCliente;
 import com.security.modelo.seguridad.User;
 import com.security.utils.Constantes;
 import com.security.utils.DateUtil;
+import com.security.utils.ParseNumberUtils;
+import com.security.utils.ScreenMessage;
+import com.security.utils.ScreenMessageImp;
 
 
 /**
@@ -360,7 +368,7 @@ public class FormPreFacturaController {
 			preFacturaFormulario.setCodigoSerie(codigoSerie);
 			preFacturaFormulario.setFechaStr(fechaStr);
 			
-
+			//TODO validar datos preFacturaFormulario
 			Empresa empresa = empresaService.getByCodigo(preFacturaFormulario.getCodigoEmpresa(), clienteAsp);
 			Sucursal sucursal = sucursalService.getByCodigo(preFacturaFormulario.getCodigoSucursal(), empresa.getCodigo(), clienteAsp);
 			ClienteEmp clienteEmp = clienteEmpService.getByCodigo(preFacturaFormulario.getCodigoCliente(), empresa.getCodigo(), clienteAsp, Boolean.TRUE);
@@ -384,10 +392,16 @@ public class FormPreFacturaController {
 			this.calcularTotalesPreFactura(preFactura, detalles);
 			
 			verificarNuevaPreFactura(preFactura, errors);
-			if(errors.isEmpty()){
-
+			if(errors.size()==0 ){
+//				if(preFacturaService.guardarPreFactura(preFactura, detalles)){
+//					generateAvisoExito("formularioPreFactura.exito.guardar", atributos);
+//					accionPreFactura = Constantes.FACTURA_ACCION_MODIFICAR;
+//					preFacturaGuardada = preFacturaService.obtenerPreFacturaPorNumeroComprobante(clienteAsp, empresa, sucursal, clienteEmp, serie, preFactura.getNumeroComprobante());
+//					preFacturaFormulario.setId(preFacturaGuardada!=null?preFacturaGuardada.getId():null);
+//				}else{
 					errors.add("formularioPreFactura.error.falloAlGuardar");
 					generateErrors(errors, atributos);
+				//}
 			}else{
 				generateErrors(errors, atributos);
 			}
@@ -511,7 +525,7 @@ public class FormPreFacturaController {
 //				}
 //			}
 //		}
-		if(!detalles.isEmpty()){
+		if(detalles.size()>0){
 			atributos.put("headerPreFacturaNoModificable", Boolean.TRUE);
 		}else{
 			atributos.put("headerPreFacturaNoModificable", Boolean.FALSE);
@@ -611,7 +625,7 @@ public class FormPreFacturaController {
 						("001".equals(tipo.getCodigo()) || "002".equals(tipo.getCodigo()) || "003".equals(tipo.getCodigo()) )){
 					result.append(" disabled=\"disabled\" ");
 				}else{
-
+					//TODO solo si la empresa no tiene condicion de iva 
 					//respuestaBuilder.append(" disabled=\"disabled\"");
 				}
 				result.append(">")
@@ -646,6 +660,19 @@ public class FormPreFacturaController {
 		}
 	}
 
+	private void generateAvisoExito(String avisoExito,
+			Map<String, Object> atributos) {
+		// Genero las notificaciones
+		List<ScreenMessage> avisos = new ArrayList<ScreenMessage>();
+		ScreenMessage mensajeEstanteReg = new ScreenMessageImp(avisoExito, null);
+		avisos.add(mensajeEstanteReg); // agrego el mensaje a la coleccion
+		atributos.put("errores", false);
+		atributos.remove("result");
+		atributos.put("hayAvisos", true);
+		atributos.put("hayAvisosNeg", false);
+		atributos.put("avisos", avisos);
+	}
+	
 	private void verificarNuevaPreFactura(PreFactura preFactura, List<String> errors){
 		if(preFactura.getEmpresa()==null){
 			errors.add("formularioPreFactura.error.empresaRequerida");

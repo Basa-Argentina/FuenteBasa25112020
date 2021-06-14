@@ -181,7 +181,7 @@ public class ListaCuentaCorrienteController {
 			atributos.put("result", result);
 			atributos.put("hayAvisos", false);
 			atributos.remove("avisos");		
-
+			//return precargaFormularioCuentaCorriente(session, atributos, accion, facturaFormulario.getId(), null, null, null, null);
 		}
 		atributos.put("saldoDeudor", saldoDeudor);
 		atributos.put("saldoAcreedor", saldoAcreedor);

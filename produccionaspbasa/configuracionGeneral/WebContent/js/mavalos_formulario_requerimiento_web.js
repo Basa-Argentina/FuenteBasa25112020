@@ -5,7 +5,7 @@ $(document).ready(
 
 			$("#observaciones").val($.trim($('#observaciones').val()));
 			$("#labelobs1").hide();
-			$("#codigoELemento").focus();
+			
 			
 			$('#observaciones').keydown(function() {
 			    var longitud = $(this).val().length;
@@ -26,7 +26,6 @@ $(document).ready(
 					$(this).addClass('tr_mouseover');
 
 			});
-			
 			$("#requerimientoElemento tbody tr").mouseout(function() {
 				if (!menuAbierto)
 					$(this).removeClass('tr_mouseover');
@@ -53,11 +52,8 @@ $(document).ready(
 						}
 
 					});
-			
-			
+
 			// Validaciones y botones
-			
-			
 			$('.completarZeros').blur(function(e) {
 				valorSinZeros = '';
 				valorSinZeros = $(this).val();
@@ -143,7 +139,6 @@ $(document).ready(
 				if ($("#accion").val() == 'NUEVO') {
 					getAjax('serieServletPorCodigoReturnPrefijo', 'codigo', 'codigoSerie',
 						getCodigoSerieCallBack);
-					$("codigoElemento").focus();
 				}
 			}
 			$("#tipoRequerimientoCod").blur(
@@ -209,13 +204,12 @@ $(document).ready(
 					$("#eliminarElemento").val(false);
 					$("#insertarElementoDirecto").val(true);
 					document.forms[0].submit();
-
-							}
+					
+				}
 				else
 				{
 					jAlert("El codigo de elemento debe ser numerico de 12 caracteres de longitud");
 				}
-		
 			});
 	    	
 	    	//$("#codigoPersonal").blur();
@@ -241,17 +235,7 @@ function getAjax(url, varName, elementName, callBack) {
 	request.send();
 }
 
-function pulsar(e) {
-    if (e.keyCode === 13 && !e.shiftKey) {
-        e.preventDefault();
-        $("#btnInsertarElementoDirecto").click();
-
-    }
-}
-
-
 //ajax
-
 
 function getAjaxEmpleado(url, varName, elementName, callBack) {
 	var input = document.getElementById(elementName);
@@ -394,7 +378,6 @@ function getTipoRequerimientoCallBack(sResponseText) {
 		) {
 				
 			$("#trInsertarElemento").removeClass("hidden");
-		    $("#codigoElemento").focus();
 			
 			$("#cantidad").attr("readonly","readonly");
 			
@@ -466,6 +449,7 @@ function getTipoRequerimientoCallBack(sResponseText) {
 		
 		$("#fechaEntrega").val("");
 		$("#horaEntrega").val("");
+		$("#guardarDes").removeClass("hidden");
 	
 		
 		if ($("#horaEntrega").val() == null || $("#horaEntrega").val() == ''){
@@ -707,22 +691,28 @@ function volverCancelar() {
 	document.location = "mostrarRequerimientoWeb.html";
 }
 function guardarYSalir() {
+	$("#guardarDes").addClass("hidden");
 	$("#buscarElemento").val(false);
 	$("#buscarElementoSinReferencia").val(false);
 	$("#eliminarElemento").val(false);
+	
 	if($("#idDireccionDefectoAnterior").val() != $("#codigoDireccion").val()) {
+		
 		mensaje = $("#cambioDireccionDefectoMensaje").val();
+		
 		jConfirm(mensaje, 'Confirmar Cambiar',function(r) {
 		    if(r){
 		    	$("#cambioDireccionDefecto").val(true);
+		   
 		    }
+		    
 		    document.forms[0].submit();
+		    
 		});
 	}
 	else{
-		document.forms[0].submit();
+		document.forms[0].submit();	
 	}
-	
 }
 
 function buscarElementosReferencia(mensaje) {

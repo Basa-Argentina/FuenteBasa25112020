@@ -41,6 +41,25 @@ public class TransporteServiceImp extends GestorHibernate<Transporte> implements
         try {
         	//obtenemos una sesión
 			session = getSession();
+//        	Criteria crit = session.createCriteria(getClaseModelo());
+//        	crit.createCriteria("empresa", "emp");
+//        	if(transporte!=null){
+//	        	if(transporte.getEmpresa() != null && transporte.getEmpresa().getId() !=null )
+//	        		crit.add(Restrictions.eq("empresa", transporte.getEmpresa()));
+//	        	if(transporte.getCodigoEmpresa() != null && !"".equals(transporte.getCodigoEmpresa()))
+//	        		crit.add(Restrictions.eq("emp.codigo", transporte.getCodigoEmpresa()));
+//	        	if(transporte.getDescripcion() !=null && !"".equals(transporte.getDescripcion()))
+//	        		crit.add(Restrictions.ilike("descripcion", transporte.getDescripcion() + "%"));
+//	        	if(transporte.getCodigo() !=null && transporte.getCodigo()!=null)
+//	        		crit.add(Restrictions.eq("codigo", transporte.getCodigo()));
+//	        	if(transporte!=null && transporte.getCodigoMax()!=null && !transporte.getCodigoMax().equals(0))
+//	        		crit.add(Restrictions.le("codigo", transporte.getCodigoMax()));
+//	        	if(transporte!=null && transporte.getCodigoMin()!=null && !transporte.getCodigoMin().equals(0))
+//	        		crit.add(Restrictions.ge("codigo", transporte.getCodigoMin()));
+//        	}
+//        	if(cliente != null)
+//        		crit.add(Restrictions.eq("clienteAsp", cliente));
+//        	crit.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 			Query query=session.getNamedQuery("Transporte.listarTransporteFiltradasNamed");
 			
 			if(transporte != null && transporte.getEmpresa()!=null)
@@ -55,11 +74,13 @@ public class TransporteServiceImp extends GestorHibernate<Transporte> implements
 			
             return query.list();
         } catch (HibernateException hibernateException) {
+        	//logger.error("No se pudo listar ", hibernateException);
 	        return null;
         }finally{
         	try{
         		session.close();
         	}catch(Exception e){
+        		//logger.error("No se pudo cerrar la sesión", e);
         	}
         }
 		

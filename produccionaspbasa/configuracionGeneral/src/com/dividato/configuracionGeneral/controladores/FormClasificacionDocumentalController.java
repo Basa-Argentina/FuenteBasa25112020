@@ -10,6 +10,8 @@ package com.dividato.configuracionGeneral.controladores;
 import static com.security.recursos.Configuracion.formatoFechaFormularios;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -170,6 +172,7 @@ public class FormClasificacionDocumentalController {
 					}else if(accion.equals("eliminar")){
 					
 						try{
+							//TODO: validar que no existan documentos relacionados
 							if(referenciaService.verificarNodoYNodosHijosSinReferencias(encontrado, clienteAsp)){
 								if(	clasificacionDocumentalService.eliminarNodoYNodosHijos(encontrado, clienteAsp)){
 									clasificacionesDocumentales = clasificacionDocumentalService.getNodosRaizPorCliente(clienteEmp);
@@ -220,7 +223,7 @@ public class FormClasificacionDocumentalController {
 		atributos.put("clienteAsp", clienteAsp);
 		atributos.put("accion", accion);
 		atributos.put("clasificacionSeleccionada", clasificacionSeleccionada);
-		if(clasificacionesDocumentales !=null && !clasificacionesDocumentales.isEmpty()){
+		if(clasificacionesDocumentales !=null && clasificacionesDocumentales.size()>0){
 			session.setAttribute("clasificacionSeleccionada", clasificacionesDocumentales.get(0));
 		}
 		//(-) evaluamos si hubo accion sobre el arbol
@@ -372,10 +375,10 @@ public class FormClasificacionDocumentalController {
 			Map<String,Object> parametros=new HashMap<String,Object>();
 			JasperReport jasperReport = JasperCompileManager.compileReport(session.getServletContext().getRealPath(Constants.PATH_JASPER)+"/reporteImpresionClasificacionDoc.jrxml");
 			JasperReport jasperSubReport = JasperCompileManager.compileReport(session.getServletContext().getRealPath(Constants.PATH_JASPER)+"/subReporteImpresionClasificacionDoc.jrxml");
-
+			//List<Requerimiento> requerimientos = (List<Requerimiento>) session.getAttribute("requerimientos");
 			response.setContentType("application/pdf");
 			ClasificacionDocumental cd = (ClasificacionDocumental) session.getAttribute("clasificacionSeleccionada");
-
+			//cd.setNodosHijos(Collections.sort(cd.getNodosHijos()));
 			parametros.put("clasificacionDoc", cd);
 			parametros.put("SUB_REPORTE", jasperSubReport);
 			parametros.put("fecha", formatoFechaFormularios.format(new Date()));

@@ -3,6 +3,7 @@ package com.dividato.configuracionGeneral.controladores;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -40,6 +41,7 @@ import com.security.modelo.configuraciongeneral.ClienteEmp;
 import com.security.modelo.configuraciongeneral.Empresa;
 import com.security.modelo.configuraciongeneral.Factura;
 import com.security.modelo.configuraciongeneral.FacturaDetalle;
+import com.security.modelo.configuraciongeneral.Remito;
 import com.security.modelo.configuraciongeneral.Serie;
 import com.security.modelo.configuraciongeneral.Sucursal;
 import com.security.modelo.general.PersonaFisica;
@@ -236,7 +238,7 @@ public class FormFacturaController {
 				facturaFormulario.setCodigoSerie(facturaFormulario.getSerie().getCodigo());
 				facturaFormulario.setCodigoCliente(facturaFormulario.getClienteEmp().getCodigo());
 				facturaFormulario.setIdAfipTipoComprobante(facturaFormulario.getAfipTipoDeComprobante().getId());
-				if(facturaDetalles == null || facturaDetalles.isEmpty()){
+				if(facturaDetalles == null || facturaDetalles.size()<=0){
 					facturaDetalles = facturaDetalleService.listarFacturaDetallePorFactura(facturaFormulario, clienteAsp);
 				}
 				
@@ -245,7 +247,7 @@ public class FormFacturaController {
 			atributos.put("facturaFormulario", facturaFormulario);
 		}
 		
-		if(!facturaDetalles.isEmpty()){
+		if(facturaDetalles.size()>0){
 			atributos.put("headerFacturaNoModificable", Boolean.TRUE);
 		}else{
 			atributos.put("headerFacturaNoModificable", Boolean.FALSE);
@@ -352,7 +354,7 @@ public class FormFacturaController {
 		}
 		
 		if (Constantes.FACTURA_ACCION_NUEVO.equalsIgnoreCase(accionFactura)){
-
+			//TODO validar datos facturaFormulario
 			Empresa empresa = empresaService.getByCodigoConCondAfip(facturaFormulario.getCodigoEmpresa(), clienteAsp);
 			Sucursal sucursal = sucursalService.getByCodigo(facturaFormulario.getCodigoSucursal(), empresa.getCodigo(), clienteAsp);
 			ClienteEmp clienteEmp = new ClienteEmp();
@@ -379,7 +381,7 @@ public class FormFacturaController {
 			this.calcularTotalesFactura(factura, detalles);
 			factura.setImpreso(Boolean.FALSE);
 			verificarNuevaFactura(factura, errors);
-			if(errors.isEmpty() ){
+			if(errors.size()==0 ){
 				if(facturaService.guardarFactura(factura, detalles)){
 					generateAvisoExito("formularioFactura.exito.guardar", atributos);
 					accionFactura = Constantes.FACTURA_ACCION_MODIFICAR;
@@ -400,6 +402,7 @@ public class FormFacturaController {
 				atributos.put("facturaDetalles",detalles);
 				session.setAttribute("facturaDetallesSession",detalles);
 				atributos.put("clienteAspId", clienteAsp.getId());
+				//return "formularioFactura";
 				return precargaFormularioFactura(session, atributos, accionFactura, null);
 			}
 			
@@ -435,6 +438,7 @@ public class FormFacturaController {
 		atributos.put("facturaDetalles",detalles);
 		session.setAttribute("facturaDetallesSession",detalles);
 		atributos.put("clienteAspId", clienteAsp.getId());
+		//return "formularioFactura";
 		return listaComprobantesFacturaController.mostrarListaComprobantesFactura(session, atributos, null, null, null, null, null, null, null, null, null);
 	}
 	
@@ -449,7 +453,7 @@ public class FormFacturaController {
 			Map<String,Object> atributos){
 		
 		List<FacturaDetalle> detalles = (List<FacturaDetalle>)session.getAttribute("facturaDetallesSession");
-		if(detalles != null && !detalles.isEmpty() && idEliminar!=null)
+		if(detalles != null && detalles.size()>0 && idEliminar!=null)
 		{
 			for(int i = 0;i<detalles.size();i++){
 				if(detalles.get(i).getId().longValue() == idEliminar.longValue()){
@@ -458,7 +462,18 @@ public class FormFacturaController {
 				}
 			}
 		}
-		if(!detalles.isEmpty()){
+//		FacturaDetalle fd = null;
+//		if(Constantes.FACTURA_ACCION_NUEVO.equals(accionFactura)){
+//			Iterator<FacturaDetalle> it = detalles.iterator();
+//			while(it.hasNext()){
+//				fd = it.next();
+//				if(idEliminar.longValue() == fd.getIdEliminar().longValue()){
+//					it.remove();
+//					break;
+//				}
+//			}
+//		}
+		if(detalles.size()>0){
 			atributos.put("headerFacturaNoModificable", Boolean.TRUE);
 		}else{
 			atributos.put("headerFacturaNoModificable", Boolean.FALSE);
@@ -555,6 +570,9 @@ public class FormFacturaController {
 				}else if((empresa != null && empresa.getAfipCondIva()!=null && !"1".equals(empresa.getAfipCondIva().getCodigo()) || !"1".equals(clienteEmp.getAfipCondIva().getCodigo())) &&
 						("001".equals(tipo.getCodigo()) || "002".equals(tipo.getCodigo()) || "003".equals(tipo.getCodigo()) )){
 					result.append(" disabled=\"disabled\" ");
+				}else{
+					//TODO solo si la empresa no tiene condicion de iva 
+					//respuestaBuilder.append(" disabled=\"disabled\"");
 				}
 				result.append(">")
 					.append(tipo.getDescripcion())

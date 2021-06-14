@@ -18,7 +18,8 @@
 	</c:if> <c:if test="${accion == 'CONSULTA'}">
 		<spring:message code="formularioSucursal.titulo.modificar"
 			htmlEscape="true" />
-	</c:if></title>
+	</c:if>
+</title>
 <script type="text/javascript" src="js/jquery-1.5.js"></script>
 <script type="text/javascript" src="js/httprequest.js"></script>
 <script type="text/javascript" language="JavaScript"
@@ -34,8 +35,7 @@
 }
 </style>
 </head>
-<body
-	onload="mostrarErrores(${errores}); mostrarAvisos(${hayAvisos || hayAvisosNeg})">
+<body onload="mostrarErrores(${errores}); mostrarAvisos(${hayAvisos || hayAvisosNeg})">
 	<div id="contenedorGeneral">
 		<jsp:include page="innerMenu.jsp" />
 		<div class="contenido" align="left">
@@ -52,8 +52,7 @@
 						</c:if> <c:if test="${accion == 'CONSULTA'}">
 							<spring:message code="formularioSucursal.titulo.consultar"
 								htmlEscape="true" />
-						</c:if>
-					</font>
+						</c:if> </font>
 				</legend>
 				<br />
 				<form:form action="guardarActualizarSucursal.html"
@@ -92,49 +91,52 @@
 												<tr>
 													<td class="texto_ti"><spring:message
 															code="formularioSucursal.datosSucursal.empresa"
-															htmlEscape="true" /></td>
+															htmlEscape="true" />
+													</td>
 													<td class="texto_ti"><spring:message
 															code="formularioSucursal.datosSucursal.codigo"
-															htmlEscape="true" /></td>
+															htmlEscape="true" />
+													</td>
 													<td class="texto_ti"><spring:message
 															code="formularioSucursal.datosSucursal.descripcion"
-															htmlEscape="true" /></td>
+															htmlEscape="true" />
+													</td>													
 													<td class="texto_ti"><spring:message
 															code="formularioSucursal.datosSucursal.telefono"
-															htmlEscape="true" /></td>
+															htmlEscape="true" />
+													</td>
 												</tr>
 												<tr>
-													<td class="texto_ti"><select id="idEmpresa"
-														class="requerido" name="idEmpresa" size="1"
-														style="width: 190px;"
-														<c:if test="${accion == 'CONSULTA'}">
+													<td class="texto_ti">
+														<select id="idEmpresa" class="requerido"
+															name="idEmpresa" size="1" style="width: 190px;"
+															<c:if test="${accion == 'CONSULTA'}">
 																disabled="disabled"
 															</c:if>>
-															<c:forEach items="${empresas}" var="empresa">
-																<option value="${empresa.id}"
-																	<c:if test="${empresa.id == sucursalFormulario.empresa.id}">
+																<c:forEach items="${empresas}" var="empresa">
+																	<option value="${empresa.id}"
+																		<c:if test="${empresa.id == sucursalFormulario.empresa.id}">
 																		selected="selected"
 																	</c:if>>
-																	<c:out value="${empresa.descripcion}" />
-																</option>
-															</c:forEach>
-													</select></td>
-													<td class="texto_ti"><input type="text" id="codigo"
-														class="requerido" name="codigo" style="width: 200px;"
-														maxlength="4"
+																		<c:out value="${empresa.descripcion}" />
+																	</option>
+																</c:forEach>
+														</select>
+													</td>
+													<td class="texto_ti"><input type="text" id="codigo" class="requerido"
+														name="codigo" style="width: 200px;" maxlength="4"
 														value="<c:out value="${sucursalFormulario.codigo}" default="" />"
 														<c:if test="${accion != 'NUEVO'}">
 															readonly="readonly"
 														</c:if> />
 													</td>
-													<td class="texto_ti"><input type="text"
-														class="requerido" id="descripcion" name="descripcion"
-														style="width: 200px;" maxlength="100"
+													<td class="texto_ti"><input type="text" class="requerido" 
+														id="descripcion" name="descripcion" style="width: 200px;" maxlength="100"
 														value="<c:out value="${sucursalFormulario.descripcion}" default="" />"
 														<c:if test="${accion == 'CONSULTA'}">
 															readonly="readonly"
 														</c:if> />
-													</td>
+													</td>													
 													<td class="texto_ti"><input type="text" id="telefono"
 														name="telefono" style="width: 190px;" maxlength="20"
 														value="<c:out value="${sucursalFormulario.telefono}" default="" />"
@@ -143,14 +145,16 @@
 																</c:if> />
 													</td>
 												</tr>
-												<tr>
+												<tr>													
 													<td class="texto_ti"><spring:message
 															code="formularioSucursal.datosSucursal.mail"
-															htmlEscape="true" /></td>
+															htmlEscape="true" />
+													</td>
 													<td class="texto_ti"><spring:message
-															code="formularioSucursal.vacio" htmlEscape="true" /></td>
+															code="formularioSucursal.vacio" htmlEscape="true" />
+													</td>
 												</tr>
-												<tr>
+												<tr>													
 													<td class="texto_ti"><input type="text" id="mail"
 														name="mail" style="width: 190px;"
 														value="<c:out value="${sucursalFormulario.mail}" default="" />"
@@ -163,9 +167,10 @@
 															<tr>
 																<td class="texto_ti"><spring:message
 																		code="formularioSucursal.datosSucursal.principal"
-																		htmlEscape="true" /></td>
+																		htmlEscape="true" />
+																</td>
 																<td class="texto_ti"><input type="checkBox"
-																	id="principal" name="principal" style="width: 10px;"
+																	id="principal" name="principal" style="width: 10px;" 
 																	value="true"
 																	<c:if test="${sucursalFormulario.principal == 'true'}">
 																		checked="CHECKED"
@@ -175,9 +180,8 @@
 																	</c:if> />
 																</td>
 															</tr>
-														</table>
-													</td>
-												</tr>
+														</table></td>
+												</tr>												
 											</table>
 										</fieldset>
 									</td>
@@ -190,35 +194,37 @@
 													code="formularioSucursal.datosSucursal.direccion"
 													htmlEscape="true" />
 											</legend>
-											<table>
+											<table>												
 												<tr>
 													<td class="texto_ti"><spring:message
 															code="formularioSucursal.datosSucursal.direccion.calle"
-															htmlEscape="true" /></td>
+															htmlEscape="true" />
+													</td>
 													<td class="texto_ti"><spring:message
 															code="formularioSucursal.datosSucursal.direccion.numero"
-															htmlEscape="true" /></td>
+															htmlEscape="true" />
+													</td>
 													<td class="texto_ti"><spring:message
 															code="formularioSucursal.datosSucursal.direccion.piso"
-															htmlEscape="true" /></td>
+															htmlEscape="true" />
+													</td>
 													<td class="texto_ti"><spring:message
-															code="formularioSucursal.datosSucursal.direccion.dpto"
-															htmlEscape="true" /></td>
+														code="formularioSucursal.datosSucursal.direccion.dpto"
+														htmlEscape="true" />
+													</td>
 												</tr>
 												<tr>
-													<td class="texto_ti"><input type="text"
-														class="requerido" id="direccion.calle"
-														name="direccion.calle" maxlength="30"
+													<td class="texto_ti"><input type="text" class="requerido"
+														id="direccion.calle" name="direccion.calle" maxlength="30"
 														style="width: 190px;"
 														value="<c:out value="${sucursalFormulario.direccion.calle}" default="" />"
 														<c:if test="${accion == 'CONSULTA'}">
 																readonly="readonly"
 															</c:if> />
 													</td>
-
-													<td class="texto_ti"><input type="text"
-														class="requerido" id="direccion.numero"
-														name="direccion.numero" maxlength="6"
+													
+													<td class="texto_ti"><input type="text" class="requerido"
+														id="direccion.numero" name="direccion.numero" maxlength="6"
 														style="width: 190px;"
 														value="<c:out value="${sucursalFormulario.direccion.numero}" default="" />"
 														<c:if test="${accion == 'CONSULTA'}">
@@ -245,108 +251,108 @@
 												<tr>
 													<td class="texto_ti"><spring:message
 															code="formularioSucursal.datosSucursal.direccion.pais"
-															htmlEscape="true" /></td>
+															htmlEscape="true" />
+													</td>
 													<td class="texto_ti"><spring:message
 															code="formularioSucursal.datosSucursal.direccion.provincia"
-															htmlEscape="true" /></td>
+															htmlEscape="true" />
+													</td>
 													<td class="texto_ti"><spring:message
 															code="formularioSucursal.datosSucursal.direccion.localidad"
-															htmlEscape="true" /></td>
+															htmlEscape="true" />
+													</td>
 													<td class="texto_ti"><spring:message
 															code="formularioSucursal.datosSucursal.direccion.barrio"
-															htmlEscape="true" /></td>
+															htmlEscape="true" />
+													</td>													
 												</tr>
 												<tr>
-													<td class="texto_ti"><input type="text" id="pais"
-														name="pais" maxlength="30" style="width: 150px;"
-														class="requerido"
-														value="<c:out value="${sucursalFormulario.direccion.barrio.localidad.provincia.pais.nombre}" default="" />"
-														<c:if test="${accion == 'CONSULTA'}">
+													<td class="texto_ti">
+														<input type="text" id="pais" name="pais" maxlength="30" style="width: 150px;" class="requerido"
+															value="<c:out value="${sucursalFormulario.direccion.barrio.localidad.provincia.pais.nombre}" default="" />" 
+															<c:if test="${accion == 'CONSULTA'}">
 																readonly="readonly"
-															</c:if> />
-														<button type="button"
-															onclick="abrirPopup('paisPopupMap');"
+															</c:if>
+														/>
+														<button type="button" onclick="abrirPopup('paisPopupMap');"
 															title="<spring:message code="textos.buscar" htmlEscape="true"/>"
 															<c:if test="${accion == 'CONSULTA'}">
 																disabled="disabled"
-															</c:if>>
-															<img
-																src="<%=request.getContextPath()%>/images/buscar.png">
+															</c:if>
+														>
+															<img src="<%=request.getContextPath()%>/images/buscar.png" > 
 														</button>
 														<div style="display: none;">
-															<label id="paisLabel" for="pais"> <c:out
-																	value="${sucursalFormulario.direccion.barrio.localidad.provincia.pais.id}"
-																	default="" />
+															<label id="paisLabel" for="pais">
+																<c:out value="${sucursalFormulario.direccion.barrio.localidad.provincia.pais.id}" default="" />
 															</label>
-														</div></td>
-													<td class="texto_ti"><input type="text" id="provincia"
-														name="provincia" maxlength="30" style="width: 150px;"
-														class="requerido"
-														value="<c:out value="${sucursalFormulario.direccion.barrio.localidad.provincia.nombre}" default="" />"
-														<c:if test="${accion == 'CONSULTA'}">
+														</div>		
+													</td>
+													<td class="texto_ti">
+														<input type="text" id="provincia" name="provincia" maxlength="30" style="width: 150px;" class="requerido"
+															value="<c:out value="${sucursalFormulario.direccion.barrio.localidad.provincia.nombre}" default="" />" 
+															<c:if test="${accion == 'CONSULTA'}">
 																readonly="readonly"
-															</c:if> />
-														<button type="button"
-															onclick="abrirPopupProvincia('provinciaPopupMap');"
+															</c:if>
+														/>
+														<button type="button" onclick="abrirPopupProvincia('provinciaPopupMap');"
 															title="<spring:message code="textos.buscar" htmlEscape="true"/>"
 															<c:if test="${accion == 'CONSULTA'}">
 																disabled="disabled"
-															</c:if>>
-															<img
-																src="<%=request.getContextPath()%>/images/buscar.png">
+															</c:if>
+														>
+															<img src="<%=request.getContextPath()%>/images/buscar.png" > 
 														</button>
 														<div style="display: none;">
-															<label id="provinciaLabel" for="provincia"> <c:out
-																	value="${sucursalFormulario.direccion.barrio.localidad.provincia.id}"
-																	default="" />
+															<label id="provinciaLabel" for="provincia">
+																<c:out value="${sucursalFormulario.direccion.barrio.localidad.provincia.id}" default="" />
 															</label>
-														</div></td>
-													<td class="texto_ti"><input type="text" id="localidad"
-														name="localidad" maxlength="30" style="width: 150px;"
-														class="requerido"
-														value="<c:out value="${sucursalFormulario.direccion.barrio.localidad.nombre}" default="" />"
-														<c:if test="${accion == 'CONSULTA'}">
+														</div>
+													</td>
+													<td class="texto_ti">
+														<input type="text" id="localidad" name="localidad" maxlength="30" style="width: 150px;" class="requerido"
+															value="<c:out value="${sucursalFormulario.direccion.barrio.localidad.nombre}" default="" />" 
+															<c:if test="${accion == 'CONSULTA'}">
 																readonly="readonly"
-															</c:if> />
-														<button type="button"
-															onclick="abrirPopupLocalidad('localidadPopupMap');"
+															</c:if>
+														/>
+														<button type="button" onclick="abrirPopupLocalidad('localidadPopupMap');"
 															title="<spring:message code="textos.buscar" htmlEscape="true"/>"
 															<c:if test="${accion == 'CONSULTA'}">
 																disabled="disabled"
-															</c:if>>
-															<img
-																src="<%=request.getContextPath()%>/images/buscar.png">
+															</c:if>
+														>
+															<img src="<%=request.getContextPath()%>/images/buscar.png" > 
 														</button>
 														<div style="display: none;">
-															<label id="localidadLabel" for="localidad"> <c:out
-																	value="${sucursalFormulario.direccion.barrio.localidad.id}"
-																	default="" />
+															<label id="localidadLabel" for="localidad">
+																<c:out value="${sucursalFormulario.direccion.barrio.localidad.id}" default="" />
 															</label>
-														</div></td>
-													<td class="texto_ti"><input id="idBarrio"
-														name="idBarrio" type="hidden"
-														value="<c:out value="${sucursalFormulario.direccion.barrio.id}" default="" />" />
-														<input type="text" id="barrio" name="barrio"
-														maxlength="30" style="width: 150px;" class="requerido"
-														value="<c:out value="${sucursalFormulario.direccion.barrio.nombre}" default="" />"
-														<c:if test="${accion == 'CONSULTA'}">
+														</div>
+													</td>
+													<td class="texto_ti">
+														<input id="idBarrio" name="idBarrio" type="hidden" 
+															value="<c:out value="${sucursalFormulario.direccion.barrio.id}" default="" />"/>
+														<input type="text" id="barrio" name="barrio" maxlength="30" style="width: 150px;" class="requerido"
+															value="<c:out value="${sucursalFormulario.direccion.barrio.nombre}" default="" />" 
+															<c:if test="${accion == 'CONSULTA'}">
 																readonly="readonly"
-															</c:if> />
-														<button type="button"
-															onclick="abrirPopupBarrio('barrioPopupMap');"
+															</c:if>
+														/>
+														<button type="button" onclick="abrirPopupBarrio('barrioPopupMap');"
 															title="<spring:message code="textos.buscar" htmlEscape="true"/>"
 															<c:if test="${accion == 'CONSULTA'}">
 																disabled="disabled"
-															</c:if>>
-															<img
-																src="<%=request.getContextPath()%>/images/buscar.png">
+															</c:if>
+														>
+															<img src="<%=request.getContextPath()%>/images/buscar.png" > 
 														</button>
 														<div style="display: none;">
-															<label id="barrioLabel" for="barrio"> <c:out
-																	value="${sucursalFormulario.direccion.barrio.id}"
-																	default="" />
+															<label id="barrioLabel" for="barrio">
+																<c:out value="${sucursalFormulario.direccion.barrio.id}" default="" />
 															</label>
-														</div></td>
+														</div>
+													</td>
 												</tr>
 											</table>
 										</fieldset>
@@ -360,7 +366,7 @@
 													src="<%=request.getContextPath()%>/images/restablecer.png"
 													title=<spring:message code="botones.restablecer" htmlEscape="true"/>>
 											</button>
-										</td>
+										</td>										
 									</tr>
 								</c:if>
 							</table>
@@ -397,25 +403,24 @@
 		</div>
 		<jsp:include page="footer.jsp" />
 	</div>
-	<div id="darkLayer" class="darkClassWithoutHeight"
-		style="height: 130%;">&nbsp;</div>
-	<jsp:include page="fieldErrors.jsp" />
-	<jsp:include page="fieldAvisos.jsp" />
+	<div id="darkLayer" class="darkClassWithoutHeight" style="height: 130%;">&nbsp;</div>
+	<jsp:include page="fieldErrors.jsp"/>
+	<jsp:include page="fieldAvisos.jsp"/>
 	<jsp:include page="popupBusqueda.jsp">
-		<jsp:param name="mapa" value="paisPopupMap" />
-		<jsp:param name="clase" value="paisPopupMap" />
+		<jsp:param name="mapa" value="paisPopupMap" /> 
+		<jsp:param name="clase" value="paisPopupMap" /> 
 	</jsp:include>
 	<jsp:include page="popupBusqueda.jsp">
-		<jsp:param name="mapa" value="provinciaPopupMap" />
-		<jsp:param name="clase" value="provinciaPopupMap" />
+		<jsp:param name="mapa" value="provinciaPopupMap" /> 
+		<jsp:param name="clase" value="provinciaPopupMap" /> 
 	</jsp:include>
 	<jsp:include page="popupBusqueda.jsp">
-		<jsp:param name="mapa" value="localidadPopupMap" />
-		<jsp:param name="clase" value="localidadPopupMap" />
+		<jsp:param name="mapa" value="localidadPopupMap" /> 
+		<jsp:param name="clase" value="localidadPopupMap" /> 
 	</jsp:include>
 	<jsp:include page="popupBusqueda.jsp">
-		<jsp:param name="mapa" value="barrioPopupMap" />
-		<jsp:param name="clase" value="barrioPopupMap" />
+		<jsp:param name="mapa" value="barrioPopupMap" /> 
+		<jsp:param name="clase" value="barrioPopupMap" /> 
 	</jsp:include>
 </body>
 </html>

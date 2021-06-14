@@ -131,7 +131,7 @@ public class ListaTipoOperacionController {
 		TipoOperacion tipo = tipoOperacionService.obtenerPorId(id);
 		
 		//verificamos si esta asociado a algun Requerimiento
-		List<Object> req = new ArrayList<Object>(); // Listar objetos asociados y verificar que no posea dependencias
+		List<Object> req = new ArrayList<Object>(); //TODO Listar objetos asociados y verificar que no posea dependencias
 		if(!req.isEmpty()){
 			avisos.add(new ScreenMessageImp("error.tipoOperacion.requerimientoAsociado", null));
 			hayAvisosNeg = true;

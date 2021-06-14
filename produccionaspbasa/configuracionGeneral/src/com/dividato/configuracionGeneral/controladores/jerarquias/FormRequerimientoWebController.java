@@ -97,6 +97,7 @@ public class FormRequerimientoWebController {
 	private ListaPreciosService listaPreciosService;
 	private RearchivoService rearchivoService;
 	private RequerimientoReferenciaService requerimientoReferenciaService;
+	
 	private ClienteEmpleadosService clienteEmpleadosService;
 	
 	@Autowired
@@ -353,8 +354,7 @@ public class FormRequerimientoWebController {
 			HttpSession session,
 			Map<String,Object> atributos,
 			HttpServletRequest request){
-		Boolean commit = null;
-		Boolean tipoOperacionExistente = null;
+		Boolean commit = null, tipoOperacionExistente = null;
 		if(accion==null || accion.equals("") || accion.equals("NUEVO"))
 			accion="NUEVO";
 		else{
@@ -611,9 +611,11 @@ public class FormRequerimientoWebController {
 			@RequestParam(value="sinReferencias",required=false)Boolean sinReferencias,
 			HttpSession session, Map<String, Object> atributos
 			) {
+	    
 		Requerimiento requerimientoFormulario = (Requerimiento) session.getAttribute("requerimientoFormularioBuscarElemento");
 		String accion = (String) session.getAttribute("accionRequerimientoFormularioBuscarElemento");
 		if(requerimientoElementosSel!=null && !"".equals(requerimientoElementosSel)){
+		    
 			if(requerimientoFormulario.getListaElementos()==null)
 				requerimientoFormulario.setListaElementos(new HashSet<RequerimientoReferencia>());
 			Hashtable<Long, RequerimientoReferencia> hashBuscar = new Hashtable<Long, RequerimientoReferencia>();
@@ -644,14 +646,13 @@ public class FormRequerimientoWebController {
 				}else{
 					elemento = elementoService.obtenerPorId(new Long(buscar));
 				}
+				
 				if(elemento!=null){
+				    
 					requerimientoReferencia.setElemento(elemento);
-					
 					requerimientoReferencia.setTipoTrabajo(requerimientoFormulario.getTipoTrabajo());
-					
 					elemento.setTipoTrabajo(requerimientoFormulario.getTipoTrabajo());
 					Boolean commit  = elementoService.actualizarElemento(elemento);
-					
 					if(elemento.getTipoElemento()!=null && !"".equals(elemento.getTipoElemento().getDescripcion()))
 						busqueda = elemento.getTipoElemento().getDescripcion()+": ";
 					
@@ -665,7 +666,6 @@ public class FormRequerimientoWebController {
 							busqueda += elemento.getCodigo();
 					}
 					
-				
 					if(busqueda.length()>60)
 						busqueda = busqueda.substring(0, 59);
 					requerimientoReferencia.setBusqueda(busqueda);

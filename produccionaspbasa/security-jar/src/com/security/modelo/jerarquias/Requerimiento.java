@@ -62,41 +62,41 @@ public class Requerimiento implements Comparable<Requerimiento>{
 	private Integer cantidad;
 	private Long remitoId;
 	
-	private  String accion;
-	private  Date fechaDesde;
-	private  Date fechaHasta;
-	private  Date fechaEntregaDesde;
-	private  Date fechaEntregaHasta;
-	private  BigInteger serieDesde;
-	private  String serieDesdeStr;
-	private  BigInteger serieHasta;
-	private  String serieHastaStr;
-	private  String clienteCodigo;
-	private  Long idClienteEmp;
-	private  String codigoDireccion;
-	private  String codigoSerie;
-	private  String tipoRequerimientoCod;
-	private  String codigoPersonal;
-	private  String codigoPersonalAutorizante;
-	private  boolean buscarElemento;
-	private  boolean buscarElementoSinReferencia;
-	private  boolean eliminarElemento;
-	private  boolean insertarElementoDirecto;
-	private  String codigoElemento;
-	private  Elemento elemento;
-	private  Integer eliminarElementoId;
-	private  boolean cambioDireccionDefecto;
-	private  String codigoDeposito;
+	private transient String accion;
+	private transient Date fechaDesde;
+	private transient Date fechaHasta;
+	private transient Date fechaEntregaDesde;
+	private transient Date fechaEntregaHasta;
+	private transient BigInteger serieDesde;
+	private transient String serieDesdeStr;
+	private transient BigInteger serieHasta;
+	private transient String serieHastaStr;
+	private transient String clienteCodigo;
+	private transient Long idClienteEmp;
+	private transient String codigoDireccion;
+	private transient String codigoSerie;
+	private transient String tipoRequerimientoCod;
+	private transient String codigoPersonal;
+	private transient String codigoPersonalAutorizante;
+	private transient boolean buscarElemento;
+	private transient boolean buscarElementoSinReferencia;
+	private transient boolean eliminarElemento;
+	private transient boolean insertarElementoDirecto;
+	private transient String codigoElemento;
+	private transient Elemento elemento;
+	private transient Integer eliminarElementoId;
+	private transient boolean cambioDireccionDefecto;
+	private transient String codigoDeposito;
 
-	private  String listaPrecioCodigo;
+	private transient String listaPrecioCodigo;
 	
-	private  Integer numeroPagina;
-	private  Integer tamañoPagina;
-	private  String fieldOrder;
-	private  String sortOrder;
-	private  Long orden;
+	private transient Integer numeroPagina;
+	private transient Integer tamañoPagina;
+	private transient String fieldOrder;
+	private transient String sortOrder;
+	private transient Long orden;
 	
-	private  String tipoTrabajo;
+	private transient String tipoTrabajo;
 	
 	@Id @GeneratedValue(strategy=GenerationType.AUTO)
 	public Long getId() {

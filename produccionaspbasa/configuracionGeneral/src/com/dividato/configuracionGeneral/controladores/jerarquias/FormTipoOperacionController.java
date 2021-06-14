@@ -129,7 +129,7 @@ public class FormTipoOperacionController {
 			tipo = service.obtenerPorId(id);			
 			atributos.put("tipoFormulario", tipo);			
 		}	
-		// preparar los popups
+		//TODO preparar los popups
 		//defino el popup de concepto facturable
 		definirPopupConcepto(atributos, val, accion, id);
 		//defino el popup de tipo de requerimiento

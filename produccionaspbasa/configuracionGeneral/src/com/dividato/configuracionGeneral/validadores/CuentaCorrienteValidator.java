@@ -48,7 +48,7 @@ public class CuentaCorrienteValidator implements Validator {
 	 * @param binder
 	 */
 	public void initDataBinder(WebDataBinder binder) {
-
+//		binder.setRequiredFields(new String[] {});
 		binder.setRequiredFields(new String[] {
 				"codigoEmpresa","codigo", "idTipoDocSel", "numeroDoc", "direccion.numero",
 				"direccion.calle","idAfipCondIva"
@@ -92,12 +92,14 @@ public class CuentaCorrienteValidator implements Validator {
 					(clienteEmp.getRazonSocial()==null || clienteEmp.getRazonSocial().getRazonSocial().equalsIgnoreCase("") )){
 				errors.rejectValue("razonSocial.razonSocial", "required");
 			}
-			if(clienteEmp.getTipoPersona().equalsIgnoreCase("Fisica") && clienteEmp.getApellido().equalsIgnoreCase("")){
-				errors.rejectValue("apellido", "required");
-			}
-			if(clienteEmp.getTipoPersona().equalsIgnoreCase("Fisica") && clienteEmp.getNombre().equalsIgnoreCase("")){
-				errors.rejectValue("nombre", "required");
-			}
+			
+			  if(clienteEmp.getTipoPersona().equalsIgnoreCase("Fisica") &&
+			clienteEmp.getApellido().equalsIgnoreCase("")){
+			  errors.rejectValue("apellido", "required"); }
+			  if(clienteEmp.getTipoPersona().equalsIgnoreCase("Fisica") &&
+			  clienteEmp.getNombre().equalsIgnoreCase("")){ errors.rejectValue("nombre",
+			  "required"); }
+			 
 		}
 		if(clienteEmp.getObservaciones() != null && !clienteEmp.getObservaciones().equalsIgnoreCase("") && clienteEmp.getObservaciones().length()>500){
 			errors.rejectValue("observaciones", "formularioCliente.errorObservaciones");

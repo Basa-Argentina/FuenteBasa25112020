@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
 
-
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -291,9 +291,11 @@ public class IndexController {
 			try {
 				User userAsp = userService.obtenerPorUsername("admin"+Constants.SEPARADOR_CLIENTE_USUARIO+"asp");
 				mailManager.enviar(userAsp.getPersona().getMail(), mail.getAsunto(), mail.getMensaje(),"");
-			} catch (Exception e) {
+			} catch (MessagingException e) {
 				logger.error(e);
-			} 
+			} catch (Exception e){
+				logger.error(e);
+			}
 		return "";
 	}
 	
@@ -305,8 +307,8 @@ public class IndexController {
 		//el usuario tiene definida la empresa y la sucursal
 		String empSess= session.getAttribute("empresa").toString();
 		String sucSess= session.getAttribute("sucursal").toString();
-		if(empSess != null && !"NO DEFINIDA".equalsIgnoreCase(empSess.toUpperCase())
-				&& sucSess != null && !"NO DEFINIDA".equalsIgnoreCase(sucSess.toUpperCase())){
+		if(empSess != null && !"NO DEFINIDA".equals(empSess.toUpperCase())
+				&& sucSess != null && !"NO DEFINIDA".equals(sucSess.toUpperCase())){
 			atributos.put("setEmpresa", true);		
 		}else{
 			//el usuario es el administrador por defecto 
@@ -331,7 +333,7 @@ public class IndexController {
 		if(parameter.getFailedLoginCounter().intValue()==0)
 			return false;
 		ArrayList<UserLogin> userLogins = (ArrayList<UserLogin>) userLoginService.listarPorIps(remoteIpAddress);
-		if(!userLogins.isEmpty()){
+		if(userLogins.size()>0){
 			int cont = 0;
 			Iterator<UserLogin> iteUsers = userLogins.iterator();
 			while(iteUsers.hasNext()){

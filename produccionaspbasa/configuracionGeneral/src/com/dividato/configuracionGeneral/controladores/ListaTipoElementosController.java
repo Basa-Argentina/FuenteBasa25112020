@@ -91,7 +91,7 @@ public class ListaTipoElementosController {
 		//buscamos en la base de datos y lo subimos a request.
 		List<TipoElemento> tipoElementos = null;	
 		TipoElemento tipoElemento = (TipoElemento) session.getAttribute("tipoElementoBusqueda");
-		tipoElementos = tipoElementoService.listarTipoElementoFiltrados(tipoElemento, obtenerClienteAspUser());		
+		tipoElementos =(List<TipoElemento>) tipoElementoService.listarTipoElementoFiltrados(tipoElemento, obtenerClienteAspUser());		
 		atributos.put("tipoElementos", tipoElementos);
 	
 		//si no hay errores

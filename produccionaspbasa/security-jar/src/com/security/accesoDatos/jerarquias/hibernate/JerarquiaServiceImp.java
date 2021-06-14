@@ -22,6 +22,7 @@ import com.security.accesoDatos.hibernate.GestorHibernate;
 import com.security.accesoDatos.hibernate.HibernateControl;
 import com.security.accesoDatos.jerarquias.interfaz.JerarquiaService;
 import com.security.modelo.administracion.ClienteAsp;
+import com.security.modelo.configuraciongeneral.Empresa;
 import com.security.modelo.configuraciongeneral.Posicion;
 import com.security.modelo.jerarquias.Jerarquia;
 import com.security.modelo.jerarquias.TipoJerarquia;

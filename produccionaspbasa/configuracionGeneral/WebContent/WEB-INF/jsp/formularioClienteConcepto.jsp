@@ -29,8 +29,7 @@
 <script type="text/javascript" src="js/httprequest.js"></script>
 <script type="text/javascript" language="JavaScript"
 	src="js/mavalos_jquery.tools.min.js"></script>
-<script type="text/javascript"
-	src="js/mavalos_formulario_cliente_concepto.js"></script>
+<script type="text/javascript" src="js/mavalos_formulario_cliente_concepto.js"></script>
 <script type="text/javascript" src="js/jquery.displaytag-ajax-1.2.js"></script>
 <script type="text/javascript" src="js/ini.js" language="JavaScript"></script>
 <script type="text/javascript" src="js/jquery.alerts.js"></script>
@@ -42,8 +41,7 @@
 }
 </style>
 </head>
-<body
-	onload="mostrarErrores(${errores}); mostrarAvisos(${hayAvisos || hayAvisosNeg})">
+<body onload="mostrarErrores(${errores}); mostrarAvisos(${hayAvisos || hayAvisosNeg})">
 	<div id="contenedorGeneral">
 		<jsp:include page="innerMenu.jsp" />
 		<div class="contenido" align="left">
@@ -52,19 +50,15 @@
 				<legend>
 					<font class="tituloForm" size="5"> <c:if
 							test="${accion == 'NUEVO'}">
-							<spring:message
-								code="formularioClienteConcepto.tituloFormAgregar"
+							<spring:message code="formularioClienteConcepto.tituloFormAgregar"
 								htmlEscape="true" />
 						</c:if> <c:if test="${accion == 'MODIFICACION'}">
-							<spring:message
-								code="formularioClienteConcepto.tituloFormModificar"
+							<spring:message code="formularioClienteConcepto.tituloFormModificar"
 								htmlEscape="true" />
 						</c:if> <c:if test="${accion == 'CONSULTA'}">
-							<spring:message
-								code="formularioClienteConcepto.tituloFormConsultar"
+							<spring:message code="formularioClienteConcepto.tituloFormConsultar"
 								htmlEscape="true" />
-						</c:if>
-					</font>
+						</c:if> </font>
 				</legend>
 				<br />
 				<form:form action="guardarActualizarClienteConcepto.html"
@@ -74,16 +68,14 @@
 						value="<c:out value="${accion}" default="" />" />
 					<input type="hidden" id="id" name="id"
 						value="<c:out value="${clienteConceptoFormulario.id}" default="" />" />
-					<input type="hidden" id="clienteId" name="clienteId"
-						value="<c:out value="${clienteId}" default="" />" />
+						<input type="hidden" id="clienteId" name="clienteId" value="<c:out value="${clienteId}" default="" />"/>
 					<fieldset>
 						<table width="100%">
 							<thead>
 								<tr>
 									<th align="left" id="busquedaImg"><font
 										style="color: #003090"> <spring:message
-												code="formularioClienteConcepto.datosClienteConcepto"
-												htmlEscape="true" />
+												code="formularioClienteConcepto.datosClienteConcepto" htmlEscape="true" />
 									</font> <img id="busquedaImgSrcDown" src="images/skip_down.png"
 										title="<spring:message code="textos.cerrarPanel" htmlEscape="true"/>">
 										<img id="busquedaImgSrc" src="images/skip.png"
@@ -106,7 +98,8 @@
 											<tr>
 												<td class="texto_ti"><spring:message
 														code="formularioClienteConcepto.habilitado"
-														htmlEscape="true" /></td>
+														htmlEscape="true" />
+												</td>
 												<td class="texto_ti"><input type="checkBox"
 													id="habilitado" name="habilitado" style="width: 10px;"
 													value="true" checked="checked"
@@ -123,21 +116,20 @@
 									<td class="texto_ti"><spring:message
 											code="formularioClienteConcepto.cliente" htmlEscape="true" />
 									</td>
-
+									
 								</tr>
 								<tr>
 									<td class="texto_ti"><spring:message
 											code="formularioClienteConcepto.vacio" htmlEscape="true" />
 									</td>
-									<td class="texto_ti"><input type="text" id="clienteCodigo"
-										class="requerido" name="clienteCodigo" maxlength="6"
-										style="width: 50px;"
+									<td class="texto_ti"><input type="text" id="clienteCodigo" class="requerido"
+										name="clienteCodigo" maxlength="6" style="width: 50px;"
 										value="<c:out value="${clienteConceptoFormulario.cliente.codigo}" default="" />"
 										<c:if test="${accion == 'CONSULTA'}">
 														readonly="readonly"
 													</c:if> />
 										&nbsp;&nbsp;
-										<button type="button"
+										<button type="button" 
 											onclick="abrirPopup('clientesPopupMap');"
 											title="<spring:message code="textos.buscar" htmlEscape="true"/>"
 											<c:if test="${accion == 'CONSULTA'}">
@@ -147,20 +139,20 @@
 										</button>&nbsp;&nbsp; <label id="clienteCodigoLabel"
 										for="clienteCodigo"> <c:out
 												value="${clienteConceptoFormulario.cliente.nombreYApellido}"
-												default="" />
-									</label></td>
+												default="" /> </label>
+									</td>									
 								</tr>
 								<tr>
 									<td class="texto_ti"><spring:message
 											code="formularioClienteConcepto.listaPrecio"
-											htmlEscape="true" /></td>
+											htmlEscape="true" />
+									</td>
 									<td class="texto_ti"><spring:message
 											code="formularioClienteConcepto.concepto" htmlEscape="true" />
 									</td>
 								</tr>
 								<tr>
-									<td class="texto_ti"><input type="text"
-										id="listaPrecioCodigo" class="requerido"
+									<td class="texto_ti"><input type="text" id="listaPrecioCodigo" class="requerido"
 										name="listaPrecioCodigo" maxlength="6" style="width: 50px;"
 										value="<c:out value="${clienteConceptoFormulario.listaPrecios.codigo}" default="" />"
 										<c:if test="${accion == 'CONSULTA'}">
@@ -177,11 +169,10 @@
 										</button>&nbsp;&nbsp; <label id="listaPrecioCodigoLabel"
 										for="listaPrecioCodigo"> <c:out
 												value="${clienteConceptoFormulario.listaPrecios.descripcion}"
-												default="" />
-									</label></td>
-									<td class="texto_ti"><input type="text"
-										id="conceptoCodigo" class="requerido" name="conceptoCodigo"
-										maxlength="6" style="width: 50px;"
+												default="" /> </label>
+									</td>
+									<td class="texto_ti"><input type="text" id="conceptoCodigo" class="requerido"
+										name="conceptoCodigo" maxlength="6" style="width: 50px;"
 										value="<c:out value="${clienteConceptoFormulario.concepto.codigo}" default="" />"
 										<c:if test="${accion == 'CONSULTA'}">
 														readonly="readonly"
@@ -197,8 +188,8 @@
 										</button>&nbsp;&nbsp; <label id="conceptoCodigoLabel"
 										for="conceptoCodigo"> <c:out
 												value="${clienteConceptoFormulario.concepto.descripcion}"
-												default="" />
-									</label></td>
+												default="" /> </label>
+									</td>
 								</tr>
 							</table>
 						</div>
@@ -235,8 +226,8 @@
 		<jsp:include page="footer.jsp" />
 	</div>
 	<div id="darkLayer" class="darkClass">&nbsp;</div>
-	<jsp:include page="fieldErrors.jsp" />
-	<jsp:include page="fieldAvisos.jsp" />
+	<jsp:include page="fieldErrors.jsp"/>
+	<jsp:include page="fieldAvisos.jsp"/>
 	<jsp:include page="popupBusqueda.jsp">
 		<jsp:param name="mapa" value="clientesPopupMap" />
 		<jsp:param name="clase" value="clientesPopupMap" />

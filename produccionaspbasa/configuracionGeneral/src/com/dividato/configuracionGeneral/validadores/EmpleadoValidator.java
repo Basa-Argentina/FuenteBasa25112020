@@ -68,7 +68,7 @@ public class EmpleadoValidator implements Validator {
 				return;
 			}
 			List<Empleado> listaSalida = empleadoService.listarTodosFiltradoPorLista(new CampoComparacion("username",empleado.getUsername()));
-			if(!listaSalida.isEmpty()){	
+			if(listaSalida.size()>0){	
 				errors.rejectValue("username", "error.empleado.errorUsername");
 			}
 			if(empleado.getPassword()==null || empleado.getPassword().equals(""))

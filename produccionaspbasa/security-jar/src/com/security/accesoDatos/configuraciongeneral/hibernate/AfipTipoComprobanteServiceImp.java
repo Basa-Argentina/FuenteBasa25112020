@@ -14,7 +14,7 @@ import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-
+import org.hibernate.criterion.Conjunction;
 import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ import com.security.accesoDatos.configuraciongeneral.interfaz.AfipTipoComprobant
 import com.security.accesoDatos.hibernate.GestorHibernate;
 import com.security.accesoDatos.hibernate.HibernateControl;
 import com.security.modelo.configuraciongeneral.AfipTipoComprobante;
-
+import com.security.modelo.configuraciongeneral.AgrupadorFacturacion;
 
 /**
  * @author Gonzalo Noriega
@@ -164,7 +164,7 @@ public class AfipTipoComprobanteServiceImp extends GestorHibernate<AfipTipoCompr
 	        	if(afipTipoComprobante.getLetra()!=null && afipTipoComprobante.getLetra().length()>0){
 	        		crit.add(Restrictions.eq("tipo", afipTipoComprobante.getLetra()));
 	        	}
-	        	if(afipTipoComprobante.getCodigos()!=null && !afipTipoComprobante.getCodigos().isEmpty()){
+	        	if(afipTipoComprobante.getCodigos()!=null && afipTipoComprobante.getCodigos().size()>0){
 	        		Disjunction disjunction = Restrictions.disjunction();
 	        		for(String cod : afipTipoComprobante.getCodigos()){
 	        			disjunction.add(Restrictions.eq("codigo", cod));

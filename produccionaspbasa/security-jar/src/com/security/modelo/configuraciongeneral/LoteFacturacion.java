@@ -10,6 +10,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
@@ -41,15 +42,15 @@ public class LoteFacturacion {
 	private Set<PreFactura> detalles;
 	private Integer cantidadConceptos;
 	
-	private  String codigoEmpresa;
-	private  String codigoSucursal;
-	private  Date fechaDesde;
-	private  Date fechaHasta;
-	private  String accion;
-	private  Integer numeroPagina;
-	private  Integer tamanoPagina;
-	private  String fieldOrder;
-	private  String sortOrder;
+	private transient String codigoEmpresa;
+	private transient String codigoSucursal;
+	private transient Date fechaDesde;
+	private transient Date fechaHasta;
+	private transient String accion;
+	private transient Integer numeroPagina;
+	private transient Integer tamanoPagina;
+	private transient String fieldOrder;
+	private transient String sortOrder;
 	
 	@Id @GeneratedValue(strategy=GenerationType.AUTO)
 	public Long getId() {

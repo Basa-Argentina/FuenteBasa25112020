@@ -38,7 +38,7 @@ public class ClienteEmpleados implements Comparable<ClienteEmpleados>{
 
 	@Override
 	public int compareTo(ClienteEmpleados o) {
-		// Auto-generated method stub
+		// TODO Auto-generated method stub
 		return 0;
 	}
 

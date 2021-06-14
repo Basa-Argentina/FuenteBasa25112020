@@ -36,6 +36,7 @@ import com.security.modelo.administracion.ClienteAsp;
 import com.security.modelo.configuraciongeneral.Empresa;
 import com.security.modelo.configuraciongeneral.LoteFacturacion;
 import com.security.modelo.configuraciongeneral.LoteFacturacionDetalle;
+import com.security.modelo.configuraciongeneral.Sucursal;
 import com.security.modelo.general.PersonaFisica;
 import com.security.modelo.jerarquias.ConceptoOperacionCliente;
 import com.security.modelo.seguridad.User;
@@ -233,11 +234,13 @@ public class FormLoteFacturacionDetalleController {
 			try {
 				loteFacturacionFormulario.setFechaRegistro(sdaf.parse(fechaRegistro));
 			} catch (ParseException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			try {
 				loteFacturacionFormulario.setFechaFacturacion(sdaf.parse(fechaFacturacion));
 			} catch (ParseException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		loteFacturacionFormulario.setEstado(estado);
@@ -279,9 +282,9 @@ public class FormLoteFacturacionDetalleController {
 			List<Long> listaSeleccionados = (List<Long>) session.getAttribute("conceptosSeleccionados");
 			@SuppressWarnings("unchecked")
 			List<Long> listaAsignados = (List<Long>) session.getAttribute("conceptosAsignados");
-			if(listaAsignados!=null && !listaAsignados.isEmpty())
+			if(listaAsignados!=null && listaAsignados.size()>0)
 			{
-				if(listaSeleccionados!=null && !listaSeleccionados.isEmpty()){
+				if(listaSeleccionados!=null && listaSeleccionados.size()>0){
 				listaAsignados.addAll(listaSeleccionados);
 				session.removeAttribute("conceptosSeleccionados");
 				}
@@ -293,8 +296,9 @@ public class FormLoteFacturacionDetalleController {
 			}
 			session.setAttribute("conceptosAsignados", listaAsignados);
 			List<ConceptoOperCliente> conceptosOperacionCliente = null;
-			listConceptosOperacionCliente = conceptoOperacionClienteService.obtenerConceptosClientesEnPeriodo(listaAsignados, loteFacturacionFormulario.getPeriodo(), fechaPeriodo, obtenerClienteAspUser());
-			if(listConceptosOperacionCliente != null && !listConceptosOperacionCliente.isEmpty()){
+			//conceptosOperacionCliente = (List<ConceptoOperacionCliente>) conceptoOperacionClienteService.conceptoOperacionClienteFiltradas(listaAsignados,periodo,concepto, obtenerClienteAspUser());
+			listConceptosOperacionCliente = (List<ConceptoOperacionCliente>) conceptoOperacionClienteService.obtenerConceptosClientesEnPeriodo(listaAsignados, loteFacturacionFormulario.getPeriodo(), fechaPeriodo, obtenerClienteAspUser());
+			if(listConceptosOperacionCliente != null && listConceptosOperacionCliente.size() > 0){
 				Long idReg = (Long) session.getAttribute("idRequerimientoElemento");
 				conceptosOperacionCliente = obtenerLista(listConceptosOperacionCliente,idReg);
 			}
@@ -413,7 +417,7 @@ public class FormLoteFacturacionDetalleController {
 			
 				List<ConceptoOperacionCliente> listaConceptos = conceptoOperacionClienteService.getByNumeros(listaNumeros, obtenerClienteAspUser());
 			
-				if(listaConceptos != null && !listaConceptos.isEmpty())
+				if(listaConceptos != null && listaConceptos.size()>0)
 				{
 					session.setAttribute("conceptosSeleccionados", listaNumeros);
 					for(ConceptoOperacionCliente concepto: listaConceptos)
@@ -443,11 +447,68 @@ public class FormLoteFacturacionDetalleController {
 	atributos.put("avisos", avisos);
 	atributos.put("codigoEmpresa", codigoEmpresa);
 	atributos.put("detalles", conceptosSession);
+	/*atributos.put("facturaDetalleFormulario", loteFacturacionDetalleFormulario);*/
+	//hacemos el redirect
+	//return "formularioLoteFacturacionDetalle";
 	return mostrarLoteFacturacionDetalle(session, atributos, null, estado, descripcion, fechaFacturacion, fechaRegistro, periodo,null, null, null);
 	}
 	
 	
-
+//	/**
+//	 * Observar la anotación @RequestMapping de SPRING.
+//	 * Todos los parámetros son inyectados por SPRING cuando ejecuta el método.
+//	 * 
+//	 * Se encarga de eliminar Remito.
+//	 * 
+//	 * @param idRemito el id de Remito a eliminar.
+//	 * (Observar la anotación @RequestParam)
+//	 * @param atributos son los atributos del request
+//	 * @return ejecuta el método de consulta de inscost y retorna su resultado.
+//	 */
+//	@RequestMapping(
+//			value="/eliminarLoteFacturacionDetalle.html",
+//			method = RequestMethod.GET
+//		)
+//	public String eliminarLoteFacturacionDetalle(HttpSession session,
+//			@RequestParam("id") String id,
+//			Map<String,Object> atributos) {
+//		Boolean commit = null;
+//		List<ScreenMessage> avisos = new ArrayList<ScreenMessage>();
+//		boolean hayAvisos = false;
+//		boolean hayAvisosNeg = false;
+//		//Obtenemos el concepto para eliminar luego
+//		ConceptoOperacionCliente conceptoOperacionCliente = conceptoOperacionClienteService.obtenerPorId(Long.valueOf(id));
+//		ScreenMessage mensaje;
+//		if(conceptoOperacionCliente!=null)
+//		{
+//			if(!conceptoOperacionCliente.getTipoConcepto().equals("Manual") || conceptoOperacionCliente.getEstado().equals("Facturado"))
+//			{
+//				mensaje = new ScreenMessageImp("formularioConceptoOperacionCliente.error.imposibleEliminar", null);
+//				hayAvisosNeg = true;
+//			}
+//			else
+//			{
+//				//Eliminamos el concepto
+//				commit = conceptoOperacionClienteService.eliminarConceptoOperacionCliente(conceptoOperacionCliente);
+//				
+//				//Controlamos su eliminacion.
+//				if(commit){
+//					mensaje = new ScreenMessageImp("formularioConceptoOperacionCliente.notif.conceptoEliminadoExito", null);
+//					hayAvisos = true;
+//				}else{
+//					mensaje = new ScreenMessageImp("error.deleteDataBase", null);
+//					hayAvisosNeg = true;
+//				}
+//			}
+//			
+//			avisos.add(mensaje);
+//		}
+//
+//		atributos.put("hayAvisosNeg", hayAvisosNeg);
+//		atributos.put("hayAvisos", hayAvisos);
+//		atributos.put("avisos", avisos);
+//		return mostrarLoteFacturacionDetalle(session, atributos, null,null, null, null, null, null, null, null, null);
+//	}
 	
 	/**
 	 * Observar la anotación @RequestMapping de SPRING.
@@ -458,7 +519,81 @@ public class FormLoteFacturacionDetalleController {
 	 * @param atributos son los atributos del request
 	 * @return "consultaImpresionEtiqueta" la vista que debe mostrarse (ver dispatcher-servlet.xml/viewResolver)
 	 */
-
+//	@RequestMapping(
+//			value="/imprimirRemito.html",
+//			method = RequestMethod.GET
+//		)
+//	public void imprimirRemito(HttpSession session,
+//			Map<String,Object> atributos,			
+//			HttpServletResponse response,
+//			@RequestParam(value="seleccionados", required=false) String seleccionados) {
+//		
+//		List<Remito> listaRemitos = new ArrayList<Remito>();
+//		
+//		if(seleccionados != null && seleccionados.length()> 0){
+//			
+//			String[] listaRemitosSeleccionados = seleccionados.split("\\,");
+//			List<Long> listaNumeros = new ArrayList<Long>();
+//			for(int i = 0; i<listaRemitosSeleccionados.length;i++)
+//			{
+//				listaNumeros.add(Long.valueOf(listaRemitosSeleccionados[i]));
+//			}
+//			
+//			listaRemitos = remitoService.getByNumeros(listaNumeros, obtenerClienteAspUser());
+//			
+//			//buscamos en la base de datos y lo subimos a request.
+//			String reportName = "C:\\jasper\\reporteImpresionRemito.jasper";
+//			File file = new File(reportName);
+//				
+//			@SuppressWarnings("rawtypes")
+//			HashMap params = new HashMap();
+//			byte[] pdfByteArray ;
+//			ServletOutputStream op = null;
+//			if (file.exists()) {
+//				try{
+//					//se trae busca nuevamente la misma lista en la base pero esta vez con los detales en FetchMode.Join
+//					List<Remito> remitosYDetalles = remitoService.listarRemitosPorId(listaRemitos, obtenerClienteAspUser());
+//					//se crea el data source
+//					JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(remitosYDetalles);
+//					//se crea el reporte
+//					pdfByteArray = JasperRunManager.runReportToPdf(reportName, params,ds);
+//					//se envia el reporte 
+//					response.setContentType("application/pdf");
+//	                //response.setHeader( "Content-disposition", "attachment; filename=reporte.pdf");
+//
+//					op = null;
+//					op = response.getOutputStream();
+//					op.write(pdfByteArray, 0, pdfByteArray.length);
+//					op.flush();
+//					op.close();
+//				} catch (IOException e) {
+//					try {
+//						op.close();
+//					} catch (IOException e1) {
+//						e1.printStackTrace();
+//					}
+//					e.printStackTrace();
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//				
+//			}
+//			
+//		}
+//		
+//		//@SuppressWarnings("unchecked")
+//		//List<Remito> remitos = (List<Remito>)session.getAttribute("remitosSession");
+//				
+//		//if(remitos==null){
+//			//remitos=new ArrayList<Remito>();
+//		//}
+//		
+//		
+//		
+//		
+//	}
+	
+	
 	/////////////////////METODOS DE SOPORTE/////////////////////////////
 	private ClienteAsp obtenerClienteAspUser(){
 		return ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getCliente();
@@ -472,6 +607,9 @@ public class FormLoteFacturacionDetalleController {
 		return ((PersonaFisica)obtenerUser().getPersona()).getEmpresaDefecto();
 	}
 	
+	private Sucursal obtenerSucursalUser(){
+		return ((PersonaFisica)obtenerUser().getPersona()).getSucursalDefecto();
+	}
 	
 	@SuppressWarnings("unchecked")
 	private List<ConceptoOperCliente> obtenerLista (List<Object> entrada, Long idReq){
@@ -481,6 +619,12 @@ public class FormLoteFacturacionDetalleController {
 			ConceptoOperCliente conceptoOperCliente = new ConceptoOperCliente((BigDecimal)lista[0], (String)lista[1],
 					(String) lista[2], (Date) lista[3], (String) lista[4], (BigDecimal)lista[5], 
 					(BigDecimal)lista[6], (BigDecimal)lista[7], (String)lista[8], (Byte)lista[9],(BigDecimal)lista[10]);
+//			//Busco si ya fue asignado a otro requerimiento y si esta pendiente o en proceso
+//			RequerimientoReferencia requerimientoReferencia = requerimientoReferenciaService.obtenerPendienteOEnProceso(requerimientoElemento.getIdReferencia(),idReq);
+//			if(requerimientoReferencia == null)
+//				requerimientoElemento.utilizado = false;
+//			else
+//				requerimientoElemento.utilizado = true;
 			salida.add(conceptoOperCliente);
 		}
 		return salida;

@@ -5,24 +5,35 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
-
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Hashtable;
+import java.util.List;
+import java.util.Map;
+import java.util.zip.ZipOutputStream;
+
 import jxl.Workbook;
 import jxl.format.CellFormat;
 import jxl.read.biff.BiffException;
+import jxl.write.Blank;
 import jxl.write.Label;
 import jxl.write.WritableCell;
 import jxl.write.WritableCellFeatures;
+import jxl.write.WritableCellFormat;
 import jxl.write.WritableHyperlink;
 import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
 import jxl.write.WriteException;
+import jxl.write.biff.RowsExceededException;
+
+import com.security.accesoDatos.configuraciongeneral.interfaz.ReferenciaService;
 import com.security.modelo.configuraciongeneral.ClasificacionDocumental;
 import com.security.modelo.configuraciongeneral.ClienteEmp;
+import com.security.modelo.configuraciongeneral.LoteExportacionRearchivo;
 import com.security.modelo.configuraciongeneral.Rearchivo;
 
 /**
- 
+ * TODO: configurar por spring
  * @author Federico Mz
  *
  */
@@ -38,7 +49,7 @@ public class ExportadorExcelRearchivosDigitales {
 		return new ExportadorExcelRearchivosDigitales();
 	}
 	
-	public void createWorkbook(OutputStream out, InputStream inp, Date fecha, ClienteEmp cliente, ClasificacionDocumental clasificacion) throws BiffException, IOException, WriteException {
+	public void createWorkbook(OutputStream out, InputStream inp, Date fecha, ClienteEmp cliente, ClasificacionDocumental clasificacion) throws BiffException, IOException, RowsExceededException, WriteException {
 		if(cellFormats!=null)
 			throw new IllegalStateException("Obtenga una nueva instancia de ExportadorExcelRearchivosDigitales para exportar un segundo excel");
 		
@@ -53,7 +64,7 @@ public class ExportadorExcelRearchivosDigitales {
 		addLabelRespectCellFormat(sheet, 6, 1, clasificacion.getNombre());
 	}
 	
-	public void addRearchivo(Rearchivo rearchivo) throws  WriteException {
+	public void addRearchivo(Rearchivo rearchivo) throws BiffException, RowsExceededException,WriteException {
 		WritableSheet sheet = spreadsheet.getSheet(0);
 		addLabels(sheet, actualRow,
 				rearchivo.getLoteRearchivo().getContenedor().getCodigo()+"\\"+rearchivo.getLoteRearchivo().getId()+"\\"+rearchivo.getNombreArchivoDigital(),
@@ -88,7 +99,7 @@ public class ExportadorExcelRearchivosDigitales {
 	
 
 	private void addLabels(WritableSheet sheet, int row, String... content)
-			throws  WriteException {
+			throws RowsExceededException, WriteException {
 		for (int col = 0; col < content.length; col++) {
 			if(content[col]!=null)
 				addLabelWithStandardCellFormat(sheet, row, col, content[col]);
@@ -98,7 +109,7 @@ public class ExportadorExcelRearchivosDigitales {
 	}
 
 	private void addLabelWithStandardCellFormat(WritableSheet sheet, int row, int col, String content)
-			throws  WriteException {
+			throws RowsExceededException, WriteException {
 		CellFormat cellFormat = cellFormats[col];
 		if(cellFormat!=null)
 			sheet.addCell(new Label(col, row, content, cellFormat));
@@ -110,7 +121,7 @@ public class ExportadorExcelRearchivosDigitales {
 	}
 	
 	private void addLabelRespectCellFormat(WritableSheet sheet, int row, int col, String content)
-			throws  WriteException {
+			throws RowsExceededException, WriteException {
 		WritableCell actualCell = sheet.getWritableCell(col, row);
 		CellFormat cellFormat = actualCell != null ? actualCell.getCellFormat() : null;
 		WritableCellFeatures cellFeature = actualCell != null ? actualCell.getWritableCellFeatures() : null;

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="WEB-INF/classes"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/commons-fileupload-1.2.2.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/commons-io-1.3.1.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/jakarta-regexp-1.5 2.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/jakarta-regexp-1.5.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/javax.servlet_3.0.0.v201112011016.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/mysql-connector-java-5.0.8-bin 2.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/mysql-connector-java-5.0.8-bin.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/struts-1.2.7 2.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/struts-1.2.7.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/struts-annotations-1.0.4 2.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/struts-annotations-1.0.4-sources 2.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/struts-annotations-1.0.4-sources.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/struts-annotations-1.0.4.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/struts2-core-2.1.8.1 2.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/struts2-core-2.1.8.1-sources 2.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/struts2-core-2.1.8.1-sources.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/struts2-core-2.1.8.1.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/struts2-jquery-grid-plugin-2.3.1 2.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/struts2-jquery-grid-plugin-2.3.1-sources 2.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/struts2-jquery-grid-plugin-2.3.1-sources.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/struts2-jquery-grid-plugin-2.3.1.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7">
+		<attributes>
+			<attribute name="owner.project.facets" value="java"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="D:/Desarrollo/Proyectos/LIBRERIAS/javax.servlet.jsp-api-2.3.1.jar"/>
+	<classpathentry kind="output" path="WEB-INF/classes"/>
+</classpath>

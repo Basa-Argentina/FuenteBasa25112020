@@ -62,31 +62,31 @@ public class Remito implements Comparable<Remito>{
 	private Boolean verificaLectura;
 	private Long numeroManual;
 	
-	private  String accion;
-	private  String codigoEmpresa;
-	private  String codigoSucursal;
-	private  String codigoTransporte;
-	private  String codigoPersonal;
-	private  String codigoDireccion;
-	private  String codigoDepositoOrigen;
-	private  String codigoDepositoDestino;
-	private  String codigoSerie;
-	private  String codigoCliente;
-	private  Date fechaDesde;
-	private  Date fechaHasta;
-	private  String numeroDesde;
-	private  String numeroHasta;
-	private  Set<RemitoDetalle> detallesViejos;
+	private transient String accion;
+	private transient String codigoEmpresa;
+	private transient String codigoSucursal;
+	private transient String codigoTransporte;
+	private transient String codigoPersonal;
+	private transient String codigoDireccion;
+	private transient String codigoDepositoOrigen;
+	private transient String codigoDepositoDestino;
+	private transient String codigoSerie;
+	private transient String codigoCliente;
+	private transient Date fechaDesde;
+	private transient Date fechaHasta;
+	private transient String numeroDesde;
+	private transient String numeroHasta;
+	private transient Set<RemitoDetalle> detallesViejos;
 	
-	private  Integer numeroPagina;
-	private  Integer tamañoPagina;
-	private  String fieldOrder;
-	private  String sortOrder;
+	private transient Integer numeroPagina;
+	private transient Integer tamañoPagina;
+	private transient String fieldOrder;
+	private transient String sortOrder;
 	
-	private  Long nroGyC;
-	private  Long nroDev;
+	private transient Long nroGyC;
+	private transient Long nroDev;
 	
-	private  List<Movimiento> movAsociados;
+	private transient List<Movimiento> movAsociados;
 	
 	
 	public Remito(){

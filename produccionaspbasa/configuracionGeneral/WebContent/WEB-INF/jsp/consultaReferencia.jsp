@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="display" uri="http://displaytag.sf.net"%>
@@ -60,8 +59,7 @@
 				<form:form action="filtrarReferencia.html" name="formBusqueda"
 					id="formBusqueda" commandName="requerimientoElementoBusqueda"
 					method="post">
-					<input type="hidden" id="isRequerimiento" name="isRequerimiento"
-						value="false">
+					<input type="hidden" id="isRequerimiento" name="isRequerimiento" value="false">
 					<input type="hidden" id="listaPalabras" name="listaPalabras">
 					<input type="hidden" id="clienteId" name="clienteId"
 						value="<c:out value="${clienteId}" default="" />" />
@@ -825,13 +823,11 @@
 
 							</tr>
 							<tr>
-								<td class="texto_ti"><input type="text"
-									id="palabraBusqueda" name="palabraBusqueda"
-									style="width: 700px;" value="<c:out value="" default="" />" />
-									&nbsp;</td>
+								<td class="texto_ti"><input type="text" id="palabraBusqueda"
+									name="palabraBusqueda" style="width: 700px;"
+									value="<c:out value="" default="" />" /> &nbsp;</td>
 								<td class="texto_ti" rowspan="2">
-									<button name="buscar" class="botonCentrado" type="submit"
-										id="buscarDocumento">
+									<button name="buscar" class="botonCentrado" type="submit" id="buscarDocumento">
 										<img src="<%=request.getContextPath()%>/images/buscar.png">
 										<spring:message code="textos.buscar" htmlEscape="true" />
 									</button>
@@ -843,25 +839,27 @@
 					</div>
 				</fieldset>
 				<br style="font-size: xx-small;" />
-				<fieldset>
-
-					<button name="descargarImagenesZIP" type="button"
-						id="descargarImagenesZIP">
-						<img src="<%=request.getContextPath()%>/images/skip.png">
-						DescargarImagenesZIP
-					</button>
-					<td>
-						<button name="descargarImagenesPDF" type="button"
-							id="descargarImagenesPDF">
-							<img src="<%=request.getContextPath()%>/images/ico_file_pdf.png">
-							DescargarImagenesPDF
-						</button>
-					</td>
-				</fieldset>
+			<fieldset>
+			
+			<button name="descargarImagenesZIP" type="button"
+					id="descargarImagenesZIP">
+					<img src="<%=request.getContextPath()%>/images/skip.png">
+					DescargarImagenesZIP 
+				</button>
+				<td>
+				<button name="descargarImagenesPDF" type="button"
+					id="descargarImagenesPDF">
+					<img src="<%=request.getContextPath()%>/images/ico_file_pdf.png">
+					DescargarImagenesPDF
+				</button>
+				</td>
+					</fieldset>
 				<fieldset>
 					<display:table name="requerimientoElementos"
-						id="requerimientoElemento" sort="external"
-						requestURI="mostrarReferencia.html" size="{size}" export="true">
+						id="requerimientoElemento"  sort="external"
+						requestURI="mostrarReferencia.html" size="{size}"
+						
+						 export="true">
 						<display:setProperty name="export.excel.export_amount"
 							value="list" />
 
@@ -880,13 +878,12 @@
 							titleKey="formularioRequerimientoElemento.display.tipoElemento"
 							class="celdaAlineadoIzquierda" />
 
-						<display:column media="html" sortName="elementos.codigo"
-							sortable="true"
+						<display:column media="html" sortName="elementos.codigo" sortable="true"
 							titleKey="formularioRequerimientoElemento.display.codigoElemento"
 							class="celdaAlineadoIzquierda">
 							<c:if
 								test="${requerimientoElemento.pathLegajo==null || requerimientoElemento.pathLegajo==''}">
-								<c:out value="${requerimientoElemento.codigoElemento}"
+									<c:out value="${requerimientoElemento.codigoElemento}"
 									default=""></c:out>
 							</c:if>
 							<c:if
@@ -897,18 +894,18 @@
 										value="${requerimientoElemento.codigoElemento}"></c:out></a>
 							</c:if>
 						</display:column>
-						<display:column media="excel" sortName="elementos.codigo"
-							sortable="true" property="elemento"
+						<display:column media="excel" sortName="elementos.codigo" sortable="true"
+							property="elemento"
 							titleKey="formularioRequerimientoElemento.display.codigoElemento"
 							class="celdaAlineadoIzquierda" />
-
-						<display:column media="excel" sortName="ee.codigo" sortable="true"
+						
+							<display:column media="excel" sortName="ee.codigo" sortable="true"
 							property="caja"
 							titleKey="formularioRequerimientoElemento.display.contenedor"
 							class="celdaAlineadoIzquierda" />
+						
 
-
-						<display:column media="html" sortName="ee.codigo" sortable="true"
+						<display:column media = "html" sortName="ee.codigo" sortable="true"
 							property="codigoContenedor"
 							titleKey="formularioRequerimientoElemento.display.contenedor"
 							class="celdaAlineadoIzquierda" />
@@ -929,45 +926,48 @@
 						<display:column property="clasificacionDocumental"
 							titleKey="formularioRequerimientoElemento.display.clasificacionDocumental"
 							class="celdaAlineadoIzquierda" />
-
+						
 						<display:column property="pathLegajo1" media="excel"
-							title="Archivo" class="celdaAlineadoIzquierda" />
+							title="Archivo"
+							class="celdaAlineadoIzquierda" />
 						<display:column sortName="referencia.fecha1" sortable="true"
 							property="fecha1Str"
 							titleKey="formularioRequerimientoElemento.display.fecha1"
 							class="celdaAlineadoIzquierda" />
-						<display:column sortName="referencia.fecha2" sortable="true"
+						<display:column  sortName="referencia.fecha2" sortable="true"
 							property="fecha2Str"
 							titleKey="formularioRequerimientoElemento.display.fecha2"
 							class="celdaAlineadoIzquierda" />
-						<display:column sortName="referencia.texto1" sortable="true"
+						<display:column   sortName="referencia.texto1" sortable="true"
 							property="texto1"
 							titleKey="formularioRequerimientoElemento.display.texto1"
 							class="celdaAlineadoIzquierda" />
-						<display:column sortName="referencia.texto2" sortable="true"
+						<display:column  sortName="referencia.texto2" sortable="true"
 							property="texto2"
 							titleKey="formularioRequerimientoElemento.display.texto2"
 							class="celdaAlineadoIzquierda" />
-						<display:column sortName="referencia.numero1" sortable="true"
+						<display:column  sortName="referencia.numero1" sortable="true"
 							property="numero1"
 							titleKey="formularioRequerimientoElemento.display.numero1"
 							class="celdaAlineadoDerecha" />
-						<display:column sortName="referencia.numero2" sortable="true"
+							
+						<display:column   sortName="referencia.numero2" sortable="true"
 							property="numero2"
 							titleKey="formularioRequerimientoElemento.display.numero2"
 							class="celdaAlineadoDerecha" />
 
-						<display:column media="html" sortName="referencia.descripcion"
-							sortable="true" property="descripcionReferencia"
+						<display:column sortName="referencia.descripcion" sortable="true"
+							property="descripcionReferencia"
 							titleKey="formularioRequerimientoElemento.display.descripcion"
-							class="celdaAlineadoDerecha" />
+							class="celdaAlineadoDerecha" />	
+
 						<display:column sortName="referencia.cImagenes" sortable="true"
 							property="cantImagenes"
 							titleKey="formularioRequerimientoElemento.display.cImagenes"
-							class="celdaAlineadoDerecha" />
-
-						<display:column media="html" sortName="elementos.estado"
-							sortable="true" property="estadoElemento"
+							class="celdaAlineadoDerecha" />	
+					
+						<display:column media="html" sortName="elementos.estado" sortable="true"
+							property="estadoElemento"
 							titleKey="formularioRequerimientoElemento.display.estado"
 							class="celdaAlineadoIzquierda" />
 						<display:column media="html" sortName="idLote" sortable="false"
@@ -984,16 +984,16 @@
 							property="cliente"
 							titleKey="formularioRequerimientoElemento.display.cliente"
 							class="celdaAlineadoIzquierda" />
-
-						<display:column media="html" sortName="referencia.texto1"
-							sortable="false" property="userAsig" title="Usr.Tarea"
+						
+						<display:column media="html" sortName="referencia.texto1" sortable="false"
+							property="lote_Rearchivo_id" title="Usr.Tarea"
 							class="celdaAlineadoIzquierda" />
-						<display:column media="html" sortName="referencia.texto1"
-							sortable="false" property="descripcionTarea" title="Tarea"
+						<display:column media="html" sortName="referencia.texto1" sortable="false"
+							property="descripcionTarea" title="Tarea"
 							class="celdaAlineadoIzquierda" />
 					</display:table>
 				</fieldset>
-
+			
 				<br style="font-size: xx-small;" /> <br
 					style="font-size: xx-small;" />
 			</fieldset>

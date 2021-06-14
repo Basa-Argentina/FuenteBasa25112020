@@ -78,14 +78,17 @@ public class LoteRearchivoServiceImp extends GestorHibernate<LoteRearchivo> impl
          		crit.createCriteria("empresa", "emp");
          		crit.add(Restrictions.eq("emp.codigo", codigoEmpresa));
          	}
+         	
          	if(codigoSucursal!=null && !codigoSucursal.isEmpty()){
          		crit.createCriteria("sucursal", "suc");
          		crit.add(Restrictions.eq("suc.codigo", codigoSucursal));
          	}
+         	
          	if(codigoCliente!=null && !codigoCliente.isEmpty()){
          		crit.createCriteria("clienteEmp", "cli");
          		crit.add(Restrictions.eq("cli.codigo", codigoCliente));
          	}
+         	
          	if(codigoDesde!=null)
          		crit.add(Restrictions.ge("id", codigoDesde));
          	if(codigoHasta!=null && codigoHasta.intValue()!=0)
@@ -220,14 +223,16 @@ public class LoteRearchivoServiceImp extends GestorHibernate<LoteRearchivo> impl
         	if(tipo!=null && !tipo.isEmpty()  && !"Todos".equals(tipo)){
         		crit.add(Restrictions.eq("tipo", tipo));
         	}
+        	
 	        crit.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
-	        
 	        result = ((Integer)crit.list().get(0));
 	        return result;
 	    } catch (HibernateException e1) {
 	    	logger.error("no se pudo listar todos ", e1);
 	        return null;
+	        
 	    }finally{
+		
         	try{
         		session.close();
         	}catch(Exception e){
@@ -259,7 +264,7 @@ public class LoteRearchivoServiceImp extends GestorHibernate<LoteRearchivo> impl
         	if(sortOrder!=null && sortOrder.length()>0 &&
             	fieldOrder!=null && fieldOrder.length()>0){
             		
-        			String fieldOrdenar = "";
+        		String fieldOrdenar = "";
             		String fieldOrdenar2 = "";
             		
             		if("id".equals(fieldOrder))
@@ -280,20 +285,16 @@ public class LoteRearchivoServiceImp extends GestorHibernate<LoteRearchivo> impl
     					fieldOrdenar = "cantidad";
     				}
             		
-            		if("1".equals(sortOrder)){
-            			if(!"".equals(fieldOrdenar))
-        					crit.addOrder(Order.asc(fieldOrdenar));
-            			if(!"".equals(fieldOrdenar2))
-        					crit.addOrder(Order.asc(fieldOrdenar2));
-        			}else if("2".equals(sortOrder)){
-        				if(!"".equals(fieldOrdenar))
-        					crit.addOrder(Order.desc(fieldOrdenar));
-            			if(!"".equals(fieldOrdenar2))
-        					crit.addOrder(Order.desc(fieldOrdenar2));
-        			}
-            	
+					/*
+					 * if("1".equals(sortOrder)){ if(!"".equals(fieldOrdenar))
+					 * crit.addOrder(Order.desc(fieldOrdenar)); if(!"".equals(fieldOrdenar2))
+					 * crit.addOrder(Order.desc(fieldOrdenar2)); }else if("2".equals(sortOrder)){
+					 * if(!"".equals(fieldOrdenar)) crit.addOrder(Order.desc(fieldOrdenar));
+					 * if(!"".equals(fieldOrdenar2)) crit.addOrder(Order.desc(fieldOrdenar2)); }
+					 */		
             	}
-        		
+        	
+        	crit.addOrder(Order.desc("id"));
         	crit.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 	        return crit.list();
 	    } catch (HibernateException e1) {
@@ -308,11 +309,11 @@ public class LoteRearchivoServiceImp extends GestorHibernate<LoteRearchivo> impl
         }
 	}
 	
-	
 	/**
 	 * Guarda o actualiza un LoteRearchivo en la base de datos y todas sus relaciones
 	 * @param objeto
 	 */
+	
 	@SuppressWarnings("unchecked")
 	public synchronized void guardarActualizar(LoteRearchivo loteRearchivo, LoteReferencia loteReferencia){
 		Session session = null;
@@ -325,41 +326,55 @@ public class LoteRearchivoServiceImp extends GestorHibernate<LoteRearchivo> impl
 			tx.begin();
 			
 			//rearchivos a mantener
-			Collection<Rearchivo> rearchivos=new ArrayList<Rearchivo>(loteRearchivo.getRearchivos());
 			
+			Collection<Rearchivo> rearchivos=new ArrayList<Rearchivo>(loteRearchivo.getRearchivos());
 			if(loteRearchivo.getId()==null || loteRearchivo.getId()==0){
+				
 				loteRearchivo.setId(null);
 				loteRearchivo.getRearchivos().clear();
 				session.save(loteRearchivo);
+				
 			}else{
+				
 				session.update(loteRearchivo);
+				
 				//borramos las rearchivos eliminadas
+				
 				loteRearchivo = (LoteRearchivo) session.get(LoteRearchivo.class, loteRearchivo.getId());
 				Collection<Rearchivo> remove = CollectionUtils.subtract(loteRearchivo.getRearchivos(),rearchivos);
 				for(Rearchivo ref:remove){
 					if(ref.getId()!=null){
+						
 						session.delete(ref);
 						loteRearchivo.getRearchivos().remove(ref);
+						
 					}
 				}
 				//rearchivos agregadas
 				rearchivos = CollectionUtils.subtract(rearchivos,loteRearchivo.getRearchivos());
 			}
+			
 			//guardamos las nuevas rearchivos
 			for(Rearchivo ref : rearchivos)
 			{
-				
 				ref.setLoteRearchivo(loteRearchivo);
+			
 				session.saveOrUpdate(ref);
 				loteRearchivo.getRearchivos().add(ref);
 			}
 			//Reactualizo
 			rearchivos=new ArrayList<Rearchivo>(loteRearchivo.getRearchivos());
-			for(Rearchivo ref : rearchivos)
+			User user =  ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+			for(Rearchivo ref : rearchivos) {
+		
+				if (ref.getTexto1()!=null ||ref.getTexto2()!=null||ref.getNumero1()!=null||ref.getNumero2()!=null)ref.setUserCarga_id(user.getId());
+
+				
 				session.update(ref);
-			
+			}
 			session.update(loteRearchivo);
 			
+
 			if(loteReferencia!=null){
 				//referencias a mantener
 				Collection<Referencia> referencias=new ArrayList<Referencia>(loteReferencia.getReferencias());
@@ -370,18 +385,23 @@ public class LoteRearchivoServiceImp extends GestorHibernate<LoteRearchivo> impl
 					//Agregado para el codigo///////////////
 					LoteReferenciaServiceImp service = new LoteReferenciaServiceImp(HibernateControl.getInstance());
 					loteReferencia.setCodigo(service.traerUltCodigoPorClienteAsp(loteRearchivo.getClienteAsp())+1L);
-					////////////////////////////////////////
+					//
 					loteReferencia.getReferencias().clear();
 					session.save(loteReferencia);
+			
 				}else{
 					
 					//actualizamos las modificadas
+					
 					for(Referencia ref : loteReferencia.getModificadas())
-					{
+					{	
+					    
 						session.update(ref);
 					}
 										
 					//borramos las referencias eliminadas
+					
+					
 					loteReferencia = (LoteReferencia) session.get(LoteReferencia.class, loteReferencia.getId());
 					Collection<Referencia> remove = CollectionUtils.subtract(loteReferencia.getReferencias(),referencias);
 					for(Referencia ref:remove){
@@ -389,12 +409,15 @@ public class LoteRearchivoServiceImp extends GestorHibernate<LoteRearchivo> impl
 							ref.getElemento().setContenedor(null);
 							session.update(ref.getElemento());
 							//Lineas agregadas para el historico de elementos
-							registrarHistoricoElementos("MS009ELE", ref.getElemento(),session,loteRearchivo.getUsuario_resp1());
+							
+							registrarHistoricoElementos("MS009ELE", ref.getElemento(),session,loteRearchivo.getUsuario_resp1());		
 							////////////////////////////////////
 							session.delete(ref);
 							//Linea agregada para el historico de referencias
 							registrarHistoricoReferencias("MS009REF", ref, session,loteReferencia,loteRearchivo.getUsuario_resp1());
+							
 							/////////////////////////////////////////////////
+							
 							loteReferencia.getReferencias().remove(ref);
 						}
 					}
@@ -408,9 +431,17 @@ public class LoteRearchivoServiceImp extends GestorHibernate<LoteRearchivo> impl
 					if(contenedor!=null){
 						contenedor = (Elemento)session.get(Elemento.class, contenedor.getId()); //refrescamos de la base
 					}
+					
 					ref.setElemento((Elemento)session.get(Elemento.class, ref.getElemento().getId()));//refrescamos de la base
+					
 					ref.getElemento().setClienteEmp(loteReferencia.getClienteEmp());
+					
 					ref.setLoteReferencia(loteReferencia);
+					
+					
+					ref.setClasificacionDocumental(ref.getClasificacionDocumental());
+					
+					
 					if(contenedor!=null && ref.getElemento()!=contenedor){
 						contenedor.setClienteEmp(loteReferencia.getClienteEmp());
 						session.update(contenedor);
@@ -429,6 +460,7 @@ public class LoteRearchivoServiceImp extends GestorHibernate<LoteRearchivo> impl
 						mensaje = "MS007REF";
 					else
 						mensaje = "MS008REF";
+					
 					registrarHistoricoReferencias(mensaje, ref, session, loteReferencia,loteRearchivo.getUsuario_resp1());
 					/////////////////////////////////////////////////
 					session.saveOrUpdate(ref);
@@ -443,6 +475,7 @@ public class LoteRearchivoServiceImp extends GestorHibernate<LoteRearchivo> impl
 		} 
 		catch (RuntimeException e) {
 			//si ocurre algún error intentamos hacer rollback
+		    
 			if (tx != null && tx.isActive()) {
 				try {
 					tx.rollback();
@@ -487,6 +520,7 @@ public class LoteRearchivoServiceImp extends GestorHibernate<LoteRearchivo> impl
 		        } catch (HibernateException e1) {
 		        	logger.error("no se pudo hacer rollback", e1);
 		        }
+				
 		        logger.error("no se pudo guardar", e);
 			}
 		}finally{
@@ -550,26 +584,38 @@ public class LoteRearchivoServiceImp extends GestorHibernate<LoteRearchivo> impl
 		return ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
 	}
 	
+	private ClienteAsp obtenerClienteAspUser(){
+		return ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getCliente();
+	}
+	
+	private void registrarHistoricoReferencias(String mensaje, Referencia referencia,Session session,LoteReferencia lote){
+		registrarHistoricoReferencias(mensaje, referencia,session,lote, null);
+	}
 	private void registrarHistoricoReferencias(String mensaje, Referencia referencia,Session session,LoteReferencia lote, User usuario){
+	
 		ReferenciaHistorico referenciaHis = new ReferenciaHistorico();
 		referenciaHis.setIdReferencia(referencia.getId());
+		//referenciaHis.setIdLoteReferencia(lote.getId());
 		referenciaHis.setIdLoteReferencia(lote.getCodigo());
 		if(referencia.getElemento()!=null)
-			referenciaHis.setCodigoElemento(referencia.getElemento().getCodigo());
+		referenciaHis.setCodigoElemento(referencia.getElemento().getCodigo());
 		if(referencia.getElemento().getContenedor()!=null)
-			referenciaHis.setCodigoContenedor(referencia.getElemento().getContenedor().getCodigo());
+		referenciaHis.setCodigoContenedor(referencia.getElemento().getContenedor().getCodigo());
 		referenciaHis.setAccion(mensaje);
 		referenciaHis.setFechaHora(new Date());
 		if(usuario==null)
-			referenciaHis.setUsuario(obtenerUser());
+		referenciaHis.setUsuario(obtenerUser());
 		else
-			referenciaHis.setUsuario(usuario);
+		referenciaHis.setUsuario(usuario);
 		referenciaHis.setClienteAsp(referencia.getElemento().getClienteAsp());
 		referenciaHis.setCodigoCliente(lote.getClienteEmp().getCodigo());
 		referenciaHis.setNombreCliente(lote.getClienteEmp().getRazonSocialONombreYApellido());
 		session.save(referenciaHis);
 	}
 	
+	private void registrarHistoricoElementos(String mensaje, Elemento elemento,Session session){
+		registrarHistoricoElementos(mensaje, elemento, session, null);
+	}
 	
 	private void registrarHistoricoElementos(String mensaje, Elemento elemento,Session session,User usuario){
 		ElementoHistorico elementoHis = new ElementoHistorico();

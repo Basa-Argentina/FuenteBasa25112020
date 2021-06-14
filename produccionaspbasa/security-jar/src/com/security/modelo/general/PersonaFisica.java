@@ -29,7 +29,6 @@ public class PersonaFisica extends Persona implements Serializable{
 	private Empresa empresaDefecto;
 	private Sucursal sucursalDefecto;
 	
-	
 	public String getNombre() {
 		return nombre;
 	}

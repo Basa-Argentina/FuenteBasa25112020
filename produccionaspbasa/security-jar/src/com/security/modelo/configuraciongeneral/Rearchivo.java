@@ -1,5 +1,6 @@
 package com.security.modelo.configuraciongeneral;
 
+import java.math.BigInteger;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
@@ -34,17 +35,23 @@ public class Rearchivo implements Comparable<Rearchivo>{
 	private String descripcion;
 	private String nombreArchivoDigital;
 	private String pathArchivoDigital;
+	private String pathDisco;
 	private String pathArchivoJPGDigital;
 	private Integer cantidadImagenes;
 	private ClasificacionDocumental clasifDoc;
+	private Date fechaHora;
+	private String nombreOriginal;
+	private Long userCarga_id ;
+	private Long userCrea_id ;
 	
-	private  Long codigoUsuario;
-	private  String descripcionTarea;
-	private  String tipoImg;
-	private  String numero1Str;
-	private  String numero2Str;
-	private  String codigoClasifDoc;
-	private  Elemento elemento;
+	
+	private transient Long codigoUsuario;
+	private transient String descripcionTarea;
+	private transient String tipoImg;
+	private transient String numero1Str;
+	private transient String numero2Str;
+	private transient String codigoClasifDoc;
+	private transient Elemento elemento;
 	
 	
 	@Override
@@ -272,6 +279,46 @@ public class Rearchivo implements Comparable<Rearchivo>{
 	@Transient
 	public void setDescripcionTarea(String descripcionTarea) {
 		this.descripcionTarea = descripcionTarea;
+	}
+
+	public String getPathDisco() {
+		return pathDisco;
+	}
+
+	public void setPathDisco(String pathDisco) {
+		this.pathDisco = pathDisco;
+	}
+
+	public Date getFechaHora() {
+		return fechaHora;
+	}
+
+	public void setFechaHora(Date fechaHora) {
+		this.fechaHora = fechaHora;
+	}
+
+	public String getNombreOriginal() {
+		return nombreOriginal;
+	}
+
+	public void setNombreOriginal(String nombreOriginal) {
+		this.nombreOriginal = nombreOriginal;
+	}
+
+	public Long getUserCarga_id() {
+		return userCarga_id;
+	}
+
+	public void setUserCarga_id(Long userCarga_id) {
+		this.userCarga_id = userCarga_id;
+	}
+
+	public Long getUserCrea_id() {
+		return userCrea_id;
+	}
+
+	public void setUserCrea_id(Long userCrea_id) {
+		this.userCrea_id = userCrea_id;
 	}
 	
 }

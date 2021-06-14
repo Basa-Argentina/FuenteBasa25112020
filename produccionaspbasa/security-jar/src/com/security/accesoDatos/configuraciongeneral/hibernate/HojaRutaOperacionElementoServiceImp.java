@@ -61,7 +61,7 @@ public class HojaRutaOperacionElementoServiceImp extends GestorHibernate<HojaRut
 			
 			if(hojaRutaOperacionElemento.getId()==null || hojaRutaOperacionElemento.getId()==0){
 				hojaRutaOperacionElemento.setId(null);
-
+				//loteReferencia.getReferencias().clear();
 				session.save(hojaRutaOperacionElemento);
 			}else{
 				session.update(hojaRutaOperacionElemento);

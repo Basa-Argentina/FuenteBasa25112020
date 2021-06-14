@@ -94,7 +94,7 @@ public class CambioEtiqueta implements Cloneable{
 	 * Compara por id de elemento
 	 */
 	public boolean equals(Object obj) {
-		
+		int i=1;
 		if (this == obj) {
 			return true;
 		}
@@ -122,6 +122,28 @@ public class CambioEtiqueta implements Cloneable{
 
 	}
 	
+	private Long parseLongCodigo(String codigo){
+		Long result= null;
+		//si el codigo es distinto de vacio o null
+		if(codigo!=null && codigo.length()>0){
+			//cuenta el primer digito diferente de 0
+			int cont = 0;
+			while(codigo.substring( cont, cont).equals("0")){
+				cont++;
+			}
+			//si el codigo esta formado solo por 0
+			if(cont == codigo.length()-1){
+				result = new Long(0);
+			}else{
+				//devuelve el Integer formado por el substring desde el cont hasta el final del codigo
+				result = Long.parseLong(codigo.substring(cont));
+			}
+		}else{
+			result = new Long(0);
+		}
+		return result;
+	}
+
 	public String getEtiquetaOriginal() {
 		return etiquetaOriginal;
 	}

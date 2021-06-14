@@ -7,6 +7,7 @@
  */
 package com.security.modelo.configuraciongeneral;
 
+import static com.security.recursos.Configuracion.formatoFechaFormularios;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -14,6 +15,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
@@ -30,11 +32,12 @@ public class LecturaDetalle implements Comparable<LecturaDetalle>{
 	private String codigoBarras;
 	private String observacion;
 	private Long estado_id;
-	private  String codigoLectura;
-	private  String codigoElemento;
+	private transient String codigoLectura;
+	private transient String codigoElemento;
+	private String busquedaEnPlanta;
 
 
-	
+
 	@Id @GeneratedValue(strategy=GenerationType.AUTO)
 	public Long getId() {
 		return id;
@@ -134,7 +137,13 @@ public class LecturaDetalle implements Comparable<LecturaDetalle>{
 		this.estado_id = estado_id;
 	}
 
-	
+	public String getBusquedaEnPlanta() {
+		return busquedaEnPlanta;
+	}
+
+	public void setBusquedaEnPlanta(String busquedaEnPlanta) {
+		this.busquedaEnPlanta = busquedaEnPlanta;
+	}
 	
 	
 }

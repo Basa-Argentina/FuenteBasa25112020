@@ -36,7 +36,7 @@ public class GrupoBusquedaValidator implements Validator {
 	public void validate(Object command, Errors errors) {
 		//aquí irían validaciones sobre los valores del objeto.
 		//de los campos requeridos y las conversiones se encarga el WebDataBinder 
-
+		//User user = (User) command;
 	}	
 	
 }

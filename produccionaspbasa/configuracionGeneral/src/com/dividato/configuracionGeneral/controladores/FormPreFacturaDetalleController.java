@@ -1,6 +1,7 @@
 package com.dividato.configuracionGeneral.controladores;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -10,7 +11,9 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -33,6 +36,8 @@ import com.security.modelo.configuraciongeneral.ListaPrecios;
 import com.security.modelo.configuraciongeneral.Sucursal;
 import com.security.modelo.general.PersonaFisica;
 import com.security.modelo.seguridad.User;
+import com.security.utils.ScreenMessage;
+import com.security.utils.ScreenMessageImp;
 
 /**
  * Controlador que se utiliza para los servicios asociados al formulario de
@@ -291,7 +296,27 @@ public class FormPreFacturaDetalleController {
 					BigDecimal valor = listaPrecios.getValor();
 					if (valor != null) {
 						
-				
+						//BigDecimal netoUnitario = variacionPrecio.multiply(concepto.getPrecioBase());
+						//preFacturaDetalle.setNetoUnitario(netoUnitario);
+						
+						//////////////////////////////////////////////////////////////////////////////////
+						////////////////METODO: EL PRECIO TIENE IMPUESTOS
+//						BigDecimal variacionPrecio = uno.add(valor.divide(cien));
+//						BigDecimal finalUnitario  = variacionPrecio.multiply(concepto.getPrecioBase());
+//						preFacturaDetalle.setFinalUnitario(finalUnitario);
+//						preFacturaDetalle.setFinalTotal(finalUnitario.multiply(new BigDecimal(cantidad)));
+//						
+//						preFacturaDetalle.setIVA(impuesto != null ? impuesto.getAlicuota() : null);
+//						
+//						if (impuesto != null && impuesto.getAlicuota() != null) {
+//							
+//							preFacturaDetalle.setNetoUnitario(finalUnitario.divide(((impuesto.getAlicuota().divide(new BigDecimal(100))).add(new BigDecimal(1))), 4, RoundingMode.HALF_UP));
+//							preFacturaDetalle.setNetoTotal(preFacturaDetalle.getNetoUnitario().multiply(new BigDecimal(cantidad)));
+//							preFacturaDetalle.setImpuestoUnitario(finalUnitario.subtract(preFacturaDetalle.getNetoUnitario()));
+//							preFacturaDetalle.setImpuestoTotal((finalUnitario.subtract(preFacturaDetalle.getNetoUnitario()).multiply(BigDecimal.valueOf(cantidad))));
+//							
+//						}
+						
 						//////////////////////////////////////////////////////////////////////////////////
 						////////////////METODO: EL PRECIO NO TIENE IMPUESTOS
 						BigDecimal variacionPrecio = uno.add(valor.divide(cien));
@@ -372,5 +397,93 @@ public class FormPreFacturaDetalleController {
 	private Sucursal obtenerSucursalUser() {
 		return ((PersonaFisica) obtenerUser().getPersona())
 				.getSucursalDefecto();
+	}
+
+	/**
+	 * genera el objeto BindingResult para mostrar los errores por pantalla en
+	 * un popup y lo agrega al map atributos
+	 * 
+	 * @param codigoErrores
+	 * @param atributos
+	 */
+	private void generateErrors(List<String> codigoErrores,
+			Map<String, Object> atributos) {
+		if (!codigoErrores.isEmpty()) {
+			BindingResult result = new BeanPropertyBindingResult(new Object(),
+					"");
+			for (String codigo : codigoErrores) {
+				result.addError(new FieldError(
+						"error.formBookingGroup.general", codigo, null, false,
+						new String[] { codigo }, null, "?"));
+			}
+			atributos.put("result", result);
+			atributos.put("errores", true);
+		} else if (atributos.get("result") == null) {
+			atributos.put("errores", false);
+		}
+	}
+
+	private void generateAvisoExito(String avisoExito,
+			Map<String, Object> atributos) {
+		// Genero las notificaciones
+		List<ScreenMessage> avisos = new ArrayList<ScreenMessage>();
+		ScreenMessage mensajeEstanteReg = new ScreenMessageImp(avisoExito, null);
+		avisos.add(mensajeEstanteReg); // agrego el mensaje a la coleccion
+		atributos.put("errores", false);
+		atributos.remove("result");
+		atributos.put("hayAvisos", true);
+		atributos.put("hayAvisosNeg", false);
+		atributos.put("avisos", avisos);
+	}
+
+	private boolean validarPreFacturaDetalle(PreFacturaDetalle preFacturaDetalle,
+			List<String> errors) {
+		boolean result = true;
+		if (preFacturaDetalle.getDescripcion().trim().equals("")
+				|| preFacturaDetalle.getDescripcion().length()<1 
+				|| preFacturaDetalle.getDescripcion().equalsIgnoreCase("Descripción:")) {
+			errors.add("formularioPreFacturaDetalle.error.descripcion");
+			result = false;
+		}
+		if (preFacturaDetalle.getCantidad() == null
+				|| preFacturaDetalle.getCantidad().intValue() < 1) {
+			errors.add("formularioPreFacturaDetalle.error.cantidad");
+			result = false;
+		}
+		if (preFacturaDetalle.getConceptoFacturable() == null) {
+			errors.add("formularioPreFacturaDetalle.error.codigoConcepto");
+			result = false;
+		}
+		if (preFacturaDetalle.getListaprecios() == null) {
+			errors.add("formularioPreFacturaDetalle.error.listaPrecios");
+			result = false;
+		} else if (preFacturaDetalle.getListaprecios().getValor() == null) {
+			errors.add("formularioPreFacturaDetalle.error.listaPrecios.value");
+			result = false;
+		}
+
+		if (preFacturaDetalle.getFinalTotal() == null) {
+			errors.add("formularioPreFacturaDetalle.error.datosInsuficientes");
+			result = false;
+		}
+		// TODO especificar los datos que impiden calcular el precio finalTotal
+		if (preFacturaDetalle.getCantidad() == null
+				|| preFacturaDetalle.getCantidad() <= 0) {
+			errors.add("formularioPreFacturaDetalle.error.cantidad");
+			result = false;
+		}
+		return result;
+	}
+	
+	private Long getProximoIdEliminar(List<PreFacturaDetalle> detalles){
+		Long mayor = Long.valueOf(0L);
+		if(detalles != null && detalles.size()>0){
+			for(PreFacturaDetalle fd : detalles){
+				if(mayor<fd.getIdEliminar()){
+					mayor = fd.getIdEliminar();
+				}
+			}
+		}
+		return mayor + 1L;
 	}
 }

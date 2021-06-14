@@ -11,8 +11,10 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
+import org.hibernate.FetchMode;
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
@@ -23,7 +25,9 @@ import com.security.accesoDatos.hibernate.GestorHibernate;
 import com.security.accesoDatos.hibernate.HibernateControl;
 import com.security.accesoDatos.jerarquias.interfaz.TipoJerarquiaService;
 import com.security.modelo.administracion.ClienteAsp;
+import com.security.modelo.configuraciongeneral.Empresa;
 import com.security.modelo.jerarquias.TipoJerarquia;
+import com.security.modelo.jerarquias.TipoOperacion;
 
 /**
  * @author Ezequiel Beccaria

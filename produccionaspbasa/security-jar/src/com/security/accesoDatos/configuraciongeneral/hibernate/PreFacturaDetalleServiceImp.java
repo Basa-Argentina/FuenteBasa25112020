@@ -19,13 +19,16 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-
+import com.security.accesoDatos.configuraciongeneral.interfaz.PlantillaFacturacionDetalleService;
 import com.security.accesoDatos.configuraciongeneral.interfaz.PreFacturaDetalleService;
+import com.security.accesoDatos.configuraciongeneral.interfaz.PreFacturaService;
 import com.security.accesoDatos.hibernate.GestorHibernate;
 import com.security.accesoDatos.hibernate.HibernateControl;
 import com.security.modelo.administracion.ClienteAsp;
 import com.security.modelo.configuraciongeneral.PlantillaFacturacionDetalle;
 import com.security.modelo.configuraciongeneral.PreFacturaDetalle;
+import com.security.modelo.configuraciongeneral.Remito;
+import com.security.modelo.configuraciongeneral.RemitoDetalle;
 
 /**
  * @author Victor Kenis

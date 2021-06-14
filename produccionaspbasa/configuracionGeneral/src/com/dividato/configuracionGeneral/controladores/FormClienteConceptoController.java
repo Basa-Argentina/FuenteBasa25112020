@@ -139,7 +139,7 @@ public class FormClienteConceptoController {
 			@RequestParam(value="clienteCodigo", required=false) String clienteCodigo,
 			@RequestParam(value="listaPrecioCodigo", required=false) String listaPrecioCodigo,
 			Map<String,Object> atributos) {
-
+		//if(accion==null) accion=(String) atributos.get("accion");
 		if(accion==null) accion="NUEVO"; //acción por defecto: nuevo		
 		if(!accion.equals("NUEVO")){
 			ClienteConcepto clienteConceptoFormulario;

@@ -84,11 +84,11 @@ public class ListaAuthorityController {
 		//buscamos en la base de datos y lo subimos a request.
 		List<Authority> authoritys = null;
 		if(session.getAttribute("authorityBusqueda")==null)
-
-			authoritys=authorityService.listAuthorityExceptAuthority("ROLE_ASP_ADMIN");
+//			authoritys=(List<Authority>) authorityService.listarTodos();
+			authoritys=(List<Authority>) authorityService.listAuthorityExceptAuthority("ROLE_ASP_ADMIN");
 		else{
 			Authority authority = (Authority) session.getAttribute("authorityBusqueda");
-			authoritys =authorityService.listarTodosAuthorityFiltrados(authority);
+			authoritys =(List<Authority>) authorityService.listarTodosAuthorityFiltrados(authority);
 		}
 			
 		atributos.put("authoritys", authoritys);
@@ -114,7 +114,7 @@ public class ListaAuthorityController {
 			atributos.put("errores", true);
 			atributos.put("result", result);			
 		}	
-
+//		return "redirect:iniciarAuthority.html";
 		return mostrarAuthority(session,atributos);
 	}
 	
@@ -155,7 +155,7 @@ public class ListaAuthorityController {
 		else
 			session.removeAttribute("errorEliminacion");
 		return "redirect:mostrarAuthority.html";
-
+		//return mostrarAuthority(session,atributos);
 	}
 	
 }

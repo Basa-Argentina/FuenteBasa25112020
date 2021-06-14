@@ -145,7 +145,7 @@ public class FacturaDetalleServiceImp extends GestorHibernate<FacturaDetalle> im
 	public List<FacturaDetalle> listarFacturaDetalleFiltradas(FacturaDetalle facturaDetalle, ClienteAsp cliente){
 		Session session = null;
         try {
-        	//
+        	//TODO
         	return null;
         } catch (HibernateException hibernateException) {
         	logger.error("No se pudo listar facturas detalles", hibernateException);

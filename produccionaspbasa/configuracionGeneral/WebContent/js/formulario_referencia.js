@@ -13,7 +13,6 @@ $(document).ready(function() {
 		$('#busquedaImgSrc').slideToggle('slideUp');
 	});
 	
-	
 	document.onkeydown = myDownKeyPressHandler;
 	document.onkeyup = myUpKeyPressHandler;
 	
@@ -43,10 +42,8 @@ $(document).ready(function() {
 				jAlert("Ingrese un código de longitud mayor a cero");
 				return false;
 			}
-			
-			
 		}
-		
+
 		$("#btnGuardarReferencia").attr("disabled","disabled");
 		$("#codigoEmpresa", top.document).attr('readonly','readonly');
 		$("#buscaEmpresa", top.document).attr('disabled','disabled');
@@ -57,15 +54,25 @@ $(document).ready(function() {
 		$("#idLoteReferencia").val($("#id", top.document).val());
 		if($('#porRango').val()!=null && $('#porRango').val()=='true')
 			$('#referenciaFormulario').attr('action','agregarRangoReferencia.html');
+		
+		var x = document.forms[0];
+		
+		localStorage.setItem("seccionReferencia", x);
+		
 		document.forms[0].submit();
 		
-		
+
 	});
+
+	
+	$("#zoom_01").elevateZoom({tint:true, tintColour:'#F90', tintOpacity:0.5});
+	
+	
 	
 	$("#btnCancelar").click(function(){
 		$('#sortForm').submit();
 	});
-	
+
 	//Tooltips
 	$("img[title]").tooltip();
 	
@@ -80,7 +87,7 @@ $(document).ready(function() {
 		      	 modificar($(t).find('#hdn_id').val());
 	        },
 	        'agregarRango': function(t) {
-		      	 modificar($(t).find('#hdn_id').val());
+	        	modificar($(t).find('#hdn_id').val());
 	        }
 	      },
 			onShowMenu: function(e, menu) {
@@ -104,6 +111,7 @@ $(document).ready(function() {
 		$('#codigoCliente').val($("#codigoCliente", top.document).val());
 		searchAjax('seleccionTipoElementoByPrefijoCodigo.html','prefijoCodigoTipoElemento','codigoCliente',getTipoElementoCallBack);
 	});
+	
 	$("#codigoContenedor").blur(function(){
 		// Para el caso de ingreso de datos mediante lector
 		var codigo = $("#codigoContenedor").val();
@@ -119,14 +127,15 @@ $(document).ready(function() {
 		//Modifica Adrian oculta el check y Cerrrar Caja Supervielle
 		
 		var codclient1 = $("#codigoCliente").val();
-		if (codclient1 == "2231"){
 		
+		if (codclient1 == "2231"){
 		$("#cerrarCaja").addClass("hiddenInput");
 		$("#labelCajaCerrada").addClass("hiddenInput");
-
+		
 		}
 		
 		// Codigo contenedor contatenar los ceros con le prefijo
+		
 		valor = $("#codigoContenedor").val();
 		if(valor.length>0 && valor.length<12){
 			numCeros = $("#prefijoCodigoTipoElemento").val()+'0000000000'; 
@@ -150,6 +159,7 @@ $(document).ready(function() {
 	});
 	
 	$("#codigoContenedor").keyup(function(){
+	
 		codigoConte = $("#codigoContenedor").val();
 		if(codigoConte.length==12)
 			$("#codigoConteEAN").focus();
@@ -166,6 +176,7 @@ $(document).ready(function() {
 				else
 					searchAjax("seleccionContenedor2.html?limitarCliente=false&cerrado=false",'codigoContenedor','codigoCliente',getContenedorCallBack);
 			}
+			
 			else{
 				jAlert(mensaje,"Error");
 				$("#codigoContenedor").val('');
@@ -176,6 +187,7 @@ $(document).ready(function() {
 			}
 		//}
 	});
+	
 	
 	$("#codigoElemento").blur(function(){
 		codigo = $("#codigoElemento").val();
@@ -449,6 +461,8 @@ $(document).ready(function() {
 				event.preventDefault();
 		}	
 	});
+	
+	
 	$("#prefijoCodigoTipoElemento").keydown( function (event) { //event==Keyevent
 		
 		if(event.which == 9 && !isCtrl) { //tab
@@ -745,6 +759,7 @@ function bloquearContenedor(){
 }
 
 function incrementarElemento(){
+	
 	var iconoIncremento = $("#incrementarElemento");
 	if(iconoIncremento.attr("src")=="images/noIncrementar.png"){
 		iconoIncremento.attr("src", "images/incrementar.png");

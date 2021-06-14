@@ -29,13 +29,14 @@ public class ReferenciaValidator implements Validator{
 		return ClasificacionDocumental.class.isAssignableFrom(type);
 	}
 
+	
 	public void initDataBinder(WebDataBinder binder) {
 		binder.registerCustomEditor(Date.class, "fecha1",new CustomDateEditor(formatoFechaFormularios, true));
 		binder.registerCustomEditor(Date.class, "fecha2",new CustomDateEditor(formatoFechaFormularios, true));
 		NumberFormat nf = NumberFormat.getNumberInstance();
 		binder.registerCustomEditor(Long.class, "numero1",new CustomNumberEditor(Long.class, nf, true));
 	}
-
+	
 	@Override
 	public void validate(Object command, Errors errors) {
 		Referencia referencia = (Referencia)command;
@@ -61,32 +62,41 @@ public class ReferenciaValidator implements Validator{
 					errors.rejectValue("numero2", "required");
 				}
 			}
+			
 			if(referencia.getClasificacionDocumental().getIndividualFecha1Requerido()){
 				if(referencia.getFecha1()==null){
 					errors.rejectValue("fecha1", "required");
 				}
 			}
+			
 			if(referencia.getClasificacionDocumental().getIndividualFecha2Requerido()){
 				if(referencia.getFecha2()==null){
 					errors.rejectValue("fecha2", "required");
 				}
 			}
+			
 			if(referencia.getClasificacionDocumental().getIndividualTexto1Requerido()){
 				if(referencia.getTexto1()==null || referencia.getTexto1().trim().isEmpty()){
 					errors.rejectValue("texto1", "required");
 				}
 			}
+			
 			if(referencia.getClasificacionDocumental().getIndividualTexto2Requerido()){
+				
 				if(referencia.getTexto2()==null || referencia.getTexto2().trim().isEmpty()){
 					errors.rejectValue("texto2", "required");
 				}
+				
 			}
+			
 		}
+		
 		else if(referencia.getPorRango()!=null && referencia.getPorRango()){
 			
 			if(referencia.getCodigoElementoDesde()==null || referencia.getCodigoElementoDesde().trim().isEmpty()){
 				errors.rejectValue("codigoElementoDesde", "required");
 			}
+			
 			if(referencia.getCodigoElementoHasta()==null || referencia.getCodigoElementoHasta().trim().isEmpty()){
 				errors.rejectValue("codigoElementoHasta", "required");
 			}
@@ -106,7 +116,6 @@ public class ReferenciaValidator implements Validator{
 			
 				
 		}else{
-			
 			if(referencia.getClasificacionDocumental().getGrupalNumeroRequerido()){
 				if(referencia.getNumero1()==null){
 					errors.rejectValue("numero1", "required");
@@ -115,7 +124,6 @@ public class ReferenciaValidator implements Validator{
 					errors.rejectValue("numero2", "required");
 				}
 			}
-			
 			if(referencia.getClasificacionDocumental().getGrupalFechaRequerido()){
 				if(referencia.getFecha1()==null){
 					errors.rejectValue("fecha1", "required");
@@ -133,7 +141,6 @@ public class ReferenciaValidator implements Validator{
 					errors.rejectValue("texto2", "required");
 				}
 			}
-			
 		}
 		
 		if(referencia.getClasificacionDocumental().getDescripcionRequerido()){

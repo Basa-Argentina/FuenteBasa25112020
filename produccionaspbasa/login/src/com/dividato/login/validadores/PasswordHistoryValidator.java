@@ -28,7 +28,7 @@ public class PasswordHistoryValidator implements Validator {
 	 * @param binder
 	 */
 	public void initDataBinder(WebDataBinder binder) {
-		//Nada que iniciar
+		
 	}
 	/**
 	 * Valida los valores de las propiedades del objeto.

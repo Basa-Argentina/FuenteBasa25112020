@@ -42,9 +42,15 @@ public class CaiValidator implements Validator {
 	 * @param binder
 	 */
 	public void initDataBinder(WebDataBinder binder) {
-
+		//try{
 			binder.registerCustomEditor(Date.class, "fechaVencimiento", new CustomDateEditor(formatoFechaFormularios,true));
-
+		/*}catch (Exception e) {
+			MapBindingResult br = new MapBindingResult(new HashMap(),"fechaVencimiento");
+			br.rejectValue("fechaVencimiento", "formularioCai.errorFechaVencimiento");
+			DefaultBindingErrorProcessor error = new DefaultBindingErrorProcessor();
+			error.processMissingFieldError("fechaVencimiento", br);
+			binder.setBindingErrorProcessor(error);
+		}*/
 		binder.setRequiredFields(new String[] {
 				"numero","fechaVencimiento"
 		});

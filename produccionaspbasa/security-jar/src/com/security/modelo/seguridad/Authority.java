@@ -53,8 +53,7 @@ public class Authority implements GrantedAuthority{
 		if (getDescription() != null ? !getDescription().equals(authority.getDescription()):authority.getDescription() != null) 
 			return false;		
 		return true;
-	}
-	
+	}	
 	@Override
 	public int hashCode(){
 		int result = HashCodeUtil.SEED;

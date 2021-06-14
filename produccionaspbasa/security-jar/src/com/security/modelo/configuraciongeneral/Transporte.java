@@ -3,6 +3,7 @@ package com.security.modelo.configuraciongeneral;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -33,11 +34,11 @@ public class Transporte {
 	private boolean habilitado;
 	private String patente;
 	private Integer capacidad;
-	private String accion;
-	private Long idEmpresa;
-	private Integer codigoMin;
-	private Integer codigoMax;
-	private String codigoEmpresa;
+	private transient String accion;
+	private transient Long idEmpresa;
+	private transient Integer codigoMin;
+	private transient Integer codigoMax;
+	private transient String codigoEmpresa;
 	
 	
 	@Id @GeneratedValue(strategy=GenerationType.AUTO)

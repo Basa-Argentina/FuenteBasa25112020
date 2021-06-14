@@ -8,6 +8,7 @@
 package com.dividato.configuracionGeneral.controladores.jerarquias;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -49,6 +50,7 @@ import com.security.constants.Constants;
 import com.security.modelo.administracion.ClienteAsp;
 import com.security.modelo.configuraciongeneral.Empresa;
 import com.security.modelo.configuraciongeneral.Referencia;
+import com.security.modelo.configuraciongeneral.Remito;
 import com.security.modelo.configuraciongeneral.Sucursal;
 import com.security.modelo.general.PersonaFisica;
 import com.security.modelo.jerarquias.Operacion;
@@ -268,7 +270,6 @@ public class ListaOperacionController {
 							if(referencia.getTexto1()!= null && !referencia.getTexto1().equals("") && !referencia.getTexto1().equalsIgnoreCase(referencia.getTexto2()))
 								numeroYTextos += referencia.getTexto2()+" ";
 							else if(referencia.getTexto1()== null || referencia.getTexto1().equals(""))
-								
 								numeroYTextos += referencia.getTexto2()+" ";
 						}
 						if(referencia.getNumero1()!=null)
@@ -314,6 +315,7 @@ public class ListaOperacionController {
 					else if(opElemento.getElemento().getContenedor()!=null && opElemento.getElemento().getContenedor().getUbicacionProvisoria()!=null)
 						opElementoReporte.setUbicacionProvisoria(getProperty(opElemento, "elemento.contenedor.ubicacionProvisoria"));
 					
+					//opElementoReporte.setRearchivoDe(opElemento.getRearchivoDe().getCodigoAlternativo());
 					if(opElemento.getElemento()!=null && opElemento.getElemento().getId()!=null && opElemento.getElemento().getId()!=0)
 						opElementoReporte.setCodigoBarras(opElemento.getElemento().getId());
 				}
@@ -322,7 +324,7 @@ public class ListaOperacionController {
 				else
 					opElementoReporte.setOrigen("Requerimiento");
 				if(opElemento.getEstado()!=null)
-					opElementoReporte.setEstado(opElemento.getEstado());			
+					opElementoReporte.setEstado(opElemento.getEstado().toString());			
 				opElementos.add(opElementoReporte);
 			}
 			JasperReport jasperReport = JasperCompileManager.compileReport(session.getServletContext().getRealPath(Constants.PATH_JASPER)+"/reporteImpresionOperacion.jrxml");
@@ -345,7 +347,7 @@ public class ListaOperacionController {
 			}
 			
 			response.setContentType("application/pdf");
-
+			//response.addHeader("Content-Disposition", "attachment; filename=lista_operaciones.pdf");
 
 			if(opElementos!=null && opElementos.size()>1)
 				Collections.sort(opElementos);
@@ -493,7 +495,9 @@ public class ListaOperacionController {
 		atributos.put("hayAvisosNeg", hayAvisosNeg);
 		atributos.put("hayAvisos", hayAvisos);
 		atributos.put("avisos", avisos);
-
+		
+		//return mostrarRemito(session, atributos, null, null, null, null, null, null, null,null,null,request);
+		/* */
 		return mostrarOperacion(session, atributos, null, null, null, null, null, null,request);
 
 	}

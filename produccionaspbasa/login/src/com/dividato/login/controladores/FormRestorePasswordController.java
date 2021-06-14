@@ -134,7 +134,6 @@ public class FormRestorePasswordController {
 			String pass = RecursosPassword.generarPassword();
 			final String pass2 = pass;
 			new Thread(){
-				@Override
 				public void run(){
 					enviarMail(userList,pass2,sistema);
 				}
@@ -142,7 +141,7 @@ public class FormRestorePasswordController {
 			try {
 				pass = RecursosPassword.encriptar(pass);
 			} catch (Exception e) {
-				logger.error(e);
+				e.printStackTrace();
 			} 
 			
 			//modificación Ezequiel Beccaria		
@@ -152,7 +151,7 @@ public class FormRestorePasswordController {
 			}
 		}
 		//Genero el aviso
-		List<ScreenMessage> avisos = new ArrayList<>();
+		List<ScreenMessage> avisos = new ArrayList<ScreenMessage>();
 		ScreenMessage mensaje = new ScreenMessageImp("formularioRestorePassword.confirmacion", null);
 		avisos.add(mensaje); //agrego el mensaje a la coleccion
 		
@@ -163,7 +162,16 @@ public class FormRestorePasswordController {
 		//hacemos el redirect
 		return "index";
 	}
-
+	
+//	private void enviarMail(User user, String pass){
+//		try {
+//			mailManager.enviar(user.geteMail(), "PAYMOD AG - Recuperar Usuario", "Usuario: " + user.getUsername() + " Contraseña: " + pass);
+//		} catch (MessagingException e) {
+//			logger.error(e);
+//		} catch (IllegalStateException e){
+//			logger.error(e);
+//		} 
+//	}
 	
 	private void enviarMail(List<User> userList, String pass,String sistema){
 		try {
@@ -172,8 +180,10 @@ public class FormRestorePasswordController {
 				str.append("Usuario: " + user.getUsername() + " \n Nueva Contraseña: " + pass + "\n");				
 			}
 			mailManager.enviar(userList.get(0).getPersona().getMail(), sistema + " - Recuperar contraseña", str.toString(),sistema);
-		} catch (MessagingException | IllegalStateException e) {
+		} catch (MessagingException e) {
 			logger.error(e);
-		} 
+		} catch (IllegalStateException e){
+			logger.error(e);
+		}
 	}
 }

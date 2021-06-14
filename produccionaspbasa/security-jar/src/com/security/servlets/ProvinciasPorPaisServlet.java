@@ -16,12 +16,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
-
+import org.springframework.security.context.SecurityContextHolder;
 
 import com.security.accesoDatos.hibernate.HibernateControl;
 import com.security.accesoDatos.hibernate.ProvinciaServiceImp;
 import com.security.accesoDatos.interfaz.ProvinciaService;
+import com.security.modelo.administracion.ClienteAsp;
 import com.security.modelo.general.Provincia;
+import com.security.modelo.seguridad.User;
 
 /**
  * @author Ezequiel Beccaria
@@ -31,7 +33,6 @@ public class ProvinciasPorPaisServlet extends HttpServlet{
 	private static final long serialVersionUID = 7100679955581101875L;
 	private static Logger logger = Logger.getLogger(ProvinciasPorPaisServlet.class);
 	
-	@Override
 	public void doGet (HttpServletRequest request, HttpServletResponse response)
 	throws ServletException, IOException {	
 		response.setContentType("text/xml"); 
@@ -78,5 +79,7 @@ public class ProvinciasPorPaisServlet extends HttpServlet{
 			return null;
 	}
 	
-
+	private ClienteAsp obtenerClienteAspUser(){
+		return ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getCliente();
+	}
 }

@@ -7,13 +7,18 @@
  */
 package com.dividato.configuracionGeneral.controladores.jerarquias;
 
+import static com.security.recursos.Configuracion.formatoFechaFormularios;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
 import org.displaytag.tags.TableTagParameters;
 import org.displaytag.util.ParamEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,13 +32,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-
+import com.dividato.configuracionGeneral.objectForms.RequerimientoElementoBusquedaForm;
 import com.dividato.configuracionGeneral.validadores.jerarquias.RequerimientoElementoBusquedaValidator;
 import com.security.accesoDatos.configuraciongeneral.interfaz.ClasificacionDocumentalService;
 import com.security.accesoDatos.configuraciongeneral.interfaz.ClienteEmpService;
 import com.security.accesoDatos.configuraciongeneral.interfaz.ElementoService;
 import com.security.accesoDatos.configuraciongeneral.interfaz.ReferenciaService;
 import com.security.accesoDatos.configuraciongeneral.interfaz.TipoElementoService;
+import com.security.accesoDatos.jerarquias.hibernate.RequerimientoServiceImp;
 import com.security.accesoDatos.jerarquias.interfaz.RequerimientoReferenciaService;
 import com.security.accesoDatos.jerarquias.interfaz.TipoRequerimientoService;
 import com.security.modelo.administracion.ClienteAsp;
@@ -44,6 +50,7 @@ import com.security.modelo.configuraciongeneral.Empleado;
 import com.security.modelo.configuraciongeneral.Empresa;
 import com.security.modelo.configuraciongeneral.Sucursal;
 import com.security.modelo.general.PersonaFisica;
+import com.security.modelo.jerarquias.Requerimiento;
 import com.security.modelo.jerarquias.TipoRequerimiento;
 import com.security.modelo.seguridad.User;
 import com.security.utils.ScreenMessage;
@@ -333,9 +340,9 @@ public class ListaRequerimientoElementoSinReferenciaController {
 		elemento.setNumeroPagina(nPagina);
 		
 		if(tipoReq!=null && tipoReq.getRetiro())
-			elementos =elementoService.traerElementosRetiroPorSQL(elemento, obtenerClienteAsp(), clasificaciones);
+			elementos = (List<Elemento>) elementoService.traerElementosRetiroPorSQL(elemento, obtenerClienteAsp(), clasificaciones);
 		else 
-			elementos =elementoService.listarElementoFiltradas(elemento, obtenerClienteAsp());
+			elementos =(List<Elemento>) elementoService.listarElementoFiltradas(elemento, obtenerClienteAsp());
 		
 		session.setAttribute("elementosSession", elementos);
 		atributos.put("elementos", elementos);

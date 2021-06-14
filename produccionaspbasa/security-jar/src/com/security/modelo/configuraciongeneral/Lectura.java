@@ -47,20 +47,20 @@ public class Lectura implements Comparable<Lectura>{
 	private Boolean utilizada;
 	private Long tipo;
 	private Long remito_id;
-	private  String accion;
-	private  String codigoEmpresa;
-	private  String codigoSucursal;
-	private  String codigoSerie;
-	private  String codigoUsuario;
-	private  Date fechaDesde;
-	private  Date fechaHasta;
-	private  Long codigoDesde;
-	private  Long codigoHasta;
-	private  String codigoLecturaStr;
-	private  String codigoCliente;
-	private  String codigoTipoElemento;
-	private  String codigoElementoDesde;
-	private  String codigoElementoHasta;
+	private transient String accion;
+	private transient String codigoEmpresa;
+	private transient String codigoSucursal;
+	private transient String codigoSerie;
+	private transient String codigoUsuario;
+	private transient Date fechaDesde;
+	private transient Date fechaHasta;
+	private transient Long codigoDesde;
+	private transient Long codigoHasta;
+	private transient String codigoLecturaStr;
+	private transient String codigoCliente;
+	private transient String codigoTipoElemento;
+	private transient String codigoElementoDesde;
+	private transient String codigoElementoHasta;
 	
 	
 	public Lectura(){
@@ -345,7 +345,7 @@ public class Lectura implements Comparable<Lectura>{
 	}
 
 	public void setTipo(int i) {
-		// Auto-generated method stub
+		// TODO Auto-generated method stub
 		
 	}
 

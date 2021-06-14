@@ -45,7 +45,6 @@ public class NumberCompleteTag extends TagSupport {
      * @return int
      * @throws JspException
      */
-	@Override
     public int doStartTag() throws JspException {
         try {
         	if(value.isEmpty()){
@@ -61,7 +60,6 @@ public class NumberCompleteTag extends TagSupport {
     /**
      * ver release en TagSupport
      */
-    @Override
     public void release() {
     	value = null;
     }

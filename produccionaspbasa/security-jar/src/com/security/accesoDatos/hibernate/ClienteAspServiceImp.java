@@ -29,6 +29,7 @@ import com.security.modelo.seguridad.Group;
 @Component
 public class ClienteAspServiceImp extends GestorHibernate<ClienteAsp> implements ClienteAspService {
 	private static Logger logger=Logger.getLogger(ClienteAspServiceImp.class);
+//	private ParameterService parameterService;
 	
 	@Autowired
 	public ClienteAspServiceImp(HibernateControl hibernateControl) {
@@ -121,6 +122,7 @@ public class ClienteAspServiceImp extends GestorHibernate<ClienteAsp> implements
 			for(Group g:cliente.getUser().getGroups())
 				session.save(g);
 			//guardo los parametros en la misma transaccion
+//			parameterService.guardar(cliente.getParametros(), session, cliente); 
 			session.save(cliente.getUser());
 			session.save(cliente.getContacto());
 			session.save(cliente);

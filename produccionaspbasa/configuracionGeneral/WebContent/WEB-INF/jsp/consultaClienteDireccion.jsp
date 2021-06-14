@@ -13,11 +13,11 @@
 <title><spring:message
 		code="formularioClienteDireccion.tituloConsulta" htmlEscape="true" />
 	- <spring:message code="general.empresa" htmlEscape="true" /> <spring:message
-		code="general.ambiente" htmlEscape="true" /></title>
+		code="general.ambiente" htmlEscape="true" />
+</title>
 <script type="text/javascript" src="js/jquery-1.5.js"></script>
 <script type="text/javascript" src="js/httprequest.js"></script>
-<script type="text/javascript" src="js/mavalos_jquery.tools.min.js"
-	language="JavaScript"></script>
+<script type="text/javascript" src="js/mavalos_jquery.tools.min.js" language="JavaScript"></script>
 <script type="text/javascript" src="js/jquery.contextmenu.js"></script>
 <script type="text/javascript" src="js/jquery.displaytag-ajax-1.2.js"></script>
 <script type="text/javascript"
@@ -31,13 +31,19 @@
 		<ul>
 			<li id="consultar" value=""><img src="images/consultar.png" /><font
 				size="2"><spring:message code="botones.consultar"
-						htmlEscape="true" /> </font></li>
+						htmlEscape="true" />
+			</font>
+			</li>
 			<li id="modificar"><img src="images/modificar.png" /> <font
 				size="2"><spring:message code="botones.modificar"
-						htmlEscape="true" /> </font></li>
+						htmlEscape="true" />
+			</font>
+			</li>
 			<li id="eliminar"><img src="images/eliminar.png" /> <font
 				size="2"><spring:message code="botones.eliminar"
-						htmlEscape="true" /> </font></li>
+						htmlEscape="true" />
+			</font>
+			</li>
 		</ul>
 	</div>
 	<div id="contenedorGeneral">
@@ -48,22 +54,20 @@
 				<legend>
 					<font class="tituloForm" size="5"> <spring:message
 							code="formularioClienteDireccion.tituloConsulta"
-							htmlEscape="true" />
-					</font>
+							htmlEscape="true" /> </font>
 				</legend>
 				<br />
 				<form:form action="filtrarClienteDireccion.html"
 					commandName="clienteDireccionBusqueda" method="post">
-					<input type="hidden" id="clienteId" name="clienteId"
-						value="<c:out value="${clienteId}" default="" />" />
+					<input type="hidden" id="clienteId" name="clienteId" value="<c:out value="${clienteId}" default="" />"/>
 					<fieldset>
 						<table width="100%">
 							<thead>
 								<tr>
 									<th align="left" id="busquedaImg"><font
 										style="color: #003090"> <spring:message
-												code="textos.buscar" htmlEscape="true" />
-									</font> <img id="busquedaImgSrcDown" src="images/skip_down.png"
+												code="textos.buscar" htmlEscape="true" /> </font> <img
+										id="busquedaImgSrcDown" src="images/skip_down.png"
 										title="<spring:message code="textos.cerrarPanel" htmlEscape="true"/>">
 										<img id="busquedaImgSrc" src="images/skip.png"
 										style="DISPLAY: none"
@@ -86,19 +90,17 @@
 									<td class="texto_ti"><spring:message
 											code="formularioClienteDireccion.descripcion"
 											htmlEscape="true" /></td>
-
+									
 									<td rowspan="4" style="vertical-align: middle;">
-										<button name="buscar" class="botonCentrado"
-											onclick="buscarFiltro()">
+										<button name="buscar" class="botonCentrado" onclick="buscarFiltro()">
 											<img src="<%=request.getContextPath()%>/images/buscar.png">
 											<spring:message code="textos.buscar" htmlEscape="true" />
 										</button>
 									</td>
 								</tr>
 								<tr>
-									<td class="texto_ti" colspan="2"><input type="text"
-										id="clienteCodigo" name="clienteCodigo" maxlength="6"
-										style="width: 50px;"
+									<td class="texto_ti" colspan="2"><input type="text" id="clienteCodigo"
+										name="clienteCodigo" maxlength="6" style="width: 50px;"
 										value="<c:out value="${clienteDireccionBusqueda.cliente.codigo}" default="" />"
 										<c:if test="${accion == 'CONSULTA'}">
 														readonly="readonly"
@@ -114,8 +116,7 @@
 										</button>&nbsp;&nbsp; <label id="clienteCodigoLabel"
 										for="clienteCodigo"> <c:out
 												value="${clienteDireccionBusqueda.cliente.razonSocialONombreYApellido}"
-												default="" />
-									</label></td>
+												default="" /> </label></td>
 									<td class="texto_ti"><input type="text" id="codigo"
 										name="codigo" style="width: 150px;" maxlength="3"
 										value="<c:out value="${clienteDireccionBusqueda.codigo}" default="" />" />
@@ -136,98 +137,101 @@
 									</td>
 									<td class="texto_ti"><spring:message
 											code="formularioClienteDireccion.barrio" htmlEscape="true" />
-									</td>
+									</td>									
 								</tr>
 								<tr>
-									<td class="texto_ti"><input id="idPaisAux"
-										name="idPaisAux" type="hidden"
-										value="<c:out value="${clienteDireccionBusqueda.paisAux.id}" default="" />" />
-										<input type="text" id="pais" name="pais" maxlength="30"
-										style="width: 150px;"
-										value="<c:out value="${paisDefecto.nombre}" default="" />"
-										<c:if test="${accion == 'CONSULTA'}">
+									<td class="texto_ti">	
+										<input id="idPaisAux" name="idPaisAux" type="hidden" 
+											value="<c:out value="${clienteDireccionBusqueda.paisAux.id}" default="" />"/>												
+										<input type="text" id="pais" name="pais" maxlength="30" style="width: 150px;"
+											value="<c:out value="${paisDefecto.nombre}" default="" />" 
+											<c:if test="${accion == 'CONSULTA'}">
 												readonly="readonly"
-											</c:if> />
+											</c:if>
+										/>
 										<button type="button" onclick="abrirPopup('paisPopupMap');"
 											title="<spring:message code="textos.buscar" htmlEscape="true"/>"
 											<c:if test="${accion == 'CONSULTA'}">
 												disabled="disabled"
-											</c:if>>
-											<img src="<%=request.getContextPath()%>/images/buscar.png">
+											</c:if>
+										>
+											<img src="<%=request.getContextPath()%>/images/buscar.png" > 
 										</button>
 										<div style="display: none;">
-											<label id="paisLabel" for="pais"> <c:out
-													value="${paisDefecto.id}" default="" />
+											<label id="paisLabel" for="pais">
+												<c:out value="${paisDefecto.id}" default="" />
 											</label>
-										</div></td>
-									<td class="texto_ti"><input id="idProvinciaAux"
-										name="idProvinciaAux" type="hidden"
-										value="<c:out value="${clienteDireccionBusqueda.provinciaAux.id}" default="" />" />
-										<input type="text" id="provincia" name="provincia"
-										maxlength="30" style="width: 150px;"
-										value="<c:out value="${clienteDireccionBusqueda.provinciaAux.nombre}" default="" />"
-										<c:if test="${accion == 'CONSULTA'}">
+										</div>																					
+									</td>
+									<td class="texto_ti">
+										<input id="idProvinciaAux" name="idProvinciaAux" type="hidden" 
+											value="<c:out value="${clienteDireccionBusqueda.provinciaAux.id}" default="" />"/>
+										<input type="text" id="provincia" name="provincia" maxlength="30" style="width: 150px;"
+											value="<c:out value="${clienteDireccionBusqueda.provinciaAux.nombre}" default="" />" 
+											<c:if test="${accion == 'CONSULTA'}">
 												readonly="readonly"
-											</c:if> />
-										<button type="button"
-											onclick="abrirPopupProvincia('provinciaPopupMap');"
+											</c:if>
+										/>
+										<button type="button" onclick="abrirPopupProvincia('provinciaPopupMap');"
 											title="<spring:message code="textos.buscar" htmlEscape="true"/>"
 											<c:if test="${accion == 'CONSULTA'}">
 												disabled="disabled"
-											</c:if>>
-											<img src="<%=request.getContextPath()%>/images/buscar.png">
+											</c:if>
+										>
+											<img src="<%=request.getContextPath()%>/images/buscar.png" > 
 										</button>
 										<div style="display: none;">
-											<label id="provinciaLabel" for="provincia"> <c:out
-													value="${clienteDireccionBusqueda.provinciaAux.id}"
-													default="" />
+											<label id="provinciaLabel" for="provincia">
+												<c:out value="${clienteDireccionBusqueda.provinciaAux.id}" default="" />
 											</label>
-										</div></td>
-									<td class="texto_ti"><input id="idLocalidadAux"
-										name="idLocalidadAux" type="hidden"
-										value="<c:out value="${clienteDireccionBusqueda.localidadAux.id}" default="" />" />
-										<input type="text" id="localidad" name="localidad"
-										maxlength="30" style="width: 150px;"
-										value="<c:out value="${clienteDireccionBusqueda.localidadAux.nombre}" default="" />"
-										<c:if test="${accion == 'CONSULTA'}">
+										</div>
+									</td>
+									<td class="texto_ti">
+										<input id="idLocalidadAux" name="idLocalidadAux" type="hidden" 
+											value="<c:out value="${clienteDireccionBusqueda.localidadAux.id}" default="" />"/>
+										<input type="text" id="localidad" name="localidad" maxlength="30" style="width: 150px;"
+											value="<c:out value="${clienteDireccionBusqueda.localidadAux.nombre}" default="" />" 
+											<c:if test="${accion == 'CONSULTA'}">
 												readonly="readonly"
-											</c:if> />
-										<button type="button"
-											onclick="abrirPopupLocalidad('localidadPopupMap');"
+											</c:if>
+										/>
+										<button type="button" onclick="abrirPopupLocalidad('localidadPopupMap');"
 											title="<spring:message code="textos.buscar" htmlEscape="true"/>"
 											<c:if test="${accion == 'CONSULTA'}">
 												disabled="disabled"
-											</c:if>>
-											<img src="<%=request.getContextPath()%>/images/buscar.png">
+											</c:if>
+										>
+											<img src="<%=request.getContextPath()%>/images/buscar.png" > 
 										</button>
 										<div style="display: none;">
-											<label id="localidadLabel" for="localidad"> <c:out
-													value="${clienteDireccionBusqueda.localidadAux.id}"
-													default="" />
+											<label id="localidadLabel" for="localidad">
+												<c:out value="${clienteDireccionBusqueda.localidadAux.id}" default="" />
 											</label>
-										</div></td>
-									<td class="texto_ti"><input id="idBarrio" name="idBarrio"
-										type="hidden"
-										value="<c:out value="${clienteDireccionBusqueda.barrioAux.id}" default="" />" />
-										<input type="text" id="barrio" name="barrio" maxlength="30"
-										style="width: 150px;"
-										value="<c:out value="${clienteDireccionBusqueda.barrioAux.nombre}" default="" />"
-										<c:if test="${accion == 'CONSULTA'}">
+										</div>
+									</td>
+									<td class="texto_ti">
+										<input id="idBarrio" name="idBarrio" type="hidden" 
+											value="<c:out value="${clienteDireccionBusqueda.barrioAux.id}" default="" />"/>
+										<input type="text" id="barrio" name="barrio" maxlength="30" style="width: 150px;"
+											value="<c:out value="${clienteDireccionBusqueda.barrioAux.nombre}" default="" />" 
+											<c:if test="${accion == 'CONSULTA'}">
 												readonly="readonly"
-											</c:if> />
-										<button type="button"
-											onclick="abrirPopupBarrio('barrioPopupMap');"
+											</c:if>
+										/>
+										<button type="button" onclick="abrirPopupBarrio('barrioPopupMap');"
 											title="<spring:message code="textos.buscar" htmlEscape="true"/>"
 											<c:if test="${accion == 'CONSULTA'}">
 												disabled="disabled"
-											</c:if>>
-											<img src="<%=request.getContextPath()%>/images/buscar.png">
+											</c:if>
+										>
+											<img src="<%=request.getContextPath()%>/images/buscar.png" > 
 										</button>
 										<div style="display: none;">
-											<label id="barrioLabel" for="barrio"> <c:out
-													value="${clienteDireccionBusqueda.barrioAux.id}" default="" />
+											<label id="barrioLabel" for="barrio">
+												<c:out value="${clienteDireccionBusqueda.barrioAux.id}" default="" />
 											</label>
-										</div></td>
+										</div>
+									</td>
 								</tr>
 							</table>
 						</div>
@@ -236,8 +240,7 @@
 				<br style="font-size: xx-small;" />
 				<fieldset>
 					<display:table name="clienteDirecciones" id="clienteDireccion"
-						requestURI="mostrarClienteDireccion.html" pagesize="7" sort="list"
-						keepStatus="true">
+						requestURI="mostrarClienteDireccion.html" pagesize="7" sort="list" keepStatus="true">
 						<display:column class="hidden" headerClass="hidden">
 							<input type="hidden" id="hdn_id" value="${clienteDireccion.id}" />
 						</display:column>
@@ -248,8 +251,7 @@
 						<display:column property="cliente.razonSocialONombreYApellido"
 							titleKey="formularioClienteDireccion.cliente" sortable="true"
 							class="celdaAlineadoIzquierda" />
-						<display:column
-							property="direccion.barrio.localidad.provincia.nombre"
+						<display:column property="direccion.barrio.localidad.provincia.nombre"
 							titleKey="formularioClienteDireccion.provincia" sortable="true"
 							class="celdaAlineadoIzquierda" />
 						<display:column property="direccion.barrio.localidad.nombre"
@@ -299,20 +301,20 @@
 		<jsp:param name="clase" value="clientesPopupMap" />
 	</jsp:include>
 	<jsp:include page="popupBusqueda.jsp">
-		<jsp:param name="mapa" value="paisPopupMap" />
-		<jsp:param name="clase" value="paisPopupMap" />
+		<jsp:param name="mapa" value="paisPopupMap" /> 
+		<jsp:param name="clase" value="paisPopupMap" /> 
 	</jsp:include>
 	<jsp:include page="popupBusqueda.jsp">
-		<jsp:param name="mapa" value="provinciaPopupMap" />
-		<jsp:param name="clase" value="provinciaPopupMap" />
+		<jsp:param name="mapa" value="provinciaPopupMap" /> 
+		<jsp:param name="clase" value="provinciaPopupMap" /> 
 	</jsp:include>
 	<jsp:include page="popupBusqueda.jsp">
-		<jsp:param name="mapa" value="localidadPopupMap" />
-		<jsp:param name="clase" value="localidadPopupMap" />
+		<jsp:param name="mapa" value="localidadPopupMap" /> 
+		<jsp:param name="clase" value="localidadPopupMap" /> 
 	</jsp:include>
 	<jsp:include page="popupBusqueda.jsp">
-		<jsp:param name="mapa" value="barrioPopupMap" />
-		<jsp:param name="clase" value="barrioPopupMap" />
+		<jsp:param name="mapa" value="barrioPopupMap" /> 
+		<jsp:param name="clase" value="barrioPopupMap" /> 
 	</jsp:include>
 </body>
 </html>

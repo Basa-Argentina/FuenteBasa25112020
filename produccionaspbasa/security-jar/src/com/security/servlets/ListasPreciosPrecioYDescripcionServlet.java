@@ -39,8 +39,6 @@ public class ListasPreciosPrecioYDescripcionServlet extends HttpServlet{
 	 * 	respuesta = detalleSeleccionado.getCalcularMonto()+ ";*;" + lista.getDescripcion();
 	 *
 	 */
-	
-	@Override
 	public void doGet (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/xml"); 
 		response.setCharacterEncoding("ISO-8859-1"); //seteo el encoding de los caracteres 

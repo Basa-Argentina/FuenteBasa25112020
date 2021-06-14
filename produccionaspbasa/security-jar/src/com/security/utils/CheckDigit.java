@@ -10,26 +10,31 @@ public class CheckDigit {
 	 * Por defecto calcula con Code128A
 	 */
 	public static char calcCheckdigitType(String msg, String type) {
-		String msgOriginal = msg;
+		String msgOriginal = msg.toString();
 		//code128A no soporta minusculas.
 		int code = A;
 		int corteControl = 65;
 		int sumASCCI = 32;
-
+		//int sumASCCISpecial = 50;		
 		msg.toUpperCase();
 		if("B".equals(type)){
 			code = B;
 			corteControl = 95;			
-			msg = msgOriginal;
+			msg = msgOriginal.toString();
 		}
 		int evenSum = code;
 		for (int i = 0; i < msg.length(); i++) {
 			evenSum += (i + 1) * ((int) msg.charAt(i) - 32);
 		}
 		int check = evenSum % code;
+		//Se comprueba los caracteres especiales de ASCCI
 		if (check < corteControl){
 			check += sumASCCI;
-		}else{
+		}/* Si queremos que soporte ASCCI especiales, descomentar esta linea
+			y comentar el siguiente else.
+		else if("B".equals(type)){			
+			check += sumASCCISpecial;
+		}*/else{
 			check = 0;
 		}
 		return (char) check;

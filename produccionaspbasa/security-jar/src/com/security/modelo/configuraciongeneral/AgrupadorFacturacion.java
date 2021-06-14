@@ -33,8 +33,8 @@ public class AgrupadorFacturacion {
 	private Boolean habilitado;
 	private ClienteAsp clienteAsp;
 	private ClienteEmp clienteEmp;
-	private  String clienteCodigo;
-	private  String accion;
+	private transient String clienteCodigo;
+	private transient String accion;
 	
 	@Id @GeneratedValue(strategy=GenerationType.AUTO)
 	public Long getId() {

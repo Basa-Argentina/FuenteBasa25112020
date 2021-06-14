@@ -28,7 +28,7 @@ import com.security.accesoDatos.hibernate.HibernateControl;
 import com.security.modelo.configuraciongeneral.ClasificacionDocumental;
 
 /**
-
+ * TODO: configurar por spring
  * @author FedeMz
  *
  */
@@ -60,7 +60,7 @@ public class ExportadorExcelReferencias {
 	 * @throws RowsExceededException
 	 * @throws WriteException
 	 */
-	public void createWorkbook(OutputStream out, InputStream inp, List<ClasificacionDocumental> clasificacionesDocumentales,List<Long> tiposElemento) throws IOException, BiffException, WriteException {
+	public void createWorkbook(OutputStream out, InputStream inp, List<ClasificacionDocumental> clasificacionesDocumentales,List<Long> tiposElemento) throws IOException, BiffException, RowsExceededException,WriteException {
 		if(cellFormats!=null)
 			throw new IllegalStateException("Obtenga una nueva instancia de ExportadorExcelReferencias para exportar un segundo excel");
 		
@@ -81,12 +81,12 @@ public class ExportadorExcelReferencias {
 		spreadsheet.write();
 		spreadsheet.close();
 		out.flush();
-
+		//out.close();
 	}
 
 	
 
-	private int generarArbolClasificacion(int row, int prof, ClasificacionDocumental clasificacion) throws WriteException {
+	private int generarArbolClasificacion(int row, int prof, ClasificacionDocumental clasificacion) throws RowsExceededException, WriteException {
 		arrayClasificacionesCompleto.put(clasificacion.getId(),clasificacion);
 		WritableSheet sheet = spreadsheet.getSheet(0);
 		if(prof>8)prof=8;
@@ -111,7 +111,7 @@ public class ExportadorExcelReferencias {
 		return row;
 	}
 	
-	private void generarPorIndice(ClasificacionDocumental clasificacion) throws  WriteException {
+	private void generarPorIndice(ClasificacionDocumental clasificacion) throws RowsExceededException, WriteException {
 		WritableSheet sheet = spreadsheet.getSheet(1);
 		String values[] = new String[10];
 		String codigo = clasificacion.getCodigo().toString();
@@ -136,12 +136,12 @@ public class ExportadorExcelReferencias {
 		}
 	}
 	
-	private void generarPorElemento() throws  WriteException {
+	private void generarPorElemento() throws RowsExceededException, WriteException {
 		WritableSheet sheet = spreadsheet.getSheet(2);
 		int row = 3;
 		String values[] = new String[10];
 		List<Map<String,Object>> referencias = referenciaService.listarPorClasificacionDocumental(arrayClasificacionesCompleto.keySet(),tiposElemento);
-		if(referencias.isEmpty()){
+		if(referencias.size()==0){
 			sheet.removeRow(row);
 		}
 		
@@ -175,7 +175,7 @@ public class ExportadorExcelReferencias {
 	}
 
 	private void addLabels(WritableSheet sheet,int sh, int row, String... content)
-			throws  WriteException {
+			throws RowsExceededException, WriteException {
 		for (int col = 0; col < content.length; col++) {
 			if(content[col]!=null)
 				addLabel(sheet, sh, row, col, content[col]);
@@ -187,7 +187,7 @@ public class ExportadorExcelReferencias {
 	
 
 	private void addLabel(WritableSheet sheet, int sh, int row, int col, String content)
-			throws  WriteException {
+			throws RowsExceededException, WriteException {
 		CellFormat cellFormat = cellFormats[sh][col];
 		if(cellFormat!=null)
 			sheet.addCell(new Label(col, row, content, cellFormat));
@@ -198,7 +198,7 @@ public class ExportadorExcelReferencias {
 			sheet.getWritableCell(col, row).setCellFeatures(cellFeature);
 	}
 	
-	private void removeLabel(WritableSheet sheet, int row, int col) throws  WriteException {
+	private void removeLabel(WritableSheet sheet, int row, int col) throws RowsExceededException, WriteException {
 		sheet.addCell(new Blank(col, row));
 	}
 	

@@ -8,6 +8,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 import org.springframework.web.bind.WebDataBinder;
+
+import com.security.accesoDatos.hibernate.ClienteAspServiceImp;
 import com.security.accesoDatos.interfaz.CampoComparacion;
 import com.security.accesoDatos.interfaz.ClienteAspService;
 import com.security.accesoDatos.interfaz.PersonaService;
@@ -49,6 +51,7 @@ public class ClienteValidator implements Validator {
 	 * @param binder
 	 */
 	public void initDataBinder(WebDataBinder binder) {
+//		binder.setRequiredFields(new String[] {});
 		binder.setRequiredFields(new String[] {
 				"persona.razonSocial","nombreAbreviado","persona.direccion.calle","persona.direccion.numero","persona.direccion.idBarrio",
 				"persona.numeroDoc","contacto.nombre", "contacto.apellido","contacto.mail","user.username"

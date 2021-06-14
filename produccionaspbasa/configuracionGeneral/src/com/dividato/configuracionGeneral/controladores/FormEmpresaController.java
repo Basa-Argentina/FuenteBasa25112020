@@ -176,7 +176,7 @@ public class FormEmpresaController {
 		if(accion==null) accion="NUEVO"; //acción por defecto: nuevo		
 		if(!accion.equals("NUEVO")){
 			
-			empresaFormulario = empresaService.getByID(id);
+			empresaFormulario = empresaService.getByID(Long.valueOf(id));
 	
 			atributos.put("empresaFormulario", empresaFormulario);			
 		}
@@ -257,12 +257,12 @@ public class FormEmpresaController {
 				empresaFormulario.setAfipCondIva(afipCondIvaSel);
 			}
 			//obtengo la empresa seleccionada
-			if(empresaFormulario.getCodigoSerie1() != null && !empresaFormulario.getCodigoSerie1().equals(""))
+			if(empresaFormulario.getCodigoSerie1() != null && empresaFormulario.getCodigoSerie1() != "")
 			{
 				Serie serie1Sel = serieService.obtenerPorCodigo(empresaFormulario.getCodigoSerie1(), obtenerClienteAspUser());
 				empresaFormulario.setSerie1(serie1Sel);
 			}
-			if(empresaFormulario.getCodigoSerie2() != null && !empresaFormulario.getCodigoSerie2().equals(""))
+			if(empresaFormulario.getCodigoSerie2() != null && empresaFormulario.getCodigoSerie2() != "")
 			{
 				Serie serie2Sel = serieService.obtenerPorCodigo(empresaFormulario.getCodigoSerie2(), obtenerClienteAspUser());
 				empresaFormulario.setSerie2(serie2Sel);
@@ -338,8 +338,8 @@ public class FormEmpresaController {
 			empresa.setPrincipal(data.getPrincipal());
 			empresa.setTelefono(data.getTelefono());
 			empresa.setMail(data.getMail());
-			PersonaJuridica razonSocial = empresa.getRazonSocial();
-			PersonaJuridica razonSocialData = data.getRazonSocial();
+			PersonaJuridica razonSocial = (PersonaJuridica) empresa.getRazonSocial();
+			PersonaJuridica razonSocialData =(PersonaJuridica) data.getRazonSocial();
 			razonSocial.setRazonSocial(razonSocialData.getRazonSocial());
 			empresa.setRazonSocial(razonSocial);
 			empresa.setAfipCondIva(data.getAfipCondIva());

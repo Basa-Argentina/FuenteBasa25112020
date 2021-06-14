@@ -20,7 +20,7 @@ public class HojaRutaOperacionElemento {
 	private OperacionElemento operacionElemento;
 	private String estado;
 	
-	private  Boolean seleccionable = true;
+	private transient Boolean seleccionable = true;
 	
 	public HojaRutaOperacionElemento(){}
 	

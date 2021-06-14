@@ -9,6 +9,7 @@ package com.security.accesoDatos.configuraciongeneral.hibernate;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;

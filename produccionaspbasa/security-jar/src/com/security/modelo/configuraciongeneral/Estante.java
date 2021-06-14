@@ -18,7 +18,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Transient;
+
+import org.hibernate.annotations.Cascade;
 
 import com.security.modelo.jerarquias.TipoJerarquia;
 
@@ -35,13 +38,13 @@ public class Estante{
 	private Grupo grupo;
 	private String codigo;
 	private String observacion;
-	private  String accion;
-	private  Long idGrupo;
+	private transient String accion;
+	private transient Long idGrupo;
 	private Set<Modulo> modulos;
 	private Set<Posicion> posiciones;
 	private TipoJerarquia tipoJerarquia;
-	private  String codigoTipoJ;
-	private  String codigoEmpresa;
+	private transient String codigoTipoJ;
+	private transient String codigoEmpresa;
 	
 	public Estante() {
 		super();

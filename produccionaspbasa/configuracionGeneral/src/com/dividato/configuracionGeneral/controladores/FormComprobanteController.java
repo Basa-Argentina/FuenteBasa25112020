@@ -72,7 +72,7 @@ public class FormComprobanteController {
 	}
 	@InitBinder
 	public void initDataBinder(WebDataBinder binder) {
-      //Nada que iniciar
+		//validator.initDataBinder(binder);
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -86,7 +86,7 @@ public class FormComprobanteController {
 		
 			List<Factura> facturaList = (List<Factura>)session.getAttribute("comprobanteList");
 			for(Factura f:facturaList){
-				if(f.getId().equals(id)){
+				if(f.getId()==id){
 					facturaList.remove(f);
 				}
 			}
@@ -148,7 +148,7 @@ public class FormComprobanteController {
 			HttpSession session,
 			Map<String,Object> atributos){
 			
-
+		    //session.removeAttribute("comprobanteList");
 		    // Cargo la Lista en session con las cuentas seleccionadas
 			String cuentas[] = comprobanteSeleccionada.split(",");
 			List<Factura> comprobanteList = (List<Factura>)session.getAttribute("comprobanteList");

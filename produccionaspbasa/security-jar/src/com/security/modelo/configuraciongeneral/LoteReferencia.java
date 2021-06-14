@@ -58,23 +58,23 @@ public class LoteReferencia {
 	private String nombreArchivoPlanilla;
 	@Transient
 	@Column(name="cantidadRef")
-	private  Integer cantidadRef;
+	private transient Integer cantidadRef;
 	@Transient
 	@Column(name="usuarioCarga")
-	private  String usuarioCarga;
-	private  List<Referencia> modificadas;
-	private  List<Referencia> eliminadas;
-	private  Boolean indiceIndividual=true;
-	private  User usuario;
+	private transient String usuarioCarga;
+	private transient List<Referencia> modificadas;
+	private transient List<Referencia> eliminadas;
+	private transient Boolean indiceIndividual=true;
+	private transient User usuario;
 	@Transient
 	@Column(name="clienteEmpStr")
-	private  String clienteEmpStr;
+	private transient String clienteEmpStr;
 	@Transient
 	@Column(name="empresaStr")
-	private  String empresaStr;
+	private transient String empresaStr;
 	@Transient
 	@Column(name="sucursalStr")
-	private  String sucursalStr;
+	private transient String sucursalStr;
 	
 	
 	public Long getId() {
@@ -172,14 +172,17 @@ public class LoteReferencia {
 	public List<Referencia> getModificadas() {
 		return modificadas;
 	}
+	
 	@Transient
 	public void setModificadas(List<Referencia> modificadas) {
 		this.modificadas = modificadas;
 	}
+	
 	@Transient
 	public List<Referencia> getEliminadas() {
 		return eliminadas;
 	}
+	
 	@Transient
 	public void setEliminadas(List<Referencia> eliminadas) {
 		this.eliminadas = eliminadas;
@@ -188,9 +191,11 @@ public class LoteReferencia {
 	public String getNombreArchivoPlanilla() {
 		return nombreArchivoPlanilla;
 	}
+	
 	public void setNombreArchivoPlanilla(String nombreArchivoPlanilla) {
 		this.nombreArchivoPlanilla = nombreArchivoPlanilla;
 	}
+	
 	@Transient
 	public User getUsuario() {
 		return usuario;

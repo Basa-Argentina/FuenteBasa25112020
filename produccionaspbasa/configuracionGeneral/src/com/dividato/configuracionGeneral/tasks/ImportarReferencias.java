@@ -3,6 +3,7 @@ package com.dividato.configuracionGeneral.tasks;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -13,6 +14,7 @@ import org.apache.log4j.Logger;
 import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -173,7 +175,7 @@ public class ImportarReferencias {
 		System.out.println("**** Sucursal = " + sucursal.getDescripcion());
 		User user = new User();
 		user.setUsername(username);
-		user = (userService.listarTodosUserFiltradosByCliente(user, clienteAsp)).get(0);
+		user = ((List<User>)userService.listarTodosUserFiltradosByCliente(user, clienteAsp)).get(0);
 		System.out.println("**** Usuario = " + user.getUsernameSinCliente());
 		System.out.println("**** ARRANCA ***");
 		
@@ -533,7 +535,14 @@ public class ImportarReferencias {
 	        			//loteRearchivoService.guardarActualizar(lotes.get(c),lotesReferencias.get(c));	
 	        		}
 	                
-	             
+	                //SE COMENTA POR QUE SON SOLO REFERENCIAS
+//	                for(String rutaArchivo:rutasArchivos){
+//		                File dataInputFile = new File(rutaArchivo);
+//				    	//New path
+//				    	File fileSendPath = new File(dirProcesados+"//", dataInputFile.getName());
+//				    	//Moving the file.
+//				    	dataInputFile.renameTo(fileSendPath);
+//        			}
  
 	            } //end of sheets for loop
 	            
@@ -543,22 +552,22 @@ public class ImportarReferencias {
 	            xlsFile.renameTo(new File(getLecturasProcessed()+"//"+xlsFile.getName()));
 			
 			} catch (IOException e) {
-				// Auto-generated catch block
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 				System.out.println(e.getMessage());
 				logger.error(e.getMessage());
 			} catch (EncryptedDocumentException e) {
-				// Auto-generated catch block
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 				System.out.println(e.getMessage());
 				logger.error(e.getMessage());
 			} catch (InvalidFormatException e) {
-				// Auto-generated catch block
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 				System.out.println(e.getMessage());
 				logger.error(e.getMessage());
 			} catch (ScheduledTaskException e) {
-				// Auto-generated catch block
+				// TODO Auto-generated catch block
 				//close file input stream
 	            xlsFile.renameTo(new File(getLecturasError()+"//"+Configuracion.formatoFechaNombreArchivos.format(new Date())+"-"+xlsFile.getName()));
 				e.printStackTrace();
@@ -591,11 +600,12 @@ public class ImportarReferencias {
 		List<Referencia> referencias = new ArrayList<Referencia>();
 		if(rearchivos!=null && rearchivos.size()>0){
 			for(Rearchivo rearchivo:rearchivos){
+				//Referencia referenciaBuscar = referenciaService.obtenerParaRearchivo(rearchivo.getLoteRearchivo().getClienteEmp(), rearchivo.getLoteRearchivo().getClasificacionDocumental(), rearchivo.getNumero1());
 				//Si encuentro referencia creo una nueva referencia para el detalle
-		
+				//if(referenciaBuscar!=null){
 					Referencia referencia = new Referencia();
 					referencia.setDescripcion(rearchivo.getDescripcion());
-					
+					//referencia.setDescripcionRearchivo("Rearchivo");
 					referencia.setClasificacionDocumental(rearchivo.getClasifDoc());
 					if(loteReferencia.getIndiceIndividual()){
 						referencia.setElemento(rearchivo.getElemento());

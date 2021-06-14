@@ -244,7 +244,7 @@ public class ListaElementosController {
 		if(pagesizeStr.equalsIgnoreCase("Todos"))
 			elementos = elementoService.traerElementosPorSQL(elemento, obtenerClienteAspUser());
 		else
-			elementos =elementoService.listarElementoFiltradas(elemento, obtenerClienteAspUser());
+			elementos =(List<Elemento>) elementoService.listarElementoFiltradas(elemento, obtenerClienteAspUser());
 		
 		session.setAttribute("elementosSession", elementos);
 		atributos.put("elementos", elementos);
@@ -393,10 +393,8 @@ public class ListaElementosController {
 								e.printStackTrace();
 							}
 					    	return;
-				
 					}
-
-}
+				}
 				
 				//buscamos en la base de datos y lo subimos a request.
 				String reportName = "";
@@ -408,12 +406,12 @@ public class ListaElementosController {
 				{
 					reportName = Constantes.REPORTE_ELEMENTO_ETIQUETA_CHICA;
 					//Linea agregada por si se quiere imprimir etiquetas de copia
-
+					//reportName = "C:\\jasper\\reporteImpresionElementoCodigoBarraCopia";
 				}
 					
 				@SuppressWarnings("rawtypes")
 				Map<String,Object> params =new HashMap<String,Object>();	
-
+				//params.put("codigoCopia", "000000000001");
 				byte[] pdfByteArray ;
 				ServletOutputStream op = null;
 				try{
@@ -457,6 +455,7 @@ public class ListaElementosController {
 					//se crea el reporte
 					JasperReport jasperReport = JasperCompileManager.compileReport(session.getServletContext().getRealPath(Constants.PATH_JASPER)+reportName);
 					//Linea agregada por si se quiere imprimir etiquetas de copias
+					//JasperReport jasperReport = JasperCompileManager.compileReport(reportName+".jrxml");
 					
 					pdfByteArray = JasperRunManager.runReportToPdf(jasperReport, params,ds);
 					//se envia el reporte 
@@ -559,7 +558,7 @@ public class ListaElementosController {
 			}
 		}
 		} catch (IOException e) {
-			// Auto-generated catch block
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

@@ -27,6 +27,7 @@ import com.dividato.configuracionGeneral.validadores.TransporteBusquedaValidator
 import com.security.accesoDatos.configuraciongeneral.interfaz.EmpresaService;
 import com.security.accesoDatos.configuraciongeneral.interfaz.TransporteService;
 import com.security.modelo.administracion.ClienteAsp;
+import com.security.modelo.configuraciongeneral.Empresa;
 import com.security.modelo.configuraciongeneral.Transporte;
 import com.security.modelo.seguridad.User;
 import com.security.utils.CampoDisplayTag;

@@ -21,12 +21,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.security.accesoDatos.configuraciongeneral.interfaz.ElementoService;
+import com.security.accesoDatos.configuraciongeneral.interfaz.ReferenciaHistoricoService;
 import com.security.accesoDatos.configuraciongeneral.interfaz.ReferenciaService;
+import com.security.accesoDatos.interfaz.UserService;
 import com.security.modelo.administracion.ClienteAsp;
+import com.security.modelo.configuraciongeneral.Deposito;
 import com.security.modelo.configuraciongeneral.Elemento;
 import com.security.modelo.configuraciongeneral.Referencia;
+import com.security.modelo.configuraciongeneral.RemitoDetalle;
 import com.security.modelo.seguridad.User;
 import com.security.utils.Constantes;
+import com.security.utils.EAN13;
 import com.security.utils.ScreenMessage;
 import com.security.utils.ScreenMessageImp;
 
@@ -124,16 +129,8 @@ public class FormUnificarElementosController {
 		String[] listaCodigos = cadenaCodigosElementos.split("\\,");
 		List<String> listaDescartados = new ArrayList<String>();
 		List<String> codigosCorrectos = new ArrayList<String>();
-		Boolean banderaModulos = false; 
-		Boolean banderaInexistentes = false; 
-		Boolean banderaNoGuarda = false;
-		Boolean banderaNoReferenciado = false;
-		Boolean banderaRepetido = false;
-		Boolean repetido = false;
-		Boolean noValido = false;
-		String codigo;
-		String codigoCorrecto;
-		String codigoTomado12;
+		Boolean banderaModulos = false, banderaInexistentes = false, banderaNoGuarda = false, banderaNoReferenciado = false,banderaRepetido = false, repetido = false, noValido = false;
+		String codigo,codigoCorrecto,codigoTomado12;
 		
 		for (int i = 0; i < listaCodigos.length; i++) 
 		{

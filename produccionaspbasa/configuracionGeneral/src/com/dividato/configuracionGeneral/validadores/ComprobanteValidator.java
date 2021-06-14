@@ -8,7 +8,7 @@ import org.springframework.web.bind.WebDataBinder;
 
 import com.security.accesoDatos.configuraciongeneral.interfaz.GrupoService;
 import com.security.modelo.configuraciongeneral.Factura;
-
+import com.security.modelo.configuraciongeneral.MedioPagoRecibo;
 /**
  * 
  * @author X
@@ -44,7 +44,6 @@ public class ComprobanteValidator implements Validator {
 	 */
 	@Override
 	public void validate(Object command, Errors errors) {
-		//Nada que Validar
 		
 	}
 	

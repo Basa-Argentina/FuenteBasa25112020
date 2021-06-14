@@ -21,6 +21,7 @@ import com.security.modelo.configuraciongeneral.ClienteEmpleados;
 @Component
 public class ClienteEmpleadosImp extends GestorHibernate<ClienteEmpleados> implements ClienteEmpleadosService{
 	private static Logger logger=Logger.getLogger(ClienteEmpleadosImp.class);
+//	private ParameterService parameterService;
 	
 	@Autowired
 	public ClienteEmpleadosImp(HibernateControl hibernateControl) {

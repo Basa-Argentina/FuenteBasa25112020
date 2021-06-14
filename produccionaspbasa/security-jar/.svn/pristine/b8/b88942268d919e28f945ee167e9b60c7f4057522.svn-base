@@ -124,6 +124,6 @@ public class ClienteAsp implements Serializable, Comparable<ClienteAsp>{
 	public int compareTo(ClienteAsp o) {
 		int cmp = getId().compareTo(o.getId());
 		return cmp;
-		// completar compareTo()
+		//TODO completar compareTo()
 	}	
 }

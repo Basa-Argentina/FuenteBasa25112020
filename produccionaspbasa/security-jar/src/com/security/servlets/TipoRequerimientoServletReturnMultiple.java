@@ -8,6 +8,8 @@
 package com.security.servlets;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -35,7 +37,6 @@ public class TipoRequerimientoServletReturnMultiple extends HttpServlet{
 	private static final long serialVersionUID = -2135973356955496716L;
 	private static Logger logger = Logger.getLogger(TipoRequerimientoServletReturnMultiple.class);
 
-	@Override
 	public void doGet (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/xml"); 
 		response.setCharacterEncoding("ISO-8859-1"); //seteo el encoding de los caracteres 
@@ -56,7 +57,7 @@ public class TipoRequerimientoServletReturnMultiple extends HttpServlet{
 					+ "-" + (lista.getCargaPorCantidad()==true?"true":"false")
 					+ "-" + (lista.getBuscarConRef()==true?"true":"false")
 					+ "-" + (lista.getBuscarSinRef()==true?"true":"false")
-					+ "-" + (lista.getOcultaGrilla()==true?"true":"false");
+					+ "-" + (lista.getOcultaGrilla()==true?"true":"false");;
 		}else{
 			respuesta = "";
 		}		

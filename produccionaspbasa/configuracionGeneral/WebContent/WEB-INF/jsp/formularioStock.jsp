@@ -53,19 +53,14 @@
 						</c:if> <c:if test="${accion == 'VER_DETALLE'}">
 							<spring:message code="formularioStock.titulo.verDetalle"
 								htmlEscape="true" />
-						</c:if>
-					</font>
+						</c:if> </font>
 				</legend>
-				<br /> <input type="hidden" id="errorCodDepIgualDestino"
-					value="<spring:message code="formularioStock.errorCodDepIgualDestino" htmlEscape="true"/>">
-				<input type="hidden" id="errorCodigoEmpresaReq"
-					value="<spring:message code="formularioStock.error.codigoEmpresaReq" htmlEscape="true"/>">
-				<input type="hidden" id="errorCodigoSucursalReq"
-					value="<spring:message code="formularioStock.error.codigoSucursalReq" htmlEscape="true"/>">
-				<input type="hidden" id="errorCodigoDepositoReq"
-					value="<spring:message code="formularioStock.error.codigoDepositoReq" htmlEscape="true"/>">
-				<input type="hidden" id="errorTitulo"
-					value="<spring:message code="formularioStock.errorTitulo" htmlEscape="true"/>">
+				<br />
+				<input type="hidden" id="errorCodDepIgualDestino" value="<spring:message code="formularioStock.errorCodDepIgualDestino" htmlEscape="true"/>" >
+				<input type="hidden" id="errorCodigoEmpresaReq" value="<spring:message code="formularioStock.error.codigoEmpresaReq" htmlEscape="true"/>" >
+				<input type="hidden" id="errorCodigoSucursalReq" value="<spring:message code="formularioStock.error.codigoSucursalReq" htmlEscape="true"/>" >
+				<input type="hidden" id="errorCodigoDepositoReq" value="<spring:message code="formularioStock.error.codigoDepositoReq" htmlEscape="true"/>" >
+				<input type="hidden" id="errorTitulo" value="<spring:message code="formularioStock.errorTitulo" htmlEscape="true"/>" >
 				<form:form id="formADS" name="formStock"
 					action="guardarActualizarStock.html" commandName="stockFormulario"
 					method="post" modelAttribute="stockFormulario">
@@ -83,8 +78,8 @@
 								<tr>
 									<th align="left" id="busquedaImg"><font
 										style="color: #003090"> <spring:message
-												code="formularioStock.datosStock" htmlEscape="true" />
-									</font> <img id="busquedaImgSrcDown" src="images/skip_down.png"
+												code="formularioStock.datosStock" htmlEscape="true" /> </font> <img
+										id="busquedaImgSrcDown" src="images/skip_down.png"
 										title="<spring:message code="textos.cerrarPanel" htmlEscape="true"/>">
 										<img id="busquedaImgSrc" src="images/skip.png"
 										style="DISPLAY: none"
@@ -154,20 +149,23 @@
 															code="formularioStock.stock.nota" htmlEscape="true" /></td>
 												</tr>
 												<tr>
-													<td class="texto_ti"><input type="text"
-														id="codigoConcepto" class="requerido"
-														name="codigoConcepto" maxlength="6" style="width: 50px;"
-														value="<c:out value="${stockFormulario.concepto.codigo}" default="" />" />&nbsp;&nbsp;
+													<td class="texto_ti">
+														<input type="text" id="codigoConcepto"
+																	class="requerido" name="codigoConcepto" maxlength="6"
+																	style="width: 50px;"
+																	value="<c:out value="${stockFormulario.concepto.codigo}" default="" />" />&nbsp;&nbsp;
 														<button type="button"
-															onclick="abrirPopup('conceptosPopupMap');"
-															title="<spring:message code="textos.buscar" htmlEscape="true"/>">
-															<img
-																src="<%=request.getContextPath()%>/images/buscar.png">
-														</button>&nbsp;&nbsp; <label id="codigoConceptoLabel"
-														for="codigoConcepto"> <c:out
-																value="${stockFormulario.concepto.descripcion}"
-																default="" />
-													</label>&nbsp;&nbsp;</td>
+																onclick="abrirPopup('conceptosPopupMap');"
+																title="<spring:message code="textos.buscar" htmlEscape="true"/>">
+																<img
+																	src="<%=request.getContextPath()%>/images/buscar.png">
+															</button>&nbsp;&nbsp;
+														<label id="codigoConceptoLabel"
+															for="codigoConcepto">
+															 <c:out	value="${stockFormulario.concepto.descripcion}"
+																	default="" />
+														 </label>&nbsp;&nbsp;
+													</td>
 													<td class="texto_ti"><input type="text"
 														class="requerido" maxlength="9" id="cantidad"
 														name="cantidad" style="width: 80px;"
@@ -181,18 +179,14 @@
 												</tr>
 											</table>
 
-
-										</fieldset>
-									</td>
+											
+										</fieldset></td>
 								</tr>
 								<tr>
 									<td>
 										<fieldset>
-											<legend>
-												<spring:message code="formularioStock.destino"
-													htmlEscape="true" />
-											</legend>
-											<table>
+											<legend><spring:message code="formularioStock.destino" htmlEscape="true"/></legend>
+											<table >
 												<tr>
 													<td class="texto_ti"><spring:message
 															code="formularioStock.empresa" htmlEscape="true" /></td>
@@ -215,8 +209,7 @@
 														</button>&nbsp;&nbsp; <label id="codigoEmpresaLabel"
 														for="codigoEmpresa"> <c:out
 																value="${stockFormulario.origenDestino.sucursal.empresa.descripcion}"
-																default="" />
-													</label></td>
+																default="" /> </label></td>
 													<td class="texto_ti"><input type="text"
 														id="codigoSucursal" name="codigoSucursal" maxlength="6"
 														style="width: 50px;"
@@ -231,8 +224,7 @@
 														</button>&nbsp;&nbsp; <label id="codigoSucursalLabel"
 														for="codigoSucursal"> <c:out
 																value="${stockFormulario.origenDestino.sucursal.descripcion}"
-																default="" />
-													</label></td>
+																default="" /> </label></td>
 													<td class="texto_ti"><input type="text"
 														id="codigoOrigenDestino" name="codigoOrigenDestino"
 														maxlength="6" style="width: 50px;"
@@ -247,8 +239,7 @@
 														</button>&nbsp;&nbsp; <label id="codigoOrigenDestinoLabel"
 														for="codigoOrigenDestino"> <c:out
 																value="${stockFormulario.origenDestino.descripcion}"
-																default="" />
-													</label></td>
+																default="" /> </label></td>
 												</tr>
 											</table>
 										</fieldset>
@@ -261,8 +252,7 @@
 												<img
 													src="<%=request.getContextPath()%>/images/restablecer.png"
 													title=<spring:message code="botones.restablecer" htmlEscape="true"/>>
-											</button>
-										</td>
+											</button></td>
 									</tr>
 								</c:if>
 							</table>

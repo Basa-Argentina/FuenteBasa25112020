@@ -9,6 +9,11 @@ package com.security.accesoDatos.facturacion.interfaz;
 
 import java.util.List;
 
+import com.security.accesoDatos.interfaz.GeneralServiceInterface;
+import com.security.modelo.administracion.ClienteAsp;
+import com.security.modelo.configuraciongeneral.ClienteEmp;
+import com.security.modelo.configuraciongeneral.ListaPrecios;
+import com.security.modelo.facturacion.EmailCliente;
 
 /**
  * @author Gonzalo Noriega

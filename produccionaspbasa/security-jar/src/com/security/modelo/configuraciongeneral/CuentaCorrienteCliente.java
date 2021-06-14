@@ -35,8 +35,8 @@ public class CuentaCorrienteCliente implements Comparable<CuentaCorrienteCliente
 	private Double saldoAcreedor;	
 	private Double saldo;
 	private Double limiteSaldo;
-	private  Date fechaDesde;
-	private  Date fechaHasta;
+	private transient Date fechaDesde;
+	private transient Date fechaHasta;
 	
 	
 	public CuentaCorrienteCliente() {
@@ -69,7 +69,7 @@ public class CuentaCorrienteCliente implements Comparable<CuentaCorrienteCliente
 
 	@Override
 	public int compareTo(CuentaCorrienteCliente arg0) {
-		// Auto-generated method stub
+		// TODO Auto-generated method stub
 		return 0;
 	}
 

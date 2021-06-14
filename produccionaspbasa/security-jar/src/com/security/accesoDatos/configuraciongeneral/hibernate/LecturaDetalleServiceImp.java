@@ -162,6 +162,9 @@ public class LecturaDetalleServiceImp extends GestorHibernate<LecturaDetalle> im
         		if(lecturaDetalle.getElemento() !=null)
 	        		crit.createCriteria("elemento").add(Restrictions.eq("codigo", lecturaDetalle.getElemento().getCodigo()));
         	}
+        	
+        //	crit.add(Restrictions.eq("busquedaEnPlanta", lecturaDetalle.getBusquedaEnPlanta()));
+        	
         	if(cliente != null){
         		crit.add(Restrictions.eq("lectura.clienteAsp", cliente));
         	}

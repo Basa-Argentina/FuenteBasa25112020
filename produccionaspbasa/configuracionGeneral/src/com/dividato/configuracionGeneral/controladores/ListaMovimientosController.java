@@ -1,6 +1,9 @@
 package com.dividato.configuracionGeneral.controladores;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,7 +16,9 @@ import org.displaytag.util.ParamEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -28,13 +33,17 @@ import com.security.accesoDatos.configuraciongeneral.interfaz.ElementoService;
 import com.security.accesoDatos.configuraciongeneral.interfaz.MovimientoService;
 import com.security.accesoDatos.configuraciongeneral.interfaz.TipoElementoService;
 import com.security.modelo.administracion.ClienteAsp;
+import com.security.modelo.configuraciongeneral.Elemento;
 import com.security.modelo.configuraciongeneral.Empresa;
+import com.security.modelo.configuraciongeneral.LoteFacturacion;
 import com.security.modelo.configuraciongeneral.Movimiento;
+import com.security.modelo.configuraciongeneral.Posicion;
 import com.security.modelo.configuraciongeneral.Sucursal;
 import com.security.modelo.general.PersonaFisica;
 import com.security.modelo.seguridad.User;
 import com.security.utils.CampoDisplayTag;
 import com.security.utils.Constantes;
+import com.security.utils.ParseNumberUtils;
 
 /**
  * Controlador que se utiliza para los servicios asociados a la
@@ -57,8 +66,8 @@ import com.security.utils.Constantes;
 		)
 public class ListaMovimientosController {
 	
-	public static final String ERROR_CODIGO_DEPOSITO_ACTUAL_REQUERIDO = "formularioMovimiento.error.codigoDeposito";
-	public static final String ERROR_FECHADESDE_MAYOR_FECHAHASTA = "formularioMovimiento.error.fechaDesdeMayorFechaHasta0";
+	public static String ERROR_CODIGO_DEPOSITO_ACTUAL_REQUERIDO = "formularioMovimiento.error.codigoDeposito";
+	public static String ERROR_FECHADESDE_MAYOR_FECHAHASTA = "formularioMovimiento.error.fechaDesdeMayorFechaHasta0";
 	private DepositoService depositoService;
 	private ElementoService elementoService;
 	private ClienteEmpService clienteEmpService;
@@ -173,7 +182,7 @@ public class ListaMovimientosController {
 			movimientoBusqueda.setNumeroPagina(nPagina);
 			
 			//Se busca en la base de datos las posiciones con los filtros de paginacion agregados a la posicion
-			movimientos = movimientoService.listarMovimientos(movimientoBusqueda, obtenerClienteAsp());	
+			movimientos =(List<Movimiento>) movimientoService.listarMovimientos(movimientoBusqueda, obtenerClienteAsp());	
 			
 			if(movimientos!=null && movimientos.size()>0 && movimientoBusqueda.getCodigoRemito()!=null)
 				movimientoBusqueda.setRemito(movimientos.get(0).getRemito());
@@ -289,7 +298,7 @@ public class ListaMovimientosController {
 		//se vuelve a setear el texto utilizado para el filtrado
 		depositosPopupMap.put("textoBusqueda", val);
 		
-
+		//depositosPopupMap.put("filterPopUp", obtenerSucursalDefault().getCodigo());
 		//codigo de la localización para el titulo del popup
 		depositosPopupMap.put("tituloPopup", "textos.seleccion");
 		//Agrego el mapa a los atributos
@@ -382,6 +391,24 @@ public class ListaMovimientosController {
 		clienteEmpPopupMap.put("tituloPopup", "textos.seleccion");
 		//Agrego el mapa a los atributos
 		atributos.put("clienteEmpPopupMap", clienteEmpPopupMap);
+	}
+	
+	/**
+	 * genera el objeto BindingResult para mostrar los errores por pantalla en un popup y lo agrega al map atributos
+	 * @param codigoErrores
+	 * @param atributos
+	 */
+	private void generateErrors(List<String> codigoErrores,	Map<String, Object> atributos) {
+		if (!codigoErrores.isEmpty()) {
+			BindingResult result = new BeanPropertyBindingResult(new Object(),"");
+			for (String codigo : codigoErrores) {
+				result.addError(new FieldError(	"error.formBookingGroup.general", codigo, null, false, new String[] { codigo }, null, "?"));
+			}
+			atributos.put("result", result);
+			atributos.put("errores", true);
+		} else if(atributos.get("result") == null){
+			atributos.put("errores", false);
+		}
 	}
 	
 	private User obtenerUser(){

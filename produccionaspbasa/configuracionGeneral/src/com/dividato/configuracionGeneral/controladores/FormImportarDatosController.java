@@ -162,7 +162,7 @@ public class FormImportarDatosController {
 		Map<String, Object> atributos, HttpServletRequest request) {
 		ScreenMessage mensajeClienteReg = null;
 		if (!path.equals("")) {
-
+			// String path = "D:/Proyectos/basa/BASA/datas";
 			try {
 
 				File folder = new File(path);
@@ -373,15 +373,13 @@ public class FormImportarDatosController {
 						elementoE1.setEstado(estado);
 						elementoE1.setGeneraCanonMensual(true);
 						elementoE1.setClienteAsp(clienteAsp4);
-						long idClienteEmp = Long.parseLong("90"+idCliente);
+						long idClienteEmp = Long.valueOf("90"+idCliente);
 						elementoE1.setClienteEmp(clienteEmpService.obtenerPorId(idClienteEmp));
 						elementoE1.setTipoElemento(tipoElemento7);
 						elementoE1.setCodigoAlternativo(String.valueOf(idCaja));
 						try{
 							elementoE1.setNroPrecinto(Long.valueOf(rs3.getString("NROPRECINTO")));
-						}catch(Exception e){
-							logger.error(e);
-						}
+						}catch(Exception e){}
 						elementoE1.setUbicacionProvisoria(rs3.getString("UBICACION"));
 						elementoService.guardar(elementoE1);
 					}
@@ -397,7 +395,7 @@ public class FormImportarDatosController {
 			for (ClienteEmp clienteEmp : clienteEmpList){
 				String nroTablaStr = null;
 				try{
-					int nroTabla = Integer.parseInt(clienteEmp.getCodigo().replace("90", ""));
+					int nroTabla = Integer.valueOf(clienteEmp.getCodigo().replaceAll("90", ""));
 					nroTablaStr = String.format("%04d", nroTabla);
 					select= getPreparedStatement("SELECT DISTINCT NOMBRESUCURSAL, NOMBRETIPODOCUMENTO FROM DCTO"+nroTablaStr);
 					// Con el resultado del select obtengo el arbol que tengo que armar
@@ -430,6 +428,7 @@ public class FormImportarDatosController {
 							// Primer Nivel
 							clasificacionDocumentalPadre = crearClasificacionDoc(); 
 							clasificacionDocumentalPadre.setClienteAsp(clienteAsp4);
+							//clasificacionDocumentalPadre.setClienteEmp(clienteEmpService.getByCodigo(clienteEmp.getCodigo()));
 							clasificacionDocumentalPadre.setClienteEmp(clienteEmp);
 							clasificacionDocumentalPadre.setCodigo(codigo++);
 							clasificacionDocumentalPadre.setNombre(clienteEmp.getCodigo());
@@ -503,7 +502,8 @@ public class FormImportarDatosController {
 							elementoE2.setEstado("En Guarda");
 							elementoE2.setGeneraCanonMensual(false);
 							elementoE2.setClienteAsp(clienteAsp4);
-
+							//String codigoEmp = "90"+idCliente;
+							//elementoE2.setClienteEmp(clienteEmpService.getByCodigo(codigoEmp));
 							elementoE2.setClienteEmp(clienteEmp);
 							//Buscar el Id en la tabla elementos donde “elemento.codigo = ‘07’ 
 							//+ ceros + IDCAJA“ donde ceros deberá completarse hasta llegar a 12 dígitos.
@@ -519,6 +519,8 @@ public class FormImportarDatosController {
 							loteReferencia = new LoteReferencia();
 							loteReferencia.setFechaRegistro(new Date());
 							loteReferencia.setClienteAsp(clienteAsp5);
+							//String codigoEmpLR1 = "90"+idCliente;
+							//loteReferencia.setClienteEmp(clienteEmpService.getByCodigo(codigoEmpLR1));
 							loteReferencia.setClienteEmp(clienteEmp);
 							loteReferencia.setEmpresa(empresa6);
 							loteReferencia.setSucursal(sucursal7);
@@ -564,6 +566,8 @@ public class FormImportarDatosController {
 							LoteReferencia loteReferencia2 = new LoteReferencia();
 							loteReferencia2.setFechaRegistro(new Date());
 							loteReferencia2.setClienteAsp(clienteAsp5);
+							//String codigoEmpLR2 = "90"+idCliente;
+							//loteReferencia2.setClienteEmp(clienteEmpService.getByCodigo(codigoEmpLR2));
 							loteReferencia2.setClienteEmp(clienteEmp);
 							loteReferencia2.setEmpresa(empresa6);
 							loteReferencia2.setSucursal(sucursal7);

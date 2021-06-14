@@ -30,18 +30,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.dividato.configuracionGeneral.validadores.LecturaValidator;
-
+import com.security.accesoDatos.configuraciongeneral.hibernate.LecturaDetalleServiceImp;
 import com.security.accesoDatos.configuraciongeneral.interfaz.ClienteEmpService;
 import com.security.accesoDatos.configuraciongeneral.interfaz.ElementoService;
 import com.security.accesoDatos.configuraciongeneral.interfaz.LecturaDetalleService;
 import com.security.accesoDatos.configuraciongeneral.interfaz.LecturaService;
-
+import com.security.accesoDatos.hibernate.HibernateControl;
 import com.security.modelo.administracion.ClienteAsp;
 import com.security.modelo.configuraciongeneral.Elemento;
 import com.security.modelo.configuraciongeneral.Empresa;
 import com.security.modelo.configuraciongeneral.Lectura;
 import com.security.modelo.configuraciongeneral.LecturaDetalle;
-
+import com.security.modelo.configuraciongeneral.RemitoDetalle;
 import com.security.modelo.configuraciongeneral.Sucursal;
 import com.security.modelo.general.PersonaFisica;
 import com.security.modelo.seguridad.User;
@@ -78,6 +78,9 @@ public class FormLecturaController {
 	private LecturaDetalleService lecturaDetalleService;
 	private ClienteEmpService clienteEmpService;
 	private ElementoService elementoService;
+	
+	
+	//private List<LecturaDetalle> lecturaDetalles = new ArrayList<LecturaDetalle>();
 	
 		
 	/**
@@ -395,9 +398,7 @@ public class FormLecturaController {
 					}
 				}
 				List<String> listaDescartados = new ArrayList<String>();
-				String codigo;
-				String codigoCorrecto;
-				String codigoTomado12;
+				String codigo,codigoCorrecto,codigoTomado12;
 				Boolean repetido;
 				for (int i = 0; i < lista.size(); i++) {
 					repetido = false;
@@ -405,7 +406,7 @@ public class FormLecturaController {
 					if(codigo.length() >= 12){
 					codigoTomado12 = lista.get(i).substring(0, 12);
 					codigoCorrecto = codigoTomado12 + String.valueOf(EAN13.EAN13_CHECKSUM(codigoTomado12));
-
+						//if(codigo.equals(codigoCorrecto)){
 							lecturaDetalle = new LecturaDetalle();
 							if (codigo.startsWith("99")) {
 								lecturaDetalle.setCodigoBarras(codigoTomado12);
@@ -424,7 +425,7 @@ public class FormLecturaController {
 											.setObservacion("Elemento no existente.");
 								}
 							}
-							if(!lecturaDetalles.isEmpty())
+							if(lecturaDetalles.size()>0)
 							{
 								for(int f = (lecturaDetalles.size()-1);f>=0;f--)
 								{
@@ -442,14 +443,18 @@ public class FormLecturaController {
 									lecturaDetalle.setOrden(orden);
 									lecturaDetalles.add(lecturaDetalle);
 								}
-
+							//}
+//							else
+//							{
+//								listaDescartados.add(codigo+"(Dígito de control inválido)\n");					
+//							}
 					}
 					else
 					{
 						listaDescartados.add(codigo+" ----  (Linea errónea)\n");					
 					}
 				}	
-				if(!listaDescartados.isEmpty())
+				if(listaDescartados.size() > 0)
 				{
 					String dirDescar = "c://Archivos_de_Lecturas//descartados//";
 					new File(dirDescar).mkdirs();
@@ -465,7 +470,6 @@ public class FormLecturaController {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
-			System.out.println(e);
 		}
 		atributos.put("accion", accion);
 		atributos.put("lecturaFormulario", lecturaFormulario);
@@ -516,6 +520,7 @@ public class FormLecturaController {
 				e.printStackTrace();
 			} 
 			lecturaFormulario.setObservacion(observacionLectura);
+			
 		}
 		atributos.put("accion", accion);
 		atributos.put("lecturaFormulario", lecturaFormulario);

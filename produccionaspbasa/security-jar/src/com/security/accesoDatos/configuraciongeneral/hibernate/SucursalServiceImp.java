@@ -27,6 +27,7 @@ import com.security.accesoDatos.configuraciongeneral.interfaz.SucursalService;
 import com.security.accesoDatos.hibernate.GestorHibernate;
 import com.security.accesoDatos.hibernate.HibernateControl;
 import com.security.modelo.administracion.ClienteAsp;
+import com.security.modelo.configuraciongeneral.ClienteEmp;
 import com.security.modelo.configuraciongeneral.Empresa;
 import com.security.modelo.configuraciongeneral.Sucursal;
 
@@ -194,7 +195,8 @@ public class SucursalServiceImp extends GestorHibernate<Sucursal> implements Suc
 	        	//obtenemos una sesión
 				session = getSession();
 				
-
+//	        	Criteria crit = session.createCriteria(getClaseModelo());
+//	        	crit.add(Restrictions.eq("id", id));
 				
 				String consulta = "SELECT suc FROM Sucursal suc WHERE suc.id = " + id.longValue() + " ";
 	        	
@@ -404,6 +406,16 @@ public class SucursalServiceImp extends GestorHibernate<Sucursal> implements Suc
         	//obtenemos una sesión
 			session = getSession();
 			
+//        	Criteria c = session.createCriteria(getClaseModelo());
+//        	//filtro codigo
+//        	c.add(Restrictions.eq("codigo", codigo));
+//        	//filtro codigo empresa
+//        	c.createCriteria("empresa", "emp");
+//        	c.add(Restrictions.eq("emp.codigo", codigoEmpresa));
+//        	//filtro cliente
+//        	c.add(Restrictions.eq("emp.cliente", cliente));
+//        	//distinct
+//        	c.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 //        	//obtener el primero
 			
 			String consulta = "SELECT DISTINCT suc FROM Sucursal suc WHERE suc.codigo = '" + codigo + "' " +

@@ -25,6 +25,7 @@ import com.security.accesoDatos.hibernate.HibernateControl;
 import com.security.accesoDatos.interfaz.ClienteAspService;
 import com.security.modelo.administracion.ClienteAsp;
 import com.security.modelo.configuraciongeneral.ConceptoFacturable;
+import com.security.modelo.general.Pais;
 import com.security.modelo.seguridad.User;
 
 /**
@@ -36,7 +37,6 @@ public class ConceptoFacturableServlet extends HttpServlet{
 	private static final long serialVersionUID = -2135973356955496716L;
 	private static Logger logger = Logger.getLogger(ConceptoFacturableServlet.class);
 
-	@Override
 	public void doGet (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/xml"); 
 		response.setCharacterEncoding("ISO-8859-1"); //seteo el encoding de los caracteres 

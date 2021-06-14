@@ -10,6 +10,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 import org.springframework.web.bind.WebDataBinder;
 
+import com.security.modelo.configuraciongeneral.Lectura;
 import com.security.modelo.configuraciongeneral.Remito;
 /**
  * 

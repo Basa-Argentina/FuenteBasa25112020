@@ -88,7 +88,7 @@ public class MailManager {
 		try {
 			from = new InternetAddress(email,sistema);
 		} catch (UnsupportedEncodingException e) {
-			// Auto-generated catch block
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     	InternetAddress paraAddress = new InternetAddress(para);
@@ -157,7 +157,7 @@ public class MailManager {
             
             InternetAddress from = null;;
             InternetAddress bcc = null;;
-            //: Validar to
+            //TODO: Validar to
             
     		try {
     			from = new InternetAddress(email,sistema);

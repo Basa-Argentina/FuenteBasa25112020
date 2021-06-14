@@ -260,7 +260,15 @@ public class FormMovimientoController {
 		if(movimientoSession != null){
 			atributos.put("movimientoFormulario", movimientoSession);
 		}
-
+		
+//		if(atributos.get("movimientoFormulario") != null)
+//		{
+//			movimientoFormulario = (Movimiento) atributos.get("movimientoFormulario");
+//		}
+//		else
+//		{
+//			atributos.put("movimientoFormulario", movimientoFormulario);
+//		}
 		
 		atributos.put("listaElementos", listaElementos);
 		atributos.put("clienteId", obtenerClienteAspUser().getId());
@@ -338,7 +346,10 @@ public class FormMovimientoController {
 		Movimiento movimientoFormulario = new Movimiento();
 		
 		if(!result.hasErrors()){
-
+		
+//			if(accion.equals("NUEVO")){
+//				movimientoFormulario = new Movimiento();				
+//			}
 			
 			//empezamos a setear los datos nuevos,
 			movimientoFormulario.setId(movimiento.getId());
@@ -379,7 +390,19 @@ public class FormMovimientoController {
 							if(nuevoMovimiento.getTipoMovimiento().equals("INGRESO"))
 							{	
 									
-								
+									//Se setea el nuevo estado al elemento
+									//listaElementos.get(i).setEstado(Constantes.ELEMENTO_ESTADO_EN_GUARDA);
+									//Se seta siempre el nuevo Deposito
+									//listaElementos.get(i).setDepositoActual(nuevoMovimiento.getDeposito());
+									//Posicion posicion = listaElementos.get(i).getPosicion();
+									//if(posicion != null)
+									//{
+										//posicion.setEstado(Constantes.POSICION_ESTADO_DISPONIBLE);
+										//nuevoMovimiento.setPosicionOrigenDestino(posicion);
+										//listaPosiciones.add(posicion);
+										//listaElementos.get(i).setPosicion(null);
+									//}
+									//Se setean los tipos de trabajo
 									for(int f=0;f<listaIds.size();f++)
 									{
 										if(listaIds.get(f).longValue() == elemento.getId().longValue())
@@ -394,6 +417,25 @@ public class FormMovimientoController {
 							}
 							else if(nuevoMovimiento.getTipoMovimiento().equals("EGRESO"))
 							{
+								//if(elemento.getEstado().equalsIgnoreCase(Constantes.ELEMENTO_ESTADO_EN_GUARDA))
+								//{
+									//Se setea el nuevo estado al elemento
+									//listaElementos.get(i).setEstado(Constantes.ELEMENTO_ESTADO_EN_CONSULTA);
+									//HABLADO CON LUIS 19/04/2016 - LA POSICION NO SE TOCA
+									//Posicion posicion = listaElementos.get(i).getPosicion();
+									//if(posicion != null)
+									//{
+										//posicion.setEstado(Constantes.POSICION_ESTADO_DISPONIBLE);
+										//nuevoMovimiento.setPosicionOrigenDestino(posicion);
+										//listaPosiciones.add(posicion);
+										//listaElementos.get(i).setPosicion(null);
+									//}
+								//}
+								//else if(listaElementos.get(i).getEstado().equalsIgnoreCase(Constantes.ELEMENTO_ESTADO_CREADO))
+								//{
+									//Se setea el nuevo estado al elemento
+									//listaElementos.get(i).setEstado(Constantes.ELEMENTO_ESTADO_EN_EL_CLIENTE);
+								//}
 								
 							}
 						}
@@ -401,11 +443,52 @@ public class FormMovimientoController {
 						{
 							if(nuevoMovimiento.getTipoMovimiento().equals("INGRESO"))
 							{
-
+								//Se buscan movimientos de tipo Cliente e Ingreso existentes para ese elemento
+//								Movimiento mov = new Movimiento();
+//								mov.setTipoMovimiento("INGRESO");
+//								mov.setClaseMovimiento("cliente");
+//								mov.setElemento(listaElementos.get(i));
+								//Se cambia el deposito para todos los casos
+								//listaElementos.get(i).setDepositoActual(nuevoMovimiento.getDeposito());
+								//Posicion posicion = listaElementos.get(i).getPosicion();
+								//if(posicion != null)
+								//{
+									//posicion.setEstado(Constantes.POSICION_ESTADO_DISPONIBLE);
+									//nuevoMovimiento.setPosicionOrigenDestino(posicion);
+									//listaPosiciones.add(posicion);
+									//listaElementos.get(i).setPosicion(null);
+								//}
+								//Integer movIngCliAnterior = movimientoService.contarMovimientosFiltrados(mov, obtenerClienteAspUser());
+								//Si existe al menos uno es que ya ha estado en el cliente por lo cual debe estar en Guarda
+								//if(movIngCliAnterior!=null && movIngCliAnterior>0)
+								//{
+									//Se setea el nuevo estado al elemento
+									//listaElementos.get(i).setEstado(Constantes.ELEMENTO_ESTADO_EN_GUARDA);
+									
+									//HABLADO CON LUIS -Se quita de esta regla y se hace para todos
+									//listaElementos.get(i).setDepositoActual(nuevoMovimiento.getDeposito());
+								//}
+								//Sino todavia no ha ido al cliente y su estado debe ser creado
+								//else
+								//{
+									//Se setea el nuevo estado al elemento
+									//listaElementos.get(i).setEstado(Constantes.ELEMENTO_ESTADO_CREADO);
+								//}
 							}
 							else if(nuevoMovimiento.getTipoMovimiento().equals("EGRESO"))
 							{
-
+								//Se setea el nuevo estado al elemento
+								//listaElementos.get(i).setEstado(Constantes.ELEMENTO_ESTADO_EN_TRANSITO);
+								
+								//HABLADO CON LUIS 19/04/2016 - LA POSICION NO SE TOCA
+//								Posicion posicion = listaElementos.get(i).getPosicion();
+//								if(posicion != null)
+//								{
+									//posicion.setEstado(Constantes.POSICION_ESTADO_DISPONIBLE);
+									//nuevoMovimiento.setPosicionOrigenDestino(posicion);
+									//listaPosiciones.add(posicion);
+									//listaElementos.get(i).setPosicion(null);
+								//}
 							}
 						}
 						
@@ -418,7 +501,12 @@ public class FormMovimientoController {
 			}
 			else
 			{				
-
+//					Boolean noAnexar = (Boolean)session.getAttribute("noAnexar");
+//					@SuppressWarnings("unchecked")
+//					Set<MovimientoDetalle> movimientoDetallesViejos = (HashSet<MovimientoDetalle>)session.getAttribute("movimientoDetallesViejos");
+//					movimientoFormulario.setDetalles(movimientoDetallesViejos);
+//					Set<MovimientoDetalle> movimientoDetallesNuevos = new HashSet<MovimientoDetalle>(movimientoDetalles);
+//					commit = movimientoService.actualizarMovimientoYDetalles(noAnexar, movimientoDetallesNuevos, movimientoFormulario);
 			}
 			if(commit == null || !commit)
 				movimiento.setId(movimientoFormulario.getId());
@@ -510,7 +598,7 @@ public class FormMovimientoController {
 		{
 			movimientoFormulario = new Movimiento();
 		}
-		if(id!=null && !id.equals(""))
+		if(id!=null && id != "")
 		{
 		movimientoFormulario.setId(Long.valueOf(id));
 		}
@@ -526,7 +614,7 @@ public class FormMovimientoController {
 		movimientoFormulario.setDescripcion(descripcion);
 		movimientoFormulario.setCodigoLectura(codigoLectura);
 		movimientoFormulario.setCodigoResponsable(codigoResponsable);
-		if(fecha!= null && !fecha.trim().equals("") && !fecha.equals("undefined")){
+		if(fecha!= null && fecha.trim() != "" && fecha != "undefined"){
 			String fechaMovimiento = fecha;
 			SimpleDateFormat sdf= new SimpleDateFormat("dd/MM/yyyy");
 			try {
@@ -536,18 +624,21 @@ public class FormMovimientoController {
 				e.printStackTrace();
 			}
 		}
-
+		//if(codigoDepositoOrigen!= null && codigoDepositoOrigen.trim() != ""){
+			//Deposito depositoActual = depositoService.getByCodigoYSucursal(codigoDepositoOrigen, obtenerSucursalUser().getCodigo(), obtenerClienteAspUser());
+			//if(depositoActual!= null){
 				if(cadenaCodigosElementos!= null && cadenaCodigosElementos.length()>0)
 				{
 					validarListaCodigos(session,cadenaCodigosElementos,anexarCodigos,null,atributos, avisos);
 					cadenaCodigosElementos = null;
 					atributos.remove("listaCodigosElementos");
 				}
-
+			//}
+		//}
 		
 		listaElementos = (List<Elemento>) session.getAttribute("listaElementos");
 				
-		if(listaElementos!= null && !listaElementos.isEmpty())
+		if(listaElementos!= null && listaElementos.size()>0)
 		{
 			movimientoFormulario.setCantidadElementos(listaElementos.size());
 			atributos.put("listaElementos", listaElementos);
@@ -590,11 +681,7 @@ public class FormMovimientoController {
 		List<ScreenMessage> avisos = new ArrayList<ScreenMessage>();
 		Boolean hayAvisos = false;
 		Boolean hayAvisosNeg = false;
-		Boolean banderaModulos = false;
-		Boolean banderaInexistentes = false;
-		Boolean banderaNoGuarda = false;
-		Boolean banderaDepositoDiferente = false;
-		Boolean banderaRepetido = false;
+		Boolean banderaModulos = false, banderaInexistentes = false, banderaNoGuarda = false, banderaDepositoDiferente = false, banderaRepetido = false;
 		
 		@SuppressWarnings("unchecked")
 		List<Elemento> listaElementos = (List<Elemento>) session.getAttribute("listaElementos");
@@ -613,7 +700,7 @@ public class FormMovimientoController {
 		{
 			movimientoFormulario = new Movimiento();
 		}
-		if(id!=null && !id.equals(""))
+		if(id!=null && id != "")
 		{
 		movimientoFormulario.setId(Long.valueOf(id));
 		}
@@ -629,7 +716,7 @@ public class FormMovimientoController {
 		movimientoFormulario.setCodigoLectura(codigoLectura);
 		movimientoFormulario.setDescripcion(descripcion);
 		movimientoFormulario.setCodigoResponsable(codigoResponsable);
-		if(fecha!= null && !fecha.trim().equals("") && fecha != "undefined"){
+		if(fecha!= null && fecha.trim() != "" && fecha != "undefined"){
 			String fechaMovimiento = fecha;
 			SimpleDateFormat sdf= new SimpleDateFormat("dd/MM/yyyy");
 			try {
@@ -640,8 +727,11 @@ public class FormMovimientoController {
 			}
 		}
 		
+		//if(codigoDepositoOrigen!= null && codigoDepositoOrigen.trim() != ""){
 			List<LecturaDetalle> listaLecturaElementos;
-
+			//Deposito depositoActual = depositoService.getByCodigoYSucursal(codigoDepositoOrigen, obtenerSucursalUser().getCodigo(), obtenerClienteAspUser());
+			//if(depositoActual!= null){
+				//Si se importa una lectura
 			 	if (codigoLectura != null) {
 						Lectura lectura = lecturaService.obtenerPorCodigo(Long.valueOf(codigoLectura), null, obtenerEmpresaUser(),obtenerClienteAspUser());
 						if(lectura==null)
@@ -658,7 +748,7 @@ public class FormMovimientoController {
 						session.setAttribute("lectura", lectura);
 						listaLecturaElementos = lecturaDetalleService.listarLecturaDetallePorLectura(lectura,obtenerClienteAspUser());
 						//Si la lectura contiene al menos un elemento
-						if (listaLecturaElementos != null && !listaLecturaElementos.isEmpty()) {
+						if (listaLecturaElementos != null && listaLecturaElementos.size() > 0) {
 							
 		
 							//Recorro la lista de elementos
@@ -682,7 +772,25 @@ public class FormMovimientoController {
 									//Si llega aqui es que es un elemento existente
 									else
 									{
-
+											//Se pregunta si el elemento esta en el mismo deposito que el deposito de origen seleccionado
+											//if(depositoActual.getId().longValue() == listaLecturaElementos.get(i).getElemento().getDepositoActual().getId().longValue())
+											//{
+												//Se pregunta si el elemento esta en estado de EN GUARDA
+//												if(!"En Guarda".equals(listaLecturaElementos.get(i).getElemento().getEstado()))
+//												{
+//													//Si se es asi se remueve
+//													listaLecturaElementos.remove(i);
+//													i = i - 1;
+//													banderaNoGuarda = true;
+//												}
+											//}
+//										else
+//											{
+//												//Si no es asi se remueve
+//												listaLecturaElementos.remove(i);
+//												i = i - 1;
+//												banderaDepositoDiferente = true;
+//											}
 									}
 								}
 							}
@@ -716,7 +824,7 @@ public class FormMovimientoController {
 								hayAvisos = true;
 							}
 							//Se pregunta si quedaron elementos existentes en la lectura para asignarles posiciones libres
-							if (!listaLecturaElementos.isEmpty()) {
+							if (listaLecturaElementos.size() > 0) {
 								
 								if (anexar == null || anexar== false) {
 									listaElementos.removeAll(listaElementos);
@@ -725,7 +833,7 @@ public class FormMovimientoController {
 								
 								for (LecturaDetalle lecturaDetalle : listaLecturaElementos) {
 									Boolean repetido = false;
-									if(!listaElementos.isEmpty())
+									if(listaElementos.size()>0)
 									{
 										for(int f = (listaElementos.size()-1) ; f>=0 ; f--)
 										{
@@ -761,8 +869,10 @@ public class FormMovimientoController {
 							}
 		
 						}
-					}
-
+					}//salida de la importacion de lectura
+				//}
+		//}
+		//atributos.put("actualizaNumero", "NO");
 		atributos.put("accion", accion);
 		movimientoFormulario.setCantidadElementos(listaElementos.size());
 		atributos.put("movimientoFormulario", movimientoFormulario);
@@ -819,7 +929,24 @@ public class FormMovimientoController {
 						if(!elemento.getEstado().equalsIgnoreCase(Constantes.ELEMENTO_ESTADO_EN_EL_CLIENTE)){
 							
 							//HABLADO CON LUIS 19/04/2016 - LA POSICION NO SE TOCA
-//					
+//							//Traigo la posicion que tenia antes						
+//							posicion = posicionService.obtenerPorId(movimiento.getPosicionOrigenDestino().getId());
+//							//Si la posicion todavia esta libre
+//							if(posicion.getEstado().equalsIgnoreCase(Constantes.POSICION_ESTADO_DISPONIBLE)){
+//								//Se vuelve a poner ocupada
+//								posicion.setEstado(Constantes.POSICION_ESTADO_OCUPADA);
+//								//Se setea la posicion que tenia al objeto
+//								elemento.setPosicion(posicion);		
+//							}					
+							//Si ya esta ocupada hay que avisar al usuario
+//							else{
+//								
+//								ScreenMessage mensaje = new ScreenMessageImp("formularioMovimiento.error.posicionAnteriorOcupada", null);
+//								avisos.add(mensaje); //agrego el mensaje a la coleccion
+//								atributos.remove("result");
+//								atributos.put("hayAvisos", true);
+//								atributos.put("avisos", avisos);
+//							}
 						}
 					}
 					else if(movimiento.getTipoMovimiento().equalsIgnoreCase("INGRESO")){
@@ -827,7 +954,30 @@ public class FormMovimientoController {
 						elemento.setDepositoActual(null);
 						elemento.setTipoTrabajo(Constantes.ELEMENTO_TIPO_TRABAJO_NO_ESPECIFICADO);
 						
-					}		
+					}else{
+						//HABLADO CON LUIS 19/04/2016 - LA POSICION NO SE TOCA
+//						//Traigo la actual posicion
+//						posicionLiberar = posicionService.obtenerPorId(movimiento.getPosicionOrigenDestino().getId());
+//						//La seteo como disponible
+//						posicionLiberar.setEstado(Constantes.POSICION_ESTADO_DISPONIBLE);
+//						//Traigo la posicion que tenia antes						
+//						posicion = posicionService.obtenerPorId(movimientoAnterior.getPosicionOrigenDestino().getId());
+//						//Si la posicion todavia esta libre
+//						if(posicion.getEstado().equalsIgnoreCase(Constantes.POSICION_ESTADO_DISPONIBLE)){
+//							//Se vuelve a poner ocupada
+//							posicion.setEstado(Constantes.POSICION_ESTADO_OCUPADA);
+//							//Se setea la posicion que tenia al objeto
+//							elemento.setPosicion(posicion);		
+//						}
+//						//Si ya esta ocupada hay que avisar al usuario
+//						else{
+//							ScreenMessage mensaje = new ScreenMessageImp("formularioMovimiento.error.posicionAnteriorOcupada", null);
+//							avisos.add(mensaje); //agrego el mensaje a la coleccion
+//							atributos.remove("result");
+//							atributos.put("hayAvisos", true);
+//							atributos.put("avisos", avisos);
+//						}
+					}			
 			}else{
 				elemento.setDepositoActual(movimiento.getDeposito());
 				elemento.setEstado(Constantes.ELEMENTO_ESTADO_CREADO);	
@@ -907,11 +1057,10 @@ public class FormMovimientoController {
 		{
 			movimientoFormulario = new Movimiento();
 		}
-		if(id!=null && !id.equals(""))
+		if(id!=null && id != "")
 		{
 		movimientoFormulario.setId(Long.valueOf(id));
 		}
-		
 		String empresaDefecto = ((PersonaFisica)obtenerUser().getPersona()).getEmpresaDefecto().getCodigo();
 		String sucursalDefecto = ((PersonaFisica)obtenerUser().getPersona()).getSucursalDefecto().getCodigo();
 		movimientoFormulario.setCodigoEmpresa(empresaDefecto);
@@ -994,19 +1143,17 @@ public class FormMovimientoController {
 			}
 			
 		List<String> listaDescartados = new ArrayList<String>();
-		Boolean banderaModulos = false;
-		Boolean banderaInexistentes = false;
-		Boolean banderaNoGuarda = false ;
-		Boolean banderaDepositoDiferente = false ;
-		Boolean banderaRepetido = false;
-		String codigo;
-		String codigoTomado12="";
-		String codigoCorrecto = "";
-		Boolean repetido;
-		Boolean noValido;
+		Boolean banderaModulos = false, banderaInexistentes = false, banderaNoGuarda = false, banderaDepositoDiferente = false,banderaRepetido = false;
+		String codigo,codigoTomado12="",codigoCorrecto = "";
+		Boolean repetido, noValido;
 		for (int i = 0; i < listaCodigos.length; i++) {
 			repetido = false;
 			noValido = false;
+//			banderaModulos = false;
+//			banderaInexistentes = false;
+//			banderaNoGuarda = false;
+//			banderaRepetido = false;
+//			banderaDepositoDiferente = false;
 			codigo = listaCodigos[i];
 			if(codigo.length() == 13 || codigo.length() == 12){
 				if(codigo.length() == 13){
@@ -1047,7 +1194,7 @@ public class FormMovimientoController {
 						}
 					}
 						if(noValido==false){
-							if(!listaElementos.isEmpty())
+							if(listaElementos.size()>0)
 							{
 								for(int f = (listaElementos.size()-1);f>=0;f--)
 								{
@@ -1340,5 +1487,8 @@ public class FormMovimientoController {
 	private Empresa obtenerEmpresaUser(){
 		return ((PersonaFisica)obtenerUser().getPersona()).getEmpresaDefecto();
 	}
-
+	
+	private Sucursal obtenerSucursalUser(){
+		return ((PersonaFisica)obtenerUser().getPersona()).getSucursalDefecto();
+	}
 }

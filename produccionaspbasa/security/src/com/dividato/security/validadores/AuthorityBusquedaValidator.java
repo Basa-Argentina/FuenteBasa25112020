@@ -27,7 +27,6 @@ public class AuthorityBusquedaValidator implements Validator {
 	 * @param binder
 	 */
 	public void initDataBinder(WebDataBinder binder) {
-		//Nada que iniciar
 		
 	}
 	/**

@@ -169,7 +169,7 @@ public class ImportarRearchivos {
 		System.out.println("**** Sucursal = " + sucursal.getDescripcion());
 		User user = new User();
 		user.setUsername(username);
-		user = (userService.listarTodosUserFiltradosByCliente(user, clienteAsp)).get(0);
+		user = ((List<User>)userService.listarTodosUserFiltradosByCliente(user, clienteAsp)).get(0);
 		System.out.println("**** Usuario = " + user.getUsernameSinCliente());
 		System.out.println("**** ARRANCA ***");
 		
@@ -231,7 +231,7 @@ public class ImportarRearchivos {
 				Workbook workbook = null;
 				workbook = WorkbookFactory.create(xlsFile); 
 				System.out.println("**** Cargo correctamente el archivo al workbook ****");
-
+				//Sheet sheet = workbook.getSheet(sheetName);
 	            
 				//Get the number of sheets in the xlsx file
 				int numberOfSheets = workbook.getNumberOfSheets();
@@ -246,13 +246,17 @@ public class ImportarRearchivos {
 	                int iRowNum = sheet.getPhysicalNumberOfRows();
 	                 
 	                //every sheet has rows, iterate over them
-
+	                //Iterator<Row> rowIterator = sheet.iterator();
+	                         
+	                 
+	                
+	                /*while (rowIterator.hasNext())*/
 	                for(int f = 6; f < iRowNum ;f++)
 	                {
 	                    
 	                
 	                	 //Get the row object
-	                    Row row = sheet.getRow(f);
+	                    Row row = sheet.getRow(f);// rowIterator.next();
 	                    
 	                    if(row==null)
 	                    	continue;
@@ -261,18 +265,18 @@ public class ImportarRearchivos {
 	                	
 	                    int iCellNum = row.getPhysicalNumberOfCells();
 	                    //Every row has columns, get the column iterator and iterate over them
-
+	                    //Iterator<Cell> cellIterator = row.cellIterator();
 	                    
 	                    Rearchivo rearNuevo = new Rearchivo();
 	                    orden++;
                         String rutaArchivo = "";
 	                    
-	              
+	                    //while (cellIterator.hasNext())
 	                    for(int g = 1 ; g <= iCellNum ; g++)
 	                    {
 	                    	
 	                        //Get the Cell object
-	                        Cell cell =  row.getCell(g);                     
+	                        Cell cell =  row.getCell(g);  //cellIterator.next();                      
 	                        
 	                        if(cell==null){
 	                        	continue;
@@ -466,27 +470,27 @@ public class ImportarRearchivos {
 	            xlsFile.renameTo(new File(getLecturasProcessed()+"//"+xlsFile.getName()));
 			
 			} catch (IOException e) {
-				// Auto-generated catch block
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 				System.out.println(e.getMessage());
 				logger.error(e.getMessage());
 			} catch (EncryptedDocumentException e) {
-				// Auto-generated catch block
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 				System.out.println(e.getMessage());
 				logger.error(e.getMessage());
 			} catch (InvalidFormatException e) {
-				// Auto-generated catch block
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 				System.out.println(e.getMessage());
 				logger.error(e.getMessage());
 			} catch (ParseException e) {
-				// Auto-generated catch block
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 				System.out.println(e.getMessage());
 				logger.error(e.getMessage());
 			} catch (ScheduledTaskException e) {
-				// Auto-generated catch block
+				// TODO Auto-generated catch block
 				//close file input stream
 	            xlsFile.renameTo(new File(getLecturasError()+"//"+Configuracion.formatoFechaNombreArchivos.format(new Date())+"-"+xlsFile.getName()));
 				e.printStackTrace();
@@ -513,6 +517,9 @@ public class ImportarRearchivos {
 		List<Referencia> referencias = new ArrayList<Referencia>();
 		if(rearchivos!=null && rearchivos.size()>0){
 			for(Rearchivo rearchivo:rearchivos){
+				//Referencia referenciaBuscar = referenciaService.obtenerParaRearchivo(rearchivo.getLoteRearchivo().getClienteEmp(), rearchivo.getLoteRearchivo().getClasificacionDocumental(), rearchivo.getNumero1());
+				//Si encuentro referencia creo una nueva referencia para el detalle
+				//if(referenciaBuscar!=null){
 					Referencia referencia = new Referencia();
 					referencia.setDescripcion(rearchivo.getDescripcion());
 					referencia.setDescripcionRearchivo("Rearchivo");
@@ -525,7 +532,8 @@ public class ImportarRearchivos {
 					referencia.setLoteReferencia(loteReferencia);
 					referencia.setNumero1(rearchivo.getNumero1());
 					referencia.setNumero2(rearchivo.getNumero2());
-
+//					if(referenciaBuscar!=null)
+//						referencia.setReferenciaRearchivo(referenciaBuscar);
 					referencia.setTexto1(rearchivo.getTexto1());
 					referencia.setTexto2(rearchivo.getTexto2());
 					referencia.setOrdenRearchivo(rearchivo.getOrden());

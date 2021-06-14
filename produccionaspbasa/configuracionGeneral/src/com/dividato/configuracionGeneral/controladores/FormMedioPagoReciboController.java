@@ -76,7 +76,7 @@ public class FormMedioPagoReciboController {
 	}
 	@InitBinder
 	public void initDataBinder(WebDataBinder binder) {
-		//No se inicia nada
+		//validator.initDataBinder(binder);
 	}
 	
 	
@@ -100,9 +100,10 @@ public class FormMedioPagoReciboController {
 		atributos.put("bancoList", bancoList);
 		
 		if(id!=null){
+			//MedioPagoRecibo medioPagoReciboForm = medioPagoReciboService.obtenerPorId(id);
 			List<MedioPagoRecibo> medioPagoList = (List<MedioPagoRecibo>)session.getAttribute("medioPagoList");
 			for (MedioPagoRecibo mpr:medioPagoList){
-				if(mpr.getId().equals(id)){
+				if(mpr.getId()==id){
 					atributos.put("medioPagoReciboForm", mpr);
 					break;
 				}
@@ -187,7 +188,7 @@ public class FormMedioPagoReciboController {
 			}else{
 				int x=0;
 				for(MedioPagoRecibo mp:medioPagoList){
-					if(mp.getId().equals(id)){
+					if(mp.getId()==id){
 						medioPagoList.set(x, medioPagoReciboForm);
 						break;
 					}
@@ -245,7 +246,7 @@ public class FormMedioPagoReciboController {
 		
 			List<MedioPagoRecibo> medioPagoList = (List<MedioPagoRecibo>)session.getAttribute("medioPagoList");
 			for(MedioPagoRecibo mpr:medioPagoList){
-				if(mpr.getId().equals(id)){
+				if(mpr.getId()==id){
 					medioPagoList.remove(mpr);
 				}
 			}

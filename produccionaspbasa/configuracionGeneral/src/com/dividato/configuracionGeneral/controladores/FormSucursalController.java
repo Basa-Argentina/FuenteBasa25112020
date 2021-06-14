@@ -152,7 +152,7 @@ public class FormSucursalController {
 		if(accion==null) accion="NUEVO"; //acción por defecto: nuevo		
 		if(!accion.equals("NUEVO")){
 			Sucursal sucursalFormulario;
-			sucursalFormulario = sucursalService.obtenerPorId(id);
+			sucursalFormulario = sucursalService.obtenerPorId(Long.valueOf(id));
 			
 			atributos.put("sucursalFormulario", sucursalFormulario);			
 		}
@@ -295,8 +295,16 @@ public class FormSucursalController {
 			sucursal.getDireccion().setBarrio(data.getDireccion().getBarrio());
 			sucursal.getDireccion().setObservaciones(data.getDireccion().getObservaciones());
 			
-
-			
+//			Direccion direccion = sucursal.getDireccion();
+//			Direccion direccionData = data.getDireccion();
+//			direccion.setCalle(direccionData.getCalle());
+//			direccion.setNumero(direccionData.getNumero());
+//			direccion.setEdificio(direccionData.getEdificio());
+//			direccion.setPiso(direccionData.getPiso());
+//			direccion.setDpto(direccionData.getDpto());
+//			direccion.setBarrio(direccionData.getBarrio());
+//			direccion.setObservaciones(direccionData.getObservaciones());			
+//			sucursal.setDireccion(direccion);
 			sucursal.setEmpresa(data.getEmpresa());
 		}
 	

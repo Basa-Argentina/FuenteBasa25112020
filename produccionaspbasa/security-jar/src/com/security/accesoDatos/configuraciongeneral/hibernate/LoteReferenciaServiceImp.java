@@ -46,6 +46,7 @@ import com.security.modelo.configuraciongeneral.LoteReferencia;
 import com.security.modelo.configuraciongeneral.Referencia;
 import com.security.modelo.configuraciongeneral.ReferenciaHistorico;
 import com.security.modelo.seguridad.User;
+import com.security.utils.Constantes;
 import com.security.utils.DateUtil;
 
 /**
@@ -93,9 +94,10 @@ public class LoteReferenciaServiceImp extends GestorHibernate<LoteReferencia> im
         	}
         	if(codigoDesde!=null)
         		crit.add(Restrictions.ge("codigo", codigoDesde));
-
+        		//crit.add(Restrictions.ge("id", codigoDesde));
         	if(codigoHasta!=null && codigoHasta.intValue()!=0)
-
+        		crit.add(Restrictions.le("codigo", codigoHasta));
+        		//crit.add(Restrictions.le("id", codigoHasta));
         	if(fechaDesde!=null){
         		crit.add(Restrictions.ge("fechaRegistro", DateUtil.getDateFrom(fechaDesde)));
         	}
@@ -147,7 +149,7 @@ public class LoteReferenciaServiceImp extends GestorHibernate<LoteReferencia> im
             		
             		if("formularioLoteReferencia.lista.codigo".equals(fieldOrder))
             		{
-
+            			//fieldOrdenar = "id";
             			fieldOrdenar = "codigo";
             		}
             		if("formularioLoteReferencia.lista.fecha".equals(fieldOrder)){
@@ -219,10 +221,10 @@ public class LoteReferenciaServiceImp extends GestorHibernate<LoteReferencia> im
         	}
         	if(codigoDesde!=null)
         		crit.add(Restrictions.ge("codigo", codigoDesde));
-      
+        		//crit.add(Restrictions.ge("id", codigoDesde));
         	if(codigoHasta!=null && codigoHasta.intValue()!=0)
         		crit.add(Restrictions.le("codigo", codigoHasta));
-
+        		//crit.add(Restrictions.le("id", codigoHasta));
         	if(fechaDesde!=null){
         		crit.add(Restrictions.ge("fechaRegistro", DateUtil.getDateFrom(fechaDesde)));
         	}
@@ -241,6 +243,7 @@ public class LoteReferenciaServiceImp extends GestorHibernate<LoteReferencia> im
             		
             		if("formularioLoteReferencia.lista.codigo".equals(fieldOrder))
             		{
+            			//fieldOrdenar = "id";
             			fieldOrdenar = "codigo";
             		}
             		if("formularioLoteReferencia.lista.fecha".equals(fieldOrder)){
@@ -312,6 +315,7 @@ public class LoteReferenciaServiceImp extends GestorHibernate<LoteReferencia> im
 
             		if("formularioLoteReferencia.lista.codigo".equals(fieldOrder))
             		{
+            			//fieldOrdenar = "id";
             			fieldOrdenar = "this_.codigo ";
             		}
             		if("formularioLoteReferencia.lista.fecha".equals(fieldOrder)){
@@ -363,6 +367,9 @@ public class LoteReferenciaServiceImp extends GestorHibernate<LoteReferencia> im
 					
 					if(codigoCliente!=null && !codigoCliente.isEmpty())
 						consulta+= "and cli3_.codigo="+codigoCliente+" ";
+	    			
+	    		/*	if(personal!=null)
+	    				consulta+= "and rh.usuario_id = :personalId ";*/
 	    				
 	    			if(codigoDesde!=null)
 	    				consulta+= "and this_.codigo>=:codigoDesde ";
@@ -389,7 +396,9 @@ public class LoteReferenciaServiceImp extends GestorHibernate<LoteReferencia> im
 	    	Query q = session.createSQLQuery(consulta)
 					.setResultTransformer(
 							new AliasToEntityMapResultTransformer());
-        
+        	
+      /*  	if(personal!=null)
+        		q.setLong("personalId", personal.getId());*/
         	
         	if(codigoDesde!=null)
 				q.setLong("codigoDesde", codigoDesde);
@@ -463,8 +472,10 @@ public class LoteReferenciaServiceImp extends GestorHibernate<LoteReferencia> im
         	}
         	if(codigoDesde!=null)
         		crit.add(Restrictions.ge("codigo", codigoDesde));
+        		//crit.add(Restrictions.ge("id", codigoDesde));
         	if(codigoHasta!=null && codigoHasta.intValue()!=0)
         		crit.add(Restrictions.le("codigo", codigoHasta));
+        		//crit.add(Restrictions.le("id", codigoHasta));
         	if(fechaDesde!=null){
         		crit.add(Restrictions.ge("fechaRegistro", DateUtil.getDateFrom(fechaDesde)));
         	}
@@ -797,6 +808,7 @@ public class LoteReferenciaServiceImp extends GestorHibernate<LoteReferencia> im
 				}
 				ref.setElemento((Elemento)session.get(Elemento.class, ref.getElemento().getId()));//refrescamos de la base
 				ref.getElemento().setClienteEmp(loteReferencia.getClienteEmp());
+			//	ref.getElemento().setEstado(Constantes.ELEMENTO_ESTADO_EN_GUARDA);
 				ref.setLoteReferencia(loteReferencia);
 				if(contenedor!=null && ref.getElemento()!=contenedor){
 					contenedor.setClienteEmp(loteReferencia.getClienteEmp());
@@ -850,7 +862,14 @@ public class LoteReferenciaServiceImp extends GestorHibernate<LoteReferencia> im
 			tx = session.getTransaction();
 			tx.begin();
 			
-
+//			//Actualizamos el historico de referencias con las modificadas
+//			if(modificadas!=null && modificadas.size()>0){
+//				for(Referencia refModi:modificadas){
+//					//Linea agregada para el historico de referencias
+//					registrarHistoricoReferencias("MS006REF", refModi, session,loteReferencia);
+//					/////////////////////////////////////////////////
+//				}
+//			}
 					
 			//referencias a mantener
 			Collection<Referencia> referencias=new ArrayList<Referencia>(loteReferencia.getReferencias());
@@ -990,7 +1009,7 @@ public class LoteReferenciaServiceImp extends GestorHibernate<LoteReferencia> im
 				Iterator<Referencia> it = loteReferencia.getReferencias().iterator();
 				while(it.hasNext()){
 					
-					Referencia ref = it.next();
+					Referencia ref = (Referencia)it.next();
 					
 					try
 					{	
@@ -1041,6 +1060,7 @@ public class LoteReferenciaServiceImp extends GestorHibernate<LoteReferencia> im
 					tx.begin();
 					loteReferencia.setHabilitado(false);
 					loteReferencia.setReferencias(null);
+					//session.delete(loteReferencia);
 					session.clear();
 					session.update(loteReferencia);
 					tx.commit();
@@ -1133,7 +1153,7 @@ public class LoteReferenciaServiceImp extends GestorHibernate<LoteReferencia> im
 	private void registrarHistoricoReferencias(String mensaje, Referencia referencia,Session session,LoteReferencia lote){
 		ReferenciaHistorico referenciaHis = new ReferenciaHistorico();
 		referenciaHis.setIdReferencia(referencia.getId());
-
+		//referenciaHis.setIdLoteReferencia(lote.getId());
 		referenciaHis.setIdLoteReferencia(lote.getCodigo());
 		if(referencia.getElemento()!=null)
 			referenciaHis.setCodigoElemento(referencia.getElemento().getCodigo());

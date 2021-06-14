@@ -60,6 +60,39 @@ $(document).ready(function() {
 		abrirPopupSeleccion("popUpSeleccionRemito.html",'codigoCliente',"remitoPopupMap", $("#mensajeSeleccioneCliente").val());
 	});
 	
+	
+		
+	$("#btnGuardarContinuar").click(function(){
+		$('html, body').animate({ scrollTop: 100 }, 'slow');
+		$("#btnGuardarContinuar").attr("disabled","disabled");
+		$("#btnGuardar").attr("disabled","disabled");
+		$("#btnCancelar").attr("disabled","disabled");
+		var div = $("#pop");
+		popupOnDiv(div,'darkLayer');
+		$('#guardarContinuar').val('true');
+		$('#bloqueoClasificacion').val($('#seccionReferencias').contents().find('#bloqueoClasificacionDocumental').val());
+		$('#bloqueoTipo').val($('#seccionReferencias').contents().find('#bloqueoTipoElementoContenedor').val());
+		$('#bloqueoContenedor').val($('#seccionReferencias').contents().find('#bloqueoContenedor').val());
+		$('#bloqueoNumero1').val($('#seccionReferencias').contents().find('#bloqueoNumero1').val());
+		$('#bloqueoTexto1').val($('#seccionReferencias').contents().find('#bloqueoTexto1').val());
+		$('#bloqueoNumero2').val($('#seccionReferencias').contents().find('#bloqueoNumero2').val());
+		$('#bloqueoTexto2').val($('#seccionReferencias').contents().find('#bloqueoTexto2').val());
+		$('#incrementoElemento').val($('#seccionReferencias').contents().find('#incrementoElemento').val());
+		$('#codigoClasificacionDocumentalPadre').val($('#seccionReferencias').contents().find('#codigoClasificacionDocumental').val());
+		$('#codigoTipoPadre').val($('#seccionReferencias').contents().find('#prefijoCodigoTipoElemento').val());
+		$('#codigoContenedorPadre').val($('#seccionReferencias').contents().find('#codigoContenedor').val());
+		$('#codigoContenedorComparar').val($('#seccionReferencias').contents().find('#codigoContenedorComparar').val());
+		$('#codigoElementoPadre').val($('#seccionReferencias').contents().find('#codigoElemento').val());
+		$('#numero1Padre').val($('#seccionReferencias').contents().find('#numero1').val());
+		$('#texto1Padre').val($('#seccionReferencias').contents().find('#texto1').val());
+		$('#numero2Padre').val($('#seccionReferencias').contents().find('#numero2').val());
+		$('#texto2Padre').val($('#seccionReferencias').contents().find('#texto2').val());
+		
+		document.forms[0].submit();
+	});
+	
+	
+	
 	$("#codigoEmpresa").trigger('blur');
 	
 });

@@ -70,6 +70,7 @@ public class ListaImpresionEtiquetaModuloController {
 	private ModuloService moduloService;
 	private ImpresionEtiquetaModuloBusquedaValidator validator;
 	
+	//private List<Modulo> modulos;
 	/**
 	 * Setea el servicio de Depositos.
 	 * Observar la anotación @Autowired, que le indica a Spring que
@@ -171,7 +172,7 @@ public class ListaImpresionEtiquetaModuloController {
 		modulo.setNumeroPagina(nPagina);
 		
 		//consulto en la base de datos
-		modulos =moduloService.listarModuloFiltradas(modulo, obtenerClienteAspUser(),false);
+		modulos =(List<Modulo>) moduloService.listarModuloFiltradas(modulo, obtenerClienteAspUser(),false);
 		
 		}else{
 				modulo = new Modulo();
@@ -272,6 +273,7 @@ public class ListaImpresionEtiquetaModuloController {
 				response.setContentType("application/octet-stream;");
 				response.setHeader( "Content-disposition", "attachment; filename=impresionElementos.pdf");
 			}
+            //response.setHeader( "Content-disposition", "attachment; filename=reporte.pdf");
 
 			op = null;
 			op = response.getOutputStream();

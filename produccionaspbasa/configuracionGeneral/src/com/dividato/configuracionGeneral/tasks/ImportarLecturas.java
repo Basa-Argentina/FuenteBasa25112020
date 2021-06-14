@@ -135,7 +135,7 @@ public class ImportarLecturas {
 		clienteAsp.setId(clienteAspId);
 		User user = new User();
 		user.setUsername(username);
-		user = (userService.listarTodosUserFiltradosByCliente(user, clienteAsp)).get(0);
+		user = ((List<User>)userService.listarTodosUserFiltradosByCliente(user, clienteAsp)).get(0);
 		System.out.println("**** ARRANCA ***");
 		
 		try {
@@ -173,7 +173,7 @@ public class ImportarLecturas {
 				String tipolectura = parts[0];
 				String codRemito = parts[1];
 				
-			/*	//: Verificar de hacer una validacion de lectura repetido en base
+			/*	//TODO: Verificar de hacer una validacion de lectura repetido en base
 				Lectura repetida = new Lectura();
 				repetida.setDescripcion(nombreLectura);
 				List<Lectura> lecturasRepetidas = lecturaService.listarLecturaFiltradas(repetida, clienteAsp);
@@ -197,9 +197,7 @@ public class ImportarLecturas {
 				if (lista != null) {
 					
 					List<String> listaDescartados = new ArrayList<String>();
-					String codigo;
-					String codigoCorrecto;
-					String codigoTomado12;
+					String codigo,codigoCorrecto,codigoTomado12;
 					Boolean repetido;
 					for (int i = 0; i < lista.size(); i++) {
 						repetido = false;
@@ -207,7 +205,7 @@ public class ImportarLecturas {
 						if(codigo.length() >= 12){
 						codigoTomado12 = lista.get(i).substring(0, 12);
 						codigoCorrecto = codigoTomado12 + String.valueOf(EAN13.EAN13_CHECKSUM(codigoTomado12));
-
+							//if(codigo.equals(codigoCorrecto)){
 								lecturaDetalle = new LecturaDetalle();
 								if (codigo.startsWith("99")) {
 									lecturaDetalle.setCodigoBarras(codigoTomado12);
@@ -242,7 +240,11 @@ public class ImportarLecturas {
 										lecturaDetalle.setOrden(orden);
 										lecturaDetalles.add(lecturaDetalle);
 									}
-
+								//}
+//								else
+//								{
+//									listaDescartados.add(codigo+"(Dígito de control inválido)\n");					
+//								}
 						}
 						else
 						{
@@ -263,7 +265,7 @@ public class ImportarLecturas {
 					}
 				}
 				
-
+				//archivo.delete();
 				if (tipolectura.equals("0001")) {
 					lectura.setTipo(1L);
 					
@@ -326,11 +328,12 @@ public class ImportarLecturas {
 			
 			} catch (FileNotFoundException e) {
 				logger.error(e);
-				System.out.println("Error File NOT FOUND");
 			} catch (IOException e) {
-				System.out.println("ERROR IOException");
+				System.out.println("");
 				logger.error(e);
-		
+			/*} catch (ScheduledTaskException e){
+				txtFile.renameTo(new File(getLecturasError()+"//"+txtFile.getName().substring(0, txtFile.getName().indexOf(".txt"))+"_ERRORLecRepetida.txt"));
+				logger.error(e);*/
 			} catch (Exception e) {
 				System.out.println(e.getMessage() + "  " + e.getCause() + e.getLocalizedMessage());
 				logger.error(e);
@@ -339,7 +342,6 @@ public class ImportarLecturas {
 		}
 }
 
-	
 	private void eliminarRemitoSiexistente(String lectura_id) {
 		Long lectura2 = Long.valueOf(lectura_id);
 		
@@ -351,8 +353,8 @@ public class ImportarLecturas {
 	public static Long buscarIdRemito(String codigo , ClienteAsp clienteAsp) {
 		Long cod = Long.valueOf(codigo);
 		Remito remito = remitoService.getByNumero(cod,clienteAsp);
-		
-		return remito.getId();
+		Long idremito = remito.getId();
+		return idremito;
 		
 	}
 public String getLecturasPath() {
@@ -377,6 +379,23 @@ public String getLecturasError() {
 
 public void setLecturasError(String lecturasError) {
 	this.lecturasError = lecturasError;
+}
+
+
+//le pasas el string y luego indicas la cantidad de 0 que quieres que te complete saludos
+private static String agregarCeros(String string, int largo){
+		String ceros = "";
+		int cantidad = largo - string.length();
+		if (cantidad >= 1)
+		{
+			for(int i=0;i<cantidad;i++)
+			{
+				ceros += "0";
+			}
+			return (ceros + string);
+		}
+		else
+			return string;
 }
 
 }

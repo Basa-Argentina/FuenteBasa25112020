@@ -6,7 +6,7 @@ import org.springframework.validation.Validator;
 import org.springframework.web.bind.WebDataBinder;
 
 import com.security.modelo.configuraciongeneral.Posicion;
-
+import com.security.modelo.configuraciongeneral.Transporte;
 /**
  * 
  * @author Gonzalo Noriega

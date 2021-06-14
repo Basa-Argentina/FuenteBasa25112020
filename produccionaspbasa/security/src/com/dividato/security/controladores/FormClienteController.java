@@ -261,7 +261,7 @@ public class FormClienteController {
 				Barrio barrioSelCliente = barrioService.obtenerPorId(clienteFormulario.getPersona().getDireccion().getIdBarrio());
 				clienteFormulario.getPersona().getDireccion().setBarrio(barrioSelCliente); // seteo el mismo en la persona
 				//obtengo el barrio seleccionado para el contacto
-				if(barrioSelCliente.getId().equals(clienteFormulario.getContacto().getDireccion().getIdBarrio()))
+				if(barrioSelCliente.getId() == clienteFormulario.getContacto().getDireccion().getIdBarrio())
 					clienteFormulario.getContacto().getDireccion().setBarrio(barrioSelCliente);
 				else{
 					Barrio barrioSelContacto = barrioService.obtenerPorId(clienteFormulario.getContacto().getDireccion().getIdBarrio());
@@ -307,7 +307,10 @@ public class FormClienteController {
 				}catch(NullPointerException e){
 					logger.error("Error en el bloque de seteo de datos", e);
 				}
-
+				//Se crean los parametros del sistema para el cliente
+//				Parameter param = new Parameter();
+//				cliente.setParametros(param); // seteo el mismo en la persona
+				//Se guarda el cliente en la BD
 				commit = clienteAspService.guardarNuevoCliente(cliente);
 			}else{
 				

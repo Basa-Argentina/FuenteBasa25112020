@@ -33,8 +33,8 @@ public class GrupoFacturacion implements Comparable<GrupoFacturacion>{
 	private String descripcion;
 	private String  observacion;
 	private Set<GrupoFactDetalle> detalles;
-	private String accion;
-	private String codigoAgrupador;
+	private transient String accion;
+	private transient String codigoAgrupador;
 	
 	public GrupoFacturacion(){
 		super();

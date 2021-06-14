@@ -18,6 +18,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.naming.RefAddr;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -293,8 +294,7 @@ public class FormRequerimientoController {
 			HttpSession session,
 			Map<String,Object> atributos,
 			HttpServletRequest request){
-		Boolean commit = null;
-		Boolean tipoOperacionExistente = null;
+		Boolean commit = null, tipoOperacionExistente = null;
 		if(accion==null || accion.equals("") || accion.equals("NUEVO"))
 			accion="NUEVO";
 		else{

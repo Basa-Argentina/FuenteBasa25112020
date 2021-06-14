@@ -48,6 +48,7 @@ import com.security.accesoDatos.configuraciongeneral.interfaz.TransporteService;
 import com.security.constants.Constants;
 import com.security.modelo.administracion.ClienteAsp;
 import com.security.modelo.configuraciongeneral.Empresa;
+import com.security.modelo.configuraciongeneral.PlantillaFacturacion;
 import com.security.modelo.configuraciongeneral.Referencia;
 import com.security.modelo.configuraciongeneral.Remito;
 import com.security.modelo.configuraciongeneral.RemitoDetalle;
@@ -258,7 +259,7 @@ public class ListaRemitosController {
 			remito.setNumeroPagina(nPagina);
 			
 			//Se busca en la base de datos los plantillasFacturacion con los filtros de paginacion agregados a la plantillaFacturacion
-			remitos =remitoService.obtenerPor(remito,obtenerClienteAspUser(),remito.getFieldOrder(),
+			remitos =(List<Remito>) remitoService.obtenerPor(remito,obtenerClienteAspUser(),remito.getFieldOrder(),
 					remito.getSortOrder(),remito.getNumeroPagina(),remito.getTamañoPagina());
 			
 		}else{
@@ -508,6 +509,7 @@ public class ListaRemitosController {
 				pdfByteArray = JasperRunManager.runReportToPdf(jasperReport, params,ds);
 				//se envia el reporte 
 				response.setContentType("application/pdf");
+                //response.setHeader( "Content-disposition", "attachment; filename=reporte.pdf");
 
 				op = null;
 				op = response.getOutputStream();
@@ -525,6 +527,13 @@ public class ListaRemitosController {
 				e.printStackTrace();
 			}
 		}
+		
+		//@SuppressWarnings("unchecked")
+		//List<Remito> remitos = (List<Remito>)session.getAttribute("remitosSession");
+				
+		//if(remitos==null){
+			//remitos=new ArrayList<Remito>();
+		//}
 	
 	}
 	

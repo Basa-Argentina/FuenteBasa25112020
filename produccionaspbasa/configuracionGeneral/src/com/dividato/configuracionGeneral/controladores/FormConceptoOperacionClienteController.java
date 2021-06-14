@@ -1,12 +1,18 @@
 package com.dividato.configuracionGeneral.controladores;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
 import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -19,23 +25,29 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.dividato.configuracionGeneral.validadores.ConceptoOperacionClienteValidator;
-
-
-
-
-
-
-
+import com.dividato.configuracionGeneral.validadores.TransporteValidator;
+import com.security.accesoDatos.configuraciongeneral.interfaz.EmpresaService;
+import com.security.accesoDatos.configuraciongeneral.interfaz.TransporteService;
+import com.security.accesoDatos.interfaz.BarrioService;
+import com.security.accesoDatos.interfaz.LocalidadService;
+import com.security.accesoDatos.interfaz.PaisService;
+import com.security.accesoDatos.interfaz.ProvinciaService;
 import com.security.accesoDatos.jerarquias.interfaz.ConceptoOperacionClienteService;
 import com.security.modelo.administracion.ClienteAsp;
+import com.security.modelo.configuraciongeneral.ConceptoFacturable;
 import com.security.modelo.configuraciongeneral.Empresa;
 import com.security.modelo.configuraciongeneral.Impuesto;
 import com.security.modelo.configuraciongeneral.ListaPrecios;
-
+import com.security.modelo.configuraciongeneral.ListaPreciosDetalle;
 import com.security.modelo.configuraciongeneral.Sucursal;
+import com.security.modelo.configuraciongeneral.Transporte;
 import com.security.modelo.general.PersonaFisica;
 import com.security.modelo.jerarquias.ConceptoOperacionCliente;
+import com.security.modelo.jerarquias.Operacion;
+import com.security.modelo.jerarquias.OperacionElemento;
+import com.security.modelo.jerarquias.Requerimiento;
 import com.security.modelo.seguridad.User;
+import com.security.utils.CampoDisplayTag;
 import com.security.utils.ScreenMessage;
 import com.security.utils.ScreenMessageImp;
 
@@ -265,6 +277,7 @@ public class FormConceptoOperacionClienteController {
 				conceptoOperacionCliente.setClienteAsp(data.getClienteAsp());
 				conceptoOperacionCliente.setClienteEmp(data.getClienteEmp());
 				conceptoOperacionCliente.setConceptoFacturable(data.getConceptoFacturable());
+				ConceptoFacturable concepto = data.getConceptoFacturable();
 				conceptoOperacionCliente.setDescripcion(data.getConceptoFacturable().getDescripcion());
 				conceptoOperacionCliente.setCosto(data.getConceptoFacturable().getCosto());
 				conceptoOperacionCliente.setEstado("Pendiente");
@@ -279,9 +292,24 @@ public class FormConceptoOperacionClienteController {
 				SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
 				conceptoOperacionCliente.setHoraAlta(sdf.format(data.getFechaAlta()));
 				
-
+//				//-- CALCULOS -- METODO: EL PRECIO TIENE IMPUESTOS 
+//				BigDecimal finalUnitario = new BigDecimal(0.0);
+//				//finalUnitario = listaPrecios.getTipoVariacion().calcularMonto(conceptoOperacionCliente.getPrecioBase(), listaPrecios.getValor());
+//				finalUnitario = data.getPrecio();	
+//				conceptoOperacionCliente.setFinalUnitario(finalUnitario);
+//				conceptoOperacionCliente.setFinalTotal(finalUnitario.multiply(new BigDecimal(cantidad)));
+//				if(impuesto!=null){
+//					conceptoOperacionCliente.setNetoUnitario(finalUnitario.divide(((impuesto.getAlicuota().divide(new BigDecimal(100))).add(new BigDecimal(1))), 4, RoundingMode.HALF_UP)); // finalUnitario / (1+(alicuota/100))
+//					conceptoOperacionCliente.setNetoTotal(conceptoOperacionCliente.getNetoUnitario().multiply(new BigDecimal(cantidad)));
+//					conceptoOperacionCliente.setImpuestos((finalUnitario.subtract(conceptoOperacionCliente.getNetoUnitario()).multiply(BigDecimal.valueOf(cantidad))));
+//				}
+				
 				//////////////////////////////////////////////////////////////////////////////////
 				////////////////METODO: EL PRECIO NO TIENE IMPUESTOS
+				BigDecimal uno = BigDecimal.valueOf(1L);
+				BigDecimal cien = BigDecimal.valueOf(100L);
+				BigDecimal valor = listaPrecios.getValor();
+				BigDecimal variacionPrecio = uno.add(valor.divide(cien));
 				
 				BigDecimal netoUnitario  = data.getPrecio();
 				conceptoOperacionCliente.setNetoUnitario(netoUnitario);

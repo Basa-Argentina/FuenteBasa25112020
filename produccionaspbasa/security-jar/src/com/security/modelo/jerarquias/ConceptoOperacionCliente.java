@@ -58,27 +58,27 @@ public class ConceptoOperacionCliente implements Comparable<ConceptoOperacionCli
 	private Factura factura;
 	private Boolean asignado;
 	private PreFacturaDetalle preFacturaDetalle;
-	private  String accion;
-	private  String codigoEmpresa;
-	private  String codigoSucursal;
-	private  String codigoCliente;
-	private  String codigoConcepto;
-	private  String listaPreciosCodigo;
-	private  BigDecimal precio;
-	private  Date fechaDesde;
-	private  Date fechaHasta;
-	private  String idRequerimiento;
-	private  Long cantidadDesde;
-	private  Long cantidadHasta;
-	private  String numeroRequerimientoDesde;
-	private  String numeroRequerimientoHasta;
-	private  String prefijoRequerimientoDesde;
-	private  String prefijoRequerimientoHasta;
-	private  BigDecimal finalUnitarioDesde;
-	private  BigDecimal finalUnitarioHasta;
-	private  BigDecimal finalTotalDesde;
-	private  BigDecimal finalTotalHasta;
-	private  Date fechaPeriodo;
+	private transient String accion;
+	private transient String codigoEmpresa;
+	private transient String codigoSucursal;
+	private transient String codigoCliente;
+	private transient String codigoConcepto;
+	private transient String listaPreciosCodigo;
+	private transient BigDecimal precio;
+	private transient Date fechaDesde;
+	private transient Date fechaHasta;
+	private transient String idRequerimiento;
+	private transient Long cantidadDesde;
+	private transient Long cantidadHasta;
+	private transient String numeroRequerimientoDesde;
+	private transient String numeroRequerimientoHasta;
+	private transient String prefijoRequerimientoDesde;
+	private transient String prefijoRequerimientoHasta;
+	private transient BigDecimal finalUnitarioDesde;
+	private transient BigDecimal finalUnitarioHasta;
+	private transient BigDecimal finalTotalDesde;
+	private transient BigDecimal finalTotalHasta;
+	private transient Date fechaPeriodo;
 	
 	
 	@Id @GeneratedValue(strategy=GenerationType.AUTO)

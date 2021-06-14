@@ -33,22 +33,22 @@ public class Modulo{
 	private Integer posHorizontal;//Se agrega este campo para identificar las coordenadas de los estantes
 	private Integer posVertical;//Se agrega este campo para identificar las coordenadas de los estantes
 	private String codigoBarra;//Formado por Deposito(2)-Seccion(2)-Estante(3)-(posVertical - posHorizontal)(6) - Digito Verificador(1)
-	private  String accion;
-	private  Long idEstante;
-	private  String codigoEstante;
-	private  String codigoDesdeEstante;
-	private  String codigoHastaEstante;
-	private  String codigoGrupo;
-	private  String codigoSeccion;
-	private  String codigoDeposito;
-	private  Integer posDesdeHorModulo;
-	private  Integer posHastaHorModulo;
-	private  Integer posDesdeVertModulo;
-	private  Integer posHastaVertModulo;	
-	private  Integer numeroPagina;
-	private  Integer tamañoPagina;
-	private  String fieldOrder;
-	private  String sortOrder;
+	private transient String accion;
+	private transient Long idEstante;
+	private transient String codigoEstante;
+	private transient String codigoDesdeEstante;
+	private transient String codigoHastaEstante;
+	private transient String codigoGrupo;
+	private transient String codigoSeccion;
+	private transient String codigoDeposito;
+	private transient Integer posDesdeHorModulo;
+	private transient Integer posHastaHorModulo;
+	private transient Integer posDesdeVertModulo;
+	private transient Integer posHastaVertModulo;	
+	private transient Integer numeroPagina;
+	private transient Integer tamañoPagina;
+	private transient String fieldOrder;
+	private transient String sortOrder;
 		
 	public Modulo() {
 		super();

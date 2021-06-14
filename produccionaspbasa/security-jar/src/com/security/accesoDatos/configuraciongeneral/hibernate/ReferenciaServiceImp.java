@@ -66,12 +66,20 @@ public class ReferenciaServiceImp extends GestorHibernate<Referencia> implements
 	
 
 	
-
+	/*
+	 * Integer numeroPagina;
+			Integer tamañoPagina;
+			String fieldOrder;
+			String sortOrder;
+			Long orden;
+	 * (non-Javadoc)
+	 * @see com.security.accesoDatos.configuraciongeneral.interfaz.ReferenciaService#listarReferencias(java.util.Date, java.util.Date, java.util.Date, java.lang.Long, java.lang.Long, java.lang.Long, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.Long, java.lang.Long, java.lang.Long, java.lang.String, java.lang.Long)
+	 */
 	@SuppressWarnings("rawtypes")
 	@Override
 	public List listarReferencias(Long clienteAspId, Date fecha1, Date fecha2, Date fechaEntre, Date fechaInicio, Date fechaFin, Long numero1, Long numero2,
 			Long numeroEntre, String numero1Texto, String numero2Texto, String texto1, String texto2, String descripcion,
-			String codigosTipoElemento/*Long tipoElementoId*/, String codigoContenedor, String codigoElemento, Long clienteEmpId, 
+			String codigosTipoElemento/*,Long tipoElementoId*/, String codigoContenedor, String codigoElemento, Long clienteEmpId, 
 			String clasificaciones, Long seleccion, String listaIdElementosLectura,
 			Integer numeroPagina, Integer tamanioPagina, String fieldOrder, String sortOrder, Boolean filtrarRefEnOperaciones, Integer cantExportar) {
 		Session session = null;
@@ -87,7 +95,14 @@ public class ReferenciaServiceImp extends GestorHibernate<Referencia> implements
 			Integer top = 1500;
 			if(cantExportar!=null)
 				top = cantExportar;
-
+//			String order = "";
+//			if(sortOrder!=null && !"".equals(sortOrder) && fieldOrder!=null && !"".equals(fieldOrder)){
+//				if("1".equals(sortOrder)){
+//	    			order = fieldOrder;
+//				}else if("2".equals(sortOrder)){
+//					order = fieldOrder + " DESC";
+//				}
+//			}
 			//obtenemos una sesión
 			session = getSession();
 			//tipoElemento.descripcion, elemento.codigo, ubicacion = calculada (dejar), referencia.descripcion, elemento.estado
@@ -101,7 +116,7 @@ public class ReferenciaServiceImp extends GestorHibernate<Referencia> implements
 					  " WHEN referencia.elemento_id IN (select xo.elemento_id from x_operacion_elemento xo where xo.estado = 'Pendiente' and xo.elemento_id = referencia.elemento_id) "
 					+ " THEN 'SI' "  
 					+ " ELSE 'NO' "  
-					+ " END as enReq, (pfis.nombre +' '+ pfis.apellido) as userAsig, referencia.descripcionTarea, ee.estado as estadoContenedor ,referencia.cImagenes " +
+					+ " END as enReq, (pfis.nombre +' '+ pfis.apellido) as userAsig, referencia.descripcionTarea, ee.estado as estadoContenedor ,referencia.cImagenes ,referencia.lote_Rearchivo_id" +
 					
 			" FROM referencia WITH (NOLOCK) INNER JOIN elementos on referencia.elemento_id = elementos.id " +
 			" LEFT JOIN elementos ee on elementos.contenedor_id= ee.id " +
@@ -119,6 +134,8 @@ public class ReferenciaServiceImp extends GestorHibernate<Referencia> implements
 			" WHERE 1=1 ";
 			
 //			//Este filtro se usa cuando se buscan referencias desde un requerimiento, no se deberia usar desde "Buscar Referencias"
+//			if(filtrarRefEnOperaciones!=null && filtrarRefEnOperaciones)
+//				consulta+= " AND referencia.elemento_id not in (select xo.elemento_id from x_operacion_elemento xo where xo.estado = 'Pendiente' and xo.elemento_id = referencia.elemento_id) ";
 			
 			if(clienteAspId!=null)
 				consulta += " AND (lotereferencia.cliente_asp_id = "+clienteAspId+") ";
@@ -132,9 +149,9 @@ public class ReferenciaServiceImp extends GestorHibernate<Referencia> implements
 			if(fechaEntre != null)
 				consulta += " AND (CONVERT(DATETIME, '"+Configuracion.formatoFechaFormularios.format(fechaEntre)+ "',103) BETWEEN referencia.fecha1 AND referencia.fecha2) ";
 			if(fechaInicio != null)
-				consulta += " AND (lotereferencia.fecha_registro >= CONVERT(DATETIME, '"+Configuracion.formatoFechaFormularios.format(fechaInicio)+"',103)) ";
+				consulta += " AND (referencia.fecha1 >= CONVERT(DATETIME, '"+Configuracion.formatoFechaFormularios.format(fechaInicio)+"',103)) ";
 			if(fechaFin != null)
-				consulta += " AND (lotereferencia.fecha_registro <= CONVERT(DATETIME, '"+Configuracion.formatoFechaFormularios.format(fechaFin)+"',103)) ";
+				consulta += " AND (referencia.fecha2 <= CONVERT(DATETIME, '"+Configuracion.formatoFechaFormularios.format(fechaFin)+"',103)) ";
 			
 			if((numero1 != null) || (numero1Texto != null && !"".equals(numero1Texto))){
 				if(numero1Texto != null && !"".equals(numero1Texto)){
@@ -143,6 +160,7 @@ public class ReferenciaServiceImp extends GestorHibernate<Referencia> implements
 					consulta += " AND (referencia.numero1 = "+numero1+") ";
 				}
 			}
+			
 			if((numero2 != null) || (numero2Texto != null && !"".equals(numero2Texto))){
 				if(numero2Texto != null && !"".equals(numero2Texto)){
 					consulta += " AND (CAST(referencia.numero2 AS varchar(30)) LIKE '"+numero2Texto+"') ";
@@ -150,6 +168,7 @@ public class ReferenciaServiceImp extends GestorHibernate<Referencia> implements
 					consulta += " AND (referencia.numero2 = "+numero2+") ";
 				}
 			}
+			
 			if(numeroEntre != null)
 				consulta += " AND ("+numeroEntre+" BETWEEN referencia.numero1 AND referencia.numero2) ";
 			
@@ -172,20 +191,31 @@ public class ReferenciaServiceImp extends GestorHibernate<Referencia> implements
 				else
 					consulta += " AND contains(referencia.descripcion, '"+descripcion+"') ";
 			}
-				
+				//			if(elementoId != null)
+//				consulta += " AND (referencia.elemento_id = :pelementoId) ";
 			if(listaIdElementosLectura!=null && !listaIdElementosLectura.equals(""))
 				consulta += " AND (referencia.elemento_id IN ("+listaIdElementosLectura+")) ";
 			if(codigoContenedor != null && !"".equals(codigoContenedor))
 				consulta += " AND (ee.codigo = '"+codigoContenedor+"') ";
 			if(codigoElemento != null && !"".equals(codigoElemento))
 				consulta += " AND (elementos.codigo = '"+codigoElemento+"') ";
-
+			/*if(tipoElementoId != null)
+				consulta += " AND (tipoElementos.id = :ptipoElementoId) ";*/
 			if(codigosTipoElemento != null && !"".equals(codigosTipoElemento))
 				consulta += " AND (tipoElementos.codigo IN("+codigosTipoElemento+")) ";
 			if(seleccion != null)
 				consulta += " AND (referencia.indice_individual = "+seleccion+") ";
 			if(clasificaciones != null && !"".equals(clasificaciones))
 				consulta += " AND (referencia.clasificacion_documental_id IN("+clasificaciones+")) ";
+			
+//			if(numeroPagina!=null && numeroPagina.longValue()>0 
+//    				&& tamanioPagina!=null && tamanioPagina.longValue()>0){
+//    			Integer paginaInicial = (numeroPagina - 1);
+//    			Integer filaDesde = tamanioPagina * paginaInicial;
+//    			Integer filaHasta = filaDesde + tamanioPagina;
+//    			filaDesde = filaDesde + 1;
+//    			consulta = "SELECT * FROM (" + consulta + ") AS RESULT WHERE R BETWEEN "+filaDesde+" and "+ filaHasta;
+//    		}
 			
 			String order = "";
 			if(sortOrder!=null && !"".equals(sortOrder) && fieldOrder!=null && !"".equals(fieldOrder)){
@@ -197,11 +227,44 @@ public class ReferenciaServiceImp extends GestorHibernate<Referencia> implements
 			}
 			
 			SQLQuery q = session.createSQLQuery(consulta);
-
 			
-			return q.list();
+			/*
+			 * if(fecha1 != null) q.setDate("fecha1", fecha1); if(fecha2 != null)
+			 * q.setDate("fecha2", fecha2); if(fechaEntre != null) q.setDate("fecha3",
+			 * fechaEntre); if((numero1 != null) || (numero1Texto != null &&
+			 * !"".equals(numero1Texto))){ if(numero1Texto != null &&
+			 * !"".equals(numero1Texto)){ q.setString("numero1Texto", numero1Texto); }else
+			 * if(numero1 != null){ q.setLong("numero1", numero1); } } if((numero2 != null)
+			 * || (numero2Texto != null && !"".equals(numero2Texto))){ if(numero2Texto !=
+			 * null && !"".equals(numero2Texto)){ q.setString("numero2Texto", numero2Texto);
+			 * }else if(numero2 != null){ q.setLong("numero2", numero2); } }
+			 * if(numeroEntre!=null) q.setLong("numero3", numeroEntre); if(texto1 != null &&
+			 * !"".equals(texto1)) q.setString("texto1", texto1); if(texto2 != null &&
+			 * !"".equals(texto2)) q.setString("texto2", texto2); if(descripcion != null &&
+			 * !"".equals(descripcion)) q.setString("descripcion", descripcion);
+			 * 
+			 * if(codigoContenedor != null && !"".equals(codigoContenedor))
+			 * q.setString("codigoContenedor", ""+codigoContenedor+""); if(codigoElemento !=
+			 * null && !"".equals(codigoElemento)) q.setString("codigoElemento",
+			 * "%"+codigoElemento+"%");
+			 * 
+			 * if(seleccion != null) q.setLong("seleccion", seleccion); if(clasificaciones
+			 * != null && !"".equals(clasificaciones)) q.setString("clasificaciones",
+			 * clasificaciones); if(clienteEmpId != null) q.setLong("clienteEmpId",
+			 * clienteEmpId); if(clienteAspId != null) q.setLong("clienteAspId",
+			 * clienteAspId);
+			 */
+			 
+			
+			return (List) q.list();
 			
 		}catch(Exception e){
+		    	System.out.println(e.getMessage()+"--"+e.getCause());
+		    	System.out.println(e.getStackTrace());
+		    	System.out.println(e.getLocalizedMessage());
+		    	System.out.println(e.getSuppressed());
+		    	System.out.println(e.getCause());
+		    	logger.error(e.getMessage()+"--"+e.getCause());
 			logger.error("no se pudo listar",e);
 			return null;
 		}finally{
@@ -276,6 +339,20 @@ public class ReferenciaServiceImp extends GestorHibernate<Referencia> implements
         try {
         	//obtenemos una sesión
 			session = getSession();
+			//tipoElemento.descripcion, elemento.codigo, ubicacion = calculada (dejar), referencia.descripcion, elemento.estado
+//			String consulta = "SELECT count(referencia.id) " +
+//			" FROM referencia WITH (NOLOCK) INNER JOIN elementos on referencia.elemento_id = elementos.id " +
+//			" LEFT JOIN elementos ee on elementos.contenedor_id= ee.id " +
+//			" LEFT JOIN posiciones pe on elementos.posicion_id = pe.id " + 
+//			" LEFT JOIN estanterias epe on pe.estante_id = epe.id " +
+//			" LEFT JOIN posiciones pc on ee.posicion_id = pc.id " + 
+//			" LEFT JOIN estanterias epc on pc.estante_id = epc.id " +
+//			" LEFT JOIN tipoElementos on elementos.tipoElemento_id = tipoElementos.id " +
+//			" LEFT JOIN loteReferencia on referencia.lote_referencia_id = loteReferencia.id " +
+//			" INNER JOIN clientesEmp cem on lotereferencia.cliente_emp_id = cem.id " +
+//			" INNER JOIN personas_juridicas pjur on cem.razonSocial_id = pjur.id " +
+//			" LEFT JOIN clasificacionDocumental on referencia.clasificacion_documental_id = clasificacionDocumental.id " +
+//			" WHERE referencia.elemento_id not in (select xo.elemento_id from x_operacion_elemento xo where xo.estado = 'Pendiente' and xo.elemento_id = referencia.elemento_id) ";
 			
 			String consulta = "SELECT count(*) " +
 			" FROM referencia WITH (NOLOCK) INNER JOIN elementos on referencia.elemento_id = elementos.id " +
@@ -343,14 +420,16 @@ public class ReferenciaServiceImp extends GestorHibernate<Referencia> implements
 				else
 					consulta += " AND contains(referencia.descripcion, '"+descripcion+"') ";
 			}
-
+				//			if(elementoId != null)
+//				consulta += " AND (referencia.elemento_id = :pelementoId) ";
 			if(listaIdElementosLectura!=null && !listaIdElementosLectura.equals(""))
 				consulta += " AND (referencia.elemento_id IN ("+listaIdElementosLectura+")) ";
 			if(codigoContenedor != null && !"".equals(codigoContenedor))
 				consulta += " AND (ee.codigo = '"+codigoContenedor+"') ";
 			if(codigoElemento != null && !"".equals(codigoElemento))
 				consulta += " AND (elementos.codigo = '"+codigoElemento+"') ";
-
+			/*if(tipoElementoId != null)
+				consulta += " AND (tipoElementos.id = :ptipoElementoId) ";*/
 			if(codigosTipoElemento != null && !"".equals(codigosTipoElemento))
 				consulta += " AND (tipoElementos.codigo IN("+codigosTipoElemento+")) ";
 			if(seleccion != null)
@@ -361,8 +440,21 @@ public class ReferenciaServiceImp extends GestorHibernate<Referencia> implements
 			
 			SQLQuery q = session.createSQLQuery(consulta);
 
+//List<Object> result = q.list();
 return (Integer) q.list().get(0); 
 
+			//return (Integer)q.uniqueResult();
+
+			
+			
+			
+//			if(salida!=null && salida.size()>0){
+//				for(Object ob:salida){
+//					return Integer.parseInt(ob.toString());
+//				}
+//				
+//			} 
+ 
 			
         } catch (HibernateException hibernateException) {
         	logger.error("No se pudo listar ", hibernateException);
@@ -476,7 +568,10 @@ return (Integer) q.list().get(0);
 	    try {
 	    	//obtenemos una sesión
 			session = getSession();
-
+//			Criteria crit = session.createCriteria(getClaseModelo());
+//	        crit.createCriteria("elemento","elemento");
+//	        crit.add(Restrictions.or(Restrictions.eq("elemento", contenedor),Restrictions.eq("elemento.contenedor", contenedor)));
+//	        crit.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 	        
 	        String consulta = "SELECT distinct re From Referencia re where re.elemento.id = "+contenedor.getId().longValue()+" "+
 	        		" OR re.elemento.contenedor.id = "+contenedor.getId().longValue();
@@ -501,7 +596,13 @@ return (Integer) q.list().get(0);
 	    try {
 	    	//obtenemos una sesión
 			session = getSession();
-
+//			Criteria crit = session.createCriteria(getClaseModelo());
+//	        crit.createCriteria("elemento","elemento");
+//	        crit.add(Restrictions.or(Restrictions.eq("elemento", contenedor),Restrictions.eq("elemento.contenedor", contenedor)));
+//	        crit.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+	        
+//	        String consulta = "SELECT distinct count(re.id) From Referencia re where re.elemento.id = "+contenedor.getId().longValue()+" "+
+//	        		" OR re.elemento.contenedor.id = "+contenedor.getId().longValue();
 	        
 	        String consulta = "select top 1 codigo from elementos e" + 
 	        		" inner join referencia r on e.id = r.elemento_id" + 
@@ -711,9 +812,15 @@ return (Integer) q.list().get(0);
         try {
         	//obtenemos una sesión
 			session = getSession();
-
+//        	Criteria crit = session.createCriteria(getClaseModelo());
+//        	crit.createCriteria("loteReferencia", "loteReferencia");
+//        	crit.createCriteria("elemento", "elemento");
         	if(loteReferencia!=null && cliente != null){
-
+//        		crit.add(Restrictions.eq("loteReferencia", loteReferencia));
+//        		crit.add(Restrictions.eq("loteReferencia.clienteAsp", cliente));
+//        		
+//        		crit.addOrder(Order.asc("elemento.codigo"));
+//            	crit.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 			
         		String consulta = "SELECT DISTINCT r FROM Referencia r where r.loteReferencia.id = "+ loteReferencia.getId().longValue() +
         						  " and r.loteReferencia.clienteAsp.id = "+cliente.getId().longValue() + " order by r.ordenRearchivo asc" ;

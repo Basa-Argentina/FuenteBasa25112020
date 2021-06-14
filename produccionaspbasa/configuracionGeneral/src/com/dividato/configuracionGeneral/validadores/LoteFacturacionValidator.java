@@ -1,6 +1,7 @@
 package com.dividato.configuracionGeneral.validadores;
 
 import static com.security.recursos.Configuracion.formatoFechaFormularios;
+import static com.security.recursos.Configuracion.formatoFechaHoraFormularios;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -12,11 +13,30 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 import org.springframework.web.bind.WebDataBinder;
+
+import com.security.accesoDatos.configuraciongeneral.interfaz.ClienteDireccionService;
+import com.security.accesoDatos.configuraciongeneral.interfaz.ClienteEmpService;
+import com.security.accesoDatos.configuraciongeneral.interfaz.DepositoService;
+import com.security.accesoDatos.configuraciongeneral.interfaz.EmpleadoService;
 import com.security.accesoDatos.configuraciongeneral.interfaz.LoteFacturacionService;
+import com.security.accesoDatos.configuraciongeneral.interfaz.RemitoService;
+import com.security.accesoDatos.configuraciongeneral.interfaz.SerieService;
+import com.security.accesoDatos.configuraciongeneral.interfaz.TransporteService;
 import com.security.modelo.administracion.ClienteAsp;
+import com.security.modelo.configuraciongeneral.ClienteDireccion;
+import com.security.modelo.configuraciongeneral.ClienteEmp;
+import com.security.modelo.configuraciongeneral.Deposito;
+import com.security.modelo.configuraciongeneral.Empleado;
+import com.security.modelo.configuraciongeneral.Empresa;
 import com.security.modelo.configuraciongeneral.LoteFacturacion;
 import com.security.modelo.configuraciongeneral.Remito;
+import com.security.modelo.configuraciongeneral.RemitoDetalle;
+import com.security.modelo.configuraciongeneral.Serie;
+import com.security.modelo.configuraciongeneral.Sucursal;
+import com.security.modelo.configuraciongeneral.Transporte;
+import com.security.modelo.general.PersonaFisica;
 import com.security.modelo.seguridad.User;
+import com.security.utils.Constantes;
 /**
  * 
  * @author Victor Kenis
@@ -62,6 +82,11 @@ public class LoteFacturacionValidator implements Validator {
 		
 		if(loteFacturacion.getAccion().equals("NUEVO")){
 			
+			//PREGUNTAR SI VA A SER AUTOINCREMENTAL Y SIN PODER MODIFICARSE
+//			LoteFacturacion exists = loteFacturacionService.verificarExistente(loteFacturacion);
+//			if(exists != null){
+//				errors.rejectValue("numero", "formularioRemito.errorClavePrimaria");
+//			}
 			
 			Long resultado = loteFacturacionService.verificarExistentePeriodoPosterior(loteFacturacion, obtenerClienteAspUser());
 			if(resultado > 0)
@@ -101,5 +126,13 @@ public class LoteFacturacionValidator implements Validator {
 	
 	private ClienteAsp obtenerClienteAspUser(){
 		return ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getCliente();
+	}
+	
+	private Empresa obtenerEmpresaUser(){
+		return ((PersonaFisica)obtenerUser().getPersona()).getEmpresaDefecto();
+	}
+	
+	private User obtenerUser(){
+		return ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
 	}
 }

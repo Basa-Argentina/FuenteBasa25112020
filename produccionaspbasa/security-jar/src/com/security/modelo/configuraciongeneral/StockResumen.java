@@ -18,7 +18,7 @@ public class StockResumen {
 	private Integer cantidad;	
 	private Deposito deposito;
 	private ClienteAsp cliente;
-	private  String accion;
+	private transient String accion;
 	
 	public StockResumen(){
 		super();

@@ -28,11 +28,11 @@ public class ListaPreciosDetalle implements Comparable<ListaPreciosDetalle>{
 	private BigDecimal valor;
 	private TipoVariacion tipoVariacion;
 	private ListaPrecios listaPrecios;
-	private  String accion;
-	private  String conceptoCodigo;
-	private  Long variacionId;
-	private  String listaPreciosCodigo;
-	private  String urlDestino;
+	private transient String accion;
+	private transient String conceptoCodigo;
+	private transient Long variacionId;
+	private transient String listaPreciosCodigo;
+	private transient String urlDestino;
 		
 	@Id @GeneratedValue(strategy=GenerationType.AUTO)
 	public Long getId() {

@@ -84,7 +84,15 @@ public class ClienteEmailServiceImp extends GestorHibernate<EmailCliente>impleme
 			// obtenemos una sesión
 			session = getSession();
 			Criteria crit = session.createCriteria(EmailCliente.class);
+			// crit.createCriteria("empresa", "emp");
+			// crit.createCriteria("razonSocial", "ra");
 			if (cliente != null) {
+				// if(cliente.getIdEmpresa() !=null)
+				// crit.add(Restrictions.eq("emp.id", cliente.getIdEmpresa()));
+				// if(cliente.getCodigoEmpresa() !=null &&
+				// !"".equals(cliente.getCodigoEmpresa()))
+				// crit.add(Restrictions.eq("emp.codigo",
+				// cliente.getCodigoEmpresa()));
 				if (cliente.getCodigoCliente() != null && !"".equals(cliente.getCodigoCliente()))
 					crit.add(Restrictions.ilike("codigoCliente", cliente.getCodigoCliente() + "%"));
 				if (cliente.getNombreCliente() != null && !"".equals(cliente.getNombreCliente()))
@@ -94,6 +102,13 @@ public class ClienteEmailServiceImp extends GestorHibernate<EmailCliente>impleme
 				if (cliente.getProvincia() != null && !"".equals(cliente.getProvincia()))
 					crit.add(Restrictions.ilike("provincia", cliente.getProvincia() + "%"));
 			}
+			// if(clienteAsp != null){
+			// crit.add(Restrictions.eq("emp.cliente", clienteAsp));
+			// }
+			// crit.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+			// return crit.list();
+
+			// List results = query.list();
 			List results = crit.list();
 			return results;
 
@@ -212,6 +227,27 @@ public class ClienteEmailServiceImp extends GestorHibernate<EmailCliente>impleme
 			// obtenemos una sesión
 			session = getSession();
 
+			// Criteria crit = session.createCriteria(getClaseModelo());
+			// crit.createCriteria("empresa", "emp");
+			// if(cliente!=null){
+			// if(cliente.getCodigo() !=null &&
+			// !"".equals(cliente.getCodigo())){
+			// crit.add(Restrictions.eq("codigo", cliente.getCodigo()));
+			// }
+			// if(cliente.getCodigoEmpresa() != null &&
+			// cliente.getCodigoEmpresa().length()>0){
+			// crit.add(Restrictions.eq("emp.codigo",
+			// cliente.getCodigoEmpresa()));
+			// }
+			// if(cliente.getHabilitado() != null ){
+			// crit.add(Restrictions.eq("habilitado", cliente.getHabilitado()));
+			// }
+			// }
+			// if(clienteAsp != null){
+			// crit.add(Restrictions.eq("emp.cliente", clienteAsp));
+			// }
+			//
+			// crit.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 
 			String consulta = "SELECT DISTINCT ce FROM ClienteEmp ce WHERE 1 = 1 ";
 			if (cliente != null) {
@@ -272,6 +308,29 @@ public class ClienteEmailServiceImp extends GestorHibernate<EmailCliente>impleme
 
 			crit.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 			crit.setFetchMode("afipCondIva", FetchMode.JOIN);
+			//
+			// String consulta = "SELECT DISTINCT ce FROM ClienteEmp ce WHERE 1
+			// = 1 ";
+			// if(cliente != null) {
+			// if(cliente.getCodigo() != null &&
+			// !"".equals(cliente.getCodigo())) {
+			// consulta += "AND ce.codigo = '" + cliente.getCodigo() + "' ";
+			// }
+			// if(cliente.getCodigoEmpresa() != null &&
+			// cliente.getCodigoEmpresa().length() > 0) {
+			// consulta += "AND ce.empresa.codigo = '" +
+			// cliente.getCodigoEmpresa() + "' ";
+			// }
+			// if(cliente.getHabilitado() != null) {
+			// consulta += "AND ce.habilitado = " + cliente.getHabilitado() + "
+			// ";
+			// }
+			// }
+			// if(clienteAsp != null) {
+			// consulta += "AND ce.empresa.cliente.id = " +
+			// clienteAsp.getId().longValue() + " ";
+			// }
+			//
 			ClienteEmp clienteEmp = (ClienteEmp) crit.uniqueResult();
 
 			return clienteEmp;
@@ -492,12 +551,29 @@ public class ClienteEmailServiceImp extends GestorHibernate<EmailCliente>impleme
 			// obtenemos una sesión
 			session = getSession();
 
+			// Criteria c = session.createCriteria(getClaseModelo());
+			// //filtro codigo
+			// c.add(Restrictions.eq("codigo", codigo));
+			// //filtro codigo empresa
+			// c.createCriteria("empresa", "emp");
+			// c.add(Restrictions.eq("emp.codigo", codigoEmpresa));
+			// //filtro cliente
+			// c.add(Restrictions.eq("emp.cliente", cliente));
+			// //filtro por habilitado
+			// if(habilitado != null)
+			// c.add(Restrictions.eq("habilitado", habilitado));
+			// //distinct
+			// c.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+			// //obtener el primero
+
 			String consulta = "SELECT DISTINCT c FROM ClienteEmp c WHERE " + "c.codigo = '" + codigo
 					+ "' AND c.empresa.codigo = '" + codigoEmpresa + "' " + "AND c.empresa.cliente.id = "
 					+ cliente.getId().longValue() + " ";
 			if (habilitado != null)
 				consulta += "AND c.habilitado = " + habilitado + " ";
+
 			Query query = session.createQuery(consulta);
+
 			@SuppressWarnings("unchecked")
 			List<ClienteEmp> salida = query.list();
 			if (salida != null && salida.size() > 0)
@@ -554,7 +630,9 @@ public class ClienteEmailServiceImp extends GestorHibernate<EmailCliente>impleme
 			if (id != null && id.longValue() != 0) {
 				crit.add(Restrictions.eq("idCliente", id));
 			}
-
+			// crit.createCriteria("empresa").add(Restrictions.eq("cliente",
+			// clienteAsp));
+			// crit.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 			EmailCliente salida = (EmailCliente) crit.uniqueResult();
 			if (salida != null) {
 				return salida;
@@ -580,6 +658,17 @@ public class ClienteEmailServiceImp extends GestorHibernate<EmailCliente>impleme
 		try {
 			// obtenemos una sesión
 			session = getSession();
+			// Criteria crit = session.createCriteria(getClaseModelo());
+			//
+			// if(clienteAsp!=null){
+			// crit.createCriteria("empresa").add(Restrictions.eq("cliente",
+			// clienteAsp));
+			// crit.add(Restrictions.eq("codigo", codigoCliente));
+			// crit.setProjection(Projections.max("listaPreciosDefecto"));
+			// }
+			//
+			// crit.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+			// crit.setFetchMode("listaPreciosDefecto", FetchMode.JOIN);
 
 			String consulta = "Select TOP(1) lp.* from clientesEmp ce " + " inner join lista_precios lp "
 					+ " on ce.listaPreciosDefecto_id = lp.id " + " where ce.codigo like '" + codigoCliente
@@ -615,6 +704,10 @@ public class ClienteEmailServiceImp extends GestorHibernate<EmailCliente>impleme
 					+ "";
 
 			EmailCliente emailCliente = (EmailCliente) session.createQuery(consulta).uniqueResult();
+			// Hibernate.initialize(clienteFacturacion.getTipoDoc());
+			// Hibernate.initialize(clienteFacturacion.getListasPrecio());
+			// Hibernate.initialize(clienteFacturacion.getListaPreciosDefecto());
+			// Hibernate.initialize(clienteFacturacion.getDireccion());
 
 			return emailCliente;
 

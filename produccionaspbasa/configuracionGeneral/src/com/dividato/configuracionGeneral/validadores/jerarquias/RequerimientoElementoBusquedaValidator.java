@@ -51,7 +51,19 @@ public class RequerimientoElementoBusquedaValidator implements Validator{
 
 	@Override
 	public void validate(Object command, Errors errors) {
-			//Nada que validar
+//		RequerimientoElementoBusquedaForm requerimiento = (RequerimientoElementoBusquedaForm) command;
+//		if(requerimiento.getFecha1() != null && requerimiento.getFecha2() != null)
+//			if(requerimiento.getFecha1().after(requerimiento.getFecha2()))
+//				errors.rejectValue("fecha1", "formularioRequerimientoElemento.errorRangoFecha");
+//		if (requerimiento.getNumero1() != null
+//				&& requerimiento.getNumero2() != null) {
+//			if (requerimiento.getNumero1().longValue() > requerimiento.getNumero2()
+//					.longValue()) {
+//				errors.rejectValue("numero1",
+//						"formularioRequerimientoElemento.errorNumero1");
+//
+//			}
+//		}
 	}
 
 }

@@ -25,7 +25,8 @@ import com.security.accesoDatos.hibernate.GestorHibernate;
 import com.security.accesoDatos.hibernate.HibernateControl;
 import com.security.modelo.administracion.ClienteAsp;
 import com.security.modelo.configuraciongeneral.PlantillaFacturacionDetalle;
-
+import com.security.modelo.configuraciongeneral.Remito;
+import com.security.modelo.configuraciongeneral.RemitoDetalle;
 
 /**
  * @author Victor Kenis

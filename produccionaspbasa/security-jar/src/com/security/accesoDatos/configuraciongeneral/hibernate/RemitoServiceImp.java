@@ -133,7 +133,11 @@ public class RemitoServiceImp extends GestorHibernate<Remito> implements RemitoS
 		{
 			cadena= "0" + cadena;
 		}
-
+		
+		//String ultNumeroSerie = remito.getSerie().getUltNroImpreso();
+		
+		//Long numeroSinPrefijoLong = parseLongCodigo(remito.getNumeroSinPrefijo());
+		
 		Session session = null;
 		Transaction tx = null;
 		
@@ -156,7 +160,7 @@ public class RemitoServiceImp extends GestorHibernate<Remito> implements RemitoS
 			session.save(remito);
 			//hacemos commit a la transacción para que 
 			//se refresque la base de datos.
-
+	 //////tx.commit();
 			
 			//Recorro los interchanges para actualizarlos
 			for(RemitoDetalle remitoDetalle:remitoDetalles){
@@ -169,6 +173,7 @@ public class RemitoServiceImp extends GestorHibernate<Remito> implements RemitoS
 			//ya con el id guardado
 			//le seteamos a la remito la lista de detalles
 			remito.setDetalles(remitoDetalles);
+	//////tx.begin();
 			//Actualizamos la remito con la lista de detalles
 			session.update(remito);
 			// Comiteo
@@ -379,6 +384,67 @@ public class RemitoServiceImp extends GestorHibernate<Remito> implements RemitoS
         	}
         }
 	}
+	
+//	@Override
+//	public Remito busquedaServlet(Remito remitoBusqueda, ClienteAsp clienteAsp) {
+//		Session session = null;
+//        try {
+//        	//obtenemos una sesión
+//			session = getSession();
+//        	Criteria crit = session.createCriteria(getClaseModelo());        	
+//        	crit.createCriteria("clienteEmp", "cli");
+//			crit.createCriteria("cli.empresa", "emp");
+//        	
+//        	if(remitoBusqueda!=null){
+//        		if(remitoBusqueda.getCodigoDeposito()!=null && !"".equals(remitoBusqueda.getCodigoDeposito())){
+//        			crit.createCriteria("posicion", "pos");
+//                	crit.createCriteria("pos.estante", "est");
+//                	crit.createCriteria("est.grupo", "grp");
+//                	crit.createCriteria("grp.seccion", "sec");
+//                	crit.createCriteria("sec.deposito", "dep");
+//        			crit.add(Restrictions.eq("dep.codigo", remitoBusqueda.getCodigoDeposito()));
+//        		}
+//        		//codigo remito
+//        		if(remitoBusqueda.getNumero()!=null && remitoBusqueda.getNumero()!=0){
+//        			crit.add(Restrictions.eq("numero", remitoBusqueda.getNumero()));
+//        		}
+//        		//codigo deposito actual
+//        		if(remitoBusqueda.getCodigoDeposito()!=null && remitoBusqueda.getCodigoDeposito().length()>0){
+//        			crit.createCriteria("depositoActual", "depAct");
+//        			crit.add(Restrictions.eq("depAct", remitoBusqueda.getCodigoDeposito()));
+//        		}
+//        		if(remitoBusqueda.getCodigoEmpresa()!=null && remitoBusqueda.getCodigoEmpresa().length()>0){
+//        			crit.add(Restrictions.eq("emp.codigo", remitoBusqueda.getCodigoEmpresa()));
+//        		}
+//        		if(remitoBusqueda.getCodigoTipoRemito()!=null && remitoBusqueda.getCodigoTipoRemito().length()>0){
+//        			crit.createCriteria("tipoRemito", "tipEle");
+//        			crit.add(Restrictions.eq("tipEle", remitoBusqueda.getCodigoTipoRemito()));
+//        		}
+//        		if(remitoBusqueda.getCodigoCliente()!=null && remitoBusqueda.getCodigoCliente().length()>0){
+//        			crit.add(Restrictions.eq("cli.codigo", remitoBusqueda.getCodigoCliente()));
+//        		}
+//        		
+//        	}
+//        	
+//        	if(clienteAsp != null){
+//        		crit.createCriteria("clienteAsp", "cliAsp");
+//        		crit.add(Restrictions.eq("cliAsp.id", clienteAsp.getId()));
+//        	}
+//        	
+//        	crit.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+//        	
+//            return (Remito) crit.uniqueResult();
+//        } catch (HibernateException hibernateException) {
+//        	logger.error("No se pudo listar ", hibernateException);
+//	        return null;
+//        }finally{
+//        	try{
+//        		session.close();
+//        	}catch(Exception e){
+//        		logger.error("No se pudo cerrar la sesión", e);
+//        	}
+//        }
+//	}
 
 	/**
 	 * Recupera los remitos que contienen los codigos indicados en la lista
@@ -583,6 +649,15 @@ public class RemitoServiceImp extends GestorHibernate<Remito> implements RemitoS
         try {
         	//obtenemos una sesión
 			session = getSession();
+
+//			String consulta = "Select distinct re From Remito re " +
+//					" join fetch re.detalles " +
+//					" join fetch re.empresa " +
+//					" join fetch re.empresa.direccion " +
+//					" join fetch re.empresa.afipCondIva " +
+//					" where re.id IN ("+listaIds+") ";
+			
+			//List<Remito> remitos = (List<Remito>)session.createQuery(consulta).list(); 
 			
 			Criteria crit = session.createCriteria(getClaseModelo());
 	        crit.add(Restrictions.in("id", listaIds));
@@ -613,6 +688,39 @@ public class RemitoServiceImp extends GestorHibernate<Remito> implements RemitoS
         }
     }
 	
+//	@Override
+//	public List<Remito> listarRemitosPopup(String val,String codigoContenedor, ClienteAsp cliente) {
+//		Session session = null;
+//        try {        	
+//        	//obtenemos una sesión
+//			session = getSession();
+//        	Criteria c = session.createCriteria(getClaseModelo());
+//        	c.createCriteria("tipoRemito", "te");
+//        	//filtro value
+//        	c.add(Restrictions.eq("te.contenedor", false));
+//        	if(val!=null){        		
+//        		c.add(Restrictions.ilike("te.descripcion", val+"%"));        	
+//        	}
+//        	if(codigoContenedor != null && !"".equals(codigoContenedor)){
+//        		c.createCriteria("contenedor").add(Restrictions.eq("codigo", codigoContenedor));
+//        	}
+//        	if(cliente != null){
+//	        	//filtro cliente
+//	        	c.add(Restrictions.eq("clienteAsp", cliente));
+//        	}
+//        	c.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+//        	return c.list();
+//        } catch (HibernateException hibernateException) {
+//        	logger.error("No se pudo listar los remitos.", hibernateException);
+//	        return null;
+//        }finally{
+//        	try{
+//        		session.close();
+//        	}catch(Exception e){
+//        		logger.error("No se pudo cerrar la sesión", e);
+//        	}
+//        }
+//	}
 	
 	@SuppressWarnings("unchecked")
 	@Override

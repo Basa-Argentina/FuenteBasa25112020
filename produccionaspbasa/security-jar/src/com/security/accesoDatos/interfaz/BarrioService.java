@@ -10,7 +10,7 @@ package com.security.accesoDatos.interfaz;
 import java.util.List;
 
 import com.security.modelo.general.Barrio;
-
+import com.security.modelo.general.Localidad;
 
 /**
  * @author Ezequiel Beccaria

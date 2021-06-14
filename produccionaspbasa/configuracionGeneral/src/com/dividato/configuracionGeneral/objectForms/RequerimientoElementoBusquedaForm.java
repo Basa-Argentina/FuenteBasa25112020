@@ -55,6 +55,7 @@ public class RequerimientoElementoBusquedaForm {
 	private String cImagenes;
 	private String tipoTrabajo;
 	private boolean isRequerimiento;
+	private String lote_Rearchivo_id;
 	
 	public String getCodigoCliente() {
 		return codigoCliente;
@@ -543,6 +544,18 @@ public class RequerimientoElementoBusquedaForm {
 
 	public void setTipoTrabajo(String tipoTrabajo) {
 		this.tipoTrabajo = tipoTrabajo;
+	}
+
+
+
+	public String getLote_Rearchivo_id() {
+	    return lote_Rearchivo_id;
+	}
+
+
+
+	public void setLote_Rearchivo_id(String lote_Rearchivo_id) {
+	    this.lote_Rearchivo_id = lote_Rearchivo_id;
 	}
 
 

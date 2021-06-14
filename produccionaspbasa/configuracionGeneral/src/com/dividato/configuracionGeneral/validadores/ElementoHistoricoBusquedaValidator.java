@@ -28,9 +28,9 @@ public class ElementoHistoricoBusquedaValidator implements Validator {
 	 */
 	public void initDataBinder(WebDataBinder binder) {
 //		binder.registerCustomEditor(Date.class, "fechaDesde",
-
+//				new CustomDateEditor(formatoFechaFormularios, true));
 //		binder.registerCustomEditor(Date.class, "fechaHasta",
-
+//				new CustomDateEditor(formatoFechaFormularios, true));
 	}
 	
 	/**

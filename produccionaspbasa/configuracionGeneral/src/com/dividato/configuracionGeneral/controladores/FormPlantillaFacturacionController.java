@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -26,6 +27,8 @@ import com.security.accesoDatos.configuraciongeneral.interfaz.AfipTipoComprobant
 import com.security.accesoDatos.configuraciongeneral.interfaz.PlantillaFacturacionDetalleService;
 import com.security.accesoDatos.configuraciongeneral.interfaz.PlantillaFacturacionService;
 import com.security.modelo.administracion.ClienteAsp;
+import com.security.modelo.configuraciongeneral.AfipTipoComprobante;
+import com.security.modelo.configuraciongeneral.ConceptoFacturable;
 import com.security.modelo.configuraciongeneral.Empresa;
 import com.security.modelo.configuraciongeneral.PlantillaFacturacion;
 import com.security.modelo.configuraciongeneral.PlantillaFacturacionDetalle;
@@ -249,7 +252,7 @@ public class FormPlantillaFacturacionController {
 		//hacemos el redirect
 		atributos.remove("plantillaFacturacionFormulario");
 		session.removeAttribute("detallesSession");
-
+		//return precargaFormularioPlantillaFacturacion(plantillaFacturacionFormulario.getAccion(), plantillaFacturacionFormulario.getId(), atributos, session);
 		return listaPlantillaFacturacionController.mostrarPlantillaFacturacion(session, atributos, request);
 	
 	}

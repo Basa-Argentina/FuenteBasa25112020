@@ -49,12 +49,12 @@ public class TipoOperacion implements Comparable<TipoOperacion>{
 	private Date fechaActualizacion;
 	private String modifico;
 	private Boolean envio;
-	private  String accion;
-	private  String tipoRequerimientoCod;
-	private  String conceptoFacturableCod;
-	private  String tipoOperacionSiguienteCod;
-	private  String serieDocumentoCod;
-	private  String serieRemitoCod;
+	private transient String accion;
+	private transient String tipoRequerimientoCod;
+	private transient String conceptoFacturableCod;
+	private transient String tipoOperacionSiguienteCod;
+	private transient String serieDocumentoCod;
+	private transient String serieRemitoCod;
 	
 	@Id @GeneratedValue(strategy=GenerationType.AUTO)
 	public Long getId() {

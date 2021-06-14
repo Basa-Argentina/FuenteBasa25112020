@@ -33,6 +33,7 @@ import com.security.modelo.administracion.ClienteAsp;
 import com.security.modelo.configuraciongeneral.ClasificacionDocumental;
 import com.security.modelo.configuraciongeneral.ClienteEmp;
 import com.security.modelo.configuraciongeneral.Empleado;
+import com.security.modelo.configuraciongeneral.ListaPrecios;
 import com.security.modelo.seguridad.User;
 
 /**
@@ -257,6 +258,7 @@ public class EmpleadoServiceImp extends GestorHibernate<Empleado> implements Emp
         	}
         	crit.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
             return crit.list();
+            
         } catch (HibernateException hibernateException) {
         	logger.error("No se pudo listar ", hibernateException);
 	        return null;
@@ -279,6 +281,8 @@ public class EmpleadoServiceImp extends GestorHibernate<Empleado> implements Emp
         	Criteria crit = session.createCriteria(getClaseModelo());
         	if(empleado!=null){
         		//Se comento para la funcionalidad que permite a empleados agregar requerimientos de distintos clientesEmp
+//        		if(empleado.getClienteCodigo()!=null && !empleado.getCodigoCliente().equals("") && empleado.getBandera()!= null )
+//	        		crit.createCriteria("clienteEmp").add(Restrictions.eq("codigo", empleado.getClienteCodigo()));
 	        	if(empleado.getCodigo() !=null && !"".equals(empleado.getCodigo()))
 	        		crit.add(Restrictions.eq("codigo", empleado.getCodigo()).ignoreCase());
         	}
@@ -308,6 +312,7 @@ public class EmpleadoServiceImp extends GestorHibernate<Empleado> implements Emp
 		try {
 			//obtenemos una sesión
 			session = getSession();
+			//session.clear();
 			Criteria crit = session.createCriteria(getClaseModelo());
 			crit.add(Restrictions.eq("username", username)); 			
 			return (Empleado) crit.uniqueResult();
@@ -617,6 +622,22 @@ public class EmpleadoServiceImp extends GestorHibernate<Empleado> implements Emp
 		try {
 			//obtenemos una sesión
 			session = getSession();
+			
+			
+//			Criteria c = session.createCriteria(getClaseModelo());
+//			//filtro por codigo
+//			if(codigoPersonal != null && !"".equals(codigoPersonal))
+//				c.add(Restrictions.eq("codigo", codigoPersonal));
+//			//filtro por habilitado
+//        	if(habilitado != null)
+//        		c.add(Restrictions.eq("habilitado", habilitado));
+//			//filtro por ClienteEmp
+//			if(codigoCliente != null && !"".equals(codigoCliente))
+//				c.createCriteria("clienteEmp").add(Restrictions.eq("codigo", codigoCliente));
+//			//filtro por clienteAsp
+//			c.add(Restrictions.eq("cliente", clienteAsp));
+//			//Seteo propiedades de la consulta
+//			c.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 
 			String consulta = "SELECT DISTINCT emp FROM Empleado emp WHERE 1 = 1 ";
 								if(codigoPersonal != null && !"".equals(codigoPersonal))

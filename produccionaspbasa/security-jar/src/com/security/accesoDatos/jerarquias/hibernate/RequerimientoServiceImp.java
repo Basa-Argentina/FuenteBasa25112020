@@ -32,6 +32,8 @@ import com.security.accesoDatos.hibernate.HibernateControl;
 import com.security.accesoDatos.jerarquias.interfaz.RequerimientoService;
 import com.security.modelo.administracion.ClienteAsp;
 import com.security.modelo.configuraciongeneral.Empleado;
+import com.security.modelo.configuraciongeneral.Empresa;
+import com.security.modelo.configuraciongeneral.Lectura;
 import com.security.modelo.configuraciongeneral.Serie;
 import com.security.modelo.jerarquias.Operacion;
 import com.security.modelo.jerarquias.OperacionElemento;
@@ -504,7 +506,7 @@ public class RequerimientoServiceImp extends GestorHibernate<Requerimiento> impl
         		String fieldOrdenar = "";
         		String fieldOrdenar2 = "";
         		if("tipoRequerimiento.descripcion".equals(requerimiento.getFieldOrder())){
-
+        			//crit.createCriteria("tipoRequerimiento", "tipo");
         			fieldOrdenar = "tipo.descripcion";
         		}
         		if("requerimiento.prefijoStr".equals(requerimiento.getFieldOrder())){

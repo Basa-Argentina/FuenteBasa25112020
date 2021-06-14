@@ -11,7 +11,7 @@ import com.security.modelo.seguridad.Parameter;
  */
 public interface ParameterService {
 	public Boolean guardar(Parameter parameter);
-	public void guardar(Parameter parameter, Session session)throws  IllegalAccessException;
+	public void guardar(Parameter parameter, Session session)throws IllegalArgumentException, IllegalAccessException;
 	public Boolean actualizar(Parameter parameter);
 	public Parameter obtenerParametros();
 }

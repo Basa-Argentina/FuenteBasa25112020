@@ -23,10 +23,10 @@ public class LoteReferenciaBusquedaForm {
 	private Date fechaDesde;
 	private Date fechaHasta;
 	private Empleado personal;
-	private  Integer numeroPagina;
-	private  Integer tamañoPagina;
-	private  String fieldOrder;
-	private  String sortOrder;
+	private transient Integer numeroPagina;
+	private transient Integer tamañoPagina;
+	private transient String fieldOrder;
+	private transient String sortOrder;
 	
 	public Long getIdClienteAsp() {
 		return idClienteAsp;

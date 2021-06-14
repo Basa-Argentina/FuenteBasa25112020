@@ -29,9 +29,9 @@ public class FacturaDetalle {
 	private String descripcion;
 	private Integer orden;
 	
-	private  String codigoConcepto;
-	private  String listaPreciosCodigo;
-	private  Long idEliminar;
+	private transient String codigoConcepto;
+	private transient String listaPreciosCodigo;
+	private transient Long idEliminar;
 	
 	public FacturaDetalle(){
 		super();
@@ -189,5 +189,34 @@ public class FacturaDetalle {
 		this.idEliminar = idEliminar;
 	}
 
+//	@Override
+//	public int hashCode() {
+//		final int prime = 31;
+//		int result = 1;
+//		result = prime * result + ((id == null) ? 0 : id.hashCode());
+//		return result;
+//	}
+//
+//	@Override
+//	public boolean equals(Object obj) {
+//		if (this == obj) {
+//			return true;
+//		}
+//		if (obj == null) {
+//			return false;
+//		}
+//		if (!(obj instanceof FacturaDetalle)) {
+//			return false;
+//		}
+//		FacturaDetalle other = (FacturaDetalle) obj;
+//		if (id == null) {
+//			if (other.id != null) {
+//				return false;
+//			}
+//		} else if (!id.equals(other.id)) {
+//			return false;
+//		}
+//		return true;
+//	}
 	
 }

@@ -7,6 +7,7 @@
  */
 package com.security.accesoDatos.configuraciongeneral.hibernate;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -30,13 +31,20 @@ import com.security.accesoDatos.configuraciongeneral.interfaz.LecturaService;
 import com.security.accesoDatos.configuraciongeneral.interfaz.MovimientoService;
 import com.security.accesoDatos.hibernate.GestorHibernate;
 import com.security.accesoDatos.hibernate.HibernateControl;
+import com.security.exceptions.ClienteAspNullException;
 import com.security.modelo.administracion.ClienteAsp;
 import com.security.modelo.configuraciongeneral.Elemento;
 import com.security.modelo.configuraciongeneral.ElementoHistorico;
+import com.security.modelo.configuraciongeneral.Empleado;
 import com.security.modelo.configuraciongeneral.Lectura;
 import com.security.modelo.configuraciongeneral.LecturaDetalle;
+import com.security.modelo.configuraciongeneral.ListaPreciosDetalle;
 import com.security.modelo.configuraciongeneral.Movimiento;
 import com.security.modelo.configuraciongeneral.Posicion;
+import com.security.modelo.configuraciongeneral.Remito;
+import com.security.modelo.configuraciongeneral.SecuenciaTabla;
+import com.security.modelo.configuraciongeneral.Serie;
+import com.security.modelo.configuraciongeneral.TipoElemento;
 import com.security.modelo.seguridad.User;
 
 /**

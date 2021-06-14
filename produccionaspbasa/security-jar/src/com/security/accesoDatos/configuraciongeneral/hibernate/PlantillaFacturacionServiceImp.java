@@ -8,6 +8,7 @@
 package com.security.accesoDatos.configuraciongeneral.hibernate;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -28,9 +29,14 @@ import com.security.accesoDatos.configuraciongeneral.interfaz.PlantillaFacturaci
 import com.security.accesoDatos.hibernate.GestorHibernate;
 import com.security.accesoDatos.hibernate.HibernateControl;
 import com.security.modelo.administracion.ClienteAsp;
+import com.security.modelo.configuraciongeneral.Factura;
+import com.security.modelo.configuraciongeneral.FacturaDetalle;
+import com.security.modelo.configuraciongeneral.LoteFacturacion;
+import com.security.modelo.configuraciongeneral.LoteFacturacionDetalle;
 import com.security.modelo.configuraciongeneral.PlantillaFacturacion;
 import com.security.modelo.configuraciongeneral.PlantillaFacturacionDetalle;
-
+import com.security.modelo.configuraciongeneral.Remito;
+import com.security.utils.DateUtil;
 
 /**
  * @author Victor Kenis
@@ -114,7 +120,13 @@ public class PlantillaFacturacionServiceImp extends GestorHibernate<PlantillaFac
 					session.saveOrUpdate(plantillaFacturacionDetalle);
 				}	
 			}
-
+//			//ya con el id guardado
+//			//le seteamos a la loteFacturacion la lista de detalles
+//			loteFacturacion.setDetalles(loteFacturacionDetalles);
+//			//tx.begin();
+//			//Actualizamos la loteFacturacion con la lista de detalles
+//			session.update(loteFacturacion);
+			
 			// Comiteo
 			tx.commit();
 			return true;
@@ -378,7 +390,7 @@ public class PlantillaFacturacionServiceImp extends GestorHibernate<PlantillaFac
 			tx = session.getTransaction();
 			tx.begin();
 			//Se traen los detalles de la factura
-			listaPlantillaFacturacionDetalle = plantillaFacturacionDetalleService.listarPlantillaDetallesPorPlantilla(plantillaFacturacion.getId(), plantillaFacturacion.getClienteAsp());
+			listaPlantillaFacturacionDetalle = (List<PlantillaFacturacionDetalle>)plantillaFacturacionDetalleService.listarPlantillaDetallesPorPlantilla(plantillaFacturacion.getId(), plantillaFacturacion.getClienteAsp());
 			if(listaPlantillaFacturacionDetalle != null && listaPlantillaFacturacionDetalle.size() > 0)
 			{
 				for(PlantillaFacturacionDetalle detalle: listaPlantillaFacturacionDetalle)

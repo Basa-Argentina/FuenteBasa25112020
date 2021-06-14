@@ -44,7 +44,7 @@ public class ClasificacionDocumentalValidator implements Validator{
 		//el código es único por cliente
 		List<ClasificacionDocumental> clasificacionesDocumentales = 
 			clasificacionDocumentalService.getByClienteCodigo(clasificacion.getClienteEmp(),clasificacion.getCodigo());
-		if(!clasificacionesDocumentales.isEmpty()){
+		if(clasificacionesDocumentales.size()>=1){
 			Long id = clasificacion.getId();
 			if(id==null || !clasificacionesDocumentales.get(0).getId().equals(id)){
 				errors.rejectValue("codigo", "codigoRepetido");

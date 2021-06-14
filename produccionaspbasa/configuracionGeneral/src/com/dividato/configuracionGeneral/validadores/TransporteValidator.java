@@ -8,7 +8,9 @@ import org.springframework.web.bind.WebDataBinder;
 
 import com.security.accesoDatos.configuraciongeneral.interfaz.EmpresaService;
 import com.security.accesoDatos.configuraciongeneral.interfaz.TransporteService;
+import com.security.modelo.configuraciongeneral.Empresa;
 import com.security.modelo.configuraciongeneral.Transporte;
+import com.security.recursos.ValidacionEMail;
 /**
  * 
  * @author Victor Kenis

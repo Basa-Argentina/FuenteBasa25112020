@@ -58,7 +58,7 @@ public class ElementoValidator implements Validator {
 			if(elemento.getCantidad() != null && elemento.getCantidad() >= 1)
 			{
 				String codigo = elemento.getCodigo().substring(2);
-				int codigoElemento = Integer.parseInt(codigo);
+				int codigoElemento = Integer.valueOf(codigo);
 				int cantidad = elemento.getCantidad();
 				int hasta = codigoElemento + cantidad;
 				String codigoFinal = String.valueOf(hasta);

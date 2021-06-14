@@ -112,7 +112,7 @@ public class ListaUserController {
 		//buscamos en la base de datos y lo subimos a request.
 		List<User> users = null;
 		User user = (User) session.getAttribute("userBusqueda");
-		users =userService.listarTodosUserFiltradosByCliente(user,obtenerClienteAspUser());	
+		users =(List<User>) userService.listarTodosUserFiltradosByCliente(user,obtenerClienteAspUser());	
 		atributos.put("users", users);
 		//si no hay errores
 		if(atributos.get("errores") == null)

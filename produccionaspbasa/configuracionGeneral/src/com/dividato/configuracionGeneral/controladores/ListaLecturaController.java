@@ -104,9 +104,10 @@ public class ListaLecturaController {
 		Lectura lectura = (Lectura) session.getAttribute("lecturaBusqueda");
 		if(lectura != null)
 			lecturas = lecturaService.listarLecturaFiltradasPorSQL(lectura, obtenerClienteAspUser());
-
+			//lecturas = lecturaService.listarLecturaFiltradas(lectura, obtenerClienteAspUser());
 		else
 			lecturas = lecturaService.listarLecturaFiltradasPorSQL(null, obtenerClienteAspUser());
+			//lecturas = lecturaService.listarLecturaFiltradas(null, obtenerClienteAspUser());
 		
 		atributos.put("lecturas", lecturas);
 		User usuario = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

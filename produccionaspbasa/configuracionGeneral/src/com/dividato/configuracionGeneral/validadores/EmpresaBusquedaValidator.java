@@ -30,9 +30,7 @@ public class EmpresaBusquedaValidator implements Validator{
 	 * Inicializa el WebDataBinder con los campos requeridos y las conversiones de tipos de datos.
 	 * @param binder
 	 */
-	public void initDataBinder(WebDataBinder binder) {
-		//Nada que iniciar
-	}
+	public void initDataBinder(WebDataBinder binder) {}
 
 	@Override
 	public void validate(Object command, Errors errors) {

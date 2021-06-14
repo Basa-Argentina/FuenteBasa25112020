@@ -48,7 +48,7 @@ public class AuthorityValidator implements Validator {
 	public void validate(Object command, Errors errors) {
 		Authority authority = (Authority) command;
 		List<Authority> listaSalida = authorityService.listarTodosFiltradoPorLista(new CampoComparacion("authority",authority.getAuthority()));
-		if(!listaSalida.isEmpty()){	
+		if(listaSalida.size()>0){	
 			errors.rejectValue("authority", "formularioAuthority.errorClavePrimaria");
 		}
 	}	

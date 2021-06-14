@@ -46,7 +46,7 @@ public class LoteRearchivo {
 	private Date fecha_resp1;
 	private Date fecha_resp2;
 	private Date fecha_resp3;
-	private String codigoCliente;
+	private transient String codigoCliente;
 	private String nombreArchivoPlanilla;
 	
 	@Id @GeneratedValue(strategy=GenerationType.AUTO)

@@ -1390,7 +1390,7 @@ jQuery.extend({
 			thisCache[ name ] = data;
 		}
 
-		//: This is a hack for 1.5 ONLY. It will be removed in 1.6. Users should
+		// TODO: This is a hack for 1.5 ONLY. It will be removed in 1.6. Users should
 		// not attempt to inspect the internal events object using jQuery.data, as this
 		// internal data object is undocumented and subject to change.
 		if ( name === "events" && !thisCache[name] ) {
@@ -3783,7 +3783,7 @@ var Expr = Sizzle.selectors = {
 				Sizzle.error( match[0] );
 			}
 
-			//: Move to normal caching system
+			// TODO: Move to normal caching system
 			match[0] = done++;
 
 			return match;

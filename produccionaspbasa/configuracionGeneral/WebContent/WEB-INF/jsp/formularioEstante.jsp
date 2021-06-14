@@ -39,8 +39,7 @@
 }
 </style>
 </head>
-<body
-	onload="mostrarErrores(${errores}); mostrarAvisos(${hayAvisos || hayAvisosNeg})">
+<body onload="mostrarErrores(${errores}); mostrarAvisos(${hayAvisos || hayAvisosNeg})">
 	<div id="contenedorGeneral">
 		<jsp:include page="innerMenu.jsp" />
 		<div class="contenido" align="left">
@@ -57,8 +56,7 @@
 						</c:if> <c:if test="${accion == 'CONSULTA'}">
 							<spring:message code="formularioEstante.titulo.consultar"
 								htmlEscape="true" />
-						</c:if>
-					</font>
+						</c:if> </font>
 				</legend>
 				<br />
 				<form:form name="formEstante" action="guardarActualizarEstante.html"
@@ -67,11 +65,10 @@
 					<input type="hidden" id="accion" name="accion"
 						value="<c:out value="${accion}" default="" />" />
 					<input type="hidden" id="accionGrupo" name="accionGrupo"
-						value="<c:out value="${accionGrupo}" default="" />" />
+						value="<c:out value="${accionGrupo}" default="" />" />						
 					<input type="hidden" id="id" name="id"
 						value="<c:out value="${estanteFormulario.id}" default="" />" />
-					<input type="hidden" id="clienteId" name="clienteId"
-						value="<c:out value="${clienteId}" default="" />" />
+							<input type="hidden" id="clienteId" name="clienteId" value="<c:out value="${clienteId}" default="" />"/>
 					<fieldset>
 						<table width="100%">
 							<thead>
@@ -107,23 +104,24 @@
 															htmlEscape="true" /></td>
 												</tr>
 												<tr style="vertical-align: top;">
-													<td class="texto_ti"><input type="text" id="codigo"
-														class="requerido" maxlength="4" name="codigo"
-														style="width: 100px;"
+													<td class="texto_ti"><input type="text" id="codigo" class="requerido"
+														maxlength="4" name="codigo" style="width: 100px;"
 														value="<fmt:numberComplete value="${estanteFormulario.codigo}" 
 														length="4" valorDefualt="0"/>"
 														<c:if test="${accion != 'NUEVO'}">
 															readonly="readonly"
 														</c:if> />
 													</td>
-													<td class="texto_ti"><textarea id="observacion"
+													<td class="texto_ti">
+														<textarea id="observacion" 
 															name="observacion" style="width: 300px;"
 															<c:if test="${accion == 'CONSULTA'}">
 																		readonly="readonly"
 																	</c:if>>
-															<c:out value="${estanteFormulario.observacion}"
+															<c:out value="${estanteFormulario.observacion}" 
 																default="" />
-														</textarea></td>
+														</textarea>
+													</td>
 												</tr>
 												<tr>
 													<td class="texto_ti"><spring:message
@@ -131,30 +129,31 @@
 															htmlEscape="true" /></td>
 												</tr>
 												<tr>
-													<td class="texto_ti"><input type="text"
-														id="codigoTipoJ" name="codigoTipoJ" style="width: 50px;"
+												<td class="texto_ti">
+													<input type="text" id="codigoTipoJ"
+														name="codigoTipoJ" style="width: 50px;"
 														value="<c:out value="${estanteFormulario.tipoJerarquia.codigo}" default="" />"
 														<c:if test="${accion == 'CONSULTA'}">
 																		readonly="readonly"
 																	</c:if> />
 														&nbsp;&nbsp;
-														<button type="button"
-															onclick="abrirPopup('tiposJPopupMap');"
-															title="<spring:message code="textos.buscar" htmlEscape="true"/>"
-															<c:if test="${accion == 'CONSULTA'}">
+													<button type="button"
+														onclick="abrirPopup('tiposJPopupMap');"
+														title="<spring:message code="textos.buscar" htmlEscape="true"/>"
+														<c:if test="${accion == 'CONSULTA'}">
 																disabled="disabled"
 															</c:if>>
-															<img
-																src="<%=request.getContextPath()%>/images/buscar.png">
-														</button>&nbsp;&nbsp; <label id="codigoTipoJLabel"
+														<img src="<%=request.getContextPath()%>/images/buscar.png">
+													</button>&nbsp;&nbsp; 
+													<label id="codigoTipoJLabel"
 														for="codigoTipoJ"> <c:out
 																value="${estanteFormulario.tipoJerarquia.descripcion}"
-																default="" />
-													</label></td>
+																default="" /> 
+													</label>	
+												</td>					
 												</tr>
 											</table>
-										</fieldset>
-									</td>
+										</fieldset></td>
 								</tr>
 								<c:if test="${accion != 'CONSULTA'}">
 									<tr>
@@ -163,8 +162,7 @@
 												<img
 													src="<%=request.getContextPath()%>/images/restablecer.png"
 													title=<spring:message code="botones.restablecer" htmlEscape="true"/>>
-											</button>
-										</td>
+											</button></td>
 										<td align="left" class="error"></td>
 									</tr>
 								</c:if>
@@ -204,11 +202,11 @@
 	</div>
 	<div id="darkLayer" class="darkClassWithoutHeight"
 		style="height: 130%;">&nbsp;</div>
-	<jsp:include page="fieldErrors.jsp" />
-	<jsp:include page="fieldAvisos.jsp" />
+	<jsp:include page="fieldErrors.jsp"/>
+	<jsp:include page="fieldAvisos.jsp"/>
 	<jsp:include page="popupBusqueda.jsp">
-		<jsp:param name="mapa" value="tiposJPopupMap" />
-		<jsp:param name="clase" value="tiposJPopupMap" />
+		<jsp:param name="mapa" value="tiposJPopupMap" /> 
+		<jsp:param name="clase" value="tiposJPopupMap" />  
 	</jsp:include>
 </body>
 </html>

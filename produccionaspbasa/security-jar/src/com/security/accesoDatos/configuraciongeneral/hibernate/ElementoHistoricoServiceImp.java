@@ -14,6 +14,7 @@ import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
@@ -44,7 +45,17 @@ public class ElementoHistoricoServiceImp extends GestorHibernate<ElementoHistori
 		return ElementoHistorico.class;
 	}
 
-
+	private void rollback(Transaction tx, Exception e, String mensaje){
+		//si ocurre algún error intentamos hacer rollback
+		if (tx != null && tx.isActive()) {
+			try {
+				tx.rollback();
+	        } catch (HibernateException e1) {
+	        	logger.error("no se pudo hacer rollback "+getClaseModelo().getName(), e1);
+	        }
+	        logger.error(mensaje+" "+getClaseModelo().getName(), e);
+		}
+	}
 	
 	@Override
 	@SuppressWarnings("unchecked")

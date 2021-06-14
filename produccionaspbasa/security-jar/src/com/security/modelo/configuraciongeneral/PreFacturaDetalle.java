@@ -34,11 +34,11 @@ public class PreFacturaDetalle {
 	private String estado;
 	private Integer orden;
 	
-	private  String codigoConcepto;
-	private  String listaPreciosCodigo;
-	private  Long idEliminar;
-	private  List<ConceptoOperacionCliente> listaConceptosAsociados;
-	private  Factura factura;
+	private transient String codigoConcepto;
+	private transient String listaPreciosCodigo;
+	private transient Long idEliminar;
+	private transient List<ConceptoOperacionCliente> listaConceptosAsociados;
+	private transient Factura factura;
 	
 	public PreFacturaDetalle(){
 		super();
@@ -221,6 +221,35 @@ public class PreFacturaDetalle {
 		this.factura = factura;
 	}
 		
-
+	
+//	@Override
+//	public int hashCode() {
+//		final int prime = 31;
+//		int result = 1;
+//		result = prime * result + ((id == null) ? 0 : id.hashCode());
+//		return result;
+//	}
+//
+//	@Override
+//	public boolean equals(Object obj) {
+//		if (this == obj) {
+//			return true;
+//		}
+//		if (obj == null) {
+//			return false;
+//		}
+//		if (!(obj instanceof PreFacturaDetalle)) {
+//			return false;
+//		}
+//		PreFacturaDetalle other = (PreFacturaDetalle) obj;
+//		if (id == null) {
+//			if (other.id != null) {
+//				return false;
+//			}
+//		} else if (!id.equals(other.id)) {
+//			return false;
+//		}
+//		return true;
+//	}
 	
 }

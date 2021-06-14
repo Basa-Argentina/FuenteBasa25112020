@@ -25,9 +25,9 @@ public class GrupoFactDetalle implements Comparable<GrupoFactDetalle>{
 	private GrupoFacturacion grupoFacturacion;
 	private ClienteDireccion direccionEntrega;
 	private Empleado empleado;
-	private  Long idEmpleado;
-	private  Long idDireccion;
-	private  String codigoGrupoFac;
+	private transient Long idEmpleado;
+	private transient Long idDireccion;
+	private transient String codigoGrupoFac;
 	
 	@Id @GeneratedValue(strategy=GenerationType.AUTO)
 	public Long getId() {

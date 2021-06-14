@@ -8,16 +8,21 @@
 package com.security.accesoDatos.configuraciongeneral.hibernate;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.transform.Transformers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -30,6 +35,7 @@ import com.security.modelo.configuraciongeneral.ClienteEmp;
 import com.security.modelo.configuraciongeneral.ConceptoFacturable;
 import com.security.modelo.configuraciongeneral.ListaPrecios;
 import com.security.modelo.configuraciongeneral.ListaPreciosDetalle;
+import com.security.modelo.configuraciongeneral.Posicion;
 import com.security.modelo.configuraciongeneral.TipoVariacion;
 
 /**
@@ -394,6 +400,75 @@ public class ListaPreciosServiceImp extends GestorHibernate<ListaPrecios> implem
 		Session session = null;
 		try {
 			//obtenemos una sesión
+			session = getSession();
+			
+//			Criteria c = session.createCriteria(getClaseModelo());
+//			//filtro por codigo
+//			if(codigo != null && !"".equals(codigo))
+//				c.add(Restrictions.eq("codigo", codigo));
+//			//filtro por clientesEmp
+//			if(clienteEmp !=null){
+//				c.createCriteria("clientesEmp").add(Restrictions.eq("id", clienteEmp.getId()));
+//			}	
+////			//filtro por codigoConceptoFacturable
+//			if(codigoConceptoFacturable !=null && codigoConceptoFacturable.length()>0){
+//				c.createCriteria("detalle").createCriteria("conceptoFacturable").add(Restrictions.eq("codigo", codigoConceptoFacturable));
+//			}
+//			//filtro habilitado
+//			if(habilitado!=null){
+//				c.add(Restrictions.eq("habilitada", habilitado));
+//			}
+//			//filtro por cliente
+//			if(clienteAsp != null){
+//				c.add(Restrictions.eq("clienteAsp", clienteAsp));
+//			}
+//			//Seteo propiedades de la consulta
+//			//c.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+			
+//			String consulta = "SELECT lp FROM ListaPrecios lp JOIN FETCH lp.detalle JOIN FETCH lp.clientesEmp WHERE 1 = 1 ";
+//							  if(codigo != null && !"".equals(codigo)) {
+//								  consulta += "AND lp.codigo = '" + codigo + "' ";
+//							  }
+//							  if(clienteEmp != null) {
+//								  consulta += "AND lp.clientesEmp.id = " + clienteEmp.getId().longValue() + " ";
+//							  }
+//							  if(codigoConceptoFacturable != null && codigoConceptoFacturable.length() > 0) {
+//								  consulta += "AND lp.detalle.conceptoFacturable.codigo = '" + codigoConceptoFacturable + "' ";
+//							  }
+//							  if(habilitado != null) {
+//								  consulta += "AND lp.habilitada = " + habilitado + " ";
+//							  }
+//							  if(clienteAsp != null) {
+//								  consulta += "AND lp.clienteAsp.id = " + clienteAsp.getId().longValue() + " ";
+//							  }
+			
+//			String consulta = "SELECT ListaPrecios.*, cp.* "
+//					+ "  FROM x_clienteEmp_listaPrecio clp "
+//					+ "inner join lista_precios ListaPrecios "
+//					+ "on clp.listaPrecios_id = ListaPrecios.id "
+//					+ "inner join conceptos_precios cp "
+//					+ "on cp.listaPrecios_id = ListaPrecios.id "
+//					+ "inner join conceptoFacturable cf "
+//					+ "on cp.conceptoFacturable_id = cf.id "
+//					+ "where 1=1 ";
+//					
+//					if(clienteEmp != null)
+//						consulta += "and clienteEmp_id = "+clienteEmp.getId().longValue()+" ";
+//					if(codigo != null && !"".equals(codigo))
+//						consulta += "and ListaPrecios.codigo like '"+codigo+"' ";
+//					if(habilitado != null && habilitado)
+//						consulta += "and habilitada = 1 ";
+//					if(codigoConceptoFacturable != null && codigoConceptoFacturable.length() > 0)
+//						consulta += "and cf.codigo like '"+codigoConceptoFacturable+"'";
+//					if(clienteAsp != null)
+//						consulta += "and ListaPrecios.clienteAsp_id = "+clienteAsp.getId().longValue();
+							  
+//			ListaPrecios listaPre =(ListaPrecios) session.createQuery(consulta).uniqueResult();
+//			String consulta = "Select listaPrecios.* from ListaPrecios lp where lp.codigo like '" + codigo +
+//					"' and lp.clienteAsp_id = " + clienteAsp.getId();
+//			SQLQuery q = session.createSQLQuery(consulta)
+//		        	.addEntity("ListaPrecios",ListaPrecios.class)
+//		        	.addJoin("cp", "ListaPrecios.detalle");
 			
 			String consulta = "from ListaPrecios listaPrecios where listaPrecios.clienteAsp.id = :clienteAsp_id " +
 			" and listaPrecios.codigo = :codigo " ;
@@ -402,7 +477,25 @@ public class ListaPreciosServiceImp extends GestorHibernate<ListaPrecios> implem
 					.setLong("clienteAsp_id", clienteAsp.getId())
 					.setString("codigo", codigo).list()
 					.get(0);
-
+			
+			
+			//ListaPrecios listaPrecios = (ListaPrecios)session.createSQLQuery(consulta).setResultTransformer(Transformers.aliasToBean(ListaPrecios.class)).uniqueResult();
+			
+			
+//			List<Object[]> lista= (List<Object[]>) q.list();
+//			Object[] obj;
+//			ListaPrecios listaP;
+//			ListaPreciosDetalle listaPD;
+//			
+//			if(lista!=null && lista.size()>0){
+//				obj = (Object[]) lista.get(0);
+//				listaP = (ListaPrecios) obj[0];
+//				listaPD = (ListaPreciosDetalle)obj[1];
+//				Set<ListaPreciosDetalle> setDetalles = new HashSet<ListaPreciosDetalle>();
+//				setDetalles.add(listaPD);
+//				listaP.setDetalle(setDetalles);
+//				return listaP;
+//			}
 				
 			return listaPrecios;
 			

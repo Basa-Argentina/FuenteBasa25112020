@@ -1,6 +1,6 @@
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="display" uri="http://displaytag.sf.net"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="display" uri="http://displaytag.sf.net" %>
 
 <% 	
 	String key = request.getParameter("mapa");
@@ -65,59 +65,48 @@ function abrirPopup(claseNom){
 		<table width="100%">
 			<thead>
 				<tr>
-					<th align="left" id="loginImg"><font style="color: #003090"><spring:message
-								code="${tituloPopup}" htmlEscape="true" /></font></th>
+					<th align="left" id="loginImg" >		       				
+      					<font style="color:#003090"><spring:message code="${tituloPopup}" htmlEscape="true"/></font>    					
+   					</th>
 				</tr>
-			</thead>
+  			</thead>		
 		</table>
-		<div class="displayTagDiv <%=request.getParameter("clase")%>"
-			style="text-align: center;">
-			<spring:message code="textos.buscar" htmlEscape="true" />
-			<input type="hidden" class="clase" style="width: 300px;"
-				value="<%=request.getParameter("clase")%>"> <input
-				type="hidden" class="urlBusqueda <%=request.getParameter("clase")%>"
-				style="width: 300px;" value="${urlRequest}"> <input
-				type="text" class="inputSearch <%=request.getParameter("clase")%>"
-				style="width: 300px;" value="${textoBusqueda}">&nbsp;&nbsp;
-			<button name="buscar"
-				class="botonCentrado buttonSearch <%=request.getParameter("clase")%>"
-				type="button"
-				onclick="buscarPopup('${urlRequest}','<%=request.getParameter("clase")%>', '${filterPopUp}');">
-				<img src="<%=request.getContextPath()%>/images/buscar.png">
-				<spring:message code="textos.buscar" htmlEscape="true" />
+       	<div class="displayTagDiv <%=request.getParameter("clase")%>" style="text-align: center;">     
+       		<spring:message code="textos.buscar" htmlEscape="true"/>
+       		<input type="hidden" class="clase" style="width: 300px;" value="<%=request.getParameter("clase")%>">
+       		<input type="hidden" class="urlBusqueda <%=request.getParameter("clase")%>" style="width: 300px;" value="${urlRequest}">
+       		<input type="text" class="inputSearch <%=request.getParameter("clase")%>" style="width: 300px;" value="${textoBusqueda}">&nbsp;&nbsp;
+       		<button name="buscar" class="botonCentrado buttonSearch <%=request.getParameter("clase")%>" type="button" onclick="buscarPopup('${urlRequest}','<%=request.getParameter("clase")%>', '${filterPopUp}');">
+				<img src="<%=request.getContextPath()%>/images/buscar.png"> 
+				<spring:message code="textos.buscar" htmlEscape="true"/>								
 			</button>
-			<br style="font-size: xx-small;" /> <br style="font-size: xx-small;" />
-			<div style="overflow: scroll; height: 200px;">
-				<display:table name="${coleccionPopup}" requestURI="${urlRequest}">
-					<display:column class="hidden" headerClass="hidden">
-						<input type="hidden" id="hdn_referenceHtml"
-							value="${referenciaHtml}" />
-					</display:column>
-					<c:forEach items="${campos}" var="campoDisplayTag">
-						<c:if test="${campoDisplayTag.property == referenciaPopup}">
-							<display:column property="${campoDisplayTag.property}"
-								class="hidden hdn_reference" headerClass="hidden" />
-						</c:if>
-						<c:if test="${campoDisplayTag.property == referenciaPopup2}">
-							<display:column property="${campoDisplayTag.property}"
-								class="hidden hdn_reference2" headerClass="hidden" />
-						</c:if>
-						<c:if test="${campoDisplayTag.hidden == false}">
-							<display:column property="${campoDisplayTag.property}"
-								titleKey="${campoDisplayTag.titleKey}" />
-						</c:if>
-						<c:if test="${campoDisplayTag.hidden == true}">
-							<display:column property="${campoDisplayTag.property}"
-								sortable="true" headerClass="hidden" class="hidden" />
-						</c:if>
-					</c:forEach>
-				</display:table>
+       		<br style="font-size: xx-small;"/>  	
+       		<br style="font-size: xx-small;"/>  	
+       		<div style="overflow: scroll; height: 200px;"> 	
+			<display:table name="${coleccionPopup}" requestURI="${urlRequest}">
+				<display:column class="hidden" headerClass="hidden">
+					    <input type="hidden" id="hdn_referenceHtml" value="${referenciaHtml}"/>
+	            </display:column>
+				<c:forEach items="${campos}" var="campoDisplayTag">
+					<c:if test="${campoDisplayTag.property == referenciaPopup}">
+						<display:column property="${campoDisplayTag.property}" class="hidden hdn_reference" headerClass="hidden"/>
+					</c:if>
+					<c:if test="${campoDisplayTag.property == referenciaPopup2}">
+						<display:column property="${campoDisplayTag.property}" class="hidden hdn_reference2" headerClass="hidden"/>
+					</c:if>
+					<c:if test="${campoDisplayTag.hidden == false}">
+						<display:column property="${campoDisplayTag.property}" titleKey="${campoDisplayTag.titleKey}"/>
+					</c:if>					
+					<c:if test="${campoDisplayTag.hidden == true}">
+						<display:column property="${campoDisplayTag.property}" sortable="true" headerClass="hidden" class="hidden"/>
+					</c:if>					
+				</c:forEach>  
+			</display:table>
 			</div>
-			<br style="font-size: xx-small;" />
-			<button name="cancelar" type="button" onclick="cancelarPopup();"
-				class="botonCentrado">
-				<img src="<%=request.getContextPath()%>/images/cancelar.png">
-				<spring:message code="botones.cancelar" htmlEscape="true" />
+			<br style="font-size: xx-small;"/>  	 	
+			<button name="cancelar" type="button"  onclick="cancelarPopup();" class="botonCentrado">
+				<img src="<%=request.getContextPath()%>/images/cancelar.png"> 
+				<spring:message code="botones.cancelar" htmlEscape="true"/>  
 			</button>
 		</div>
 	</fieldset>

@@ -5,8 +5,7 @@
 <%@ taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="fmt" uri="http://www.costapag.org/tags/format"%>
-<%@ taglib prefix="sec"
-	uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ page buffer="64kb"%>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -444,12 +443,11 @@
 								value="${operacion.tipoOperacion.conceptoFacturable.tipoCalculo}" />
 						</display:column>
 
-						<sec:authorize ifAllGranted="ROLE_OPERACIONES_ASIGNAR_RESPONSABLE">
-							<display:column class="celdaAlineadoCentrado"
-								title="<input type='checkbox' id='checktodos' name='checktodos'/>">
-								<input type="checkbox" class='checklote' value="${operacion.id}" />
-							</display:column>
-						</sec:authorize>
+				        <sec:authorize ifAllGranted="ROLE_OPERACIONES_ASIGNAR_RESPONSABLE">
+							<display:column class="celdaAlineadoCentrado" title="<input type='checkbox' id='checktodos' name='checktodos'/>">
+							    <input type="checkbox" class='checklote' value="${operacion.id}"/>
+			              	</display:column>
+			            </sec:authorize>
 
 						<display:column property="id"
 							titleKey="formularioOperacion.display.codigo" sortName="id"
@@ -529,12 +527,10 @@
 						</display:column>
 					</display:table>
 				</fieldset>
-
+				
 				<sec:authorize ifAllGranted="ROLE_OPERACIONES_ASIGNAR_RESPONSABLE">
-					<form:form action="cambiarUsuarioAsignado.html"
-						commandName="posicionTable" method="post"
-						id="cambiarUsuarioAsignado">
-						<input type="hidden" id="selectedSel" name="selectedSel" />
+					<form:form action="cambiarUsuarioAsignado.html" commandName="posicionTable" method="post" id="cambiarUsuarioAsignado">
+						<input type="hidden" id="selectedSel" name="selectedSel"  />
 						<table>
 							<tr>
 								<td class="texto_ti"><input type="text"
@@ -560,16 +556,16 @@
 										<img src="<%=request.getContextPath()%>/images/buscar.png">
 									</button>&nbsp;&nbsp; <label id="codigoResponsableLabel"
 									for="codigoResponsable"> </label></td>
-								<td>
-									<button name="cambiarEstado" id="cambiarEstado" type="button">
-										<img src="<%=request.getContextPath()%>/images/skip.png">
-										<spring:message code="botones.cambiarEstado" htmlEscape="true" />
-									</button>
-								</td>
-
+									<td>
+											<button name="cambiarEstado"  id="cambiarEstado" type="button" >
+												<img src="<%=request.getContextPath()%>/images/skip.png">							
+												<spring:message code="botones.cambiarEstado" htmlEscape="true" />
+											</button>
+									</td>
+									
 							</tr>
 						</table>
-					</form:form>
+				</form:form>
 				</sec:authorize>
 				<br style="font-size: xx-small;" />
 				<div align="center">
@@ -587,9 +583,10 @@
 	<div id="darkLayer" class="darkClass">&nbsp;</div>
 	<jsp:include page="fieldErrors.jsp" />
 	<jsp:include page="fieldAvisos.jsp" />
-	<jsp:include page="popupBusqueda.jsp">
-		<jsp:param name="mapa" value="responsablesPopupMap" />
-		<jsp:param name="clase" value="responsablesPopupMap" />
-	</jsp:include>
+		<jsp:include page="popupBusqueda.jsp">
+			<jsp:param name="mapa" value="responsablesPopupMap" /> 
+			<jsp:param name="clase" value="responsablesPopupMap" /> 
+		</jsp:include>
 	<div class="selectorDiv"></div>
+
 </html>

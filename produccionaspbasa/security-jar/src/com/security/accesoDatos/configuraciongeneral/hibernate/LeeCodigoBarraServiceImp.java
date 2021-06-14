@@ -8,6 +8,8 @@
 package com.security.accesoDatos.configuraciongeneral.hibernate;
 
 import org.apache.log4j.Logger;
+import org.hibernate.HibernateException;
+import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -34,4 +36,17 @@ public class LeeCodigoBarraServiceImp extends GestorHibernate<LeeCodigoBarra> im
 		return LeeCodigoBarra.class;
 	}
 
+	
+	
+	private void rollback(Transaction tx, Exception e, String mensaje){
+		//si ocurre algún error intentamos hacer rollback
+		if (tx != null && tx.isActive()) {
+			try {
+				tx.rollback();
+	        } catch (HibernateException e1) {
+	        	logger.error("no se pudo hacer rollback "+getClaseModelo().getName(), e1);
+	        }
+	        logger.error(mensaje+" "+getClaseModelo().getName(), e);
+		}
+	}
 }

@@ -46,7 +46,8 @@ public class TipoOperacionValidator implements Validator{
 		if(tipo.getImprimeDocumento()){
 			if(tipo.getTituloDocumento() == null || "".equals(tipo.getTituloDocumento()))
 					errors.rejectValue("tituloDocumento", "error.tipoOperacion.noIngresoTituloDocumento");
-
+//			if(tipo.getSerieDocumento() == null)
+//				errors.rejectValue("serieDocumentoCod", "error.tipoOperacion.noSeleccionSerieDocumento");
 		}		
 	}
 }

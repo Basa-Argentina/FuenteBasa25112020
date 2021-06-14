@@ -51,9 +51,12 @@ public class Referencia implements Comparable<Referencia>{
 	private String estadoTarea;
 	//FIN - Agregado BUZON DE TAREAS
 	
-	private  String codigoElementoDesde;
-	private  String codigoElementoHasta;
-	private  Boolean porRango;
+	private Long  lote_Rearchivo_id;
+	
+	private transient String codigoElementoDesde;
+	private transient String codigoElementoHasta;
+	private transient Boolean porRango;
+	
 	
 	
 	@Override
@@ -349,6 +352,14 @@ public class Referencia implements Comparable<Referencia>{
 
 	public void setcImagenes(Long  cImagenes) {
 		this.cImagenes = cImagenes;
+	}
+
+	public Long getLote_Rearchivo_id() {
+	    return lote_Rearchivo_id;
+	}
+
+	public void setLote_Rearchivo_id(Long lote_Rearchivo_id) {
+	    this.lote_Rearchivo_id = lote_Rearchivo_id;
 	}
 	
 }

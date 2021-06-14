@@ -22,7 +22,7 @@ import com.security.modelo.configuraciongeneral.Serie;
  *
  */
 public interface RemitoService extends GeneralServiceInterface<Remito>{
-
+	//public List<Remito> listarRemitoFiltradas(Remito remito, ClienteAsp cliente);
 	public Boolean guardarRemito(Remito remito);
 	public Boolean actualizarRemito(Remito remito);
 	public Boolean eliminarRemito(Remito remito);
@@ -30,7 +30,7 @@ public interface RemitoService extends GeneralServiceInterface<Remito>{
 	public Remito verificarExistente(Remito remito);
 	public Boolean guardarRemitoList(List<Remito> listRemitos);
 	public Remito getByNumero(Long numero, ClienteAsp cliente);
-
+	//public Remito busquedaServlet(Remito remitoBusqueda, ClienteAsp clienteAsp);
 	public List<Remito> getByNumeros(List<Long> numeros, ClienteAsp cliente);
 	public Remito verificarExistenteEnSerie(Long numero, String codigoSerie,
 			ClienteAsp clienteAsp);

@@ -61,12 +61,12 @@ public class GroupValidator implements Validator {
 		if(group3!=null){
 			if(group3.getGroupName().equalsIgnoreCase(group.getGroupName()))
 				return;
-		}	
-		
+		}		
+		//ArrayList<Group> lista = (ArrayList<Group>) groupService.listarPorGroupName(group.getGroupName());
 		List<Group> lista = groupService.listarTodosFiltradoPorLista(
 				new CampoComparacion("groupName",group.getGroupName()),
 				new CampoComparacion("cliente",group.getCliente()));
-		if(lista!=null && !lista.isEmpty()){	
+		if(lista!=null && lista.size()>0){	
 			errors.rejectValue("groupName", "error.group.nombreGrupoExistente");
 		}		
 	}	

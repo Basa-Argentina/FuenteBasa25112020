@@ -7,6 +7,7 @@
  */
 package com.dividato.configuracionGeneral.controladores.jerarquias;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
@@ -261,6 +262,7 @@ public class ListaRequerimientoController {
 		//seteo el id del cliente
 		atributos.put("clienteId", obtenerClienteAsp().getId());
 		
+		//atributos.put("requerimientos", requerimientos);
 		session.setAttribute("requerimientos", requerimientos);
 		session.setAttribute("requerimientoBusqueda", requerimiento);
 		return "consultaRequerimiento";

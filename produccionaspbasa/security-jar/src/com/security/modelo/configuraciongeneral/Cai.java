@@ -30,8 +30,8 @@ public class Cai {
 	private Serie serie;
 	private Long numero;
 	private Date fechaVencimiento;
-	private  String accion;
-	private  Long idSerie;
+	private transient String accion;
+	private transient Long idSerie;
 	
 	public Cai(){
 		super();

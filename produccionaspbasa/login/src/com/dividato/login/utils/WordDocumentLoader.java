@@ -8,6 +8,7 @@
 package com.dividato.login.utils;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +29,7 @@ public class WordDocumentLoader {
 		this.filepath = inputFilepath;
 	}
 	
-	public List<String> getDocumentText() throws  IOException{
+	public List<String> getDocumentText() throws FileNotFoundException, IOException{
 		//objetos utilizados para el documento word
 		org.apache.poi.hwpf.usermodel.Paragraph docParagraph;
 		org.apache.poi.hwpf.usermodel.CharacterRun docCharrun;
@@ -51,7 +52,7 @@ public class WordDocumentLoader {
 		return texto;
 	}
 	
-	private void readDoc(String fileName) throws  IOException{
+	private void readDoc(String fileName) throws FileNotFoundException, IOException{
         POIFSFileSystem fs = null;
 
 		fs = new POIFSFileSystem(new FileInputStream(fileName));

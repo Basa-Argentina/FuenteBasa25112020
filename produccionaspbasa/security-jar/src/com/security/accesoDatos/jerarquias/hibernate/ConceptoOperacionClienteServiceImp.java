@@ -9,25 +9,45 @@ package com.security.accesoDatos.jerarquias.hibernate;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
+import org.hibernate.FetchMode;
 import org.hibernate.HibernateException;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Conjunction;
 import org.hibernate.criterion.Disjunction;
+import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.security.accesoDatos.configuraciongeneral.interfaz.LoteFacturacionDetalleService;
+import com.security.accesoDatos.configuraciongeneral.interfaz.RemitoService;
 import com.security.accesoDatos.hibernate.GestorHibernate;
 import com.security.accesoDatos.hibernate.HibernateControl;
 import com.security.accesoDatos.jerarquias.interfaz.ConceptoOperacionClienteService;
 import com.security.modelo.administracion.ClienteAsp;
+import com.security.modelo.configuraciongeneral.ClienteEmp;
+import com.security.modelo.configuraciongeneral.Lectura;
+import com.security.modelo.configuraciongeneral.LecturaDetalle;
+import com.security.modelo.configuraciongeneral.LoteFacturacionDetalle;
+import com.security.modelo.configuraciongeneral.Posicion;
+import com.security.modelo.configuraciongeneral.Remito;
+import com.security.modelo.configuraciongeneral.RemitoDetalle;
+import com.security.modelo.configuraciongeneral.Remito;
+import com.security.modelo.configuraciongeneral.RemitoDetalle;
+import com.security.modelo.configuraciongeneral.Serie;
 import com.security.modelo.jerarquias.ConceptoOperacionCliente;
+import com.security.utils.DateUtil;
 
 /**
  * @author Victor Kenis
@@ -219,6 +239,69 @@ public class ConceptoOperacionClienteServiceImp extends GestorHibernate<Concepto
 		}
 	}
 	
+	
+//	@Override
+//	public Remito busquedaServlet(Remito remitoBusqueda, ClienteAsp clienteAsp) {
+//		Session session = null;
+//        try {
+//        	//obtenemos una sesión
+//			session = getSession();
+//        	Criteria crit = session.createCriteria(getClaseModelo());        	
+//        	crit.createCriteria("clienteEmp", "cli");
+//			crit.createCriteria("cli.empresa", "emp");
+//        	
+//        	if(remitoBusqueda!=null){
+//        		if(remitoBusqueda.getCodigoDeposito()!=null && !"".equals(remitoBusqueda.getCodigoDeposito())){
+//        			crit.createCriteria("posicion", "pos");
+//                	crit.createCriteria("pos.estante", "est");
+//                	crit.createCriteria("est.grupo", "grp");
+//                	crit.createCriteria("grp.seccion", "sec");
+//                	crit.createCriteria("sec.deposito", "dep");
+//        			crit.add(Restrictions.eq("dep.codigo", remitoBusqueda.getCodigoDeposito()));
+//        		}
+//        		//codigo remito
+//        		if(remitoBusqueda.getNumero()!=null && remitoBusqueda.getNumero()!=0){
+//        			crit.add(Restrictions.eq("numero", remitoBusqueda.getNumero()));
+//        		}
+//        		//codigo deposito actual
+//        		if(remitoBusqueda.getCodigoDeposito()!=null && remitoBusqueda.getCodigoDeposito().length()>0){
+//        			crit.createCriteria("depositoActual", "depAct");
+//        			crit.add(Restrictions.eq("depAct", remitoBusqueda.getCodigoDeposito()));
+//        		}
+//        		if(remitoBusqueda.getCodigoEmpresa()!=null && remitoBusqueda.getCodigoEmpresa().length()>0){
+//        			crit.add(Restrictions.eq("emp.codigo", remitoBusqueda.getCodigoEmpresa()));
+//        		}
+//        		if(remitoBusqueda.getCodigoTipoRemito()!=null && remitoBusqueda.getCodigoTipoRemito().length()>0){
+//        			crit.createCriteria("tipoRemito", "tipEle");
+//        			crit.add(Restrictions.eq("tipEle", remitoBusqueda.getCodigoTipoRemito()));
+//        		}
+//        		if(remitoBusqueda.getCodigoCliente()!=null && remitoBusqueda.getCodigoCliente().length()>0){
+//        			crit.add(Restrictions.eq("cli.codigo", remitoBusqueda.getCodigoCliente()));
+//        		}
+//        		
+//        	}
+//        	
+//        	if(clienteAsp != null){
+//        		crit.createCriteria("clienteAsp", "cliAsp");
+//        		crit.add(Restrictions.eq("cliAsp.id", clienteAsp.getId()));
+//        	}
+//        	
+//        	crit.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+//        	
+//            return (Remito) crit.uniqueResult();
+//        } catch (HibernateException hibernateException) {
+//        	logger.error("No se pudo listar ", hibernateException);
+//	        return null;
+//        }finally{
+//        	try{
+//        		session.close();
+//        	}catch(Exception e){
+//        		logger.error("No se pudo cerrar la sesión", e);
+//        	}
+//        }
+//	}
+
+	
 	/**
 	 * Recupera los remitos que contienen los codigos indicados en la lista
 	 */
@@ -288,12 +371,14 @@ public class ConceptoOperacionClienteServiceImp extends GestorHibernate<Concepto
 	public List<ConceptoOperacionCliente> conceptoOperacionClienteFiltradas(List<Long> idsAsociados,String periodo, ConceptoOperacionCliente conceptoOperacionCliente, ClienteAsp cliente){
 		List<ConceptoOperacionCliente> conceptosOperacionCliente = null;
 		Session session = null;
+		//Integer result = null;
 		
         try {
         	//obtenemos una sesión
 			session = getSession();
         	Criteria crit = session.createCriteria(getClaseModelo());
-	
+        	//crit.setProjection(Projections.rowCount());
+        	
         	//obtenemos una sesión
 			session = getSession();
         	
@@ -310,6 +395,7 @@ public class ConceptoOperacionClienteServiceImp extends GestorHibernate<Concepto
         			
         			if(periodo != null && !"".equals(periodo)){
         				crit.add(Restrictions.sqlRestriction("(,{alias}.clienteEmp,) LIKE %,"+periodo+",%"));
+        				//crit.add(Restrictions.ilike(","+"cli.mesesFacturables"+",", "%,"+periodo+",%"));
         			}
         			
         		}
@@ -391,6 +477,8 @@ public class ConceptoOperacionClienteServiceImp extends GestorHibernate<Concepto
         		crit.add(Restrictions.eq("clienteAsp", cliente));
         	
         	crit.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+        	        	
+        	//result = ((Integer)crit.list().get(0));
         	conceptosOperacionCliente = (List<ConceptoOperacionCliente>) crit.list();
         	return conceptosOperacionCliente;
         } catch (HibernateException hibernateException) {
@@ -417,6 +505,10 @@ public class ConceptoOperacionClienteServiceImp extends GestorHibernate<Concepto
 			session = getSession();
         	Criteria crit = session.createCriteria(getClaseModelo());
 	       
+//        	String consulta2 = "SELECT  con.id, cli.id AS clienteEmp, con.fechaAlta, con.tipoConcepto, con.finalUnitario, con.cantidad, con.finalTotal, con.estado, con.asignado, con.requerimiento_id " +
+//        	" FROM clientesEmp AS cli CROSS JOIN concepto_operacion_cliente AS con " +
+//        	" WHERE (',' + cli.mesesFacturables + ',' LIKE '%," +periodo+ ",%') AND (con.clienteAsp_id = "+cliente.getId()+") AND (con.fechaAlta <= "+fechaPeriodo+") ";
+        	
         	if(idsAsociados == null){
         		idsAsociados = new ArrayList<Long>();
         		idsAsociados.add((long)0);

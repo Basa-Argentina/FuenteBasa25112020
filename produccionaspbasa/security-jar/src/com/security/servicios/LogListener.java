@@ -39,7 +39,6 @@ public abstract class LogListener extends AppenderSkeleton
 			return;
 		final Date fechaHora=new Date();
 		new Thread(){
-			@Override
 			public void run(){
 				AppLog logMessage=new AppLog();
 				logMessage.setApp(getApp());
@@ -58,7 +57,7 @@ public abstract class LogListener extends AppenderSkeleton
 					    logMessage.setExcepcion(sw.toString());
 					    pw.close();
 					  }catch(Exception e) {
-						  e.printStackTrace();
+						  //e.printStackTrace();
 					  }
 				}
 				if (loggingEvent.getThrowableInformation()!=null && loggingEvent.getThrowableInformation().getThrowable()!=null){
@@ -70,12 +69,12 @@ public abstract class LogListener extends AppenderSkeleton
 					    logMessage.setExcepcion(sw.toString());
 					    pw.close();
 					  }catch(Exception e) {
-						  e.printStackTrace();
+						  //e.printStackTrace();
 					  }
 				}
 				//guardamos el log 
-				if(!logMessage.isLogListenerException()) {}
-			//		LogListener.service.guardar(logMessage);
+				if(!logMessage.isLogListenerException())
+					LogListener.service.guardar(logMessage);
 			}
 		}.start();
 	}

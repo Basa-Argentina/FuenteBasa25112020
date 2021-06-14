@@ -55,30 +55,30 @@ public class Operacion implements Comparable<Operacion>{
 	private User usuarioAsignado;
 	private Integer cantidadImpresiones;
 	
-	private  Long idDesde;
-	private  Long idHasta;
-	private  String accion;
-	private  Date fechaDesde;
-	private  Date fechaHasta;
-	private  Date fechaEntregaDesde;
-	private  Date fechaEntregaHasta;
-	private  Long idClienteEmp;
-	private  String codigoDeposito;
-	private  String codigoTipoOperacion;
-	private  String codigoEmpresa;
-	private  String codigoSucursal;
-	private  String codigoRequerimiento;
-	private  String codigoPersonal;
-	private  String codigoDireccion;
-	private  String clienteCodigo;
-	private  Integer cantidadElementos;
+	private transient Long idDesde;
+	private transient Long idHasta;
+	private transient String accion;
+	private transient Date fechaDesde;
+	private transient Date fechaHasta;
+	private transient Date fechaEntregaDesde;
+	private transient Date fechaEntregaHasta;
+	private transient Long idClienteEmp;
+	private transient String codigoDeposito;
+	private transient String codigoTipoOperacion;
+	private transient String codigoEmpresa;
+	private transient String codigoSucursal;
+	private transient String codigoRequerimiento;
+	private transient String codigoPersonal;
+	private transient String codigoDireccion;
+	private transient String clienteCodigo;
+	private transient Integer cantidadElementos;
 	
-	private  Integer numeroPagina;
-	private  Integer tamañoPagina;
-	private  String fieldOrder;
-	private  String sortOrder;
-	private  Long orden;
-	private  Boolean ocultarOpEnvio;
+	private transient Integer numeroPagina;
+	private transient Integer tamañoPagina;
+	private transient String fieldOrder;
+	private transient String sortOrder;
+	private transient Long orden;
+	private transient Boolean ocultarOpEnvio;
 	
 	public Operacion(){
 		this.cantidadProcesados = new Integer(0);

@@ -36,7 +36,7 @@ import com.security.recursos.RecursosNumeros;
 public class CalcularPrecioConceptoFacturableServlet extends HttpServlet{
 	private static Logger logger = Logger.getLogger(CalcularPrecioConceptoFacturableServlet.class);
 	private static final long serialVersionUID = -8573634511961736755L;
-	@Override
+	
 	public void doGet (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/xml"); 
 		response.setCharacterEncoding("ISO-8859-1"); //seteo el encoding de los caracteres 

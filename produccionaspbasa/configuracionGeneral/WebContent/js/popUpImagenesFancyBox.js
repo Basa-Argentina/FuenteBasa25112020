@@ -21,7 +21,8 @@ $(document).ready(function() {
 	     
 	     if(($(this).find('#hdn_nombreArchivoDigital').val().match(/.pdf$/)) || ($(this).find('#hdn_nombreArchivoDigital').val().match(/.PDF$/))){
 	    	 popupOnDiv($('#pop'),'darkLayer');
-	    	 $("#jpgDigital").attr("src",'../FlexPaper/common/simple_document.jsp?doc='+$(this).find('#hdn_nombreArchivoDigital').val()+'&ruta='+$(this).find('#hdn_pathArchivoJPGDigital').val());
+	    	 $("#jpgDigital").attr("src",'verLegajo.html?fileName=Y:/${rearchivoSeleccionado.pathArchivoDigital}${rearchivoSeleccionado.nombreArchivoDigital}');
+	    	
 	    	 $('#imageDiv').slideDown();
 	    	 popupOffDiv($('#pop'),'darkLayer');
 	     }

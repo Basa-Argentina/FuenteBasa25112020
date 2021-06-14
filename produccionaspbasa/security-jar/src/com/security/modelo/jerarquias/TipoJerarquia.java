@@ -41,7 +41,7 @@ public class TipoJerarquia implements Comparable<TipoJerarquia>{
 	private Date fechaRegistro;
 	private Date fechaActualizacion;
 	private String modifico;
-	private  String accion;
+	private transient String accion;
 	
 	@Id @GeneratedValue(strategy=GenerationType.AUTO)
 	public Long getId() {

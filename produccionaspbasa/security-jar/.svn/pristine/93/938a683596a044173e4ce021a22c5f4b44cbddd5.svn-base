@@ -501,7 +501,7 @@ public class ElementoServiceImp extends GestorHibernate<Elemento> implements Ele
         }
 	}
 	
-	//: Generar el método obtenerProximoContenedorDisponible
+	// TODO: Generar el método obtenerProximoContenedorDisponible
 	// 
 	
 	@Override
@@ -528,7 +528,7 @@ public class ElementoServiceImp extends GestorHibernate<Elemento> implements Ele
 	        	
 	        	// Eliminado por pedido de Sancor. Supuestamente el autoincrementar del elemento verificaba si el siguiente elemento
 	        	// se encontraba disponible o no. En caso que no, borrar automáticamente el dato de la casilla.
-	        	//: Descomentar este código y probarlo.
+	        	// TODO: Descomentar este código y probarlo.
 	        	
 	//        	DetachedCriteria subCritReferencias = DetachedCriteria.forClass(Referencia.class, "ref");
 	//    		subCritReferencias.createCriteria("elemento","elemento");

@@ -52,10 +52,11 @@ public class ReposicionamientoUtil {
 			for(Elemento e : elementos){
 				if(!e.getTipoElemento().equals(tipoElemento)){
 					result = false;
-					break;
+				
 				}
 			}
 		}catch(Exception ex){
+			System.out.println(ex.getCause() +" / / " + ex.getMessage() );
 			result = false;
 		}
 		return result;		
@@ -87,15 +88,16 @@ public class ReposicionamientoUtil {
 	 * @param moduloDestino
 	 * @return
 	 */
+	
 	public Boolean verificarSuficientesPosicionesModuloDestino(Collection<Elemento> elementos, Modulo moduloDestino){
 		
 		int verPorModulo = moduloDestino.getEstante().getGrupo().getVerticales().intValue() / moduloDestino.getEstante().getGrupo().getModulosVert().intValue();  
 		int horPorModulo = moduloDestino.getEstante().getGrupo().getHorizontales().intValue() / moduloDestino.getEstante().getGrupo().getModulosHor().intValue();
 		int posPorModulo = verPorModulo * horPorModulo;
-		
 		return elementos.size()<= posPorModulo;
 		
 	}
+	
 	
 	/**
 	 * verifica que el numero de elementos sea multiplo del numero de posiciones horizontales del modulo (reposicionamiento a modulo completo)
@@ -116,7 +118,9 @@ public class ReposicionamientoUtil {
 		Boolean result = false;
 		if(tipoElemento!=null && moduloDestino != null && elementoService!=null){
 			result = elementoService.verificarTipoElementoValidoParaGrupoDeModulos(tipoElemento, moduloDestino, clienteAsp);
+		
 		}
+		
 		return result;
 	}
 	

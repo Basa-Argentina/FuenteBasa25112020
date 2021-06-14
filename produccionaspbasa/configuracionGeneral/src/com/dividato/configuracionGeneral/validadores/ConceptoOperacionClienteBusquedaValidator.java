@@ -81,7 +81,7 @@ public class ConceptoOperacionClienteBusquedaValidator implements Validator {
 			{
 				errors.rejectValue("prefijoRequerimientoDesde","formularioConceptoOperacionCliente.error.prefijoRequerimientoDesdeMayorHasta");
 			}
-			else if(conceptoOperacionCliente.getPrefijoRequerimientoDesde().equals(conceptoOperacionCliente.getPrefijoRequerimientoHasta()))
+			else if(conceptoOperacionCliente.getPrefijoRequerimientoDesde() == conceptoOperacionCliente.getPrefijoRequerimientoHasta())
 			{
 				if(conceptoOperacionCliente.getNumeroRequerimientoDesde() != null && !("").equals(conceptoOperacionCliente.getNumeroRequerimientoDesde())
 						&& conceptoOperacionCliente.getNumeroRequerimientoHasta() != null && !("").equals(conceptoOperacionCliente.getNumeroRequerimientoHasta()))

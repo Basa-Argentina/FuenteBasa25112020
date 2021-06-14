@@ -27,11 +27,11 @@ public class Seccion{
 	private Deposito deposito;
 	private String codigo;
 	private String descripcion;
-	private  String accion;
-	private  Long idDeposito;
-	private  String codigoDeposito;
-	private  String codigoSucursal;
-	private  String codigoEmpresa;
+	private transient String accion;
+	private transient Long idDeposito;
+	private transient String codigoDeposito;
+	private transient String codigoSucursal;
+	private transient String codigoEmpresa;
 	
 	public Seccion() {
 		super();

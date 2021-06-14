@@ -217,8 +217,8 @@ public class FormGrupoController {
 			BindingResult result,
 			HttpSession session,
 			Map<String,Object> atributos){
-
-
+		//seteamos el ClienteAsp
+		//grupoFormulario.setCliente(obtenerClienteAspUser());
 		Boolean commit = null;
 		if(accion==null || accion.equals("") || accion.equals("NUEVO"))
 			accion="NUEVO";
@@ -292,7 +292,8 @@ public class FormGrupoController {
 			atributos.put("avisos", avisos);
 		}
 		
-
+//		//hacemos el redirect
+//		return "redirect:mostrarCliente.html";
 		return listaGrupoController.mostrarGrupo(session, atributos, null, null, null, null, null, null, null);
 	}
 	

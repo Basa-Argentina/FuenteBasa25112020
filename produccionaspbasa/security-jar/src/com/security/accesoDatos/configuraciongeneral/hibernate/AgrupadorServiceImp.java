@@ -200,8 +200,8 @@ public class AgrupadorServiceImp extends GestorHibernate<AgrupadorFacturacion> i
         	}
         	crit.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
         	List<AgrupadorFacturacion> result=crit.list();
-        	if(result.size()==1) return result.get(0);
-        	
+        	if(result.size()==1)
+				return result.get(0);
 			return null;
         } catch (HibernateException hibernateException) {
         	logger.error("No se pudo listar ", hibernateException);

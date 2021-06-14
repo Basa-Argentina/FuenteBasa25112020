@@ -139,7 +139,7 @@ public class ListaGrupoController {
 		//buscamos en la base de datos y lo subimos a request.
 		List<Grupo> grupos = null;	
 		Grupo grupo = (Grupo) session.getAttribute("grupoBusqueda");
-		grupos =grupoService.listarGrupoFiltradas(grupo, obtenerClienteAspUser());		
+		grupos =(List<Grupo>) grupoService.listarGrupoFiltradas(grupo, obtenerClienteAspUser());		
 		atributos.put("grupos", grupos);
 		
 		//si no hay errores

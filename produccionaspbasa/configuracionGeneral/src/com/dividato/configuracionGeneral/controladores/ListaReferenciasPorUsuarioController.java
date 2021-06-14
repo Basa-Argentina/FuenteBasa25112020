@@ -8,10 +8,12 @@
 package com.dividato.configuracionGeneral.controladores;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -26,22 +28,36 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.dividato.configuracionGeneral.controladores.FormLoteReferenciaController.ReferenciaReporte;
+import com.dividato.configuracionGeneral.objectForms.ImpuestoBusquedaForm;
 import com.dividato.configuracionGeneral.objectForms.ReferenciasPorUsuarioReport;
+import com.dividato.configuracionGeneral.validadores.ImpuestoFormValidator;
+import com.dividato.configuracionGeneral.validadores.ReferenciaValidator;
+import com.security.accesoDatos.configuraciongeneral.interfaz.ImpuestoService;
+import com.security.accesoDatos.configuraciongeneral.interfaz.LoteReferenciaService;
 import com.security.accesoDatos.configuraciongeneral.interfaz.ReferenciaHistoricoService;
 import com.security.accesoDatos.configuraciongeneral.interfaz.ReferenciaService;
 import com.security.accesoDatos.interfaz.UserService;
 import com.security.constants.Constants;
 import com.security.modelo.administracion.ClienteAsp;
+import com.security.modelo.configuraciongeneral.Impuesto;
+import com.security.modelo.configuraciongeneral.LoteReferencia;
+import com.security.modelo.configuraciongeneral.Referencia;
 import com.security.modelo.configuraciongeneral.ReferenciaHistorico;
+import com.security.modelo.general.Persona;
+import com.security.modelo.general.PersonaFisica;
 import com.security.modelo.seguridad.User;
+import com.security.utils.ScreenMessage;
+import com.security.utils.ScreenMessageImp;
 
 /**
  * @author Victor Kenis
@@ -98,6 +114,32 @@ public class ListaReferenciasPorUsuarioController {
 		return "consultaReferenciasPorUsuario";
 	}
 	
+//	@RequestMapping(value="/filtrarReferenciasPorUsuario.html", method = RequestMethod.POST)
+//	public String filtrar(
+//			@ModelAttribute("historicoBusqueda") ReferenciaHistorico referenciaHistorico, 
+//			BindingResult result,
+//			HttpSession session,
+//			Map<String,Object> atributos,HttpServletResponse response){
+//		
+//		User usuario = null;
+//		if(referenciaHistorico!=null && referenciaHistorico.getCodigoUsuario()!=null)
+//			usuario = userService.obtenerPorId(referenciaHistorico.getCodigoUsuario());
+//		if(usuario==null)
+//			result.rejectValue("", "");
+//		
+//		if(!result.hasErrors()){
+//			session.setAttribute("referenciaHistorico", referenciaHistorico);
+//			atributos.put("errores", false);
+//			atributos.remove("result");
+//		}else{
+//			atributos.put("errores", true);
+//			atributos.put("result", result);
+//			return mostrar(session, atributos);
+//		}	
+//		return imprimirReferenciasPorUsuario(session,atributos,response);
+//	}
+	
+	@SuppressWarnings("unused")
 	@RequestMapping(
 			value="/imprimirReferenciasPorUsuario.html",
 			method = RequestMethod.POST
@@ -113,14 +155,16 @@ public class ListaReferenciasPorUsuarioController {
 			if(referenciaHistorico!=null && referenciaHistorico.getCodigoUsuario()!=null)
 				usuario = userService.obtenerPorId(referenciaHistorico.getCodigoUsuario());
 			
+			
+				//result.rejectValue("usuario", "required");
+			
 			if(result.hasErrors()){
 				atributos.put("errores", true);
 				atributos.put("result", result);
 				return mostrar(session, atributos);
 			}
 			
-			int cantCreadas = 0;
-			int cantModificadas = 0;
+			int cantCreadas = 0, cantModificadas = 0;
 			
 			FormLoteReferenciaController forRefController = new FormLoteReferenciaController();
 
@@ -204,7 +248,7 @@ public class ListaReferenciasPorUsuarioController {
 		return mostrar(session, atributos);
 	}
 	
-
+	@SuppressWarnings("unused")
 	@RequestMapping(
 			value="/imprimirReferenciasPorUsuarioXls.html",
 			method = RequestMethod.POST
@@ -219,14 +263,17 @@ public class ListaReferenciasPorUsuarioController {
 			User usuario = null;
 			if(referenciaHistorico!=null && referenciaHistorico.getCodigoUsuario()!=null)
 				usuario = userService.obtenerPorId(referenciaHistorico.getCodigoUsuario());
+			
+			
+				//result.rejectValue("usuario", "required");
+			
 			if(result.hasErrors()){
 				atributos.put("errores", true);
 				atributos.put("result", result);
 				return mostrar(session, atributos);
 			}
 			
-			int cantCreadas = 0;
-			int cantModificadas = 0;
+			int cantCreadas = 0, cantModificadas = 0;
 			
 			FormLoteReferenciaController forRefController = new FormLoteReferenciaController();
 
@@ -328,8 +375,7 @@ public class ListaReferenciasPorUsuarioController {
 				return mostrar(session, atributos);
 			}
 			
-			int cantCreadas = 0;
-			int cantModificadas = 0;
+			int cantCreadas = 0, cantModificadas = 0;
 			
 			FormLoteReferenciaController forRefController = new FormLoteReferenciaController();
 			referenciaHistorico.setFechaDesdeStr(referenciaHistorico.getFechaHoraStrCorta());

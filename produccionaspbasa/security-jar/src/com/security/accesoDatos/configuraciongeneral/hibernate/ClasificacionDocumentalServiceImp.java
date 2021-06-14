@@ -127,6 +127,16 @@ public class ClasificacionDocumentalServiceImp extends GestorHibernate<Clasifica
         try {
         	//obtenemos una sesión
 			session = getSession();
+			
+//        	Criteria crit = session.createCriteria(getClaseModelo());
+//        	crit.createCriteria("clienteEmp", "cli");
+//        	crit.add(Restrictions.eq("cli.codigo", codigoClienteEmp));
+//        	crit.add(Restrictions.eq("clienteAsp", clienteAsp));
+//        	//es conveniente hacer los filtros en memoria y no dejar a hibernate que filtre 
+//        	//porque cuando intenta llenar los hijos y padre se muere (tarda mucho).
+//        	//crit.add(Restrictions.eq("codigo", codigo)); 
+//        	//crit.add(Restrictions.eq("nodo", "I"));
+//        	crit.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
         	
         	String consulta = "SELECT DISTINCT cd FROM ClasificacionDocumental cd WHERE cd.clienteEmp.codigo = '" + codigoClienteEmp + "' " +
         						"AND cd.clienteAsp.id = " + clienteAsp.getId().longValue()+ " ";
@@ -282,6 +292,7 @@ public class ClasificacionDocumentalServiceImp extends GestorHibernate<Clasifica
 			//obtenemos una sesión
 			session = getSession();
 	    	Criteria crit = session.createCriteria(getClaseModelo());
+	    	//crit.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY); 
 	    	crit.add(Restrictions.eq("clienteEmp", clienteEmp));
 	    	crit.add(Restrictions.eq("clienteAsp", clienteAsp));
 	    	crit.setProjection(Projections.max("codigo"));	    	
@@ -496,6 +507,7 @@ public class ClasificacionDocumentalServiceImp extends GestorHibernate<Clasifica
 			}
 			nodo.setPadre(null);
 			session.delete(nodo);
+			//eliminarNodosHijos(nodo, session);
 			tr.commit();
 			result = true;
 		} catch (HibernateException hibernateException) {

@@ -7,11 +7,15 @@
  */
 package com.security.modelo.configuraciongeneral;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+
+import com.security.modelo.administracion.ClienteAsp;
 
 
 /**
@@ -34,7 +38,7 @@ public class ClienteEmpleados implements Comparable<ClienteEmpleados>{
 
 	@Override
 	public int compareTo(ClienteEmpleados o) {
-		// Auto-generated method stub
+		// TODO Auto-generated method stub
 		return 0;
 	}
 

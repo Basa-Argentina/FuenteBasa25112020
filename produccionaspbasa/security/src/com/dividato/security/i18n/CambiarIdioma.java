@@ -29,7 +29,7 @@ public class CambiarIdioma {
 		String url = request.getHeader("Referer"); 
 		String[] urlCortadas = url.split("/");
 		String salida = urlCortadas[urlCortadas.length - 1];
-
+		//return "redirect:index.html";
 		if(salida.indexOf(".html")!=-1){
 			String buscar = buscarString(salida);
 			if(!"".equals(buscar))

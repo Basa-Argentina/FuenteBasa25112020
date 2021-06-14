@@ -155,7 +155,7 @@ public class FormClienteDireccionController {
 			@RequestParam(value="val", required=false) String val,
 			@RequestParam(value="clienteCodigo",required=false) Long ubicacionId, 
 			Map<String,Object> atributos) {
-
+		//if(accion==null) accion=(String) atributos.get("accion");
 		if(accion==null) accion="NUEVO"; //acción por defecto: nuevo	
 		if(accion.equals("NUEVO")){
 			Pais paisDefecto = paisService.getPaisPorNombre(Constants.PAIS_DEFECTO);

@@ -29,10 +29,10 @@ public class HojaRutaBusquedaForm {
 	private Date fechaSalida;
 	private Date fecha;
 	private boolean estado;
-	private  Integer numeroPagina;
-	private  Integer tamañoPagina;
-	private  String fieldOrder;
-	private  String sortOrder;
+	private transient Integer numeroPagina;
+	private transient Integer tamañoPagina;
+	private transient String fieldOrder;
+	private transient String sortOrder;
 	
 	public Long getIdClienteAsp() {
 		return idClienteAsp;

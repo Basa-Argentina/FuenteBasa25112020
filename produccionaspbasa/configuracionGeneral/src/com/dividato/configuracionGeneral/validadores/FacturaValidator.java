@@ -1,6 +1,8 @@
 package com.dividato.configuracionGeneral.validadores;
 
 import static com.security.recursos.Configuracion.formatoFechaFormularios;
+import static com.security.recursos.Configuracion.formatoFechaHoraFormularios;
+
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,7 @@ import com.security.modelo.configuraciongeneral.Empresa;
 import com.security.modelo.configuraciongeneral.Remito;
 import com.security.modelo.configuraciongeneral.RemitoDetalle;
 import com.security.modelo.configuraciongeneral.Serie;
+import com.security.modelo.configuraciongeneral.Sucursal;
 import com.security.modelo.configuraciongeneral.Transporte;
 import com.security.modelo.general.PersonaFisica;
 import com.security.modelo.seguridad.User;
@@ -222,7 +225,7 @@ public class FacturaValidator implements Validator {
 			}
 			
 			//Validar detalles
-			if(remito.getDetalles() != null && !remito.getDetalles().isEmpty())
+			if(remito.getDetalles() != null && remito.getDetalles().size()> 0)
 			{
 				for (RemitoDetalle remitoDetalle : remito.getDetalles()) {
 					int vecesExiste = 0;
@@ -257,7 +260,13 @@ public class FacturaValidator implements Validator {
 			{
 				errors.rejectValue("detalles","formularioRemito.errorDetallesVacios");
 			}
-
+			
+//			//Validar existencia de numero en serie
+//			Remito existe = remitoService.verificarExistenteEnSerie(remito.getNumero(), remito.getCodigoSerie(), obtenerClienteAspUser());
+//			if(existe != null)
+//			{
+//				errors.rejectValue("numero", "formularioRemito.errorNumeroExistenteEnSerie");
+//			}
 		}
 	
 	

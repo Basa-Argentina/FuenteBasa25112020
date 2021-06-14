@@ -17,6 +17,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.Order;
@@ -25,10 +26,13 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+//import sun.nio.cs.HistoricallyNamedCharset;
+
 import com.security.accesoDatos.configuraciongeneral.interfaz.ReferenciaHistoricoService;
 import com.security.accesoDatos.hibernate.GestorHibernate;
 import com.security.accesoDatos.hibernate.HibernateControl;
 import com.security.modelo.administracion.ClienteAsp;
+import com.security.modelo.configuraciongeneral.Posicion;
 import com.security.modelo.configuraciongeneral.Referencia;
 import com.security.modelo.configuraciongeneral.ReferenciaHistorico;
 import com.security.modelo.seguridad.User;
@@ -51,7 +55,17 @@ public class ReferenciaHistoricoServiceImp extends GestorHibernate<ReferenciaHis
 		return ReferenciaHistorico.class;
 	}
 
-	
+	private void rollback(Transaction tx, Exception e, String mensaje){
+		//si ocurre algún error intentamos hacer rollback
+		if (tx != null && tx.isActive()) {
+			try {
+				tx.rollback();
+	        } catch (HibernateException e1) {
+	        	logger.error("no se pudo hacer rollback "+getClaseModelo().getName(), e1);
+	        }
+	        logger.error(mensaje+" "+getClaseModelo().getName(), e);
+		}
+	}
 	
 	@Override
 	@SuppressWarnings("unchecked")
@@ -394,7 +408,14 @@ public class ReferenciaHistoricoServiceImp extends GestorHibernate<ReferenciaHis
         try {
         		//obtenemos una sesión
     			session = getSession();
-
+//            	Criteria c = session.createCriteria(getClaseModelo());
+//            	if(referencia!=null){
+//    				
+//    				//filtro por referencia
+//    				if(referencia.getId()!=null && !"".equals(referencia.getId()))
+//    					c.add(Restrictions.eq("idReferencia", referencia.getId()));
+//    			}
+//            	c.addOrder(Order.desc("fechaHora"));
             	
             	String consulta = "Select r FROM ReferenciaHistorico r WHERE 1 = 1 ";
             	
@@ -485,6 +506,16 @@ public class ReferenciaHistoricoServiceImp extends GestorHibernate<ReferenciaHis
             	if(fechaHasta!=null)
             		c.add(Restrictions.le("fechaHora", fechaHasta));
             	
+//            	Criterion first = Restrictions.eq("accion", "MS004REF");
+//            	Criterion second = Restrictions.eq("accion", "MS006REF");
+//            	Criterion third = Restrictions.eq("accion", "MS008REF");
+//            	
+//            	Disjunction disjunction = Restrictions.disjunction();
+//                disjunction.add(first);
+//                disjunction.add(second);
+//                disjunction.add(third);
+//                
+//                c.add(disjunction);
             	
             	c.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
             	
@@ -635,7 +666,11 @@ public class ReferenciaHistoricoServiceImp extends GestorHibernate<ReferenciaHis
 		
 		try{
 			session = getSession();
-
+           	
+//        	String consulta = "SELECT distinct count (r.id),accion" +
+//				" from referencias_historico r " +
+//				" where clienteAsp_id = "+clienteAspId
+//				+ " and (r.accion like 'MS004REF' OR r.accion like 'MS006REF' OR r.accion like 'MS008REF') "; 
         	
 
         	String consulta = "         	SELECT count (*) cantidad, accion, c.codigo, c.nombre \r\n" + 
@@ -648,7 +683,9 @@ public class ReferenciaHistoricoServiceImp extends GestorHibernate<ReferenciaHis
         			"        	on u.id = rh.usuario_id \r\n" + 
         			"        	where " + 
         			"        	(rh.accion like 'MS004REF' OR rh.accion like 'MS006REF' OR rh.accion like 'MS008REF')  \r\n";
-
+//        			"        	AND rh.usuario_id = 127  \r\n" + 
+//        			"        	AND rh.fechaHora >= CONVERT(DATETIME,'01/09/2014 00:00:00',103)  \r\n" + 
+//        			"        	AND rh.fechaHora <= CONVERT(DATETIME,'30/09/2014 23:59:59',103)  ";        	
 
 		        	if(clienteAspId!= null)
 		        		consulta+= " AND clienteAsp_Id = "+ clienteAspId + " ";
@@ -662,6 +699,8 @@ public class ReferenciaHistoricoServiceImp extends GestorHibernate<ReferenciaHis
                 	if(fechaHasta!=null)
                 		consulta+= " AND rh.fechaHora <= CONVERT(DATETIME,'"+ fechaHasta+"',103) ";
                 		
+                	
+                	//consulta += " GROUP BY accion ORDER BY accion asc";
         	
                 	consulta += "        	GROUP BY accion, r.clasificacion_documental_id, c.codigo, c.nombre  \r\n" + 
                 			"        	ORDER BY r.clasificacion_documental_id ";

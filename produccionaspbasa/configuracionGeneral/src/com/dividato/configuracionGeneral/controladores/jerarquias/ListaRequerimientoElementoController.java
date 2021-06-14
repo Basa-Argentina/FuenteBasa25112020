@@ -18,6 +18,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -26,6 +27,9 @@ import java.math.BigDecimal;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -259,7 +263,8 @@ public class ListaRequerimientoElementoController {
 			
 			if(requerimientoElemento.getCodigoContenedor()!=null && !"".equals(requerimientoElemento.getCodigoContenedor()))
 				requerimientoElemento.setElemento(elementoService.getByCodigo(requerimientoElemento.getCodigoContenedor(), obtenerClienteAsp()));
-
+//			if(requerimientoElemento.getCodigoTipoElemento()!=null && !"".equals(requerimientoElemento.getCodigoTipoElemento()))
+//				requerimientoElemento.setTipoElemento(tipoElementoService.getByCodigo(requerimientoElemento.getCodigoTipoElemento(), obtenerClienteAsp()));
 			if(requerimientoElemento.getCodigoClasificacionDocumental()!=null && !"".equals(requerimientoElemento.getCodigoClasificacionDocumental()))
 				requerimientoElemento.setClasificacionDocumental(clasificacionDocumentalService.getClasificacionByCodigoCargarHijos(Integer.parseInt(requerimientoElemento.getCodigoClasificacionDocumental()), clienteEmp.getCodigo(), obtenerClienteAsp(),null));
 			if(requerimientoElemento.getCodigoLectura()!=null && !"".equals(requerimientoElemento.getCodigoLectura())){
@@ -271,7 +276,10 @@ public class ListaRequerimientoElementoController {
 				}
 			}
 			
-
+//			Long elementoId = null;
+//			if(requerimientoElemento.getElemento()!=null)
+//				elementoId = requerimientoElemento.getElemento().getId();
+			
 			String codigoContenedor = requerimientoElemento.getCodigoContenedor();
 			String tipoTrabajo = requerimientoElemento.getTipoTrabajo();
 				
@@ -508,7 +516,7 @@ public class ListaRequerimientoElementoController {
 		
 		if (request.getParameter("listaPalabras")!= null) {
 			if (!request.getParameter("listaPalabras").equals("")){
-				listaPalabras = request.getParameter("listaPalabras");
+				listaPalabras = (String) request.getParameter("listaPalabras");
 
 				try {
 					listaArchivos = webs(listaPalabras);
@@ -536,13 +544,17 @@ public class ListaRequerimientoElementoController {
 			 clienteEmp = clienteEmpService.getByCodigo(requerimientoElemento.getCodigoCliente());
 			if(requerimientoElemento.getCodigoContenedor()!=null && !"".equals(requerimientoElemento.getCodigoContenedor()))
 				requerimientoElemento.setElemento(elementoService.getByCodigo(requerimientoElemento.getCodigoContenedor(), obtenerClienteAsp()));
-
+//			if(requerimientoElemento.getCodigoTipoElemento()!=null && !"".equals(requerimientoElemento.getCodigoTipoElemento()))
+//				requerimientoElemento.setTipoElemento(tipoElementoService.getByCodigo(requerimientoElemento.getCodigoTipoElemento(), obtenerClienteAsp()));
 			if(requerimientoElemento.getCodigoClasificacionDocumental()!=null && !"".equals(requerimientoElemento.getCodigoClasificacionDocumental()))
 				requerimientoElemento.setClasificacionDocumental(clasificacionDocumentalService.getClasificacionByCodigoCargarHijos(Integer.parseInt(requerimientoElemento.getCodigoClasificacionDocumental()), clienteEmp.getCodigo(), obtenerClienteAsp(),null));
 			if(requerimientoElemento.getCodigoEmpresa()!=null && !"".equals(requerimientoElemento.getCodigoEmpresa()))
 				requerimientoElemento.setEmpresa(empresaService.getByCodigo(requerimientoElemento.getCodigoEmpresa(), obtenerClienteAsp()));
 			if(requerimientoElemento.getCodigoSucursal()!=null && !"".equals(requerimientoElemento.getCodigoSucursal()))
 				requerimientoElemento.setSucursal(sucursalService.getByCodigo(requerimientoElemento.getCodigoSucursal(), obtenerClienteAsp()));
+//			Long elementoId = null;
+//			if(requerimientoElemento.getElemento()!=null)
+//				elementoId = requerimientoElemento.getElemento().getId();
 						
 			String codigoContenedor = requerimientoElemento.getCodigoContenedor();
 				
@@ -596,6 +608,23 @@ public class ListaRequerimientoElementoController {
 						texto2 += "%";
 				}
 			}
+			
+			//Prueba Fecha
+			String fecha1 = "";
+			if(requerimientoElemento.getFecha1Str()!=null && !requerimientoElemento.getFecha1Str().trim().equals("")){
+				fecha1 = requerimientoElemento.getFecha1Str();
+				
+				
+			}
+			
+		  String fecha2 = "";
+		  if(requerimientoElemento.getFecha2Str()!=null && !requerimientoElemento.getFecha2Str().trim().equals("")){
+			fecha2 = requerimientoElemento.getFecha2Str();
+			
+			}
+		  
+			//Pruebafecha
+		
 			String descripcion = "";
 			if(requerimientoElemento.getDescripcion()!=null && !requerimientoElemento.getDescripcion().trim().equals("")){
 				descripcion = requerimientoElemento.getDescripcion();	
@@ -669,12 +698,13 @@ public class ListaRequerimientoElementoController {
 						Long numeroUnoTmp = itemArchivo[2].equals("")?null:Long.parseLong(itemArchivo[2]);
 						clienteEmp = clienteEmpService.getByCodigo(itemArchivo[1]);	
 						numeroUno = requerimientoElemento.getNumero1()==null?numeroUnoTmp:requerimientoElemento.getNumero1();
-
+						//numeroUno = requerimientoElemento.getNumero1() ? requerimientoElemento.getNumero1() : itemArchivo[2];
 						Integer sizeTemp = referenciaService.contarElementoFiltradas(obtenerClienteAsp().getId(),requerimientoElemento.getFecha1(), requerimientoElemento.getFecha2(), requerimientoElemento.getFechaEntre(),
 								requerimientoElemento.getFechaInicio(), requerimientoElemento.getFechaFin(),
 								numeroUno, requerimientoElemento.getNumero2(), requerimientoElemento.getNumeroEntre(), numero1Texto, numero2Texto, 
 								texto1, texto2, descripcion, requerimientoElemento.getCodigoTipoElemento()/*tipoElementoId*/, codigoContenedor,itemArchivo[0], clienteEmp!=null?clienteEmp.getId():null, clasificaciones, seleccion, null);
 						size += sizeTemp;
+						//atributos.put("size", size);
 					}
 				}
 			}
@@ -974,6 +1004,7 @@ public class ListaRequerimientoElementoController {
 			@RequestParam(value="pos",required=false) int pos,
 			HttpSession session, Map<String,Object> atributos, HttpServletResponse response	){
 		
+		//fileName="c://1.JPG";
 		if(fileName==null || "".equals(fileName))
 			return "formularioRearchivoDigital"; //JSP en blanco
 		 
@@ -985,17 +1016,16 @@ public class ListaRequerimientoElementoController {
 		fileName = fileName.substring(0, pos1) + carpeta + "//" + pos + ".jpg";
 		
 		ServletOutputStream op = null;
+		
 		try {
 			String urlFile = fileName;
 			InputStream in = new FileInputStream(urlFile);
 			byte[] data = new byte[in.available()];
 			in.read(data);
-			
 			response.setContentType("image/jpeg;");
-
+			//response.setHeader("Content-Disposition","attachment;filename=\"" + fileNameEnviar +"\";");
 			response.setContentLength(data.length);
 			op = response.getOutputStream();
-
 			op.write(data);
 			op.flush();
 			op.close();
@@ -1010,7 +1040,7 @@ public class ListaRequerimientoElementoController {
 			
 		} catch (Exception e) {
 			return "formularioRearchivo";
-		}
+		};
 		return "formularioRearchivo";
 		
 	}
@@ -1139,7 +1169,7 @@ public class ListaRequerimientoElementoController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+		;
 	}
 	
 	@RequestMapping(
@@ -1154,13 +1184,15 @@ public String descargarImagenesZIP(HttpSession session,
 		List<RequerimientoElemento> listaReferencias1 = (List<RequerimientoElemento>) session.getAttribute("requerimientoElementosSession");
 		RequerimientoElemento Name = listaReferencias1.get(0);
 		String NombreZip = "";
+		StringBuffer NombreDentroZip = new StringBuffer();
 		if (Name.getCodigoContenedor()!=null) {
-		NombreZip = Name.getCodigoContenedor();
+		NombreZip = Name.getCodigoContenedor().toString();
 		}else {
 		NombreZip = "Imagenes";
 		}
         response.setHeader( "Content-disposition", "attachment; filename="+NombreZip+".zip");
-		byte[] buffer = new byte[1024];
+		
+        byte[] buffer = new byte[4096];
 		
 		try{
 		
@@ -1173,41 +1205,59 @@ public String descargarImagenesZIP(HttpSession session,
 				Long[] idsLong = new Long[ids.length];
 				for(int i = 0;i<ids.length;i++)
 				{
-					for(RequerimientoElemento req:listaReferencias){
-						if(req.getIdReferencia().longValue()==Long.valueOf(ids[i]))
-						{
-							if(req.getPathLegajo()!=null && !req.getPathLegajo().equalsIgnoreCase("")){
-								Rearchivo rear = new Rearchivo();
-								rear.setPathArchivoJPGDigital(req.getPathLegajo().substring(0, req.getPathLegajo().lastIndexOf("\\")+1));
-								rear.setNombreArchivoDigital(req.getPathLegajo().substring(req.getPathLegajo().lastIndexOf("\\")+1,req.getPathLegajo().length()));
-								rearchivos.add(rear);
-								break;
-							}
-							else
-							{
-								Rearchivo rear = rearchivoService.obtenerRearchivoPorReferencia(Long.valueOf(ids[i]));
-								String carpeta = rear.getPathArchivoJPGDigital().substring(0, rear.getPathArchivoJPGDigital().lastIndexOf("/")-1);
-								carpeta = carpeta.substring(0, carpeta.lastIndexOf("/")+1);
-								rear.setPathArchivoJPGDigital(carpeta);
-								rearchivos.add(rear);
-								break;
-							}
-						}
+				    
+				for (RequerimientoElemento req : listaReferencias) {
+					if (req.getIdReferencia().longValue() == Long.valueOf(ids[i])) {
+					    if (req.getPathLegajo() != null && !req.getPathLegajo().equalsIgnoreCase("")) {
+						Rearchivo rear = new Rearchivo();
+						NombreDentroZip.setLength(0);
+						if (req.getNumero1() !=null) NombreDentroZip.append(req.getNumero1()+"_");
+						if (req.getNumero2() !=null & !req.getNumero2().equals(req.getNumero1())) NombreDentroZip.append(req.getNumero2()+"_");
+						if (req.getTexto1() !=null) NombreDentroZip.append(req.getTexto1()+"_");
+						if (req.getTexto2() !=null & !req.getTexto2().equals(req.getTexto1())) NombreDentroZip.append(req.getTexto2()+"_");
+						
+						NombreDentroZip.append(req.getIdReferencia());
+						
+						Files.copy(FileSystems.getDefault().getPath(req.getPathLegajo()),
+							       FileSystems.getDefault().getPath("Y:/ZIP/"+NombreDentroZip+".pdf"),
+							       StandardCopyOption.REPLACE_EXISTING,
+							       StandardCopyOption.COPY_ATTRIBUTES );
+						String Apasar = "Y:/ZIP/"+NombreDentroZip+".pdf";
+						
+						rear.setPathArchivoJPGDigital(Apasar);
+						rearchivos.add(rear);
+						break;
+					    } else {
+						Rearchivo rear = rearchivoService.obtenerRearchivoPorReferencia(Long.valueOf(ids[i]));
+						
+						String carpeta = rear.getPathArchivoJPGDigital().substring(0,
+							rear.getPathArchivoJPGDigital().lastIndexOf("/") - 1);
+						carpeta = carpeta.substring(0, carpeta.lastIndexOf("/") + 1);
+						rear.setPathArchivoJPGDigital(carpeta);
+						rearchivos.add(rear);
+						break;
+					    }
 					}
+				    }
+				     
 				}
+				
 				ZipOutputStream zipOut = new ZipOutputStream(response.getOutputStream()); 
 			
 				for(Rearchivo rearchivo : rearchivos){
-					
-					File file = new File(rearchivo.getPathArchivoJPGDigital()+rearchivo.getNombreArchivoDigital());
+				 //   String NombreDentroZip="";
+					String Origen  ="Y:\\"+ rearchivo.getPathArchivoDigital()+ rearchivo.getNombreArchivoDigital();
+					//String Destino = "Y:/ZIP/"+NombreDentroZip+".pdf" ; 
+					File file = new File(Origen);			
+					//File file1 = new File(Destino);			
 					FileInputStream inp = new FileInputStream(file);
-					
+					//ZipEntry entry = new ZipEntry(file.getName());
 					ZipEntry entry = new ZipEntry(file.getName());
-				    zipOut.putNextEntry(entry);
-				    
+				        zipOut.putNextEntry(entry);
+
 				    int len;
 		    		while ((len = inp.read(buffer)) > 0) {
-		    			zipOut.write(buffer, 0, len);
+		    			zipOut.write(buffer, 0,len);
 		    		}
 
 		    		inp.close();
@@ -1217,6 +1267,7 @@ public String descargarImagenesZIP(HttpSession session,
 		    	//remember close it
 				zipOut.flush();
                 zipOut.close();
+                
 			}
 	
 	}
@@ -1244,7 +1295,6 @@ public String descargarImagenesZIP(HttpSession session,
 			
 				List<Rearchivo> rearchivos = new ArrayList<Rearchivo>();
 				List<RequerimientoElemento> listaReferencias = (List<RequerimientoElemento>) session.getAttribute("requerimientoElementosSession");
-				
 				// INICIO SELECCIONADOS
 				if(seleccionados != null && seleccionados.length()> 0){
 					
@@ -1269,13 +1319,16 @@ public String descargarImagenesZIP(HttpSession session,
 								}
 								else
 								{
-									Rearchivo rear = rearchivoService.obtenerRearchivoPorReferencia(Long.valueOf(ids[i]));
-									String carpeta = rear.getPathArchivoJPGDigital().substring(0, rear.getPathArchivoJPGDigital().lastIndexOf("/")-1);
+								    
+								Rearchivo rear = rearchivoService.obtenerRearchivoPorReferencia(Long.valueOf(ids[i]));
+								
+								String carpeta = rear.getPathArchivoJPGDigital().substring(0, rear.getPathArchivoJPGDigital().lastIndexOf("/")-1);
 									carpeta = carpeta.substring(0, carpeta.lastIndexOf("/")+1);
 									rear.setPathArchivoJPGDigital(carpeta);
 									rearchivos.add(rear);
 									break;
-								}
+								
+									}
 							}
 						}
 					}
@@ -1287,10 +1340,10 @@ public String descargarImagenesZIP(HttpSession session,
 						else if(rearchivo.getNombreArchivoDigital().toLowerCase().endsWith(".pdf"))
 							imagenesPDF.add(new File(rearchivo.getPathArchivoJPGDigital()+rearchivo.getNombreArchivoDigital()));	
 					}
-						
+					
+					
 					if(imagenesTIFF.size()>0)
 					{
-						
 						for(File fileTIFF : imagenesTIFF){
 							
 							SeekableStream s = new FileSeekableStream(fileTIFF);
@@ -1385,10 +1438,12 @@ public String descargarImagenesZIP(HttpSession session,
 					}
 					else
 					{
+						
 						IOUtils.copy(inputStream,outputStream);
 						inputStream.close();
 						outputStream.flush();
 						outputStream.close();
+						
 					}
 					
 					
@@ -1440,7 +1495,13 @@ public String descargarImagenesZIP(HttpSession session,
 					(String) lista[2], (String) lista[3], (String)lista[4], (String)lista[5], (Date) lista[6], (Date) lista[7], (String)lista[8], 
 					(String)lista[9], (BigDecimal)lista[10], (BigDecimal)lista[11], (String)lista[12], (String)lista[13], (String)lista[14], 
 					(String)lista[15], (BigDecimal)lista[16], (Integer)lista[17],(String)lista[18],(BigDecimal)lista[19],(String) lista[20],
-					(String) lista[21], (Date)lista[22], (String) lista[23],(String) lista[24],(String) lista[25],(String) lista[26],(BigDecimal) lista[27]);
+					(String) lista[21], (Date)lista[22], (String) lista[23],(String) lista[24],(String) lista[25],(String) lista[26],(BigDecimal) lista[27],(BigDecimal) lista[28]);
+//			//Busco si ya fue asignado a otro requerimiento y si esta pendiente o en proceso
+//			RequerimientoReferencia requerimientoReferencia = requerimientoReferenciaService.obtenerPendienteOEnProceso(requerimientoElemento.getIdReferencia(),idReq);
+//			if(requerimientoReferencia == null)
+//				requerimientoElemento.utilizado = false;
+//			else
+//				requerimientoElemento.utilizado = true;
 			salida.add(requerimientoElemento);
 		}
 		return salida;
@@ -1478,11 +1539,12 @@ public String descargarImagenesZIP(HttpSession session,
 		private String  caja;
 		private String pathLegajo1;
 		private String fechaRegistro;
+		private Long  lote_Rearchivo_id;
 		
 		public RequerimientoElemento (BigDecimal id, String desTE, String codEl, String clasificacionDocumental, String desRef, String estEl, Date fecha1,
 				Date fecha2, String texto1, String texto2, BigDecimal num1, BigDecimal num2, String descRearchivo, String codCon,String posicionEle, 
 				String posicionCon, BigDecimal idLoteReferencia, Integer ordenRearchivo, String pathArchivoDigital, BigDecimal refRearchivo, 
-				String cliente, String pathLegajo, Date fechaHora, String enReq,String userAsig,String descripcionTarea,String estadoContenedor,BigDecimal cImagenes){
+				String cliente, String pathLegajo, Date fechaHora, String enReq,String userAsig,String descripcionTarea,String estadoContenedor,BigDecimal cImagenes,  BigDecimal lote_Rearchivo_id ){
 			if(id != null)
 				this.idReferencia = Long.parseLong(id.toString());
 			this.descripcionTipoElemento = desTE;
@@ -1529,6 +1591,12 @@ public String descargarImagenesZIP(HttpSession session,
 			this.elemento = "Leg: "+ codigoElemento;
 			
 			this.caja = "Caja: " + codigoContenedor;
+			
+			if(lote_Rearchivo_id != null) {
+				this.lote_Rearchivo_id = Long.parseLong(lote_Rearchivo_id.toString());
+				}else {
+					this.lote_Rearchivo_id = (long) 0;
+				}
 			
 			
 			}
@@ -1787,6 +1855,14 @@ public String descargarImagenesZIP(HttpSession session,
 
 		public void setFechaRegistro(String fechaRegistro) {
 			this.fechaRegistro = fechaRegistro;
+		}
+
+		public Long getLote_Rearchivo_id() {
+		    return lote_Rearchivo_id;
+		}
+
+		public void setLote_Rearchivo_id(Long lote_Rearchivo_id) {
+		    this.lote_Rearchivo_id = lote_Rearchivo_id;
 		}
 
 	}

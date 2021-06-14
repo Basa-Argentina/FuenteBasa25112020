@@ -7,6 +7,7 @@ import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -38,16 +39,16 @@ public class ReferenciaHistorico {
 	private String codigoCliente;
 	private String nombreCliente;
 	
-	private  Date fechaDesde;
-	private  Date fechaHasta;
-	private  Long codigoUsuario;
-	private  Long codigoUsuarioDia;
-	private  Long codigoReferencia;
+	private transient Date fechaDesde;
+	private transient Date fechaHasta;
+	private transient Long codigoUsuario;
+	private transient Long codigoUsuarioDia;
+	private transient Long codigoReferencia;
 
-	private  Integer numeroPagina;
-	private  Integer tamañoPagina;
-	private  String fieldOrder;
-	private  String sortOrder;
+	private transient Integer numeroPagina;
+	private transient Integer tamañoPagina;
+	private transient String fieldOrder;
+	private transient String sortOrder;
 	
 	@Id @GeneratedValue(strategy=GenerationType.AUTO)
 	public Long getId() {

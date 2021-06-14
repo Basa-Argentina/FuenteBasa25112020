@@ -25,8 +25,8 @@ public class RemitoDetalle implements Comparable<RemitoDetalle>{
 	private Remito remito;
 	private Elemento elemento;
 	private Long orden;
-	private  String codigoElemento;
-	private  String referencia;
+	private transient String codigoElemento;
+	private transient String referencia;
 
 		
 	@Id @GeneratedValue(strategy=GenerationType.AUTO)

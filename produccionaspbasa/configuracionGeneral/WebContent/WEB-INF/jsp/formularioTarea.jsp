@@ -20,11 +20,11 @@
 	</c:if> <c:if test="${accion == 'CONSULTA'}">
 		<spring:message code="formularioTransporte.titulo.modificar"
 			htmlEscape="true" />
-	</c:if></title>
+	</c:if>
+</title>
 <script type="text/javascript" src="js/jquery-1.5.js"></script>
 <script type="text/javascript" src="js/httprequest.js"></script>
-<script type="text/javascript" language="JavaScript"
-	src="js/mavalos_jquery.tools.min.js"></script>
+<script type="text/javascript" language="JavaScript" src="js/mavalos_jquery.tools.min.js"></script>
 <script type="text/javascript" src="js/ini.js" language="JavaScript"></script>
 <script type="text/javascript" src="js/jquery.displaytag-ajax-1.2.js"></script>
 <script type="text/javascript" src="js/mavalos_formulario_tarea.js"></script>
@@ -36,8 +36,7 @@
 }
 </style>
 </head>
-<body
-	onload="mostrarErrores(${errores}); mostrarAvisos(${hayAvisos || hayAvisosNeg})">
+<body onload="mostrarErrores(${errores}); mostrarAvisos(${hayAvisos || hayAvisosNeg})">
 	<div id="contenedorGeneral">
 		<jsp:include page="innerMenu.jsp" />
 		<div class="contenido" align="left">
@@ -51,28 +50,26 @@
 							Modificar Tarea
 						</c:if> <c:if test="${accion == 'CONSULTA'}">
 							Consultar Tarea
-						</c:if>
-					</font>
+						</c:if> </font>
 				</legend>
 				<br />
 				<form:form action="guardarActualizarTarea.html"
 					commandName="tareaFormulario" method="post"
 					modelAttribute="tareaFormulario">
-
+					
 					<input type="hidden" id="accion" name="accion"
 						value="<c:out value="${accion}" default="" />" />
 					<input type="hidden" id="id" name="id"
 						value="<c:out value="${tareaFormulario.id}" default="" />" />
-
-					<input type="hidden" id="clienteId" name="clienteId"
-						value="<c:out value="${clienteId}" default="" />" />
+						
+					<input type="hidden" id="clienteId" name="clienteId" value="<c:out value="${clienteId}" default="" />"/>
 					<fieldset>
 						<table width="100%">
 							<thead>
 								<tr>
 									<th align="left" id="busquedaImg"><font
-										style="color: #003090"> Datos Tarea </font> <img
-										id="busquedaImgSrcDown" src="images/skip_down.png"
+										style="color: #003090"> Datos Tarea
+									</font> <img id="busquedaImgSrcDown" src="images/skip_down.png"
 										title="<spring:message code="textos.cerrarPanel" htmlEscape="true"/>">
 										<img id="busquedaImgSrc" src="images/skip.png"
 										style="DISPLAY: none"
@@ -84,157 +81,159 @@
 						<div style="width: 100%;" id="busquedaDiv" align="center">
 							<table style="width: 100%;">
 								<tr>
-
-									<td class="texto_ti">Etiqueta</td>
-									<td class="texto_ti">Contenedor</td>
-									<td class="texto_ti">Lote</td>
-									<td class="texto_ti">Cliente</td>
+													
+													<td class="texto_ti">
+														Etiqueta
+													</td>
+													<td class="texto_ti">
+														Contenedor
+													</td>													
+													<td class="texto_ti">
+														Lote
+													</td>
+													<td class="texto_ti">
+														Cliente
+													</td>
+												</tr>
+											<tr>
+												<td class="texto_ti">
+														<input type="text" readonly="readonly" id="etiqueta" name="etiqueta" value="${tareaFormulario.elemento.codigo}" />
+												</td>																					
+													<td class="texto_ti">
+														<input type="text" readonly="readonly" id="codConte" name="codConte" value="${tareaFormulario.elemento.contenedor.codigo}" />
+													</td>
+													<td class="texto_ti">
+														<input type="text" readonly="readonly" id="codLote" name="codLote" value="${tareaFormulario.loteReferencia.codigo}" />
+													</td>	
+													<td class="texto_ti">
+														<input type="text" readonly="readonly" id="codCliente" name="codCliente" value="${tareaFormulario.elemento.clienteEmp.razonSocialONombreYApellido}" />
+													</td>	
+											</tr>
+											<tr>
+												<td class="texto_ti">
+													<spring:message code="formularioLoteReferencia.referencia.clasificacionDocumental" htmlEscape="true"/>
+												</td>
+												<td class="texto_ti">
+													<c:if test="${tareaFormulario.indiceIndividual}">
+														<c:out value="${tareaFormulario.clasificacionDocumental.individualTexto1Titulo}" escapeXml="true"/>
+													</c:if>
+													<c:if test="${!tareaFormulario.indiceIndividual}">
+														<c:out value="${tareaFormulario.clasificacionDocumental.grupalTexto1Titulo}" escapeXml="true"/>
+													</c:if>
+												</td>													
+												<td class="texto_ti">
+													<c:if test="${tareaFormulario.indiceIndividual}">
+														<c:out value="${tareaFormulario.clasificacionDocumental.individualFecha1Titulo}" escapeXml="true"/>
+													</c:if>
+													<c:if test="${!tareaFormulario.indiceIndividual}">
+														<c:out value="${tareaFormulario.clasificacionDocumental.grupalFecha1Titulo}" escapeXml="true"/>
+													</c:if>
+												</td>
+												<td class="texto_ti">
+													<c:if test="${tareaFormulario.indiceIndividual}">
+														<c:out value="${tareaFormulario.clasificacionDocumental.individualNumero1Titulo}" escapeXml="true"/>
+													</c:if>
+													<c:if test="${!tareaFormulario.indiceIndividual}">
+														<c:out value="${tareaFormulario.clasificacionDocumental.grupalNumero1Titulo}" escapeXml="true"/>
+													</c:if>
+												</td>
+											</tr>
+											<tr>
+												<td class="texto_ti">
+													<input type="text" readonly="readonly" id="indDoc" name="indDoc" value="${tareaFormulario.clasificacionDocumental.nombre}" />
+												</td>																					
+												<td class="texto_ti">
+													<input type="text" readonly="readonly" id="texto1" name="texto1" value="${tareaFormulario.texto1}" />
+												</td>
+												<td class="texto_ti">
+													<input type="text" readonly="readonly" id="fecha1" name="fecha1" value="${tareaFormulario.fecha1Str}" />
+												</td>	
+												<td class="texto_ti">
+													<input type="text" readonly="readonly" id="numero1" name="numero1" value="${tareaFormulario.numero1}" />
+												</td>
+											</tr>
+								<tr>
+								<tr>
+								
+															
+									<td class="texto_ti">Usuario Asignado
+													</td>
+													<td class="texto_ti" colspan="2">Descripcion Tarea
+													</td>
 								</tr>
 								<tr>
-									<td class="texto_ti"><input type="text"
-										readonly="readonly" id="etiqueta" name="etiqueta"
-										value="${tareaFormulario.elemento.codigo}" /></td>
-									<td class="texto_ti"><input type="text"
-										readonly="readonly" id="codConte" name="codConte"
-										value="${tareaFormulario.elemento.contenedor.codigo}" /></td>
-									<td class="texto_ti"><input type="text"
-										readonly="readonly" id="codLote" name="codLote"
-										value="${tareaFormulario.loteReferencia.codigo}" /></td>
-									<td class="texto_ti"><input type="text"
-										readonly="readonly" id="codCliente" name="codCliente"
-										value="${tareaFormulario.elemento.clienteEmp.razonSocialONombreYApellido}" />
-									</td>
-								</tr>
-								<tr>
-									<td class="texto_ti"><spring:message
-											code="formularioLoteReferencia.referencia.clasificacionDocumental"
-											htmlEscape="true" /></td>
-									<td class="texto_ti"><c:if
-											test="${tareaFormulario.indiceIndividual}">
-											<c:out
-												value="${tareaFormulario.clasificacionDocumental.individualTexto1Titulo}"
-												escapeXml="true" />
-										</c:if> <c:if test="${!tareaFormulario.indiceIndividual}">
-											<c:out
-												value="${tareaFormulario.clasificacionDocumental.grupalTexto1Titulo}"
-												escapeXml="true" />
-										</c:if></td>
-									<td class="texto_ti"><c:if
-											test="${tareaFormulario.indiceIndividual}">
-											<c:out
-												value="${tareaFormulario.clasificacionDocumental.individualFecha1Titulo}"
-												escapeXml="true" />
-										</c:if> <c:if test="${!tareaFormulario.indiceIndividual}">
-											<c:out
-												value="${tareaFormulario.clasificacionDocumental.grupalFecha1Titulo}"
-												escapeXml="true" />
-										</c:if></td>
-									<td class="texto_ti"><c:if
-											test="${tareaFormulario.indiceIndividual}">
-											<c:out
-												value="${tareaFormulario.clasificacionDocumental.individualNumero1Titulo}"
-												escapeXml="true" />
-										</c:if> <c:if test="${!tareaFormulario.indiceIndividual}">
-											<c:out
-												value="${tareaFormulario.clasificacionDocumental.grupalNumero1Titulo}"
-												escapeXml="true" />
-										</c:if></td>
-								</tr>
-								<tr>
-									<td class="texto_ti"><input type="text"
-										readonly="readonly" id="indDoc" name="indDoc"
-										value="${tareaFormulario.clasificacionDocumental.nombre}" />
-									</td>
-									<td class="texto_ti"><input type="text"
-										readonly="readonly" id="texto1" name="texto1"
-										value="${tareaFormulario.texto1}" /></td>
-									<td class="texto_ti"><input type="text"
-										readonly="readonly" id="fecha1" name="fecha1"
-										value="${tareaFormulario.fecha1Str}" /></td>
-									<td class="texto_ti"><input type="text"
-										readonly="readonly" id="numero1" name="numero1"
-										value="${tareaFormulario.numero1}" /></td>
-								</tr>
-								<tr>
-								<tr>
-
-
-									<td class="texto_ti">Usuario Asignado</td>
-									<td class="texto_ti" colspan="2">Descripcion Tarea</td>
-								</tr>
-								<tr>
-
-									<td class="texto_ti"><input type="text" id="codigoUsuario"
-										name="codigoUsuario" maxlength="6" style="width: 90px;"
-										value="<c:out value="${tareaFormulario.codigoUsuario}" default="" />"
-										<c:if test="${accion == 'CONSULTA'}">
+									
+											<td class="texto_ti">
+											
+											<input type="text" id="codigoUsuario"
+											name="codigoUsuario" maxlength="6" style="width: 90px;"
+											value="<c:out value="${tareaFormulario.codigoUsuario}" default="" />"
+											<c:if test="${accion == 'CONSULTA'}">
 															readonly="readonly"
 														</c:if> />
-										&nbsp;&nbsp;
-										<button type="button" id="botonPopupUsuario"
-											title="<spring:message code="textos.buscar" htmlEscape="true"/>"
-											<c:if test="${accion == 'CONSULTA'}">
+											&nbsp;&nbsp;
+											<button type="button" id="botonPopupUsuario"
+												title="<spring:message code="textos.buscar" htmlEscape="true"/>"
+												<c:if test="${accion == 'CONSULTA'}">
 														disabled="disabled"
 													</c:if>>
-											<img src="<%=request.getContextPath()%>/images/buscar.png">
-										</button>&nbsp;&nbsp; <label id="codigoUsuarioLabel"
-										for="codigoUsuario"> <c:out value="" default="" />
-									</label></td>
+												<img src="<%=request.getContextPath()%>/images/buscar.png">
+											</button>&nbsp;&nbsp; <label id="codigoUsuarioLabel"
+											for="codigoUsuario"> <c:out
+													value=""
+													default="" /> </label>
+											</td>
 
-									<td class="texto_ti" colspan="2"><input type="text"
-										id="descripcionTarea" name="descripcionTarea" tabindex="2"
-										style="width: 455px;"
-										value='<c:out value="${tareaFormulario.descripcionTarea}" default=""/>'
-										<c:if test="${accion == 'CONSULTA'}">
+												<td class="texto_ti" colspan="2">
+												<input type="text"
+													id="descripcionTarea" name="descripcionTarea"
+													tabindex="2" style="width: 455px;"
+													value='<c:out value="${tareaFormulario.descripcionTarea}" default=""/>'
+													<c:if test="${accion == 'CONSULTA'}">
 															disabled="disabled"
 														</c:if> />
-									</td>
+												</td>
+																						
+											</table>
+											<br style="font-size: xx-small;" />
+			<c:if test="${accion != 'CONSULTA'}">
+				<div align="center">
+					<button name="guardar" type="button" onclick="guardarYSalir();"
+						class="botonCentrado">
+						<img src="<%=request.getContextPath()%>/images/ok.png">
+						<spring:message code="botones.guardar" htmlEscape="true" />
+					</button>
+					&nbsp;
+					<button name="cancelar" type="button" onclick="volverCancelar();"
+						class="botonCentrado">
+						<img src="<%=request.getContextPath()%>/images/cancelar.png">
+						<spring:message code="botones.cancelar" htmlEscape="true" />
+					</button>
+				</div>
+			</c:if>
+										</div></fieldset>
+							</form:form>
+							<fieldset>
+							<table width="100%">
+				            	<thead>
+					            	<tr>
+					              		<th align="left" id="busquedaImg2" >						  
+							        		<font style="color:#003090">
+							        			Archivo Digital
+							        		</font>
+							        		<img id="busquedaImgSrcDown2" src="images/skip_down.png" title="<spring:message code="textos.cerrarPanel" htmlEscape="true"/>">
+							        		<img id="busquedaImgSrc2" src="images/skip.png"  style="DISPLAY: none" title="<spring:message code="textos.abrirPanel" htmlEscape="true"/>">					 
+					              		</th>
+								 	</tr>
+								</thead>
 							</table>
-							<br style="font-size: xx-small;" />
-							<c:if test="${accion != 'CONSULTA'}">
-								<div align="center">
-									<button name="guardar" type="button" onclick="guardarYSalir();"
-										class="botonCentrado">
-										<img src="<%=request.getContextPath()%>/images/ok.png">
-										<spring:message code="botones.guardar" htmlEscape="true" />
-									</button>
-									&nbsp;
-									<button name="cancelar" type="button"
-										onclick="volverCancelar();" class="botonCentrado">
-										<img src="<%=request.getContextPath()%>/images/cancelar.png">
-										<spring:message code="botones.cancelar" htmlEscape="true" />
-									</button>
+							<c:if test="${tareaFormulario.pathLegajo!=null && tareaFormulario.pathLegajo!=''}" >
+								<div style="background-color: #f1e87d; WIDTH: auto;"  id="busquedaDiv2" align="center">
+									<iframe id="iframeVerLegajo" src="verLegajo.html?fileName=${tareaFormulario.pathLegajo}" style="width: 100%; height: 400px;"></iframe>
 								</div>
 							</c:if>
-						</div>
+						</fieldset>
 					</fieldset>
-				</form:form>
-				<fieldset>
-					<table width="100%">
-						<thead>
-							<tr>
-								<th align="left" id="busquedaImg2"><font
-									style="color: #003090"> Archivo Digital </font> <img
-									id="busquedaImgSrcDown2" src="images/skip_down.png"
-									title="<spring:message code="textos.cerrarPanel" htmlEscape="true"/>">
-									<img id="busquedaImgSrc2" src="images/skip.png"
-									style="DISPLAY: none"
-									title="<spring:message code="textos.abrirPanel" htmlEscape="true"/>">
-								</th>
-							</tr>
-						</thead>
-					</table>
-					<c:if
-						test="${tareaFormulario.pathLegajo!=null && tareaFormulario.pathLegajo!=''}">
-						<div style="background-color: #f1e87d; WIDTH: auto;"
-							id="busquedaDiv2" align="center">
-							<iframe id="iframeVerLegajo"
-								src="verLegajo.html?fileName=${tareaFormulario.pathLegajo}"
-								style="width: 100%; height: 400px;"></iframe>
-						</div>
-					</c:if>
-				</fieldset>
-			</fieldset>
 			<br style="font-size: xx-small;" />
 			<c:if test="${accion == 'CONSULTA'}">
 				<div align="center">
@@ -251,13 +250,12 @@
 	</div>
 	<div id="darkLayer" class="darkClassWithoutHeight"
 		style="height: 130%;">&nbsp;</div>
-	<jsp:include page="fieldErrors.jsp" />
-	<jsp:include page="fieldAvisos.jsp" />
+	<jsp:include page="fieldErrors.jsp"/>	
+	<jsp:include page="fieldAvisos.jsp"/>
 	<div class="selectorDiv"></div>
-	<div id="pop" style="display: none">
-		<img src="<%=request.getContextPath()%>/images/wait.gif" border="0"
-			width="20px" height="20px"> <label><spring:message
-				code="textos.espere" htmlEscape="true" /></label>
-	</div>
+		<div id="pop" style="display:none">
+			<img src="<%=request.getContextPath()%>/images/wait.gif" border="0" width="20px" height="20px">
+			<label><spring:message code="textos.espere" htmlEscape="true"/></label>	     
+		</div>
 </body>
 </html>

@@ -7,15 +7,19 @@
  */
 package com.security.accesoDatos.jerarquias.hibernate;
 
-
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
 import com.security.accesoDatos.hibernate.GestorHibernate;
 import com.security.accesoDatos.hibernate.HibernateControl;
 import com.security.accesoDatos.jerarquias.interfaz.OperacionReferenciaService;
@@ -69,5 +73,37 @@ public class OperacionReferenciaServiceImp extends GestorHibernate<OperacionElem
         	}
         }
     }
+	
+	private void rollback(Transaction tx, Exception e, String mensaje){
+		//si ocurre algún error intentamos hacer rollback
+		if (tx != null && tx.isActive()) {
+			try {
+				tx.rollback();
+	        } catch (HibernateException e1) {
+	        	logger.error("no se pudo hacer rollback "+getClaseModelo().getName(), e1);
+	        }
+	        logger.error(mensaje+" "+getClaseModelo().getName(), e);
+		}
+	}
+	
+	private Date getDateFrom(Date from) {
+		Calendar calendarInicio = Calendar.getInstance();
+		calendarInicio.setTime(from);
+		calendarInicio.set(Calendar.HOUR_OF_DAY, 0);
+		calendarInicio.set(Calendar.MINUTE, 0);
+		calendarInicio.set(Calendar.SECOND, 0);
+		calendarInicio.set(Calendar.MILLISECOND, 0);
+		return calendarInicio.getTime();
+	}
+
+	private Date getDateTo(Date to) {
+		Calendar calendarFin = Calendar.getInstance();
+		calendarFin.setTime(to);
+		calendarFin.set(Calendar.HOUR_OF_DAY, 23);
+		calendarFin.set(Calendar.MINUTE, 59);
+		calendarFin.set(Calendar.SECOND, 59);
+		calendarFin.set(Calendar.MILLISECOND, 999);
+		return calendarFin.getTime();
+	}
 	
 }

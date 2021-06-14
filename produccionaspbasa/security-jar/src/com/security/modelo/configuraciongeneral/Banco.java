@@ -7,17 +7,17 @@
  */
 package com.security.modelo.configuraciongeneral;
 
+import static com.security.recursos.Configuracion.formatoFechaFormularios;
 
+import java.text.ParseException;
+import java.util.Date;
 
-
-
-
-
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
+import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 
 
@@ -30,7 +30,7 @@ public class Banco{
 	private Long id;
 	private String nombreBanco;
 	private Boolean habilitado;
-	private  Long idBanco;
+	private transient Long idBanco;
 	
 	public Banco() {
 		super();

@@ -54,11 +54,12 @@ import com.security.utils.ScreenMessageImp;
 			}
 		)
 public class FormUserController {
-
+//	private static Logger logger = Logger.getLogger(FormUserController.class);
 	private ListaUserController listaUserController;
 	private UserService userService;
 	private UserValidator validator;
 	private GroupService groupService;
+//	private MailManager mailManager;
 	
 	/**
 	 * Setea el servicio de User.
@@ -81,7 +82,10 @@ public class FormUserController {
 	public void setGroupService(GroupService groupService) {
 		this.groupService = groupService;
 	}
-
+//	@Autowired
+//	public void setMailManager(MailManager mailManager){
+//		this.mailManager=mailManager;
+//	}
 	@Autowired
 	public void setValidator(UserValidator validator) {
 		this.validator = validator;
@@ -252,6 +256,7 @@ public class FormUserController {
 				ScreenMessage mensajeClienteReg = new ScreenMessageImp("notif.user.modificado", null);
 				avisos.add(mensajeClienteReg); //agrego el mensaje a la coleccion
 			}
+			
 			if(!"".equals(password)){
 				//ClienteAsp
 				List<String> clienteList = new ArrayList<String>();
@@ -327,7 +332,8 @@ public class FormUserController {
 	private String encriptarString(String s){
 		if(!"".equals(s)){
 			org.springframework.security.providers.encoding.ShaPasswordEncoder passEnc=new org.springframework.security.providers.encoding.ShaPasswordEncoder();
-			return  passEnc.encodePassword(s, null);
+			String passEncriptado = passEnc.encodePassword(s, null);
+			return passEncriptado;
 		}
 		return null;
 	}

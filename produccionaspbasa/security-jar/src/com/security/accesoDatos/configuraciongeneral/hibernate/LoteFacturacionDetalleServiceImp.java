@@ -156,6 +156,8 @@ public class LoteFacturacionDetalleServiceImp extends GestorHibernate<LoteFactur
         	if(loteFacturacionDetalle!=null){
         		if(loteFacturacionDetalle.getLoteFacturacion() !=null)
 	        		crit.add(Restrictions.eq("loteFacturacion.id", loteFacturacionDetalle.getLoteFacturacion().getId()));
+//        		if(loteFacturacionDetalle.getElemento() !=null)
+//	        		crit.createCriteria("elemento").add(Restrictions.eq("codigo", loteFacturacionDetalle.getElemento().getCodigo()));
         	}
         	if(cliente != null){
         		crit.add(Restrictions.eq("loteFacturacion.clienteAsp", cliente));
@@ -189,6 +191,8 @@ public class LoteFacturacionDetalleServiceImp extends GestorHibernate<LoteFactur
         	if(loteFacturacionDetalle!=null){
         		if(loteFacturacionDetalle.getLoteFacturacion() !=null)
 	        		crit.add(Restrictions.eq("loteFacturacion.id", loteFacturacionDetalle.getLoteFacturacion().getId()));
+//        		if(loteFacturacionDetalle.getElemento() !=null)
+//	        		crit.createCriteria("elemento").add(Restrictions.eq("codigo", loteFacturacionDetalle.getElemento().getCodigo()));
         	}
         	if(cliente != null){
         		crit.add(Restrictions.eq("loteFacturacion.clienteAsp", cliente));

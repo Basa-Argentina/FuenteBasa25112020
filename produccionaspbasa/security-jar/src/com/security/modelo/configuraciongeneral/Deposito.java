@@ -38,13 +38,13 @@ public class Deposito{
 	private Float subTotal;
 	private Float subDisponible;
 	private Set<Seccion> secciones;
-	private  String accion;
-	private  Long idBarrio;
-	private  Long idDireccion;	
-	private  Long idSucursal;
-	private  String codigoDeposito;
-	private  String codigoSucursal;
-	private  String codigoEmpresa;
+	private transient String accion;
+	private transient Long idBarrio;
+	private transient Long idDireccion;	
+	private transient Long idSucursal;
+	private transient String codigoDeposito;
+	private transient String codigoSucursal;
+	private transient String codigoEmpresa;
 	
 	public Deposito(){
 		super();

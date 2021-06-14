@@ -17,6 +17,7 @@ import org.springframework.stereotype.Component;
 import com.security.accesoDatos.interfaz.UserService;
 import com.security.modelo.administracion.ClienteAsp;
 import com.security.modelo.configuraciongeneral.Empleado;
+import com.security.modelo.configuraciongeneral.Referencia;
 import com.security.modelo.general.Persona;
 import com.security.modelo.seguridad.Group;
 import com.security.modelo.seguridad.PasswordHistory;
@@ -246,6 +247,7 @@ public class UserServiceImp extends GestorHibernate<User> implements UserService
 		try {
 			//obtenemos una sesión
 			session = getSession();
+			//session.clear();
 			Criteria crit = session.createCriteria(getClaseModelo());
 			crit.add(Restrictions.eq("username", username)); 			
 			return (User) crit.uniqueResult();
@@ -423,9 +425,10 @@ public class UserServiceImp extends GestorHibernate<User> implements UserService
         	//filtro value
         	Criteria c2 = c.createCriteria("persona");	
         	if(val!=null){
-
+//	        	c.add(Restrictions.ilike("username", val+"%"));
     
 	        	c2.add(Restrictions.or(Restrictions.ilike("nombre", val+"%"), Restrictions.ilike("apellido", val+"%")));
+	        	//c2.addOrder(Order.desc("apellido"));
         	}
         	//filtro cliente
         	c.add(Restrictions.eq("cliente", cliente));
@@ -455,7 +458,7 @@ public class UserServiceImp extends GestorHibernate<User> implements UserService
         	Criteria c = session.createCriteria(getClaseModelo());
         	//filtro value
         	if(val!=null){
-
+//	        	c.add(Restrictions.ilike("username", val+"%"));
 	        	Criteria c2 = c.createCriteria("persona");	    
 	        	c2.add(Restrictions.or(Restrictions.ilike("nombre", val+"%"), Restrictions.ilike("apellido", val+"%")));
         	}

@@ -6,13 +6,17 @@ import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 import org.springframework.web.bind.WebDataBinder;
 
 import com.security.accesoDatos.configuraciongeneral.interfaz.LecturaService;
+import com.security.modelo.administracion.ClienteAsp;
 import com.security.modelo.configuraciongeneral.Lectura;
+import com.security.modelo.configuraciongeneral.Remito;
+import com.security.modelo.seguridad.User;
 /**
  * 
  * @author Victor Kenis
@@ -57,5 +61,9 @@ public class LecturaValidator implements Validator {
 		if (lectura.getDetalles() == null || lectura.getDetalles().size() == 0) {
 			errors.rejectValue("detalles","formularioLectura.errorDetallesVacios");
 		}
+	}
+	
+	private ClienteAsp obtenerClienteAspUser(){
+		return ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getCliente();
 	}
 }

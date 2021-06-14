@@ -157,10 +157,10 @@ public class ExcelHssfView implements BinaryExportView
             int colCount = 0;
             while (colCount <= colNum)
             {
-
+              //  sheet.autoSizeColumn((short) colCount++);
                 sheet.autoSizeColumn(0);
             
-
+               // sheet.autoSizeColumn(colCount);
             }
 
             wb.write(out);

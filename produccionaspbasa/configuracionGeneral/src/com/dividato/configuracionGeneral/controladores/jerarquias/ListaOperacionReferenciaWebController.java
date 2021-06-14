@@ -34,6 +34,7 @@ import com.security.accesoDatos.jerarquias.interfaz.OperacionReferenciaService;
 import com.security.accesoDatos.jerarquias.interfaz.OperacionService;
 import com.security.modelo.administracion.ClienteAsp;
 import com.security.modelo.configuraciongeneral.Empresa;
+import com.security.modelo.configuraciongeneral.Sucursal;
 import com.security.modelo.general.PersonaFisica;
 import com.security.modelo.jerarquias.Operacion;
 import com.security.modelo.jerarquias.OperacionElemento;
@@ -173,10 +174,7 @@ public class ListaOperacionReferenciaWebController {
 	private void contarElementosProcesados(Operacion operacion, HttpSession session, Map<String,Object> atributos){
 		ArrayList<OperacionElemento> lista = (ArrayList<OperacionElemento>) session.getAttribute("operacionReferenciasSession");
 		if(lista!=null){
-			int cantidadProcesados = 0;
-			int cantidadPendientes=0;
-			int cantidadOmitidos =0;
-			int cantidadProcesadosParaTraspaso =0;
+			int cantidadProcesados = 0, cantidadPendientes=0, cantidadOmitidos =0, cantidadProcesadosParaTraspaso =0;
 			boolean traspaso = false;
 			if(operacion!=null && operacion.getTipoOperacion()!=null && operacion.getTipoOperacion().getGeneraOperacionAlCerrarse().booleanValue())
 				traspaso = true;
@@ -192,10 +190,7 @@ public class ListaOperacionReferenciaWebController {
 						cantidadPendientes++;
 				}
 			}
-			boolean finalizarOK = false;
-			boolean finalizarError = false;
-			boolean traspasar = false;
-			boolean procesando = false;
+			boolean finalizarOK = false, finalizarError = false, traspasar = false, procesando = false;
 			if(cantidadProcesados == lista.size())
 				finalizarOK = true;
 			if(!finalizarOK && (cantidadProcesados + cantidadOmitidos) == lista.size())

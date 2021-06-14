@@ -16,6 +16,7 @@ import java.util.Set;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -28,10 +29,12 @@ import com.security.accesoDatos.interfaz.BarrioService;
 import com.security.accesoDatos.interfaz.LocalidadService;
 import com.security.accesoDatos.interfaz.PaisService;
 import com.security.accesoDatos.interfaz.ProvinciaService;
+import com.security.modelo.administracion.ClienteAsp;
 import com.security.modelo.general.Barrio;
 import com.security.modelo.general.Localidad;
 import com.security.modelo.general.Pais;
 import com.security.modelo.general.Provincia;
+import com.security.modelo.seguridad.User;
 import com.security.utils.ScreenMessage;
 import com.security.utils.ScreenMessageImp;
 

@@ -22,7 +22,7 @@ import org.springframework.stereotype.Component;
 
 import com.security.accesoDatos.interfaz.BarrioService;
 import com.security.modelo.general.Barrio;
-
+import com.security.modelo.general.Localidad;
 
 /**
  * @author Ezequiel Beccaria

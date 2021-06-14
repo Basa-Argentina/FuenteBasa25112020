@@ -18,22 +18,28 @@ $(document).ready(function() {
 	     return false;
 	    } 
 	};
-	
+	  $('#boton-cargar').click(function(){                       
+	        /*Obtener datos almacenados*/
+	        var sR = localStorage.getItem("seccionReferencia");
+	        
+	        /*Mostrar datos almacenados*/      
+	        document.getElementById("#seccionReferencias").innerHTML = sR;
+	      
+	    });   
+
+	  
 	$("#btnGuardar").click(function(){
-		
 		$('html, body').animate({ scrollTop: 100 }, 'slow');
 		$("#btnGuardar").attr("disabled","disabled");
 		$("#btnGuardarContinuar").attr("disabled","disabled");
 		$("#btnCancelar").attr("disabled","disabled");
 		var div = $("#pop");
 		popupOnDiv(div,'darkLayer');
-		
 		document.forms[0].submit();
-		
 	});
 	
+	
 	$("#btnGuardarContinuar").click(function(){
-		
 		$('html, body').animate({ scrollTop: 100 }, 'slow');
 		$("#btnGuardarContinuar").attr("disabled","disabled");
 		$("#btnGuardar").attr("disabled","disabled");
@@ -58,8 +64,8 @@ $(document).ready(function() {
 		$('#texto1Padre').val($('#seccionReferencias').contents().find('#texto1').val());
 		$('#numero2Padre').val($('#seccionReferencias').contents().find('#numero2').val());
 		$('#texto2Padre').val($('#seccionReferencias').contents().find('#texto2').val());
+		
 		document.forms[0].submit();
-	
 	});
 	
 	$("#btnCancelar").click(function(){
@@ -146,6 +152,8 @@ function getClienteCallBack(sResponseText){
 	if (codclient1 == "2231"){
 	
 	$("#btnGuardarContinuar").addClass("hiddenInput");
+	
+	
 	}
 	
 	try{

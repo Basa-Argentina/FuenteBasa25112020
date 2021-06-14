@@ -15,6 +15,8 @@ import com.security.modelo.configuraciongeneral.AfipCondIva;
  *
  */
 public interface AfipCondIvaService extends GeneralServiceInterface<AfipCondIva>{
+	//public List<AfipCondIva> obtenerLicenciaPorFiltroLicencia(AfipCondIva AfipCondIva);
+    //public List<AfipCondIva> obtenerLicenciaPorFecha(Date fechaDesde, Date fechaHasta, Cliente cliente);
 	public Boolean guardarAfipCondIva(AfipCondIva afipCondIva);
 	public Boolean actualizarAfipCondIva(AfipCondIva afipCondIva);
 	public Boolean eliminarAfipCondIva(AfipCondIva afipCondIva);

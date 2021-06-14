@@ -47,9 +47,9 @@ public class AppLogServiceImp extends GestorHibernate<AppLog> implements AppLogS
 			session = getSession();
 			tx = session.getTransaction();
 			tx.begin();
-			//session.save(appLog);
+			session.save(appLog);
 			tx.commit();
-			session.flush();
+			session.flush(); //TODO: verificar si esto es necesario...
 		} 
 		catch (RuntimeException e) {
 			rollback(tx, e, "no se pudo guardar");

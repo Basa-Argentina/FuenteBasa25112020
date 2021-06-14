@@ -182,7 +182,7 @@ public class FacturaServiceImp extends GestorHibernate<Factura> implements Factu
 			tx = session.getTransaction();
 			tx.begin();
 			//Se traen los detalles de la factura
-			listaFacturaDetalle =facturaDetalleService.listarFacturaDetallePorFactura(factura, factura.getClienteAsp());
+			listaFacturaDetalle = (List<FacturaDetalle>)facturaDetalleService.listarFacturaDetallePorFactura(factura, factura.getClienteAsp());
 			if(listaFacturaDetalle != null && listaFacturaDetalle.size() > 0)
 			{
 				for(FacturaDetalle detalle: listaFacturaDetalle)
@@ -298,7 +298,7 @@ public class FacturaServiceImp extends GestorHibernate<Factura> implements Factu
 				factura.getDetallesFactura().clear();
 				session.save(factura);
 			}else{
-		
+				//session.update(loteFacturacion);
 				//borramos las detalles eliminadas
 				List<FacturaDetalle> lotes = new ArrayList<FacturaDetalle>(facturaDetalleService.listarFacturaDetallePorFactura(factura, factura.getClienteAsp()));
 
@@ -317,12 +317,14 @@ public class FacturaServiceImp extends GestorHibernate<Factura> implements Factu
 						{
 							session.delete(det);
 						}
+						//loteFacturacion.getDetalles().remove(det);
 					}
 				}
 				factura.setDetallesFactura(null);
 				session.update(factura);
 				factura.setDetallesFactura(new HashSet<FacturaDetalle>());
 				//rearchivos agregadas
+				//detalles = CollectionUtils.subtract(detalles,loteFacturacion.getDetalles());
 			}
 			//guardamos las nuevas rearchivos
 			for(FacturaDetalle det : detalles)

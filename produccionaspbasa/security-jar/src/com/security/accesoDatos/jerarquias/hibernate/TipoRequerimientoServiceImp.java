@@ -248,7 +248,16 @@ public class TipoRequerimientoServiceImp extends GestorHibernate<TipoRequerimien
 			//obtenemos una sesión
 			session = getSession();
 			
-
+//			Criteria c = session.createCriteria(getClaseModelo());			
+//			//filtro por codigo
+//			if(codigo != null && !"".equals(codigo))
+//				c.add(Restrictions.eq("codigo", codigo));
+//			else
+//				return null;
+//			//filtro por cliente
+//			c.add(Restrictions.eq("clienteAsp", clienteAsp));
+//			//Seteo propiedades de la consulta
+//			c.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 			
 			String consulta = "SELECT DISTINCT tr FROM TipoRequerimiento tr WHERE 1 = 1 ";
 							if(codigo != null && !"".equals(codigo)) {

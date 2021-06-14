@@ -32,6 +32,8 @@ import com.security.modelo.administracion.ClienteAsp;
 import com.security.modelo.configuraciongeneral.AfipTipoComprobante;
 import com.security.modelo.configuraciongeneral.ClienteEmp;
 import com.security.modelo.configuraciongeneral.Empresa;
+import com.security.modelo.configuraciongeneral.Sucursal;
+import com.security.modelo.general.PersonaFisica;
 import com.security.modelo.seguridad.User;
 
 /**
@@ -49,7 +51,6 @@ public class ClientesCodigoYCodigoCondicionAfipServlet extends HttpServlet{
 	 * clienteId = id cliente ASP
 	 * @return clienteEmp.nomORazonSocial;*;clienteEmp.afipCondIva.codigo;*;..."option afipTiposComprobante option"...
 	 */
-	@Override
 	public void doGet (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/xml"); 
 		response.setCharacterEncoding("ISO-8859-1"); //seteo el encoding de los caracteres 
@@ -107,8 +108,8 @@ public class ClientesCodigoYCodigoCondicionAfipServlet extends HttpServlet{
 							("001".equals(tipo.getCodigo()) || "002".equals(tipo.getCodigo()) || "003".equals(tipo.getCodigo()) )){
 						respuestaBuilder.append(" disabled=\"disabled\" ");
 					}else{
-						// solo si la empresa no tiene condicion de iva 
-
+						//TODO solo si la empresa no tiene condicion de iva 
+						//respuestaBuilder.append(" disabled=\"disabled\"");
 					}
 					respuestaBuilder.append(">")
 						.append(tipo.getDescripcion())
@@ -147,7 +148,12 @@ public class ClientesCodigoYCodigoCondicionAfipServlet extends HttpServlet{
 	private ClienteAsp obtenerClienteAsp(){
 		return obtenerUser().getCliente();
 	}
-
+	private Empresa obtenerEmpresaDefault(){
+		return ((PersonaFisica)obtenerClienteAsp().getContacto()).getEmpresaDefecto();
+	}
+	private Sucursal obtenerSucursalDefault(){
+		return ((PersonaFisica)obtenerClienteAsp().getContacto()).getSucursalDefecto();
+	}
 	
 	private List<AfipTipoComprobante> obtenerAfipTiposComprobantes(AfipTipoComprobante afipTipoComprobante){
 		AfipTipoComprobanteService afipTipoComprobanteService = new AfipTipoComprobanteServiceImp(HibernateControl.getInstance());

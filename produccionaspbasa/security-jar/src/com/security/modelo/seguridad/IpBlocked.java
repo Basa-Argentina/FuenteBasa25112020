@@ -7,7 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Transient;
 /**
  * 
  * @author Gabriel Mainero
@@ -16,11 +15,8 @@ import javax.persistence.Transient;
  */
 @Entity(name="ipsblocked")
 public class IpBlocked{
-	@Transient
 	private Long id;
-	@Transient
 	private Date timeBlocked;
-	@Transient
 	private String ip;
 
 	@Id @GeneratedValue(strategy=GenerationType.AUTO)        

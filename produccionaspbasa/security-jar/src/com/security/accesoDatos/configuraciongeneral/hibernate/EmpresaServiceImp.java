@@ -22,6 +22,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.transform.ResultTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -29,8 +30,9 @@ import com.security.accesoDatos.configuraciongeneral.interfaz.EmpresaService;
 import com.security.accesoDatos.hibernate.GestorHibernate;
 import com.security.accesoDatos.hibernate.HibernateControl;
 import com.security.modelo.administracion.ClienteAsp;
+import com.security.modelo.configuraciongeneral.ClienteEmp;
 import com.security.modelo.configuraciongeneral.Empresa;
-
+import com.security.modelo.configuraciongeneral.Serie;
 
 /**
  * @author Gonzalo Noriega
@@ -171,6 +173,12 @@ public class EmpresaServiceImp extends GestorHibernate<Empresa> implements Empre
         try {
         	//obtenemos una sesión
 			session = getSession();
+			
+			
+//        	Criteria crit = session.createCriteria(getClaseModelo());
+//        	crit.add(Restrictions.eq("codigo", codigo));
+//        	if(cliente != null)
+//        		crit.add(Restrictions.eq("cliente", cliente));
         	
         	String consulta = "SELECT emp FROM Empresa emp WHERE emp.codigo = '" + codigo + "' ";
         		if(cliente != null)
@@ -207,6 +215,12 @@ public class EmpresaServiceImp extends GestorHibernate<Empresa> implements Empre
            	crit.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
            	crit.setFetchMode("afipCondIva", FetchMode.JOIN);
         	
+//        	String consulta = "SELECT emp FROM Empresa emp JOIN FETCH emp.afipCondIva WHERE emp.codigo = '" + codigo + "' ";
+//        		if(cliente != null)
+//        			consulta += "AND emp.cliente.id = " + cliente.getId().longValue() + " ";
+//        		
+//        	Query query = session.createQuery(consulta);
+        	
             return (Empresa) crit.uniqueResult();
         } catch (HibernateException hibernateException) {
         	logger.error("No se pudo listar ", hibernateException);
@@ -226,6 +240,12 @@ public class EmpresaServiceImp extends GestorHibernate<Empresa> implements Empre
         try {
         	//obtenemos una sesión
 			session = getSession();
+			
+			
+//        	Criteria crit = session.createCriteria(getClaseModelo());
+//        	crit.add(Restrictions.eq("codigo", codigo));
+//        	if(cliente != null)
+//        		crit.add(Restrictions.eq("cliente", cliente));
         	
         	String consulta = "SELECT emp FROM Empresa emp WHERE emp.codigo = '" + codigo + "' ";
         		if(cliente != null)

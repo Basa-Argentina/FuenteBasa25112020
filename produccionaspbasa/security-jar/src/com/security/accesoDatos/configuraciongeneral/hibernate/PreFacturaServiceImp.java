@@ -8,6 +8,7 @@
 package com.security.accesoDatos.configuraciongeneral.hibernate;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -22,6 +23,8 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.security.accesoDatos.configuraciongeneral.interfaz.PlantillaFacturacionDetalleService;
+import com.security.accesoDatos.configuraciongeneral.interfaz.PlantillaFacturacionService;
 import com.security.accesoDatos.configuraciongeneral.interfaz.PreFacturaDetalleService;
 import com.security.accesoDatos.configuraciongeneral.interfaz.PreFacturaService;
 import com.security.accesoDatos.hibernate.GestorHibernate;
@@ -29,12 +32,17 @@ import com.security.accesoDatos.hibernate.HibernateControl;
 import com.security.accesoDatos.jerarquias.hibernate.ConceptoOperacionClienteServiceImp;
 import com.security.accesoDatos.jerarquias.interfaz.ConceptoOperacionClienteService;
 import com.security.modelo.administracion.ClienteAsp;
+import com.security.modelo.configuraciongeneral.Factura;
+import com.security.modelo.configuraciongeneral.FacturaDetalle;
 import com.security.modelo.configuraciongeneral.LoteFacturacion;
+import com.security.modelo.configuraciongeneral.LoteFacturacionDetalle;
 import com.security.modelo.configuraciongeneral.PlantillaFacturacion;
 import com.security.modelo.configuraciongeneral.PlantillaFacturacionDetalle;
 import com.security.modelo.configuraciongeneral.PreFactura;
 import com.security.modelo.configuraciongeneral.PreFacturaDetalle;
+import com.security.modelo.configuraciongeneral.Remito;
 import com.security.modelo.jerarquias.ConceptoOperacionCliente;
+import com.security.utils.DateUtil;
 
 /**
  * @author Victor Kenis
@@ -118,6 +126,12 @@ public class PreFacturaServiceImp extends GestorHibernate<PreFactura> implements
 					session.saveOrUpdate(plantillaFacturacionDetalle);
 				}	
 			}
+//			//ya con el id guardado
+//			//le seteamos a la loteFacturacion la lista de detalles
+//			loteFacturacion.setDetalles(loteFacturacionDetalles);
+//			//tx.begin();
+//			//Actualizamos la loteFacturacion con la lista de detalles
+//			session.update(loteFacturacion);
 			
 			// Comiteo
 			tx.commit();
@@ -382,7 +396,7 @@ public class PreFacturaServiceImp extends GestorHibernate<PreFactura> implements
 			tx = session.getTransaction();
 			tx.begin();
 			//Se traen los detalles de la factura
-			listaPreFacturaDetalle = preFacturaDetalleService.listarPreFacturaDetallesPorPreFactura(preFactura.getId(),preFactura.getClienteAsp());
+			listaPreFacturaDetalle = (List<PreFacturaDetalle>)preFacturaDetalleService.listarPreFacturaDetallesPorPreFactura(preFactura.getId(),preFactura.getClienteAsp());
 			if(listaPreFacturaDetalle != null && listaPreFacturaDetalle.size() > 0)
 			{
 				for(PreFacturaDetalle detalle: listaPreFacturaDetalle)

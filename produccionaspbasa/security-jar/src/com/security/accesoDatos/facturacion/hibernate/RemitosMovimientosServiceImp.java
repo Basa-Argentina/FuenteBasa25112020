@@ -1,5 +1,6 @@
 package com.security.accesoDatos.facturacion.hibernate;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -19,7 +20,7 @@ public class RemitosMovimientosServiceImp extends GestorHibernate<Referencia> im
 	@Autowired
 	public RemitosMovimientosServiceImp(HibernateControl hibernateControl) {
 		super(hibernateControl);
-		// Auto-generated constructor stub
+		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -105,7 +106,7 @@ public class RemitosMovimientosServiceImp extends GestorHibernate<Referencia> im
 	
 	@Override
 	public Class<Referencia> getClaseModelo() {
-		// Auto-generated method stub
+		// TODO Auto-generated method stub
 		return null;
 	}
 	

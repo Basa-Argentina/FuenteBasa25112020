@@ -17,6 +17,11 @@ public class EAN13 {
 	    }
 	    return ((10 - (checksum % 10 )) % 10);
 	}
-
+	
+//	public static void main(String args[]){
+//		String codigo = "123123123123";
+//		codigo += EAN13_CHECKSUM(codigo).toString();
+//		System.out.println(codigo);
+//	}
 
 }

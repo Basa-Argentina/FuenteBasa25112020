@@ -28,6 +28,7 @@ import org.springframework.stereotype.Component;
 
 import com.security.accesoDatos.configuraciongeneral.interfaz.FacturaDetalleService;
 import com.security.accesoDatos.configuraciongeneral.interfaz.FacturaService;
+import com.security.accesoDatos.configuraciongeneral.interfaz.LecturaService;
 import com.security.accesoDatos.configuraciongeneral.interfaz.LoteFacturacionService;
 import com.security.accesoDatos.configuraciongeneral.interfaz.PreFacturaDetalleService;
 import com.security.accesoDatos.configuraciongeneral.interfaz.PreFacturaService;
@@ -83,7 +84,11 @@ public class LoteFacturacionServiceImp extends GestorHibernate<LoteFacturacion> 
 	public void setFacturaDetalleService(FacturaDetalleService facturaDetalleService) {
 		this.facturaDetalleService = facturaDetalleService;
 	}
-
+	
+//	@Autowired
+//	public void setConceptoOperacionClienteService(ConceptoOperacionClienteService conceptoOperacionClienteService) {
+//		this.conceptoOperacionClienteService = conceptoOperacionClienteService;
+//	}
 
 	@Override
 	public Class<LoteFacturacion> getClaseModelo() {
@@ -148,6 +153,169 @@ public class LoteFacturacionServiceImp extends GestorHibernate<LoteFacturacion> 
         }
 	}
 	
+//	@Override
+//	public Boolean guardarLoteFacturacionYDetalles(Set<LoteFacturacionDetalle> loteFacturacionDetalles, LoteFacturacion loteFacturacion) {
+//		
+//		Session session = null;
+//		Transaction tx = null;
+//		
+//		try {
+//			
+//			// obtenemos una sesión
+//			session = getSession();
+//			// creamos la transacción
+//			tx = session.getTransaction();
+//			tx.begin();
+//			//guardamos la loteFacturacion primero
+//			//para que se cree el ID
+//			session.save(loteFacturacion);
+//			//hacemos commit a la transacción para que 
+//			//se refresque la base de datos.
+//
+//			//Recorro los interchanges para actualizarlos
+//			for(LoteFacturacionDetalle loteFacturacionDetalle:loteFacturacionDetalles){
+//				try {
+//					session.saveOrUpdate(loteFacturacionDetalle.getConceptoOperacionCliente());
+//					loteFacturacionDetalle.setLoteFacturacion(loteFacturacion);
+//				} catch (Exception e) {
+//					logger.error(e.getMessage());
+//				}
+//			}
+//
+//			//ya con el id guardado
+//			//le seteamos a la loteFacturacion la lista de detalles
+//			loteFacturacion.setDetalles(loteFacturacionDetalles);
+//			//tx.begin();
+//			//Actualizamos la loteFacturacion con la lista de detalles
+//			session.update(loteFacturacion);
+//			// Comiteo
+//			tx.commit();
+//			return true;
+//
+//		} catch (RuntimeException e) {
+//			// si ocurre algún error intentamos hacer rollback
+//			if (tx != null && tx.isActive()) {
+//				try {
+//					tx.rollback();
+//					return false;
+//				} catch (HibernateException e1) {
+//					logger.error("no se pudo hacer rollback", e1);
+//				}
+//				logger.error("no se pudo guardar", e);
+//				return false;
+//			}
+//			return true;
+//
+//		} finally {
+//			try {
+//				session.close();
+//			} catch (Exception e) {
+//				logger.error("No se pudo cerrar la sesión", e);
+//			}
+//		}
+//	}
+
+//	@Override
+//	public synchronized Boolean actualizarLoteFacturacionYDetalles(Set<LoteFacturacionDetalle> loteFacturacionDetallesViejos, LoteFacturacion loteFacturacion) {
+//
+//		Session session = null;
+//		Transaction tx = null;
+//		
+//		try {
+//				
+//			//obtenemos una sesión
+//			session = getSession();
+//			//creamos la transacción
+//			tx = session.getTransaction();
+//			tx.begin();
+//			
+//			//detalles a mantener
+//			Collection<LoteFacturacionDetalle> detalles=new ArrayList<LoteFacturacionDetalle>(loteFacturacion.getDetalles());
+//			
+//			if(loteFacturacion.getId()==null || loteFacturacion.getId()==0){
+//				loteFacturacion.setId(null);
+//				loteFacturacion.getDetalles().clear();
+//				session.save(loteFacturacion);
+//			}else{
+//				//session.update(loteFacturacion);
+//				//borramos las detalles eliminadas
+//				List<LoteFacturacionDetalle> lotes = new ArrayList<LoteFacturacionDetalle>(loteFacturacionDetalleService.listarLoteFacturacionDetallePorLoteFacturacion(loteFacturacion, loteFacturacion.getClienteAsp()));
+//
+//				for(LoteFacturacionDetalle det:lotes){
+//					Boolean existe = false;
+//					if(det.getId()!=null){
+//						for(LoteFacturacionDetalle detMantener:detalles)
+//						{
+//							if(det.getId().equals(detMantener.getId()))
+//							{
+//								existe = true;
+//							}
+//							
+//						}
+//						if(existe==false)
+//						{
+//							if(det.getConceptoOperacionCliente().getTipoConcepto().equalsIgnoreCase("Mensual")){
+//								session.delete(det.getConceptoOperacionCliente());
+//							}
+//							else{
+//								det.getConceptoOperacionCliente().setAsignado(false);
+//								session.update(det.getConceptoOperacionCliente());
+//							}
+//							session.delete(det);
+//						}
+//						//loteFacturacion.getDetalles().remove(det);
+//					}
+//				}
+//				loteFacturacion.setDetalles(null);
+//				session.update(loteFacturacion);
+//				loteFacturacion.setDetalles(new HashSet<LoteFacturacionDetalle>());
+//				//rearchivos agregadas
+//				//detalles = CollectionUtils.subtract(detalles,loteFacturacion.getDetalles());
+//			}
+//			//guardamos las nuevas rearchivos
+//			for(LoteFacturacionDetalle det : detalles)
+//			{
+//				det.setLoteFacturacion(loteFacturacion);	
+//				session.saveOrUpdate(det);
+//				loteFacturacion.getDetalles().add(det);
+//				
+//			}
+//			//Reactualizo
+//			detalles=new ArrayList<LoteFacturacionDetalle>(loteFacturacion.getDetalles());
+//			for(LoteFacturacionDetalle det : detalles){
+//				det.getConceptoOperacionCliente().setAsignado(true);
+//				session.saveOrUpdate(det.getConceptoOperacionCliente());
+//				session.update(det);
+//				
+//			}
+//			session.update(loteFacturacion);
+//			
+//			tx.commit();
+//			return true;
+//
+//		} catch (RuntimeException e) {
+//			// si ocurre algún error intentamos hacer rollback
+//			if (tx != null && tx.isActive()) {
+//				try {
+//					tx.rollback();
+//					return false;
+//				} catch (HibernateException e1) {
+//					logger.error("no se pudo hacer rollback", e1);
+//				}
+//				logger.error("no se pudo guardar", e);
+//				return false;
+//			}
+//			return true;
+//
+//		} finally {
+//			try {
+//				session.close();
+//			} catch (Exception e) {
+//				logger.error("No se pudo cerrar la sesión", e);
+//			}
+//		}
+//	}
+	
 	@Override
 	public Boolean actualizarLoteFacturacionList(List<LoteFacturacion> listLoteFacturacions)throws RuntimeException{
 		Session session = null;
@@ -207,7 +375,7 @@ public class LoteFacturacionServiceImp extends GestorHibernate<LoteFacturacion> 
 			tx.begin();
 			
 			//Se traen los detalles del Lote
-			listaPreFacturas =  preFacturaService.listarPreFacturasPorLoteFacturacion(loteFacturacion, loteFacturacion.getClienteAsp());
+			listaPreFacturas = (List<PreFactura>) preFacturaService.listarPreFacturasPorLoteFacturacion(loteFacturacion, loteFacturacion.getClienteAsp());
 			if(listaPreFacturas != null && listaPreFacturas.size() > 0)
 			{
 				//Se traen los detalles de cada Prefactura
@@ -295,7 +463,67 @@ public class LoteFacturacionServiceImp extends GestorHibernate<LoteFacturacion> 
         	}
         }
 	}
-
+	
+//	@Override
+//	public LoteFacturacion busquedaServlet(LoteFacturacion loteFacturacionBusqueda, ClienteAsp clienteAsp) {
+//		Session session = null;
+//        try {
+//        	//obtenemos una sesión
+//			session = getSession();
+//        	Criteria crit = session.createCriteria(getClaseModelo());        	
+//        	crit.createCriteria("clienteEmp", "cli");
+//			crit.createCriteria("cli.empresa", "emp");
+//        	
+//        	if(loteFacturacionBusqueda!=null){
+//        		if(loteFacturacionBusqueda.getCodigoDeposito()!=null && !"".equals(loteFacturacionBusqueda.getCodigoDeposito())){
+//        			crit.createCriteria("posicion", "pos");
+//                	crit.createCriteria("pos.estante", "est");
+//                	crit.createCriteria("est.grupo", "grp");
+//                	crit.createCriteria("grp.seccion", "sec");
+//                	crit.createCriteria("sec.deposito", "dep");
+//        			crit.add(Restrictions.eq("dep.codigo", loteFacturacionBusqueda.getCodigoDeposito()));
+//        		}
+//        		//codigo loteFacturacion
+//        		if(loteFacturacionBusqueda.getNumero()!=null && loteFacturacionBusqueda.getNumero()!=0){
+//        			crit.add(Restrictions.eq("numero", loteFacturacionBusqueda.getNumero()));
+//        		}
+//        		//codigo deposito actual
+//        		if(loteFacturacionBusqueda.getCodigoDeposito()!=null && loteFacturacionBusqueda.getCodigoDeposito().length()>0){
+//        			crit.createCriteria("depositoActual", "depAct");
+//        			crit.add(Restrictions.eq("depAct", loteFacturacionBusqueda.getCodigoDeposito()));
+//        		}
+//        		if(loteFacturacionBusqueda.getCodigoEmpresa()!=null && loteFacturacionBusqueda.getCodigoEmpresa().length()>0){
+//        			crit.add(Restrictions.eq("emp.codigo", loteFacturacionBusqueda.getCodigoEmpresa()));
+//        		}
+//        		if(loteFacturacionBusqueda.getCodigoTipoLoteFacturacion()!=null && loteFacturacionBusqueda.getCodigoTipoLoteFacturacion().length()>0){
+//        			crit.createCriteria("tipoLoteFacturacion", "tipEle");
+//        			crit.add(Restrictions.eq("tipEle", loteFacturacionBusqueda.getCodigoTipoLoteFacturacion()));
+//        		}
+//        		if(loteFacturacionBusqueda.getCodigoCliente()!=null && loteFacturacionBusqueda.getCodigoCliente().length()>0){
+//        			crit.add(Restrictions.eq("cli.codigo", loteFacturacionBusqueda.getCodigoCliente()));
+//        		}
+//        		
+//        	}
+//        	
+//        	if(clienteAsp != null){
+//        		crit.createCriteria("clienteAsp", "cliAsp");
+//        		crit.add(Restrictions.eq("cliAsp.id", clienteAsp.getId()));
+//        	}
+//        	
+//        	crit.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+//        	
+//            return (LoteFacturacion) crit.uniqueResult();
+//        } catch (HibernateException hibernateException) {
+//        	logger.error("No se pudo listar ", hibernateException);
+//	        return null;
+//        }finally{
+//        	try{
+//        		session.close();
+//        	}catch(Exception e){
+//        		logger.error("No se pudo cerrar la sesión", e);
+//        	}
+//        }
+//	}
 
 	/**
 	 * Recupera los loteFacturacions que contienen los codigos indicados en la lista
@@ -356,6 +584,63 @@ public class LoteFacturacionServiceImp extends GestorHibernate<LoteFacturacion> 
         return result;
 	}
 	
+//	@SuppressWarnings("unchecked")
+//	@Override
+//	public List<LoteFacturacion> listarLoteFacturacionFiltradas(LoteFacturacion loteFacturacion, ClienteAsp clienteAsp){
+//		Session session = null;
+//        try {
+//        	//obtenemos una sesión
+//			session = getSession();
+//        	Criteria crit = session.createCriteria(getClaseModelo());
+//        	
+//        	
+//        	
+//        	if(loteFacturacion!=null){
+//        		
+//        		if(loteFacturacion.getCodigoEmpresa()!=null && !"".equals(loteFacturacion.getCodigoEmpresa()))
+//        			crit.createCriteria("empresa", "emp").add(Restrictions.eq("emp.codigo", loteFacturacion.getCodigoEmpresa()));
+//        		if(loteFacturacion.getCodigoSucursal()!=null && !"".equals(loteFacturacion.getCodigoSucursal()))
+//        			crit.createCriteria("sucursal", "suc").add(Restrictions.eq("suc.codigo", loteFacturacion.getCodigoSucursal()));
+//        		if(loteFacturacion.getCodigoTransporte()!=null && !"".equals(loteFacturacion.getCodigoTransporte()))
+//        			crit.createCriteria("transporte", "tran").add(Restrictions.eq("tran.codigo", Integer.valueOf(loteFacturacion.getCodigoTransporte())));
+//        		if(loteFacturacion.getCodigoCliente()!=null && !"".equals(loteFacturacion.getCodigoCliente()))
+//        			crit.createCriteria("clienteEmp", "cli").add(Restrictions.eq("cli.codigo", loteFacturacion.getCodigoCliente()));
+//        		if(loteFacturacion.getCodigoDepositoOrigen()!=null && !"".equals(loteFacturacion.getCodigoDepositoOrigen()))
+//        			crit.createCriteria("depositoOrigen", "depOri").add(Restrictions.eq("depOri.codigo", loteFacturacion.getCodigoDepositoOrigen()));
+//        		if(loteFacturacion.getCodigoSerie()!=null && !"".equals(loteFacturacion.getCodigoSerie()))
+//        			crit.createCriteria("serie", "ser").add(Restrictions.eq("ser.codigo", loteFacturacion.getCodigoSerie()));
+//        		if(loteFacturacion.getEstado() !=null && !"".equals(loteFacturacion.getEstado()) && !"Seleccione un Estado".equals(loteFacturacion.getEstado()))
+//        			crit.add(Restrictions.eq("estado", loteFacturacion.getEstado()));
+//        		if(loteFacturacion.getTipoLoteFacturacion() !=null && !"".equals(loteFacturacion.getTipoLoteFacturacion()) && !"Todos".equals(loteFacturacion.getTipoLoteFacturacion()))
+//        			crit.add(Restrictions.eq("tipoLoteFacturacion", loteFacturacion.getTipoLoteFacturacion()));
+//        		if(loteFacturacion != null && loteFacturacion.getFechaDesde() != null && !"".equals(loteFacturacion.getFechaDesde()))
+//        			crit.add(Restrictions.ge("fechaEmision", loteFacturacion.getFechaDesde()));
+//        		if(loteFacturacion != null && loteFacturacion.getFechaHasta() != null && !"".equals(loteFacturacion.getFechaHasta()))
+//        			crit.add(Restrictions.le("fechaEmision", loteFacturacion.getFechaHasta()));
+//        		if(loteFacturacion != null && loteFacturacion.getNumeroDesde() != null && !"".equals(loteFacturacion.getNumeroDesde()))
+//        			crit.add(Restrictions.ge("numero", parseLongCodigo(loteFacturacion.getNumeroDesde())));
+//        		if(loteFacturacion != null && loteFacturacion.getNumeroHasta() != null && !"".equals(loteFacturacion.getNumeroHasta()))
+//        			crit.add(Restrictions.le("numero", parseLongCodigo(loteFacturacion.getNumeroHasta())));
+//        	}
+//        	if(clienteAsp != null){
+//        		crit.createCriteria("clienteAsp", "cliAsp");
+//        		crit.add(Restrictions.eq("cliAsp.id", clienteAsp.getId()));
+//        	}
+//        	crit.addOrder(Order.asc("fechaEmision"));
+//        	crit.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+//        	return crit.list();
+//        } catch (HibernateException hibernateException) {
+//        	logger.error("No se pudo listar ", hibernateException);
+//	        return null;
+//        }finally{
+//        	try{
+//        		session.close();
+//        	}catch(Exception e){
+//        		logger.error("No se pudo cerrar la sesión", e);
+//        	}
+//        }
+//    }
+	
 	@Override
 	public List<LoteFacturacion> listarLoteFacturacionsPorId(List<LoteFacturacion> loteFacturacions, ClienteAsp clienteAsp){
 		Session session = null;
@@ -393,7 +678,40 @@ public class LoteFacturacionServiceImp extends GestorHibernate<LoteFacturacion> 
     }
 	
 	
-
+//	@Override
+//	public List<LoteFacturacion> listarLoteFacturacionsPopup(String val,String codigoContenedor, ClienteAsp cliente) {
+//		Session session = null;
+//        try {        	
+//        	//obtenemos una sesión
+//			session = getSession();
+//        	Criteria c = session.createCriteria(getClaseModelo());
+//        	c.createCriteria("tipoLoteFacturacion", "te");
+//        	//filtro value
+//        	c.add(Restrictions.eq("te.contenedor", false));
+//        	if(val!=null){        		
+//        		c.add(Restrictions.ilike("te.descripcion", val+"%"));        	
+//        	}
+//        	if(codigoContenedor != null && !"".equals(codigoContenedor)){
+//        		c.createCriteria("contenedor").add(Restrictions.eq("codigo", codigoContenedor));
+//        	}
+//        	if(cliente != null){
+//	        	//filtro cliente
+//	        	c.add(Restrictions.eq("clienteAsp", cliente));
+//        	}
+//        	c.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+//        	return c.list();
+//        } catch (HibernateException hibernateException) {
+//        	logger.error("No se pudo listar los loteFacturacions.", hibernateException);
+//	        return null;
+//        }finally{
+//        	try{
+//        		session.close();
+//        	}catch(Exception e){
+//        		logger.error("No se pudo cerrar la sesión", e);
+//        	}
+//        }
+//	}
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	public Long verificarExistentePeriodoPosterior(LoteFacturacion loteFacturacion, ClienteAsp clienteAsp){
@@ -880,7 +1198,12 @@ public class LoteFacturacionServiceImp extends GestorHibernate<LoteFacturacion> 
 					}
 				}	
 			}
-
+//			//ya con el id guardado
+//			//le seteamos a la loteFacturacion la lista de detalles
+//			loteFacturacion.setDetalles(loteFacturacionDetalles);
+//			//tx.begin();
+//			//Actualizamos la loteFacturacion con la lista de detalles
+//			session.update(loteFacturacion);
 			
 			// Comiteo
 			tx.commit();
@@ -970,7 +1293,15 @@ public class LoteFacturacionServiceImp extends GestorHibernate<LoteFacturacion> 
 
 				}
 			}
-		
+			
+			
+
+//			//ya con el id guardado
+//			//le seteamos a la loteFacturacion la lista de detalles
+//			loteFacturacion.setDetalles(loteFacturacionDetalles);
+//			//tx.begin();
+//			//Actualizamos la loteFacturacion con la lista de detalles
+//			session.update(loteFacturacion);
 			
 			// Comiteo
 			tx.commit();
@@ -997,4 +1328,27 @@ public class LoteFacturacionServiceImp extends GestorHibernate<LoteFacturacion> 
 				logger.error("No se pudo cerrar la sesión", e);
 			}
 		}
-	}}
+	}
+	
+	private Long parseLongCodigo(String codigo){
+		Long result= null;
+		//si el codigo es distinto de vacio o null
+		if(codigo!=null && codigo.length()>0){
+			//cuenta el primer digito diferente de 0
+			int cont = 0;
+			while(codigo.substring( cont, cont).equals("0")){
+				cont++;
+			}
+			//si el codigo esta formado solo por 0
+			if(cont == codigo.length()-1){
+				result = new Long(0);
+			}else{
+				//devuelve el Integer formado por el substring desde el cont hasta el final del codigo
+				result = Long.parseLong(codigo.substring(cont));
+			}
+		}else{
+			result = new Long(0);
+		}
+		return result;
+	}
+}

@@ -13,6 +13,7 @@ import com.security.accesoDatos.interfaz.GeneralServiceInterface;
 import com.security.modelo.administracion.ClienteAsp;
 import com.security.modelo.configuraciongeneral.Factura;
 import com.security.modelo.configuraciongeneral.FacturaDetalle;
+import com.security.modelo.configuraciongeneral.FacturaDetalle;
 
 public interface FacturaDetalleService extends GeneralServiceInterface<FacturaDetalle>{
 	public List<FacturaDetalle> listarFacturaDetalleFiltradas(FacturaDetalle facturaDetalle, ClienteAsp cliente);

@@ -30,7 +30,9 @@ import com.security.accesoDatos.configuraciongeneral.interfaz.ClienteEmpService;
 import com.security.accesoDatos.configuraciongeneral.interfaz.EmpresaService;
 import com.security.accesoDatos.configuraciongeneral.interfaz.SerieService;
 import com.security.accesoDatos.configuraciongeneral.interfaz.SucursalService;
+import com.security.accesoDatos.hibernate.ClienteAspServiceImp;
 import com.security.accesoDatos.hibernate.HibernateControl;
+import com.security.accesoDatos.interfaz.ClienteAspService;
 import com.security.modelo.administracion.ClienteAsp;
 import com.security.modelo.configuraciongeneral.AfipTipoComprobante;
 import com.security.modelo.configuraciongeneral.ClienteEmp;
@@ -65,7 +67,6 @@ public class SerieServletParaRecibo extends HttpServlet{
  * <br>
  * @return serie.descripcion;*;serie.prefijo;*;serie.ultNroImpreso
  */
-	@Override
 	public void doGet (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/xml"); 
 		response.setCharacterEncoding("ISO-8859-1"); //seteo el encoding de los caracteres 
@@ -128,7 +129,10 @@ public class SerieServletParaRecibo extends HttpServlet{
 		}else{
 			serieBusqueda.setHabilitado(true);
 		}
-
+//		if(clienteEmp!=null && clienteEmp.getAfipCondIva()!=null){
+//			serieBusqueda.setCondIvaClientes(clienteEmp.getAfipCondIva().getAbreviatura());
+//		}
+		
 		String respuesta = "";
 		Serie lista = null;
 		if(!"".equals(codigo))

@@ -8,9 +8,13 @@
 package com.security.accesoDatos.jerarquias.interfaz;
 
 import java.util.List;
+import java.util.Set;
 
 import com.security.accesoDatos.interfaz.GeneralServiceInterface;
 import com.security.modelo.administracion.ClienteAsp;
+import com.security.modelo.configuraciongeneral.Remito;
+import com.security.modelo.configuraciongeneral.RemitoDetalle;
+import com.security.modelo.configuraciongeneral.Serie;
 import com.security.modelo.jerarquias.ConceptoOperacionCliente;
 
 /**

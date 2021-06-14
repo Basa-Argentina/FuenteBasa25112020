@@ -56,7 +56,6 @@ public class SerieServletParaFactura2 extends HttpServlet{
  * <br>
  * @return serie.descripcion;*;serie.prefijo;*;serie.ultNroImpreso
  */
-	@Override
 	public void doGet (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/xml"); 
 		response.setCharacterEncoding("ISO-8859-1"); //seteo el encoding de los caracteres 

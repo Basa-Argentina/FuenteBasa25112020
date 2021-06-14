@@ -30,9 +30,9 @@ public class Licencia implements Comparable<Licencia>{
 	private Date fechaDesde;
 	private Date fechaHasta;
 	private EstadoLicencia estado;
-	private  String accion;
-	private  Long idCliente;
-	private  Long estadoId;
+	private transient String accion;
+	private transient Long idCliente;
+	private transient Long estadoId;
 
 	
 	public Licencia() {

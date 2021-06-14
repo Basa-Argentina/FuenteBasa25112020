@@ -25,6 +25,7 @@ public interface ClienteDireccionService extends GeneralServiceInterface<Cliente
 	public Boolean eliminarClienteDireccion(ClienteDireccion clienteDireccion);
 	public ClienteDireccion verificarExistente(ClienteDireccion clienteDireccion, ClienteAsp cliente);
 	public List<ClienteDireccion> listarPorId(Long[] ids, ClienteAsp cliente);
+	//public List<ClienteDireccion> listarDireccionesPopup(String val, String clienteCodigo, ClienteAsp cliente);
 	public ClienteDireccion getByCodigo(String codigo, ClienteAsp cliente);
 	public List<ClienteDireccion> listarDireccionesPopup(String val, ClienteEmp clienteEmp, ClienteAsp cliente);
 	public ClienteDireccion obtenerPorCodigo(String codigo, String codigoCliente,

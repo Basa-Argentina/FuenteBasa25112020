@@ -60,7 +60,7 @@ public class LeeCodigoBarra implements Comparable<LeeCodigoBarra>{
 	}
 	@Override
 	public int compareTo(LeeCodigoBarra arg0) {
-		// Auto-generated method stub
+		// TODO Auto-generated method stub
 		return 0;
 	}
 	

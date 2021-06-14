@@ -34,7 +34,7 @@ public class TipoRequerimiento implements Comparable<TipoRequerimiento>{
 	private Boolean cargaElementoSimple;
 	private Boolean ocultaGrilla;
 	private String tipoMovimiento;
-	private  String accion;
+	private transient String accion;
 	
 	@Id @GeneratedValue(strategy=GenerationType.AUTO)
 	public Long getId() {

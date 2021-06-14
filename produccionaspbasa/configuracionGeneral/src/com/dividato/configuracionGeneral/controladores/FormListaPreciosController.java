@@ -233,7 +233,7 @@ public class FormListaPreciosController {
 					d.setTipoVariacion(lista.getTipoVariacion());
 					d.setValor(lista.getValor());
 				}else if("2".equals(opcion)){
-					if(d.getTipoVariacion().getId().equals(listaVieja.getTipoVariacion().getId()) &&
+					if(d.getTipoVariacion().getId() == listaVieja.getTipoVariacion().getId() &&
 							d.getValor().equals(listaVieja.getValor())){
 						d.setTipoVariacion(lista.getTipoVariacion());
 						d.setValor(lista.getValor());

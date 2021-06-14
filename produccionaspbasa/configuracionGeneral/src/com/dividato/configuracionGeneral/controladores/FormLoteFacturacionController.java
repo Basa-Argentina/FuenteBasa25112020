@@ -268,7 +268,7 @@ public class FormLoteFacturacionController {
 				loteFacturacionFormulario = loteFacturacionService.obtenerPorId(Long.valueOf(id));
 				loteFacturacionFormulario.setCodigoEmpresa(loteFacturacionFormulario.getEmpresa().getCodigo());
 				loteFacturacionFormulario.setCodigoSucursal(loteFacturacionFormulario.getSucursal().getCodigo());
-				if(listaPreFacturas == null || listaPreFacturas.isEmpty()){
+				if(listaPreFacturas == null || listaPreFacturas.size()<= 0){
 					listaPreFacturas = preFacturaService.listarPreFacturasPorLoteFacturacion(loteFacturacionFormulario, obtenerClienteAspUser());
 					loteFacturacionFormulario.setCantidadConceptos(listaPreFacturas.size());
 					for(int i = 0;i<listaPreFacturas.size();i++){
@@ -276,7 +276,7 @@ public class FormLoteFacturacionController {
 						listaPreFacturas.get(i).setDetalles(detalles);
 						for(PreFacturaDetalle detalle:detalles){
 							List<ConceptoOperacionCliente> listaConceptosAModificar = conceptoOperacionClienteService.listarConceptosPorPreFacturaDetalle(detalle.getId(), listaPreFacturas.get(i).getClienteAsp());
-							if(listaConceptosAModificar!=null && !listaConceptosAModificar.isEmpty()){
+							if(listaConceptosAModificar!=null && listaConceptosAModificar.size()>0){
 								detalle.setListaConceptosAsociados(listaConceptosAModificar);
 							}
 						}
@@ -300,7 +300,7 @@ public class FormLoteFacturacionController {
 		atributos.put("clienteId", obtenerClienteAspUser().getId());
 		
 		
-		if(listaPreFacturas!= null && !listaPreFacturas.isEmpty())
+		if(listaPreFacturas!= null && listaPreFacturas.size()>0)
 		{
 			loteFacturacionFormulario.setCantidadConceptos(listaPreFacturas.size());
 			atributos.put("loteFacturacionFormulario", loteFacturacionFormulario);
@@ -475,8 +475,10 @@ public class FormLoteFacturacionController {
 		session.removeAttribute("conceptosAsignados");
 		session.removeAttribute("loteFacturacionSession");
 		atributos.remove("loteFacturacionFormulario");
+		//loteFacturacionDetalles = null;
 		//hacemos el redirect
 		return listaLoteFacturacionController.mostrarLoteFacturacion(session, atributos, null, null, null, null, null, null, request);
+		//return iniciarPrecargaFormularioLoteFacturacion(session, atributos, null,null );
 	}
 	
 	@RequestMapping(
@@ -495,7 +497,7 @@ public class FormLoteFacturacionController {
 			listaPreFacturas = new ArrayList<PreFactura>();
 		}
 		
-		if(listaPreFacturas != null && !listaPreFacturas.isEmpty() && orden!=null)
+		if(listaPreFacturas != null && listaPreFacturas.size()>0 && orden!=null)
 		{
 			for(int i = 0;i<listaPreFacturas.size();i++){
 				
@@ -593,13 +595,18 @@ public class FormLoteFacturacionController {
 						
 						List<PlantillaFacturacion> plantillasFacturacion =	plantillaFacturacionService.listarPlantillasClientesEnPeriodo(periodo, codigoEmpresa, null, obtenerClienteAspUser());	
 
-						if (plantillasFacturacion != null && !plantillasFacturacion.isEmpty()) {
+						if (plantillasFacturacion != null && plantillasFacturacion.size() > 0) {
 							
 							
 							listaPreFacturas = generarPreFacturasMensuales(plantillasFacturacion, periodo,listaConceptosActualizar,loteFacturacionFormulario);
 
-							if (listaPreFacturas != null && !listaPreFacturas.isEmpty()) {
-
+							if (listaPreFacturas != null && listaPreFacturas.size() > 0) {
+								
+//								for (PreFactura preFactura : listaPreFacturas) {
+//									LoteFacturacionDetalle loteFacturacionDetalle = new LoteFacturacionDetalle();
+//									//loteFacturacionDetalle.setConceptoOperacionCliente(preFactura);
+//									loteFacturacionDetalles.add(loteFacturacionDetalle);
+//								}
 								ScreenMessage mensajeConceptosGen = new ScreenMessageImp("formularioLoteFacturacion.notificacion.conceptosMensualesGenerados", null);
 								avisos.add(mensajeConceptosGen); //agrego el mensaje a la coleccion
 								atributos.put("hayAvisos", true);
@@ -662,6 +669,52 @@ public class FormLoteFacturacionController {
 			loteFacturacionFormulario.setCantidadConceptos(loteFacturacion.getDetalles().size());
 		}
 	}
+
+	
+//	private List<ConceptoOperacionCliente> generarConceptosMensuales(List<ClienteConcept> clientesConceptos, String periodo){
+//		
+//		List<ConceptoOperacionCliente> listaConceptosMensuales = new ArrayList<ConceptoOperacionCliente>();
+//		//Se recorre la lista de clientesConceptos obtenida
+//		for(int i = 0;i<clientesConceptos.size();i++){
+//			
+//			//A cada clienteConcepto se le setea la cantidad de elementos que existentes que generanCanon y que tiene conceptoFacturable
+//			Integer cantidad = elementoService.cantidadElementosPorConceptoFacturable(clientesConceptos.get(i).getIdClienteEmp(), clientesConceptos.get(i).getIdConceptoFacturable(), true, obtenerClienteAspUser());
+//			if(cantidad != null && cantidad >0){
+//					
+//					clientesConceptos.get(i).setCantidad(cantidad);
+//					
+//					//Creamos una cadena con los meses facturables y la pasamos una lista de numeros
+//					String[] cadenaMesesFacturables = clientesConceptos.get(i).mesesFacturables.split("\\,");
+//					List<Long> listaMeses = new ArrayList<Long>();
+//					for(int f = 0; f<cadenaMesesFacturables.length;f++)
+//					{
+//						listaMeses.add(Long.valueOf(cadenaMesesFacturables[f]));
+//					}
+//					
+//					//Obtenemos la posicion del periodo del lote en la lista de meses
+//					int posicionPeriodo = listaMeses.indexOf(Long.valueOf(periodo));
+//					int cantidadConceptosACrear = 1;
+//					//Si tiene mas de un mes
+//					if(posicionPeriodo>0){
+//						//Restamos el actual periodo con el anterior facturado para saber cuantos conceptos intermedios crear
+//						Long periodoAnteriorFacturado = listaMeses.get(posicionPeriodo-1); 
+//						cantidadConceptosACrear = (Integer.valueOf(periodo)) - periodoAnteriorFacturado.intValue();
+//					}
+//					//Creamos la cantidad obtenida de conceptos y detalles del lote para agregar
+//					for(int g=0;g<cantidadConceptosACrear;g++)
+//					{
+//						ConceptoOperacionCliente conceptoMensual = new ConceptoOperacionCliente();
+//						clientesConceptos.get(i).setMesConcepto(Integer.valueOf(periodo)-g);
+//						clientesConceptos.get(i).setPeriodo(periodo);
+//						conceptoMensual = calcularConceptoOperacionCliente(conceptoMensual, clientesConceptos.get(i));
+//						listaConceptosMensuales.add(conceptoMensual);
+//					}	
+//			}
+//			
+//		}
+//		
+//		return listaConceptosMensuales;
+//	}
 	
 		private List<PreFactura> generarPreFacturasMensuales(List<PlantillaFacturacion> plantillasFacturacion, String periodo, List<ConceptoOperacionCliente> listaConceptosActualizar,LoteFacturacion loteFacturacion){
 		
@@ -731,7 +784,7 @@ public class FormLoteFacturacionController {
 							
 							//Creamos el conceptoOperacionCliente mensual correspondiente
 							ConceptoOperacionCliente concepto = new ConceptoOperacionCliente();
-							concepto.setCantidad(cantidad);
+							concepto.setCantidad(cantidad.longValue());
 							concepto.setAsignado(true);
 							concepto.setClienteAsp(obtenerClienteAspUser());
 							concepto.setClienteEmp(plantillasFacturacion.get(i).getClienteEmp());
@@ -745,7 +798,7 @@ public class FormLoteFacturacionController {
 							try {
 								concepto.setFechaAlta(sd.parse(fechaAlta));
 							} catch (ParseException e) {
-							
+								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
 							concepto.setNetoTotal(preFacturaDetalle.getNetoTotal());
@@ -945,6 +998,26 @@ public class FormLoteFacturacionController {
 		Impuesto impuesto = conceptoFacturable.getImpuesto();
 		BigDecimal valor = listaPrecios.getValor();
 		if (valor != null) {
+			
+			//////////////////////////////////////////////////////////////////////////////////
+			////////////////METODO: EL PRECIO TIENE IMPUESTOS
+			//					BigDecimal netoUnitario = variacionPrecio.multiply(concepto.getPrecioBase());
+			//					facturaDetalle.setNetoUnitario(netoUnitario);
+			//					BigDecimal variacionPrecio = uno.add(valor.divide(cien));
+			//					BigDecimal finalUnitario  = variacionPrecio.multiply(concepto.getPrecioBase());
+			//					facturaDetalle.setFinalUnitario(finalUnitario);
+			//					facturaDetalle.setFinalTotal(finalUnitario.multiply(new BigDecimal(cantidad)));
+			//					
+			//					facturaDetalle.setIVA(impuesto != null ? impuesto.getAlicuota() : null);
+			//					
+			//					if (impuesto != null && impuesto.getAlicuota() != null) {
+			//						
+			//						facturaDetalle.setNetoUnitario(finalUnitario.divide(((impuesto.getAlicuota().divide(new BigDecimal(100))).add(new BigDecimal(1))), 4, RoundingMode.HALF_UP));
+			//						facturaDetalle.setNetoTotal(facturaDetalle.getNetoUnitario().multiply(new BigDecimal(cantidad)));
+			//						facturaDetalle.setImpuestoUnitario(finalUnitario.subtract(facturaDetalle.getNetoUnitario()));
+			//						facturaDetalle.setImpuestoTotal((finalUnitario.subtract(facturaDetalle.getNetoUnitario()).multiply(BigDecimal.valueOf(cantidad))));
+			//						
+			//					}
 			
 			//////////////////////////////////////////////////////////////////////////////////
 			////////////////METODO: EL PRECIO NO TIENE IMPUESTOS

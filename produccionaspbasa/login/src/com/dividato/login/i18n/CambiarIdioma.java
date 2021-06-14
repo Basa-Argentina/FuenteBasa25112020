@@ -12,7 +12,6 @@ import org.springframework.web.servlet.support.RequestContextUtils;
 
 @Controller
 public class CambiarIdioma {
-
 	@RequestMapping("/cambiarIdioma.html")
 	public String cambiarIdioma(
 			@RequestParam("siteLanguage")String siteLanguage,

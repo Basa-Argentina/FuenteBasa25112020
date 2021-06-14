@@ -1,6 +1,7 @@
 package com.dividato.configuracionGeneral.controladores;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -26,12 +27,18 @@ import com.dividato.configuracionGeneral.validadores.LoteFacturacionBusquedaVali
 import com.security.accesoDatos.configuraciongeneral.hibernate.FacturaServiceImp;
 import com.security.accesoDatos.configuraciongeneral.hibernate.PreFacturaDetalleServiceImp;
 import com.security.accesoDatos.configuraciongeneral.hibernate.PreFacturaServiceImp;
+import com.security.accesoDatos.configuraciongeneral.interfaz.DepositoService;
+import com.security.accesoDatos.configuraciongeneral.interfaz.ElementoService;
+import com.security.accesoDatos.configuraciongeneral.interfaz.EmpresaService;
 import com.security.accesoDatos.configuraciongeneral.interfaz.FacturaService;
 import com.security.accesoDatos.configuraciongeneral.interfaz.LoteFacturacionService;
 import com.security.accesoDatos.configuraciongeneral.interfaz.PreFacturaDetalleService;
 import com.security.accesoDatos.configuraciongeneral.interfaz.PreFacturaService;
+import com.security.accesoDatos.configuraciongeneral.interfaz.SeccionService;
+import com.security.accesoDatos.configuraciongeneral.interfaz.SucursalService;
 import com.security.accesoDatos.hibernate.HibernateControl;
 import com.security.modelo.administracion.ClienteAsp;
+import com.security.modelo.configuraciongeneral.Elemento;
 import com.security.modelo.configuraciongeneral.Factura;
 import com.security.modelo.configuraciongeneral.FacturaDetalle;
 import com.security.modelo.configuraciongeneral.LoteFacturacion;
@@ -39,6 +46,8 @@ import com.security.modelo.configuraciongeneral.PreFactura;
 import com.security.modelo.configuraciongeneral.PreFacturaDetalle;
 import com.security.modelo.configuraciongeneral.Serie;
 import com.security.modelo.seguridad.User;
+import com.security.utils.CampoDisplayTag;
+import com.security.utils.Constantes;
 import com.security.utils.ParseNumberUtils;
 import com.security.utils.ScreenMessage;
 import com.security.utils.ScreenMessageImp;
@@ -206,7 +215,7 @@ public class ListaLoteFacturacionController {
 			loteFacturacion.setNumeroPagina(nPagina);
 			
 			//Se busca en la base de datos los lotesFacturacion con los filtros de paginacion agregados a la loteFacturacion
-			lotesFacturacion =loteFacturacionService.obtenerPor(obtenerClienteAspUser(), loteFacturacion.getCodigoEmpresa(), loteFacturacion.getCodigoSucursal(), 
+			lotesFacturacion =(List<LoteFacturacion>) loteFacturacionService.obtenerPor(obtenerClienteAspUser(), loteFacturacion.getCodigoEmpresa(), loteFacturacion.getCodigoSucursal(), 
 					loteFacturacion.getFechaDesde(), loteFacturacion.getFechaHasta(), loteFacturacion.getEstado(), fieldOrder, sortOrder, loteFacturacion.getNumeroPagina(), loteFacturacion.getTamanoPagina());
 								
 		

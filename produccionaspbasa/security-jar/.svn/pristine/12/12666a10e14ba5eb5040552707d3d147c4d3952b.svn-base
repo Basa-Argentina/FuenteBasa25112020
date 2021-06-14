@@ -108,7 +108,7 @@ public class ClientesCodigoYCodigoCondicionAfipServlet extends HttpServlet{
 							("001".equals(tipo.getCodigo()) || "002".equals(tipo.getCodigo()) || "003".equals(tipo.getCodigo()) )){
 						respuestaBuilder.append(" disabled=\"disabled\" ");
 					}else{
-						// solo si la empresa no tiene condicion de iva 
+						//TODO solo si la empresa no tiene condicion de iva 
 						//respuestaBuilder.append(" disabled=\"disabled\"");
 					}
 					respuestaBuilder.append(">")

@@ -18,6 +18,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
@@ -51,30 +52,30 @@ public class Movimiento implements Cloneable{
 	private User responsable;
 	private Long codigoCarga;
 	
-	private  String accion;
-	private  String codigoDepositoActual;
-	private  String codigoTipoElemento;
-	private  String codigoClienteEmp;
-	private  String codigoElemento;
-	private  String codigoEmpresa;
-	private  String codigoSucursalActual;
-	private  String codigoSucursalOrigenDestino;
-	private  String codigoDepositoOrigenDestino;
-	private  String codigoLectura;
-	private  Long codigoRemito;
-	private  Long codigoResponsable;
-	private  Date fechaDesde;
-	private  Date fechaHasta;
-	private  Integer tipoMovimientoInt;
-	private  Integer cantidadElementos;
-	private  List<Elemento> listaElementos;
-	private  Boolean mostrarAnulados; 
-	private  Boolean tieneRemitoAsoc;
+	private transient String accion;
+	private transient String codigoDepositoActual;
+	private transient String codigoTipoElemento;
+	private transient String codigoClienteEmp;
+	private transient String codigoElemento;
+	private transient String codigoEmpresa;
+	private transient String codigoSucursalActual;
+	private transient String codigoSucursalOrigenDestino;
+	private transient String codigoDepositoOrigenDestino;
+	private transient String codigoLectura;
+	private transient Long codigoRemito;
+	private transient Long codigoResponsable;
+	private transient Date fechaDesde;
+	private transient Date fechaHasta;
+	private transient Integer tipoMovimientoInt;
+	private transient Integer cantidadElementos;
+	private transient List<Elemento> listaElementos;
+	private transient Boolean mostrarAnulados; 
+	private transient Boolean tieneRemitoAsoc;
 	
-	private  Integer numeroPagina;
-	private  Integer tamañoPagina;
-	private  String fieldOrder;
-	private  String sortOrder;
+	private transient Integer numeroPagina;
+	private transient Integer tamañoPagina;
+	private transient String fieldOrder;
+	private transient String sortOrder;
 		
 	public Movimiento() {
 		super();

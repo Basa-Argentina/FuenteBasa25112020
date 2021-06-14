@@ -236,7 +236,10 @@ public class ListaPosicionesController {
 			atributos.put("pagesize", pagesize);
 			session.setAttribute("pagesize", pagesize);
 
-
+			// if(elemento!=null && elemento.getCodigoContenedor()!=null){
+			// elemento.setCodigoElemento(elemento.getCodigoContenedor());
+			// }
+			// paginacion y orden de resultados de displayTag
 			posicion.setTamañoPagina(pagesize);
 			String nPaginaStr = request.getParameter((new ParamEncoder(
 					"posicion")
@@ -262,7 +265,8 @@ public class ListaPosicionesController {
 
 			// Se busca en la base de datos las posiciones con los filtros de
 			// paginacion agregados a la posicion
-			posicions =posicionService.listarPosicionFiltradas(posicion, obtenerClienteAspUser());
+			posicions = (List<Posicion>) posicionService
+					.listarPosicionFiltradas(posicion, obtenerClienteAspUser());
 
 			if (posicions != null && posicions.size() > 0) {
 
@@ -285,6 +289,9 @@ public class ListaPosicionesController {
 
 		} else if (posicion == null) {
 			posicion = new Posicion();
+			// posicion.setCodigoDesdeEstante("0000");
+			// posicion.setCodigoHastaEstante("9999");
+			// session.setAttribute("posicionBusqueda", posicion);
 		}
 
 		atributos.put("posiciones", posicions);
@@ -354,6 +361,12 @@ public class ListaPosicionesController {
 				posiciones = (List<Posicion>) session.getAttribute("posiciones");
 				
 				for (String idPosicion : selIds) {
+//					Posicion posicion = posicionService.obtenerPorId(Long.valueOf(idPosicion));
+//					if (posicion != null)
+//						if(!posicion.getEstado().equalsIgnoreCase("OCUPADA"))
+//							posiciones.add(posicion);
+//						else
+//							existenOcupadas=true;
 					
 					for(Posicion pos : posiciones){
 						if(pos.getId().longValue()==Long.valueOf(idPosicion).longValue()){
@@ -519,6 +532,8 @@ public class ListaPosicionesController {
 						params, new JRBeanCollectionDataSource(ohList));
 				// se envia el reporte
 				response.setContentType("application/pdf");
+				// response.setHeader( "Content-disposition",
+				// "attachment; filename=reporte.pdf");
 
 				op = null;
 				op = response.getOutputStream();

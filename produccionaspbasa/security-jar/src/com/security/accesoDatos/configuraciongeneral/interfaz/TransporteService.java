@@ -4,7 +4,9 @@ import java.util.List;
 
 import com.security.accesoDatos.interfaz.GeneralServiceInterface;
 import com.security.modelo.administracion.ClienteAsp;
+import com.security.modelo.configuraciongeneral.ClienteEmp;
 import com.security.modelo.configuraciongeneral.Empresa;
+import com.security.modelo.configuraciongeneral.Serie;
 import com.security.modelo.configuraciongeneral.Transporte;
 
 

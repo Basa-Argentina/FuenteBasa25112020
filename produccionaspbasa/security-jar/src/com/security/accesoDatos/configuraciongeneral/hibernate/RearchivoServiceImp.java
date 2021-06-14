@@ -13,10 +13,13 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.transform.Transformers;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.object.SqlQuery;
 import org.springframework.stereotype.Component;
 
 import com.security.accesoDatos.configuraciongeneral.interfaz.RearchivoService;
@@ -24,6 +27,7 @@ import com.security.accesoDatos.hibernate.GestorHibernate;
 import com.security.accesoDatos.hibernate.HibernateControl;
 import com.security.modelo.administracion.ClienteAsp;
 import com.security.modelo.configuraciongeneral.Elemento;
+import com.security.modelo.configuraciongeneral.ListaPrecios;
 import com.security.modelo.configuraciongeneral.LoteRearchivo;
 import com.security.modelo.configuraciongeneral.Rearchivo;
 import com.security.modelo.configuraciongeneral.Referencia;
@@ -49,6 +53,7 @@ public class RearchivoServiceImp extends GestorHibernate<Rearchivo> implements R
 	
 	@Override
 	public List<Rearchivo> obtenerParaReferencia(Referencia referencia) {
+		
 		Session session = null;
 	    try {
 	    	//obtenemos una sesión
@@ -112,8 +117,7 @@ public class RearchivoServiceImp extends GestorHibernate<Rearchivo> implements R
 	       
 			String consulta = "select * from rearchivo rea where rea.referencia_id = "+idReferencia;
 			
-			
-			
+
 			Rearchivo rearchivo = (Rearchivo) session.createSQLQuery(consulta).addEntity(Rearchivo.class).uniqueResult();
 	       
 	        return rearchivo;
@@ -143,8 +147,8 @@ public class RearchivoServiceImp extends GestorHibernate<Rearchivo> implements R
         		crit.add(Restrictions.eq("loteRearchivo.clienteAsp", cliente));
         		crit.addOrder(Order.asc("referencia"));
             	crit.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
-
                 return crit.list();
+                
         	}
         	else
         		return new ArrayList<Rearchivo>();

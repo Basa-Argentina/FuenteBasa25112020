@@ -266,7 +266,7 @@ public class ListaOperacionWebController {
 					opElementoReporte.setSeccion(getProperty(opElemento, "elemento.contenedor.posicion.estante.grupo.seccion.descripcion"));
 					opElementoReporte.setModulo(getProperty(opElemento, "elemento.contenedor.posicion.modulo.moduloPosicionStr"));
 					opElementoReporte.setPosicion(getProperty(opElemento, "elemento.contenedor.posicion.posicionStr"));			
-
+					//opElementoReporte.setRearchivoDe(opElemento.getRearchivoDe().getCodigoAlternativo());
 					if(opElemento.getElemento()!=null && opElemento.getElemento().getId()!=null && opElemento.getElemento().getId()!=0)
 						opElementoReporte.setCodigoBarras(opElemento.getElemento().getId());
 				}
@@ -275,7 +275,7 @@ public class ListaOperacionWebController {
 				else
 					opElementoReporte.setOrigen("Requerimiento");
 				if(opElemento.getEstado()!=null)
-					opElementoReporte.setEstado(opElemento.getEstado());			
+					opElementoReporte.setEstado(opElemento.getEstado().toString());			
 				opElementos.add(opElementoReporte);
 			}
 			JasperReport jasperReport = JasperCompileManager.compileReport(session.getServletContext().getRealPath(Constants.PATH_JASPER)+"/reporteImpresionOperacion.jrxml");
@@ -293,7 +293,7 @@ public class ListaOperacionWebController {
 			parametros.put("observaciones", observaciones);			
 			
 			response.setContentType("application/pdf");
-
+			//response.addHeader("Content-Disposition", "attachment; filename=lista_operaciones.pdf");
 
 			JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(opElementos);
 			JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parametros, dataSource);

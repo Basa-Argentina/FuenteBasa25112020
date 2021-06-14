@@ -7,6 +7,7 @@
  */
 package com.security.accesoDatos.configuraciongeneral.interfaz;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import com.security.accesoDatos.interfaz.GeneralServiceInterface;

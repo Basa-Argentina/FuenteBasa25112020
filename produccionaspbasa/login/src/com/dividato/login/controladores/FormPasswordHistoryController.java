@@ -168,6 +168,7 @@ public class FormPasswordHistoryController {
 		usuario.setPassword(passEncriptado2);
 		usuario.setPasswordChangeDate(new Date());
 		passwordHistoryFormulario.setDateChange(usuario.getPasswordChangeDate());
+//		passwordHistoryFormulario.setUsername(usuario.getUsername());
 		passwordHistoryFormulario.setUser(usuario);
 		passwordHistoryService.guardar(passwordHistoryFormulario);
 		//hacemos el redirect

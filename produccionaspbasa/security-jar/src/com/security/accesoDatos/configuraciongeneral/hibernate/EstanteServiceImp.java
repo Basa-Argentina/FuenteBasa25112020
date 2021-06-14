@@ -21,12 +21,14 @@ import org.hibernate.Transaction;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.object.SqlQuery;
 import org.springframework.stereotype.Component;
 
 import com.security.accesoDatos.configuraciongeneral.interfaz.EstanteService;
 import com.security.accesoDatos.hibernate.GestorHibernate;
 import com.security.accesoDatos.hibernate.HibernateControl;
 import com.security.modelo.administracion.ClienteAsp;
+import com.security.modelo.configuraciongeneral.Elemento;
 import com.security.modelo.configuraciongeneral.Estante;
 import com.security.modelo.configuraciongeneral.Modulo;
 import com.security.modelo.configuraciongeneral.Posicion;
@@ -152,6 +154,10 @@ public class EstanteServiceImp extends GestorHibernate<Estante> implements Estan
 			//obtenemos una sesión
 			session = getSession();
 			//creamos la transacción
+			//tx = session.getTransaction();
+			//tx.begin();
+			//borramos la estanteria
+			//session.delete(estante);
 			
 			String consulta = "delete from posiciones where estante_id =" + estante.getId() +" ; " + 
 				" delete from modulos where estante_id =" + estante.getId() +" ; " + 
@@ -163,6 +169,7 @@ public class EstanteServiceImp extends GestorHibernate<Estante> implements Estan
 			
 			//hacemos commit a la transacción para que 
 			//se refresque la base de datos.
+			//tx.commit();
 			
 			if(result > 0)
 				return true;
@@ -313,7 +320,13 @@ public class EstanteServiceImp extends GestorHibernate<Estante> implements Estan
         try {
         	//obtenemos una sesión
 			session = getSession();
-			
+//			Criteria crit = session.createCriteria(Elemento.class);
+//			crit.setProjection(Projections.rowCount());
+//			
+//			if(posiciones != null && posiciones.size()>0){
+//				crit.add(Restrictions.in("posicion", posiciones));
+//			}
+//			
 			Object elemento = new Object();
 			
 			String consulta = "SELECT TOP 1 * " + 
@@ -322,7 +335,7 @@ public class EstanteServiceImp extends GestorHibernate<Estante> implements Estan
 					"  where p.estante_id = "+ estanteId;
 			
 			SQLQuery q = session.createSQLQuery(consulta);
-			elemento =  q.uniqueResult();
+			elemento = (Object) q.uniqueResult();
 			
 			if(elemento==null){
 				vacio = true;
@@ -353,10 +366,12 @@ public class EstanteServiceImp extends GestorHibernate<Estante> implements Estan
         	if(estante!=null){
         		//Se comenta el filtro por deposito ya que en la documentacion se pide distinto 
         		//codigo de estante por clienteASP
-
+//	        	if(estante.getGrupo() !=null)
+//	        		crit.add(Restrictions.eq("dep.id", estante.getGrupo().getSeccion().getDeposito().getId()));
+        		
 	        	if(estante.getCodigo() !=null && !"".equals(estante.getCodigo()))
 	        		crit.add(Restrictions.sqlRestriction(" CAST({alias}.codigo AS int) = "+ Integer.parseInt(estante.getCodigo())+""));
-	         
+	        		//crit.add(Restrictions.eq("codigo", estante.getCodigo()));	      
 	        		
         	}
         	if(cliente != null){
@@ -419,6 +434,7 @@ public class EstanteServiceImp extends GestorHibernate<Estante> implements Estan
 	 * del procedimiento.
 	 */
 	public void crearPosicionesYModulos(Estante estante, Session session)throws RuntimeException{
+//		Session session = null;
 		
      	int verticales = 0;
      	int horizontales = 0;
@@ -442,6 +458,7 @@ public class EstanteServiceImp extends GestorHibernate<Estante> implements Estan
 
 		//ITERAMOS LAS HORIZONTALES Y VERTICALES CREANDO LOS MODULOS Y POSICIONES.
  		//obtenemos una sesión
+//		session = getSession();
 		Modulo[] modulos = null;
 		for(int hor=1; hor<horizontales+1; hor++){
 			modCountVert = 0;				
@@ -586,7 +603,7 @@ public class EstanteServiceImp extends GestorHibernate<Estante> implements Estan
 		Posicion posicion = null;
 		Modulo modulo = null;
 		//Creamos el codigo
-		String codigo = "98";
+		String codigo = "98";//getFormatString(2,estante.getGrupo().getSeccion().getDeposito().getCodigo()); //+ getFormatString(2,estante.getGrupo().getSeccion().getCodigo());
 		codigo += getFormatString(4,estante.getCodigo());
 		//Si es posicion, casteamos a posicion
 		if(posMod instanceof Posicion){
@@ -600,10 +617,20 @@ public class EstanteServiceImp extends GestorHibernate<Estante> implements Estan
 			codigo +=  getFormatString(4, estante.getCodigo());
 			codigo +=getFormatString(3, modulo.getOffsetVertical().toString()) + getFormatString(3, modulo.getOffsetHorizontal().toString());
 		}
-
+		//Obtenemos el checkSum y lo posicionamos al final del codigo.
+//		Long a = EAN13.EAN13_CHECKSUM(codigo);
+//		codigo += String.valueOf(a.toString());
 		return codigo;
 	}
 	
+//	public static void main(String[] args){
+//		Modulo modulo = new Modulo();
+//		modulo.setPosVertical(1);
+//		modulo.setPosHorizontal(1);
+//		Estante estante = new Estante();
+//		estante.setCodigo("123");
+//		System.out.println(getCodigoPosicion(estante, modulo));
+//	}
 	
 	public static String getFormatString(Integer length, String value){
 		return String.format("%0"+length.toString()+"d", new Integer(value));

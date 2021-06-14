@@ -8,6 +8,7 @@
 package com.security.servlets;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -17,15 +18,20 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 import org.springframework.security.context.SecurityContextHolder;
 
+import com.security.accesoDatos.configuraciongeneral.hibernate.ConceptoFacturableServiceImp;
 import com.security.accesoDatos.configuraciongeneral.hibernate.ElementoServiceImp;
 import com.security.accesoDatos.configuraciongeneral.hibernate.TipoElementoServiceImp;
+import com.security.accesoDatos.configuraciongeneral.interfaz.ConceptoFacturableService;
 import com.security.accesoDatos.configuraciongeneral.interfaz.ElementoService;
 import com.security.accesoDatos.configuraciongeneral.interfaz.TipoElementoService;
 import com.security.accesoDatos.hibernate.ClienteAspServiceImp;
 import com.security.accesoDatos.hibernate.HibernateControl;
 import com.security.accesoDatos.interfaz.ClienteAspService;
 import com.security.modelo.administracion.ClienteAsp;
+import com.security.modelo.configuraciongeneral.ConceptoFacturable;
+import com.security.modelo.configuraciongeneral.Elemento;
 import com.security.modelo.configuraciongeneral.TipoElemento;
+import com.security.modelo.general.Pais;
 import com.security.modelo.seguridad.User;
 
 /**
@@ -36,7 +42,6 @@ public class TipoElementoServlet extends HttpServlet{
 	private static final long serialVersionUID = -2135973356955496716L;
 	private static Logger logger = Logger.getLogger(TipoElementoServlet.class);
 
-	@Override
 	public void doGet (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/xml"); 
 		response.setCharacterEncoding("ISO-8859-1"); //seteo el encoding de los caracteres 

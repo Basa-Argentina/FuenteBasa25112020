@@ -184,7 +184,7 @@ public class FormSerieController {
 			List<Serie> series = serieService.listarSerieFiltradas(null, obtenerClienteAspUser());
 			try{
 				if(!series.isEmpty()){
-					Serie s = series.get(series.size()-1);
+					Serie s = (Serie)series.get(series.size()-1);
 					Long codigo = Long.valueOf(s.getCodigo())+1;
 					serieFormulario.setCodigo(codigo.toString());
 				}

@@ -1,9 +1,8 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="display" uri="http://displaytag.sf.net"%>
-<%@ taglib prefix="cstmTag" tagdir="/WEB-INF/tags"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="display" uri="http://displaytag.sf.net" %>
+<%@ taglib prefix="cstmTag" tagdir="/WEB-INF/tags" %>
 
 <% 	
 	String key = (String)request.getAttribute("mapa");
@@ -60,36 +59,34 @@ function cancelarPopup() {
 </script>
 <div class="darkMiddleClass ${clase}">
 	<fieldset>
-		<input type="hidden" id="hdn_referenceHtml" value="${referenciaHtml}" />
-		<input type="hidden" id="hdn_clase" value="${clase}" />
+		<input type="hidden" id="hdn_referenceHtml" value="${referenciaHtml}"/>
+		<input type="hidden" id="hdn_clase" value="${clase}"/>
 		<table width="100%">
 			<thead>
 				<tr>
-					<th align="left" id="loginImg"><font style="color: #003090"><spring:message
-								code="${tituloPopup}" htmlEscape="true" /></font></th>
+					<th align="left" id="loginImg" >		       				
+      					<font style="color:#003090"><spring:message code="${tituloPopup}" htmlEscape="true"/></font>    					
+   					</th>
 				</tr>
-			</thead>
+  			</thead>		
 		</table>
-		<div class="displayTagDiv ${clase}" style="text-align: center;">
-			<spring:message
-				code="formularioClasificacionDocumental.busquedaClasificacion"
-				htmlEscape="true" />
-			<input type="text" id="bsqArbol"
-				title="<spring:message code="formularioClasificacionDocumental.busquedaClasificacionTooltip" htmlEscape="true"/>" />
-			&nbsp;&nbsp; <br style="font-size: xx-small;" />
-			<br style="font-size: xx-small;" />
-			<div style="overflow: auto; height: 200px; text-align: left;"
-				align="left" id="tdArbol">
+       	<div class="displayTagDiv ${clase}" style="text-align: center;">     
+       		<spring:message code="formularioClasificacionDocumental.busquedaClasificacion" htmlEscape="true"/> 
+			<input type="text" 
+				id="bsqArbol" 
+				title="<spring:message code="formularioClasificacionDocumental.busquedaClasificacionTooltip" htmlEscape="true"/>"
+			/>
+       		&nbsp;&nbsp;
+       		<br style="font-size: xx-small;"/><br style="font-size: xx-small;"/>  	
+       		<div style="overflow: auto;height: 200px;text-align: left;" align="left" id="tdArbol">
 				<ul id="treemenu" class="treeview" style="width: 500px;">
-					<cstmTag:clasificacionDocumentalNodo
-						listaClasificacionDocumental="${coleccionPopup}" />
-				</ul>
-			</div>
-			<br style="font-size: xx-small;" />
-			<button name="cancelar" type="button" onclick="cancelarPopup();"
-				class="botonCentrado">
-				<img src="<%=request.getContextPath()%>/images/cancelar.png">
-				<spring:message code="botones.cancelar" htmlEscape="true" />
+					<cstmTag:clasificacionDocumentalNodo listaClasificacionDocumental="${coleccionPopup}"/>
+		 		</ul>
+	 		</div>
+			<br style="font-size: xx-small;"/>  	 	
+			<button name="cancelar" type="button"  onclick="cancelarPopup();" class="botonCentrado">
+				<img src="<%=request.getContextPath()%>/images/cancelar.png"> 
+				<spring:message code="botones.cancelar" htmlEscape="true"/>  
 			</button>
 		</div>
 	</fieldset>

@@ -90,8 +90,8 @@ public class ClasificacionDocumental implements Comparable<ClasificacionDocument
 	private Boolean leeCodigoBarra;
 	
 
-	private  Set<Empleado> empleadosParaEliminar;
-	private  List<ClasificacionDocumental> listoNodosHijos;
+	private transient Set<Empleado> empleadosParaEliminar;
+	private transient List<ClasificacionDocumental> listoNodosHijos;
 	
 	
 	@Id @GeneratedValue(strategy=GenerationType.AUTO)
@@ -454,7 +454,7 @@ public class ClasificacionDocumental implements Comparable<ClasificacionDocument
 	@Transient
 	public Set<ClasificacionDocumental> getListaCompletaHijos(){
 		HashSet<ClasificacionDocumental> setResult = new HashSet<ClasificacionDocumental>(nodosHijos);
-		if(nodosHijos!=null && !nodosHijos.isEmpty()){
+		if(nodosHijos!=null && nodosHijos.size()>0){
 			for(ClasificacionDocumental hijo: nodosHijos){
 				setResult.addAll(hijo.getListaCompletaHijos());
 			}

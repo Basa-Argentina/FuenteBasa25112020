@@ -16,6 +16,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -24,6 +25,7 @@ import com.security.accesoDatos.configuraciongeneral.interfaz.TipoElementoServic
 import com.security.accesoDatos.hibernate.GestorHibernate;
 import com.security.accesoDatos.hibernate.HibernateControl;
 import com.security.modelo.administracion.ClienteAsp;
+import com.security.modelo.configuraciongeneral.ListaPrecios;
 import com.security.modelo.configuraciongeneral.TipoElemento;
 
 /**
@@ -339,7 +341,12 @@ public class TipoElementoServiceImp extends GestorHibernate<TipoElemento> implem
         try {
         	//obtenemos una sesión
 			session = getSession();
-
+			
+//        	Criteria crit = session.createCriteria(getClaseModelo());
+//        	crit.add(Restrictions.eq("prefijoCodigo", prefijo));
+//        	if(cliente != null){
+//        		crit.add(Restrictions.eq("clienteAsp", cliente));
+//        	}
         	
         	String consulta = "SELECT te FROM TipoElemento te WHERE te.prefijoCodigo = '" + prefijo + "' ";
         						if(cliente != null)

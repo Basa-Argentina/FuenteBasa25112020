@@ -160,7 +160,10 @@ public class HojaRutaServiceImp extends GestorHibernate<HojaRuta> implements Hoj
         		crit.createCriteria("sucursal", "suc");
         		crit.add(Restrictions.eq("suc.codigo", codigoSucursal));
         	}
-
+//        	if(codigoCliente!=null && !codigoCliente.isEmpty()){
+//        		crit.createCriteria("clienteEmp", "cli");
+//        		crit.add(Restrictions.eq("cli.codigo", codigoCliente));
+//        	}
         	if(fechaDesde!=null){
         		crit.add(Restrictions.ge("fecha", DateUtil.getDateFrom(fechaDesde)));
         	}

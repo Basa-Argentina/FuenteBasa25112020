@@ -14,6 +14,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -292,7 +293,7 @@ public class FormExportacionRearchivoDigitalController {
 				int archivosGenerados = 1;
 				do{
 					String dir = com.security.constants.Constants.URL_ARCHIVOS_DIGITALES;
-					
+					SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 					String ruta = loteExportacionRearchivo.getClienteAsp().getNombreAbreviado()+"//"
 						+ loteExportacionRearchivo.getEmpresa().getCodigo()+"//"
 						+ loteExportacionRearchivo.getSucursal().getCodigo()+"//"
@@ -337,7 +338,7 @@ public class FormExportacionRearchivoDigitalController {
 				    }
 				    zipOut.close();
 				    
-				} while(archivosGenerados!=1);
+				} while(archivosGenerados!=1);//TODO: cortar los archivos
 				
 				loteExportacionRearchivo.setCantPartesGeneradas(archivosGenerados);
 				loteExportacionRearchivo.setEstado("GENERADO");
@@ -407,7 +408,7 @@ public class FormExportacionRearchivoDigitalController {
 			
 		} catch (Exception e) {
 			return null;
-		}
+		};
 		return null;
 	}
 

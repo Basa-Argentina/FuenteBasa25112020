@@ -36,7 +36,6 @@ public class ConceptoFacturableAlicuotaYDescripcionServlet extends HttpServlet{
 	private static final long serialVersionUID = -2135973356955496716L;
 	private static Logger logger = Logger.getLogger(ConceptoFacturableAlicuotaYDescripcionServlet.class);
 	public static String SPLIT_CHARACTER = ";*;";
-	@Override
 	public void doGet (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/xml"); 
 		response.setCharacterEncoding("ISO-8859-1"); //seteo el encoding de los caracteres 

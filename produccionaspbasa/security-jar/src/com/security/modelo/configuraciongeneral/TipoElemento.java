@@ -19,6 +19,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import com.security.modelo.administracion.ClienteAsp;
+import com.security.utils.HashCodeUtil;
 
 /**
  * @author Gonzalo Noriega
@@ -45,11 +46,11 @@ public class TipoElemento {
 	private ConceptoFacturable conceptoStock;
 	private String prefijoCodigo;
 	private String tipoEtiqueta;
-	private  String accion;
-	private  String conceptoCodigoVenta;
-	private  String conceptoCodigoGuarda;
-	private  String conceptoCodigoStock;
-	private  Integer tipoEtiquetaInt;
+	private transient String accion;
+	private transient String conceptoCodigoVenta;
+	private transient String conceptoCodigoGuarda;
+	private transient String conceptoCodigoStock;
+	private transient Integer tipoEtiquetaInt;
 	
 	public TipoElemento(){
 		super();

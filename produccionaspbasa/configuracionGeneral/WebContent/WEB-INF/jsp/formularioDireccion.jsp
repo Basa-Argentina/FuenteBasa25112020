@@ -40,8 +40,7 @@
 }
 </style>
 </head>
-<body
-	onload="mostrarErrores(${errores}); mostrarAvisos(${hayAvisos || hayAvisosNeg})">
+<body onload="mostrarErrores(${errores}); mostrarAvisos(${hayAvisos || hayAvisosNeg})">
 	<div id="contenedorGeneral">
 		<jsp:include page="innerMenu.jsp" />
 		<div class="contenido" align="left">
@@ -58,8 +57,7 @@
 						</c:if> <c:if test="${accion == 'CONSULTA'}">
 							<spring:message code="formularioDireccion.tituloFormConsultar"
 								htmlEscape="true" />
-						</c:if>
-					</font>
+						</c:if> </font>
 				</legend>
 				<br />
 				<form:form action="guardarActualizarDireccion.html"
@@ -86,7 +84,7 @@
 							</thead>
 						</table>
 						<div style="width: 100%;" id="busquedaDiv" align="center">
-							<table style="width: 100%;">
+							<table style="width: 100%;">								
 								<tr>
 
 									<td class="texto_ti"><spring:message
@@ -273,8 +271,7 @@
 													</td>
 												</tr>
 											</table>
-										</fieldset>
-									</td>
+										</fieldset></td>
 								</tr>
 								<c:if test="${accion != 'CONSULTA'}">
 									<tr>
@@ -283,8 +280,7 @@
 												<img
 													src="<%=request.getContextPath()%>/images/restablecer.png"
 													title=<spring:message code="botones.restablecer" htmlEscape="true"/>>
-											</button>
-										</td>
+											</button></td>
 										<td align="left" class="error"><spring:message
 												code="textos.requerido" htmlEscape="true" /></td>
 									</tr>
@@ -324,7 +320,7 @@
 		<jsp:include page="footer.jsp" />
 	</div>
 	<div id="darkLayer" class="darkClass">&nbsp;</div>
-	<jsp:include page="fieldErrors.jsp" />
-	<jsp:include page="fieldAvisos.jsp" />
+	<jsp:include page="fieldErrors.jsp"/>
+	<jsp:include page="fieldAvisos.jsp"/>
 </body>
 </html>

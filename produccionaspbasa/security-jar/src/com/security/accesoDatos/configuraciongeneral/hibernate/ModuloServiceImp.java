@@ -16,6 +16,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.CriteriaSpecification;
+import org.hibernate.criterion.Expression;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
@@ -27,6 +28,7 @@ import com.security.accesoDatos.hibernate.GestorHibernate;
 import com.security.accesoDatos.hibernate.HibernateControl;
 import com.security.modelo.administracion.ClienteAsp;
 import com.security.modelo.configuraciongeneral.Modulo;
+import com.security.modelo.configuraciongeneral.Movimiento;
 
 /**
  * @author Gonzalo Noriega
@@ -455,6 +457,11 @@ public class ModuloServiceImp extends GestorHibernate<Modulo> implements ModuloS
         		crit.createCriteria("dep.sucursal").
         			createCriteria("empresa").add(Restrictions.eq("cliente", cliente));
         	}
+//        	crit.addOrder(Order.asc("dep.codigo"));
+//			crit.addOrder(Order.asc("sec.codigo"));
+//			crit.addOrder(Order.asc("est.codigo"));
+//			crit.addOrder(Order.asc("offsetVertical"));
+//			crit.addOrder(Order.asc("offsetHorizontal"));
         	
         	crit.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
         	        	

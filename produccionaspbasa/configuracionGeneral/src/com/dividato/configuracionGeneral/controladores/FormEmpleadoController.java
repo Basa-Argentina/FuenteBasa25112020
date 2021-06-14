@@ -201,6 +201,14 @@ public class FormEmpleadoController {
 			Empleado empleadoFormulario;
 			empleadoFormulario=empleadoService.obtenerPorId(id);
 			
+//			Barrio barrioSel = empleadoFormulario.getPersona().getDireccion().getBarrio(); //busco el barrio
+//			List<Provincia> provincias = provinciaService.listarProvinciasPorPaisId(barrioSel.getLocalidad().getProvincia().getPais().getId());
+//			List<Localidad> localidades = localidadService.listarLocalidadesPorProcinciaId(barrioSel.getLocalidad().getProvincia().getId());
+//			List<Barrio> barrios = barrioService.listarBarriosPorLocalidadId(barrioSel.getLocalidad().getId());
+//			atributos.put("provincias", provincias);			
+//			atributos.put("localidades", localidades);			
+//			atributos.put("barrios", barrios);	
+			
 			atributos.put("empleadoFormulario", empleadoFormulario);
 			if(empleadoFormulario.getPersona()!=null && empleadoFormulario.getPersona().getDireccion()!=null && empleadoFormulario.getPersona().getDireccion().getBarrio()!=null
 					&& empleadoFormulario.getPersona().getDireccion().getBarrio().getLocalidad()!=null && empleadoFormulario.getPersona().getDireccion().getBarrio().getLocalidad().getProvincia()!=null
@@ -211,13 +219,17 @@ public class FormEmpleadoController {
 		}
 		
 		//Traemos las lista de clientes.
-
-
+//		List<ClienteEmp> clientes = clienteEmpService.listarClienteFiltradas(null, obtenerClienteAspEmpleado());
+//		atributos.put("clientes", clientes);
 		
 		//Traemos todos los tipos de documentos.
 		List<TipoDocumento> tiposDocumento = tipoDocumentoService.listarTodos();
 		atributos.put("tiposDocumento", tiposDocumento);
 		
+//		//obtengo los paises registrados en el sistema
+//		paises = paisService.listarPaises();
+//		Collections.sort(paises, new OrdenaPaisesPorNombrePrimeroArgentina());
+//		atributos.put("paises", paises); // los paso por get
 		
 		atributos.put("accion", accion);
 		
@@ -448,8 +460,8 @@ public class FormEmpleadoController {
 	private String encriptarString(String s){
 		if(!"".equals(s)){
 			org.springframework.security.providers.encoding.ShaPasswordEncoder passEnc=new org.springframework.security.providers.encoding.ShaPasswordEncoder();
-			
-			return passEnc.encodePassword(s, null);
+			String passEncriptado = passEnc.encodePassword(s, null);
+			return passEncriptado;
 		}
 		return null;
 	}
@@ -638,10 +650,10 @@ public class FormEmpleadoController {
 		campos.add(new CampoDisplayTag("direccion.barrio.nombre","formularioEmpleado.datosEmpleado.direccion.barrio",false));
 		campos.add(new CampoDisplayTag("direccion.barrio.localidad.nombre","formularioEmpleado.datosEmpleado.direccion.localidad",false));
 		campos.add(new CampoDisplayTag("direccion.barrio.localidad.provincia.nombre","formularioEmpleado.datosEmpleado.direccion.provincia",false));
-
+		//campos.add(new CampoDisplayTag("descripcion","formularioSucursal.datosSucursal.descripcion",false));
 		//Coleccion de objetos a utilizar en el popup
 		direccionesPopupMap.put("campos", campos);
-		if(!clienteCodigo.equals("") && clienteCodigo != null)
+		if(clienteCodigo != "" && clienteCodigo != null)
 		{
 			cliente = clienteEmpService.getByCodigo(clienteCodigo);
 		}

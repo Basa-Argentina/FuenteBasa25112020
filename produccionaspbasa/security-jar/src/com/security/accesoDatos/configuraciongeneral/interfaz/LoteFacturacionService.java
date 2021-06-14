@@ -36,7 +36,9 @@ public interface LoteFacturacionService extends GeneralServiceInterface<LoteFact
 	public LoteFacturacion getByNumero(Long numero, ClienteAsp cliente);
 
 	public List<LoteFacturacion> getByNumeros(List<Long> numeros, ClienteAsp cliente);
-
+	//public Boolean guardarLoteFacturacionYDetalles(Set<LoteFacturacionDetalle> loteFacturacionDetalles,
+	//		LoteFacturacion loteFacturacion);
+	//public List<LoteFacturacion> listarLoteFacturacionFiltradas(LoteFacturacion loteFacturacion, ClienteAsp clienteAsp);
 	public List<LoteFacturacion> listarLoteFacturacionsPorId(List<LoteFacturacion> loteFacturacions, ClienteAsp clienteAsp);
 	public List<LoteFacturacion> listarLoteFacturacionPopup(String val, String clienteCodigo,
 			ClienteAsp clienteAsp);
@@ -45,6 +47,8 @@ public interface LoteFacturacionService extends GeneralServiceInterface<LoteFact
 	public Long verificarExistentePeriodoPosterior(LoteFacturacion loteFacturacion,
 			ClienteAsp clienteAsp);
 	public Long traerUltNumero(LoteFacturacion lote, ClienteAsp cliente);
+	//public Boolean actualizarLoteFacturacionYDetalles(Set<LoteFacturacionDetalle> loteFacturacionDetallesViejos,
+	//		LoteFacturacion loteFacturacion);
 	public Long contarObtenerPor(ClienteAsp cliente, String codigoEmpresa,
 			String codigoSucursal, Date fechaDesde, Date fechaHasta,
 			String estado);

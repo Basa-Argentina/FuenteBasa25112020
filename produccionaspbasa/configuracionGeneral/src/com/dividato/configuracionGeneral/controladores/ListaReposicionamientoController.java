@@ -1,6 +1,7 @@
 package com.dividato.configuracionGeneral.controladores;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -35,6 +36,7 @@ import com.security.modelo.configuraciongeneral.Posicion;
 import com.security.modelo.configuraciongeneral.TipoElemento;
 import com.security.modelo.general.PersonaFisica;
 import com.security.modelo.seguridad.User;
+import com.security.utils.CampoDisplayTag;
 import com.security.utils.Constantes;
 import com.security.utils.ParseNumberUtils;
 import com.security.utils.ReposicionamientoUtil;
@@ -146,6 +148,7 @@ public class ListaReposicionamientoController {
 		{
 			libera = false;
 		}
+		//Lectura lecturaBusqueda = (Lectura)session.getAttribute("lecturaBusqueda");
 		Long codigoLectura = parseLongCodigo(codigoLecturaStr);
 		if(lecturaBusqueda==null){
 			lecturaBusqueda = new Lectura();
@@ -260,6 +263,8 @@ public class ListaReposicionamientoController {
 		atributos.put("codigoEmpresa", obtenerEmpresaDefault().getCodigo());
 		generateErrors(codigosErrores, atributos);
 		
+		//definirPopupLecturas(atributos, valLectura);
+		
 		return "consultaReposicionamiento";
 	}
 	
@@ -295,15 +300,14 @@ public class ListaReposicionamientoController {
 		}
 		if(lectura!=null){
 			if(listaPosicionesDestino!=null && listaPosicionesDestino.size()>0 ){
-				if(listaElementosAReposicionar != null && listaElementosAReposicionar.size() > 0 ){
-					boolean estadosEnGuarda = verificaEstados(listaElementosAReposicionar);
-					if(estadosEnGuarda==false ){
+				if(listaElementosAReposicionar != null && listaElementosAReposicionar.size() > 0){
 					ClienteAsp clienteAsp = obtenerClienteAsp();
 					listaPosicionesOrigen = obtenerPosicionesOrigen(listaElementosAReposicionar, clienteAsp);					
 					actualizarViejasPosiciones(listaPosicionesOrigen);
 						Modulo moduloDestino = listaElementosAReposicionar.get(0).getPosicionFutura().getModulo();
 						listaElementosAnterioresModuloDestino = elementoService.buscarElementosAnterioresModuloDestino(moduloDestino, clienteAsp);
 						if(elementoService.guardarReposicionamiento(listaPosicionesOrigen, listaPosicionesDestino, listaElementosAReposicionar, listaElementosAnterioresModuloDestino, clienteAsp,obtenerUser(),lectura)){
+							
 							generateAvisoExito(atributos);
 							atributos.remove("elementosReposicionados");
 							session.removeAttribute("lecturaBusqueda");
@@ -312,12 +316,10 @@ public class ListaReposicionamientoController {
 							session.removeAttribute("lecturaSession");
 							session.removeAttribute("listaPosicionesDestinoSession");
 							session.removeAttribute("listaPosicionesOrigenSession");
+							
 						}else{
 							codigoErrores.add(Constantes.ERROR_FALLA_REPOSICIONAMIENTO);					
-						}
-						}else{
-							codigoErrores.add(Constantes.ERROR_FALLA_REPOSICIONAMIENTO_ESTADO);					
-						}
+					}
 				}else{
 					codigoErrores.add(Constantes.ERROR_NO_HAY_ELEMENTOS_PARA_REPOSICIONAR);
 				}
@@ -332,19 +334,39 @@ public class ListaReposicionamientoController {
 		return mostrarReposicionamiento(session, atributos, null, null, null,null);
 	}
 	
+	/******************************************************************************************************/
+	/******************************************************************************************************/
 	
-	private boolean verificaEstados(List<Elemento> listaElementosAReposicionar) {
-		int i = 0;
-		
-		for (Elemento e : listaElementosAReposicionar){
-			if (!e.getEstado().equalsIgnoreCase("En Guarda")) i++;
-			}
-
-		if (i>0) return true;
-		return false;
-	}
-
-
+//	private void definirPopupLecturas(Map<String,Object> atributos, String val){
+//		//creo un hashmap para almacenar los parametros del popup
+//		Map<String,Object> lecturasPopupMap = new HashMap<String, Object>();
+//		//definicion de los campos a mostrar en la tabla
+//		//new CampoDisplayTag(Atributo,Titulo Columna, Invisible(true)/Visible(false))
+//		List<CampoDisplayTag> campos = new ArrayList<CampoDisplayTag>();
+//		campos.add(new CampoDisplayTag("codigo","formularioReposicionamiento.datosElemento.codigo",false));
+//		campos.add(new CampoDisplayTag("descripcion","formularioReposicionamiento.datosElemento.descripcion",false));		
+//		lecturasPopupMap.put("campos", campos);
+//		//Coleccion de objetos a utilizar en el popup
+//		//el filtro del popup retorna un valor, el cual es utilizado para filtrar la colección dentro del servicio
+//		ClienteAsp casp= obtenerClienteAsp();
+//		Empresa emp = obtenerEmpresaDefault();
+//		lecturasPopupMap.put("coleccionPopup", lecturaService.listarLecturaPopup(val, casp, emp ));
+//		//atributo de referencia que utiliza el popup para cargar cmponente html en la pantalla padre
+//		lecturasPopupMap.put("referenciaPopup", "codigo");
+//		//atributo de referencia (segundo) que utiliza el popup para cargar cmponente html en la pantalla padre
+//		lecturasPopupMap.put("referenciaPopup2", "descripcion");
+//		//id del objeto html donde se va a escribir el valor del campo de referencia del objeto seleccionado
+//		lecturasPopupMap.put("referenciaHtml", "codigoLecturaStr"); 		
+//		//url que se debe consumir con ajax
+//		lecturasPopupMap.put("urlRequest", "mostrarReposicionamiento.html");
+//		//se vuelve a setear el texto utilizado para el filtrado
+//		lecturasPopupMap.put("textoBusqueda", val);		
+//		//codigo de la localización para el titulo del popup
+//		lecturasPopupMap.put("tituloPopup", "textos.seleccion");
+//		//Agrego el mapa a los atributos
+//		atributos.put("lecturasPopupMap", lecturasPopupMap);
+//	}
+	
 	private User obtenerUser(){
 		return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 	}
@@ -392,9 +414,11 @@ public class ListaReposicionamientoController {
 	 */
 	private void verificarElementos(List<Elemento> elementos, TipoElemento tipoElemento, Modulo moduloDestino, List<String> errores) {
 		ReposicionamientoUtil util = new ReposicionamientoUtil();
-	 if(!util.verificarTodosElementosMismoTipo(elementos, tipoElemento)) {
-			errores.add(Constantes.ERROR_LOS_ELEMENTOS_DE_LA_LECTURA_NO_SON_DEL_MISMO_TIPO);
-		}else if(!util.verificarSuficientesPosicionesModuloDestino(elementos, moduloDestino)) {
+		/*if (!util.verificarReposicionamientoModuloCompleto(elementos, moduloDestino)) {   ///// ESTA VALIDACION SE PIDIO SACAR POR LA GENTE DE BASA - LUIS Y MIGUEL
+		errores.add(Constantes.ERROR_NUM_ELEMENTOS_NO_ES_MULTIPLO_POS_HOR);
+	}else*/ if(!util.verificarTodosElementosMismoTipo(elementos, tipoElemento)) {
+		errores.add(Constantes.ERROR_LOS_ELEMENTOS_DE_LA_LECTURA_NO_SON_DEL_MISMO_TIPO);
+	}else	 if(!util.verificarSuficientesPosicionesModuloDestino(elementos, moduloDestino)) {
 			errores.add(Constantes.ERROR_POSICIONES_INSUFICIENTES_MODULO_DESTINO);
 		}else if (!util.verificarTodosElementosPosicionables(elementos)){
 			errores.add(Constantes.ERROR_ELEMENTOS_NO_POSICIONABLES_EN_LECTURA);
@@ -453,6 +477,7 @@ public class ListaReposicionamientoController {
 				posicion = itPosicion.next();
 				if(itElementos.hasNext()){
 					elemento = itElementos.next();
+				//	elemento.setEstado(Constantes.ELEMENTO_ESTADO_EN_GUARDA);
 					elemento.setPosicionFutura(posicion);
 					posicion.setEstado(Constantes.POSICION_ESTADO_OCUPADA);
 				}else{
@@ -513,6 +538,28 @@ public class ListaReposicionamientoController {
 			}
 		}
 		return true;
+	}
+	
+	private List<Posicion> obtenerPosicionesPorModulo(Modulo modulo){
+		List <Posicion> listaPos = null;
+		if(modulo != null){
+			listaPos = posicionService.getPosicionesPorModuloParaReposicionamiento(modulo, obtenerClienteAsp());
+		}
+		return listaPos!=null? listaPos : new ArrayList<Posicion>();
+	}
+	
+	/**
+	 * Devuelve los elementos ubicados antes del reposicionamiento en el modulo de destino (si existen)
+	 * @param moduloDestino
+	 * @param clienteAsp
+	 * @return si no encuentra ninguno devuelve una lista vacia.
+	 */
+	private List<Elemento> obtenerElementosAnterioresModuloDestino(Modulo moduloDestino, ClienteAsp clienteAsp){
+		List<Elemento> listaElementosAnteriores = elementoService.buscarElementosAnterioresModuloDestino(moduloDestino, clienteAsp);
+		for(Elemento e:listaElementosAnteriores){
+			e.setPosicion(null);
+		}
+		return listaElementosAnteriores;
 	}
 	
 	/**

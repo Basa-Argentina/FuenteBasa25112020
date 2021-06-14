@@ -1,16 +1,14 @@
-HTML {
+HTML{
 	width: 850px;
 }
-
-BODY {
+BODY{
 	background-color: white;
 	background-image: none;
 	width: 850px;
 	height: auto;
 	margin: 0;
 }
-
 .tablaPrincipal tbody {
-	max-height: 100px;
-	overflow: auto;
+	max-height:100px;
+	overflow:auto;
 }

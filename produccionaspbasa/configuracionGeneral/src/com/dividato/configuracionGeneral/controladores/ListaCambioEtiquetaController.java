@@ -2,7 +2,9 @@ package com.dividato.configuracionGeneral.controladores;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -11,8 +13,10 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,6 +31,7 @@ import com.security.modelo.administracion.ClienteAsp;
 import com.security.modelo.configuraciongeneral.CambioEtiqueta;
 import com.security.modelo.configuraciongeneral.Elemento;
 import com.security.modelo.configuraciongeneral.Empresa;
+import com.security.modelo.configuraciongeneral.Factura;
 import com.security.modelo.configuraciongeneral.Lectura;
 import com.security.modelo.configuraciongeneral.LecturaDetalle;
 import com.security.modelo.configuraciongeneral.Posicion;
@@ -162,7 +167,15 @@ public class ListaCambioEtiquetaController {
 		
 		List<PosicionLibre> listaPosicionesLibres = new ArrayList<PosicionLibre>();
 		Posicion posicion = (Posicion) session.getAttribute("posicionLibreBusqueda");		
-
+//		if(posicion != null && posicion.getCodigoDeposito() != null && !"".equals(posicion.getCodigoDeposito())
+//				&&  posicion.getCodigoSeccion() != null && !"".equals(posicion.getCodigoSeccion())){
+		//Este anterior if estaba en la busqueda de posicion.. ver si sirve o no
+		
+//		}else if(posicion==null){
+//			posicion=new Posicion();
+//			posicion.setCodigoDesdeEstante("0000");
+//			posicion.setCodigoHastaEstante("9999");
+//			session.setAttribute("posicionBusqueda", posicion);		
 		
 		if("CANCELAR".equalsIgnoreCase(accion))
 		{
@@ -178,6 +191,7 @@ public class ListaCambioEtiquetaController {
 			posicions = null;
 			if(posicion!= null){
 				posicion.setEstado("DISPONIBLE");
+				//posicions =(List<Posicion>) posicionService.listarPosicionFiltradas(posicion, obtenerClienteAspUser());
 				posicions = posicionService.traerPosicionesLibresPorSQL(posicion, obtenerClienteAspUser(),tipo);
 
 				session.setAttribute("posicionLibreBusqueda", posicion);
@@ -225,6 +239,8 @@ public class ListaCambioEtiquetaController {
 		//si no hay errores
 		if(atributos.get("errores") == null)
 			atributos.put("errores", false);
+
+		//definirPopupLecturas(atributos, valLectura);
 
 		//hacemos el forward
 		return "consultaCambioEtiqueta";
@@ -338,8 +354,7 @@ public class ListaCambioEtiquetaController {
 		List<ScreenMessage> avisos = new ArrayList<ScreenMessage>();
 		Boolean hayAvisos = false;
 		Boolean hayAvisosNeg = false;
-		Boolean banderaModulos = false;
-		Boolean banderaInexistentes = false;
+		Boolean banderaModulos = false, banderaInexistentes = false;
 		
 		//Si se importa una lectura
 	 	if (codigoLectura != null) {
@@ -390,7 +405,7 @@ public class ListaCambioEtiquetaController {
 								{
 									//Si se entro aqui es el segundo o mas elemento existente por lo que se compara el tipoElemento
 									//con el tipoElemento del elemento existente anterior
-									//s deben tener el mismo tipo
+									//Todos deben tener el mismo tipo
 									if(!tipo.equals(listaElementos.get(i).getElemento().getTipoElemento()))
 									{
 										//Si es diferente se avisa que la lectura contiene elementos de tipo diferente y sale

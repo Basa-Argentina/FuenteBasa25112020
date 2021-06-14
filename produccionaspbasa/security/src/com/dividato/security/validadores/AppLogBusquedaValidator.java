@@ -40,7 +40,6 @@ public class AppLogBusquedaValidator implements Validator {
 	 */
 	@Override
 	public void validate(Object command, Errors errors) {
-		//Nada que Validar
 	}	
 	
 }
